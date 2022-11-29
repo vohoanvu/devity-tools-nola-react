@@ -1,0 +1,9 @@
+{
+    "SSO_URL": "https://noladigital.net",
+    "DEVITY_API" : "https://localhost:7294",
+    "DEVITY" : "http://localhost:3000",
+    "THEME_COLORS": {
+      "PRIMARY": "#007bff",
+      "SECONDARY": "#fc3"
+    }
+  }

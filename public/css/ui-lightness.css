@@ -1,0 +1,16 @@
+:root {
+    --COLOR_BODY: #fff;
+    --COLOR_TEXT: #042a06;
+    --COLOR_PANEL_BG: #7980b8;
+    --COLOR_PANEL_BRD: #f0f19f;
+    --COLOR_WIDGET_BG: #a6b5d1;
+    --COLOR_WIDGET_BRD: #f94104;
+    --COLOR_AFFECT: #189450;
+    --COLOR_LINK:#5a67ce;
+    --COLOR_LINK_HOVER:#c6caed;
+    --COLOR_LINK_VISITED:#5a67ce;
+    --COLOR_LINK_ACTIVE:#d22525;
+    --COLOR_BUTTON_BOARDER:#272529;
+}
+
+

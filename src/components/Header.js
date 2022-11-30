@@ -1,15 +1,13 @@
-
-
 import * as React from "react";
-import Css from './Css';
-import logo from "./img/devity_logo.png";
-import btn_image_avitar from "./img/d_btn_ctrl_user.png";
-import btn_image_links from "./img/d_btn_ctrl_links.png";
-import btn_image_notes from "./img/d_btn_ctrl_notes.png";
+import Css from '../css/Css';
+import logo from "../img/devity_logo.png";
+import btn_image_avitar from "../img/d_btn_ctrl_user.png";
+import btn_image_links from "../img/d_btn_ctrl_links.png";
+import btn_image_notes from "../img/d_btn_ctrl_notes.png";
 
-import btn_image_config from "./img/d_btn_ctrl_config.png";
-import btn_image_code from "./img/d_btn_ctrl_code.png";
-import { UserContext } from "./UserConext";
+import btn_image_config from "../img/d_btn_ctrl_config.png";
+import btn_image_code from "../img/d_btn_ctrl_code.png";
+import { UserContext } from "../api-integration/UserContext";
 
 
 

@@ -1,12 +1,12 @@
 import * as React from "react";
 import Cookies from 'universal-cookie';
 import axios from 'axios';
-import { UserProvider } from "./UserConext";
+import { UserProvider } from "./UserContext";
 import Devity  from "./Devity";
-import Profile  from "./Profile";
-import Header  from "./Header";
-import './css/App.css';
-import configData from "./config.json";
+import Profile  from "../components/Profile";
+import Header  from "../components/Header";
+import '../css/App.css';
+import configData from "../config.json";
 import {Route, Link, Routes, useLocation, BrowserRouter} from 'react-router-dom';
 
 function App() {

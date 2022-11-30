@@ -10,7 +10,8 @@ export default class Css extends React.Component{
         this.setState({stylePath: event.target.value});
       };
   
-    render(){
+    render()
+    {
         return (
             <div>
                 <link rel="stylesheet" type="text/css" href={this.state.stylePath} />

@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import W_Note from './w_note';
+import W_Link from './w_links';
+import W_Clipboard from './w_clipboard';
 
 export default function Widget(props) 
 {
-  //const [w_type, setWidgetType] = useState("");
+  const [w_type, setWidgetType] = useState("");
 
   useEffect(() => {
-      //console.log(props.widget, 2222);
+      setWidgetType(props.widget.w_type);
   }, []);
 
-  let widgetContainerStyle = {
-    height: props.widget.height,
-    width: props.widget.width
-  };
 
-  return (
-    <div className="w-container" style={widgetContainerStyle}>
-      <span className="w-container-title">Widget Type : {props.widget.w_type}</span>
-      <span className="w-container-title">Width : {props.widget.width}</span>
-      <span className="w-container-title">Height : {props.widget.height}</span>
-    </div>
-  );
+  switch (w_type) {
+    case "LINKS":
+      return <W_Clipboard w_type={w_type} w_name={props.widget.name}/>;
+    case "CLIPBOARD":
+      return <W_Link w_type={w_type} w_name={props.widget.name}/>;
+    case "NOTES":
+      return <W_Note w_type={w_type} w_name={props.widget.name}/>;
+    default:
+      return <div className="w-container">NOTHING HERE</div>;
+  }
 }

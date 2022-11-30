@@ -6,7 +6,6 @@ export default function Panels(props)
 {
 
   useEffect(() => {
-
   }, []);
 
 
@@ -25,6 +24,5 @@ export default function Panels(props)
       }
     </div>
   );
-
 
 }

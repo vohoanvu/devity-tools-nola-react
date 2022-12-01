@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Widget from './Widgets';
 
 export default function Panels(props) 
 {
-
-  // useEffect(() => {
-  // }, []);
-
-
   return(
     <div>
       {

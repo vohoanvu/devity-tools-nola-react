@@ -10,7 +10,6 @@ import configData from "../config.json";
 import {useLocation} from 'react-router-dom';
 
 function App() {
-  const location = useLocation();
   const search = useLocation().search;
   const token = new URLSearchParams(search).get('token');
   const cookies = new Cookies();

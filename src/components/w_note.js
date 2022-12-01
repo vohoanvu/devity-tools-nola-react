@@ -10,7 +10,7 @@ export default function Note(props)
 
     useEffect(() => {
         getWidgetById(props.w_id);
-    }, []);
+    }, [props.w_id]);
 
     async function getWidgetById(w_id) {
         await axios.get(devity_api + '/api/widgets/'+ w_id)

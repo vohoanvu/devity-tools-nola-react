@@ -14,11 +14,11 @@ export default function Widget(props)
 
   switch (w_type) {
     case "LINKS":
-      return <W_Clipboard w_type={w_type} w_name={props.widget.name}/>;
+      return <W_Clipboard w_id={props.widget.id} w_type={w_type} w_name={props.widget.name}/>;
     case "CLIPBOARD":
-      return <W_Link w_type={w_type} w_name={props.widget.name}/>;
+      return <W_Link w_id={props.widget.id} w_type={w_type} w_name={props.widget.name}/>;
     case "NOTES":
-      return <W_Note w_type={w_type} w_name={props.widget.name}/>;
+      return <W_Note w_id={props.widget.id} w_type={w_type} w_name={props.widget.name}/>;
     default:
       return <div className="w-container">NOTHING HERE</div>;
   }

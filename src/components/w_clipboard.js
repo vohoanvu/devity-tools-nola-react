@@ -1,12 +1,12 @@
 //props.w_type
-import React, { useEffect, useState } from 'react';
+//import React, { useEffect, useState } from 'react';
 
 export default function Links(props)
 {
     //const [clipboard, setClipBoard] = useState("");
 
-    useEffect(() => {
-    }, []);
+    // useEffect(() => {
+    // }, []);
 
     return(
         <div className="w-container">

@@ -7,7 +7,7 @@ import Profile  from "../components/Profile";
 import Header  from "../components/Header";
 import '../css/App.css';
 import configData from "../config.json";
-import {Route, Link, Routes, useLocation, BrowserRouter} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 
 function App() {
   const location = useLocation();
@@ -31,7 +31,7 @@ function App() {
       try{
         const tk = { token: token };
         let response = await axios.post(devity_api + '/api/sessions', tk);
-        if(response.status != '200'){
+        if(response.status !== '200'){
           window.location.replace(sso_url);
         }  
         let bearer = "Devity " + response.data.id;

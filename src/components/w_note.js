@@ -1,12 +1,12 @@
 //props.w_type
-import React, { useEffect, useState } from 'react';
+//import React, { useEffect, useState } from 'react';
 
 export default function Note(props)
 {
     //const [notes, setNotes] = useState([]);
 
-    useEffect(() => {
-    }, []);
+    // useEffect(() => {
+    // }, []);
 
     return(
         <div className="w-container">

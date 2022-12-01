@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Widget from './Widgets';
-// import Draggable from 'react-draggable';
 
 export default function Panels(props) 
 {
 
-  useEffect(() => {
-  }, []);
+  // useEffect(() => {
+  // }, []);
 
 
   return(

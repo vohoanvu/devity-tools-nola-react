@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import WidgetNote from './w_note';
 import WidgetLink from './w_links';
 import WidgetClipboard from './w_clipboard';
-import Panels from "../components/Panels";
 import configData from "../config.json";
 import axios from 'axios';
 const devity_api = configData.DEVITY_API;

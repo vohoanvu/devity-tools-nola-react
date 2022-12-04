@@ -45,7 +45,7 @@ export default function Links(props)
             <span className="w-container-title">Widget Type : {linkWidget.w_type}</span>
             <span className="w-container-title">Widget Name : {linkWidget.name}</span>
             <button className='btn-delete' onClick={()=>DeleteWidgetHandler(linkWidget.id)}>
-                <img src={btn_delete}></img>
+                <img src={btn_delete} alt="delete"></img>
             </button>
         </div>
     );

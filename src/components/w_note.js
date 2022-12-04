@@ -45,7 +45,7 @@ export default function Note(props)
             <span className="w-container-title">Widget Type : {noteWidget.w_type}</span>
             <span className="w-container-title">Widget Name : {noteWidget.name}</span>
             <button className='btn-delete' onClick={()=>DeleteWidgetHandler(noteWidget.id)}>
-                <img src={btn_delete}></img>
+                <img src={btn_delete} alt="delete"></img>
             </button>
         </div>
     );

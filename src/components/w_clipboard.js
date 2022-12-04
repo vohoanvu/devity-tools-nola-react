@@ -47,7 +47,7 @@ export default function Clipboard(props)
             <span className="w-container-title">Widget Type : {clipboardWidget.w_type}</span>
             <span className="w-container-title">Widget Name : {clipboardWidget.name}</span>
             <button className='btn-delete' onClick={()=>DeleteWidgetHandler(clipboardWidget.id)}>
-                <img src={btn_delete}></img>
+                <img src={btn_delete} alt="delete"></img>
             </button>
         </div>
     );

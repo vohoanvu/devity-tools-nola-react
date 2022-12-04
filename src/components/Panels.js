@@ -11,7 +11,7 @@ export default function Panels(props)
           return (
             <div key={index} className="w-panel">
                 <span className="w-panel-title">{key}</span>
-                { value.map((i) => <Widget key={i.id} widget={i}></Widget> ) }
+                { value.map((i) => <Widget key={i.id} widget={i} RerenderPanels={props.SetPanels}></Widget> ) }
             </div>
           );
         })

@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import WidgetNote from './w_note';
 import WidgetLink from './w_links';
 import WidgetClipboard from './w_clipboard';
+import Panels from "../components/Panels";
+import configData from "../config.json";
+import axios from 'axios';
+const devity_api = configData.DEVITY_API;
 
 export default function Widget(props) 
 {
@@ -12,13 +16,27 @@ export default function Widget(props)
   }, [props.widget.w_type]);
 
 
+  async function RerenderWidgets() {
+    await axios.get(devity_api + '/api/widgets')
+      .then((res) => {
+        props.RerenderPanels(res.data);
+      })
+      .catch((err) => console.log(err));
+  }
+
   switch (w_type) {
-    case "LINKS":
-      return <WidgetClipboard w_id={props.widget.id} w_type={w_type} w_name={props.widget.name}/>;
     case "CLIPBOARD":
-      return <WidgetLink w_id={props.widget.id} w_type={w_type} w_name={props.widget.name}/>;
+      return (<React.Fragment>
+                <WidgetClipboard w_id={props.widget.id} w_type={w_type} w_name={props.widget.name} rerenderWidgets={RerenderWidgets}/>
+              </React.Fragment>);
+    case "LINKS":
+      return (<React.Fragment>
+                <WidgetLink w_id={props.widget.id} w_type={w_type} w_name={props.widget.name} rerenderWidgets={RerenderWidgets}/>
+              </React.Fragment>);
     case "NOTES":
-      return <WidgetNote w_id={props.widget.id} w_type={w_type} w_name={props.widget.name}/>;
+      return (<React.Fragment>
+                <WidgetNote w_id={props.widget.id} w_type={w_type} w_name={props.widget.name} rerenderWidgets={RerenderWidgets}/>
+              </React.Fragment>);
     default:
       return <div className="w-container">NOTHING HERE</div>;
   }

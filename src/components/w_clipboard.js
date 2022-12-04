@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
+import '../css/App.css';
+import btn_delete from "../img/cntrl_delete.jpg";
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
-export default function Links(props)
+
+export default function Clipboard(props)
 {
     const [clipboardWidget, setClipBoardWidget] = useState({});
 
@@ -22,10 +25,30 @@ export default function Links(props)
         .catch((err) => console.log(err));
     }
 
+    function DeleteWidgetHandler(id) {
+        if (window.confirm("Are you use you want to delete this widget?")) {
+            deleteWidget(id).then(deleted => {
+                props.rerenderWidgets();
+            });
+        };
+    }
+
+    async function deleteWidget(id) {
+        await axios.delete(devity_api + '/api/widgets/' + id)
+            .then(res => {
+                console.log(res.data, 'after DELETE response');
+            })
+            .catch(err => console.log(err));
+    }
+
     return(
+    
         <div className="w-container">
             <span className="w-container-title">Widget Type : {clipboardWidget.w_type}</span>
             <span className="w-container-title">Widget Name : {clipboardWidget.name}</span>
+            <button className='btn-delete' onClick={()=>DeleteWidgetHandler(clipboardWidget.id)}>
+                <img src={btn_delete}></img>
+            </button>
         </div>
     );
 }

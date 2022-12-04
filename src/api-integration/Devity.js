@@ -25,5 +25,5 @@ export default function Devity(props)
   };
 
 
-  return (<Panels PanelsObject={panels} />);
+  return (<Panels PanelsObject={panels} SetPanels={setPanels}/>);
 }

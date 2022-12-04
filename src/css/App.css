@@ -52,7 +52,8 @@ overflow: auto;
   border-radius: 15px;
   border-color: var(--COLOR_WIDGET_BRD);
   background-color: var(--COLOR_WIDGET_BG);
-  }
+  position: relative;
+}
 
   .w-container-title{
     display: block;
@@ -189,12 +190,22 @@ a:active {
   width: 25;
   height: 25;
   background-image: url("/img/btn_maximize.jpg");
-}
-.btn-delete{
-  width: 25;
-  height: 25;
-  background-image: url("/img/btn_delete.jpg");
 } */
+.btn-delete{
+  line-height: 12px;
+  font-size: 8pt;
+  font-family: tahoma;
+  margin-top: 1px;
+  margin-right: 2px;
+  position:absolute;
+  top:0;
+  right:0;
+  background-color: grey;
+}
+.btn-delete:hover {
+  cursor: pointer;
+  background-color: #ccc;
+}
 
 
 ul { list-style-type: none; margin: 0; padding: 0;  }

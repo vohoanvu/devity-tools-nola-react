@@ -13,16 +13,17 @@ export default function Clipboard(props)
     const [clipboardList, setClipBoardList] = useState([]);
     const user = React.useContext(UserContext);
 
-    useEffect( () => {
-        let clipboardsWithContent = props.clipboardWidgets.map((w) => {
-            let content = getWidgetContentById(w.id);
-
+    useEffect(() => {
+        let clipboardsWithContent = props.clipboardWidgets.map(async (w, index) => {
+            //await getWidgetContentById(w.id);
             return {
+                key: index,
                 ...w, 
-                w_content: content
+                w_content: "{ get }"
             };
         });
-        setClipBoardList(clipboardsWithContent);
+
+        Promise.all(clipboardsWithContent).then(result => setClipBoardList(result) );
     }, [props.clipboardWidgets]);
 
     async function getWidgetContentById(w_id) {
@@ -31,7 +32,7 @@ export default function Clipboard(props)
                 if (res.status === '401') window.location.replace(sso_url);
 
                 return res.data.w_content;
-            })
+            }).then(result => result)
             .catch((err) => console.log(err));
     }
 
@@ -43,7 +44,7 @@ export default function Clipboard(props)
 
     async function deleteWidget(id) {
         let newClipboards = props.clipboardWidgets.filter((w) => w.id !== id);
-                    props.setClipboardWidgets(newClipboards);
+        props.setClipboardWidgets(newClipboards);
 
         await axios.delete(devity_api + '/api/widgets/' + id)
             .then(res => {
@@ -59,6 +60,7 @@ export default function Clipboard(props)
     function onAddNewClipboard() {
 
         const newClipboard = {
+            key: props.clipboardWidgets.Length+1,
             height : 300,
             id: "00000000-0000-0000-0000-000000000000",
             name: "NEW Clipboard",
@@ -82,12 +84,15 @@ export default function Clipboard(props)
                 onClick={onAddNewClipboard}
             >Add New Clipboard</button>
             {
-                clipboardList.map((widget) => {
-
+                clipboardList.map((widget, index) => {
+                    let myTestClipboard = ["Ford", "BMW", "Fiat"];
                     return (
-                            <div key={widget.id} className="w-container">
+                            <div key={index} className="w-container">
                                 <span className="w-container-title">Widget Type : {widget.w_type}</span>
                                 <span className="w-container-title">Widget Name(or Content) : {widget.name}</span>
+                                { 
+                                    myTestClipboard.map( (data, index) => <li key={index}>{data}</li> )
+                                }
                                 <div>
                                     <label>Enter Widget Content : </label>
                                     <textarea

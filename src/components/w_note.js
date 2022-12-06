@@ -13,24 +13,25 @@ export default function Note(props)
     const user = React.useContext(UserContext);
 
     useEffect(() => {
-        let notesWithContent = props.noteWidgets.map((w) => {
-            let content = getWidgetContentById(w.id);
+        let notesWithContent = props.noteWidgets.map(async (w, index) => {
 
             return {
+                key: index,
                 ...w, 
-                w_content: content
+                w_content: await getWidgetContentById(w.id)
             };
         });
-        setNoteList(notesWithContent);
+        
+        Promise.all(notesWithContent).then(result => setNoteList(result) );
     }, [props.noteWidgets]);
 
     async function getWidgetContentById(w_id) {
-        await axios.get(devity_api + '/api/widgets/'+ w_id)
+        return await axios.get(devity_api + '/api/widgets/'+ w_id)
             .then((res) => {
                 if (res.status === '401') window.location.replace(sso_url);
 
                 return res.data.w_content;
-            })
+            }).then(result => {return result;} )
             .catch((err) => console.log(err));
     }
 
@@ -43,6 +44,7 @@ export default function Note(props)
     async function deleteWidget(id) {
         let newNotes = props.noteWidgets.filter((w) => w.id !== id);
         props.setNoteWidgets(newNotes);
+
         await axios.delete(devity_api + '/api/widgets/' + id)
             .then(res => {
                 //do thing
@@ -76,15 +78,19 @@ export default function Note(props)
             >Add New Note</button>
             {
                 noteList.map((widget) => {
+
                     return (
                         <div key={widget.id} className="w-container">
                             <span className="w-container-title">Widget Type : {widget.w_type}</span>
                             <span className="w-container-title">Widget Name(or Content) : {widget.name}</span>
-                            <textarea
+                            <div>
+                                <label>Enter Widget Content : </label>
+                                <textarea
                                     value={widget.w_content}
                                     rows={10}
                                     cols={30}
                                 />
+                            </div>
                             <button className='btn-delete' onClick={()=>DeleteWidgetHandler(widget.id)}>
                                 <img src={btn_delete} alt="delete"></img>
                             </button>

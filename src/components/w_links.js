@@ -14,24 +14,25 @@ export default function Links(props)
     const user = React.useContext(UserContext);
 
     useEffect(() => {
-        let linksWithContent = props.linkWidgets.map((w) => {
-            let content = getWidgetContentById(w.id);
+        let linksWithContent = props.linkWidgets.map(async (w, index) => {
 
             return {
+                key: index,
                 ...w, 
-                w_content: content
+                w_content: await getWidgetContentById(w.id)
             };
         });
-        setLinkList(linksWithContent);
+
+        Promise.all(linksWithContent).then(result => setLinkList(result) );
     }, [props.linkWidgets]);
 
     async function getWidgetContentById(w_id) {
-        await axios.get(devity_api + '/api/widgets/'+ w_id)
+        return await axios.get(devity_api + '/api/widgets/'+ w_id)
             .then((res) => {
                 if (res.status === '401') window.location.replace(sso_url);
 
                 return res.data.w_content;
-        })
+        }).then(result => result)
         .catch((err) => console.log(err));
     }
 
@@ -44,6 +45,7 @@ export default function Links(props)
     async function deleteWidget(id) {
         let newLinks = props.linkWidgets.filter((w) => w.id !== id);
         props.setLinkWidgets(newLinks);
+        
         await axios.delete(devity_api + '/api/widgets/' + id)
             .then(res => {
                 //do thing
@@ -82,11 +84,14 @@ export default function Links(props)
                         <div key={widget.id} className="w-container">
                             <span className="w-container-title">Widget Type : {widget.w_type}</span>
                             <span className="w-container-title">Widget Name(or Content) : {widget.name}</span>
-                            <textarea
+                            <div>
+                                <label>Enter Widget Content : </label>
+                                <textarea
                                     value={widget.w_content}
                                     rows={10}
                                     cols={30}
                                 />
+                            </div>
                             <button className='btn-delete' onClick={()=>DeleteWidgetHandler(widget.id)}>
                                 <img src={btn_delete} alt="delete"></img>
                             </button>

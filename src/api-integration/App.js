@@ -9,7 +9,7 @@ import Header  from "../components/Header";
 import '../css/App.css';
 import configData from "../config.json";
 import {useLocation} from 'react-router-dom';
-import $ from "jquery";
+//import $ from "jquery";
 
 function App() {
   const search = useLocation().search;

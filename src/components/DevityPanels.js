@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-//import Widget from './Widgets';
 import axios from 'axios';
 import configData from "../config.json";
 import WidgetNote from './w_note';
@@ -74,16 +73,4 @@ export default function DevityPanels(props)
       </div>
     </React.Fragment>
   );
-
-  // return (
-  //   <div>
-  //     {
-  //       Object.entries(panels).map( ([key, value], index) => {
-          
-          
-  //       })
-  //     }
-  //   </div>
-  // );
 }
-//{ value.map((i) => <Widget key={i.id} widget={i} RerenderPanels={fetchData}/> ) }

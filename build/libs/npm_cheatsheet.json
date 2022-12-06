@@ -1,0 +1,52 @@
+{
+  "Title": "npm cheatsheet",
+  "Version": "n/a",
+  "Description": "cheatsheet for npm",
+  "Type": "CLI",
+  "Items": [
+    {
+      "Command": "npm help",
+      "Details": "Run\u00A0npm help\u00A0to get a list of available commands."
+    },
+    {
+      "Command": "npm install",
+      "Details": " install all the dependencies in your project"
+    },
+    {
+      "Command": "npm i",
+      "Details": " install all the dependencies in your project"
+    },
+    {
+      "Command": "npm install \u0026lt;foo\u0026gt;",
+      "Details": "add the \u0026lt;foo\u0026gt; dependency to your project"
+    },
+    {
+      "Command": "npm test",
+      "Details": "run this project\u0027s tests"
+    },
+    {
+      "Command": "npm run \u0026lt;foo\u0026gt; ",
+      "Details": "run the script named \u0026lt;foo\u0026gt;"
+    },
+    {
+      "Command": "npm \u0026lt;command\u0026gt; -h",
+      "Details": "quick help on \u0026lt;command\u0026gt;"
+    },
+    {
+      "Command": "npm -l             ",
+      "Details": "display usage info for all commands"
+    },
+    {
+      "Command": "npm help \u0026lt;term\u0026gt;",
+      "Details": "search for help on \u0026lt;term\u0026gt; (in a browser)"
+    },
+    {
+      "Command": "npm help npm",
+      "Details": "more involved overview (in a browser)"
+    },
+    {
+      "Command": "npm access [\u0026lt;package\u0026gt;]",
+      "Details": "\u003Cdiv\u003E\n\u003Cp\u003ESet access level on published packages\n\u003Cbr /\u003E          \n\u003Cp\u003EUsage:\u003C/p\u003E\n\u003Cul\u003E\n\u003Cli\u003Enpm access public [\u0026lt;package\u0026gt;]\u003C/li\u003E\n\u003Cli\u003Enpm access restricted [\u0026lt;package\u0026gt;]\u003C/li\u003E\n\u003Cli\u003Enpm access grant \u0026lt;read-only|read-write\u0026gt; \u0026lt;scope:team\u0026gt; \u003C/li\u003E\n\u003Cli\u003Enpm access revoke \u0026lt;scope:team\u0026gt; [\u0026lt;package\u0026gt;]\u003C/li\u003E\n\u003Cli\u003Enpm access 2fa-required [\u0026lt;package\u0026gt;]\u003C/li\u003E\n\u003Cli\u003Enpm access 2fa-not-required [\u0026lt;package\u0026gt;]\u003C/li\u003E\n\u003Cli\u003Enpm access ls-packages [\u0026lt;user\u0026gt;|\u0026lt;scope\u0026gt;|\u0026lt;scope:team\u0026gt;]\u003C/li\u003E\n\u003Cli\u003Enpm access ls-collaborators [\u0026lt;package\u0026gt; [\u0026lt;user\u0026gt;]]\u003C/li\u003E\n\u003Cli\u003Enpm access edit [\u0026lt;package\u0026gt;]\u003C/li\u003E\n\u003C/ul\u003E               \n\u003Cp\u003EOptions:\u003C/p\u003E\n\u003Cp\u003E[--registry \u0026lt;registry\u0026gt;] [--otp \u0026lt;otp\u0026gt;]\u003C/p\u003E                \n\u003Cp\u003ERun \u0027npm help access\u0027 for more info\u003C/p\u003E\n\u003C/div\u003E"
+    }
+  ]
+}

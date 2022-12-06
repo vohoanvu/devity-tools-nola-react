@@ -4,6 +4,7 @@ import logo from "../img/devity_logo.png";
 import btn_image_avitar from "../img/d_btn_ctrl_user.png";
 import btn_image_links from "../img/d_btn_ctrl_links.png";
 import btn_image_notes from "../img/d_btn_ctrl_notes.png";
+import btn_image_clipboard from "../img/d_btn_ctrl_clipboard.png";
 
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import btn_image_code from "../img/d_btn_ctrl_code.png";
@@ -24,6 +25,13 @@ class Header extends React.Component {
       <figure>
       <img  src={btn_image_links} className="" alt="Links" />
       <figcaption>Links</figcaption>
+      </figure>
+    </button>
+
+    <button className="nav-ctrl">
+      <figure>
+      <img  src={btn_image_clipboard} className="" alt="Clipboard" />
+      <figcaption>Clipboard</figcaption>
       </figure>
     </button>
 

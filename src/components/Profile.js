@@ -17,7 +17,7 @@ class Profile extends React.Component {
   }
 
   render() {
-    return <div>Profile</div>;
+    return <div className="w-panel">Profile</div>;
   }
 }
 

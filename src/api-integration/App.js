@@ -3,11 +3,13 @@ import Cookies from 'universal-cookie';
 import axios from 'axios';
 import { UserProvider } from "./UserContext";
 import DevityPanels  from "../components/DevityPanels";
+import Libraries  from "../components/Libraries";
 import Profile  from "../components/Profile";
 import Header  from "../components/Header";
 import '../css/App.css';
 import configData from "../config.json";
 import {useLocation} from 'react-router-dom';
+import $ from "jquery";
 
 function App() {
   const search = useLocation().search;
@@ -59,6 +61,7 @@ return (
         <Header></Header>
         <DevityPanels></DevityPanels>
         <Profile></Profile>
+        <Libraries></Libraries>
       </UserProvider>
     </div>
     

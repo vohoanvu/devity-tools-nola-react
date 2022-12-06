@@ -15,46 +15,47 @@ export default function DevityPanels(props)
   const [clipboardWidgets, setClipboardWidgets] = useState([]);
 
   useEffect(() => {
+    async function fetchData() {
+      await axios.get(devity_api + '/api/widgets')
+        .then((res) => {
+            if (res.status === '401') window.location.replace(sso_url);
+  
+            setLinkWidgets(GetLinkWidgets(res.data));
+            setNoteWidgets(GetNoteWidgets(res.data));
+            setClipboardWidgets(GetClipboardWidgets(res.data));
+        })
+        .catch((err) => console.log(err));
+    };
+
     fetchData();
   }, []);
 
-  async function fetchData() {
-    await axios.get(devity_api + '/api/widgets')
-      .then((res) => {
-          if (res.status === '401') window.location.replace(sso_url);
-
-          setLinkWidgets(GetLinkWidgets(res.data));
-          setNoteWidgets(GetNoteWidgets(res.data));
-          setClipboardWidgets(GetClipboardWidgets(res.data));
-      })
-      .catch((err) => console.log(err));
-  };
+  
 
   function GetLinkWidgets(responseDictObject) {
-    let result = [];
     Object.entries(responseDictObject).map( ([key, value]) => {
-        if (key === "LINKS")
-          result = value;
+        let result = [];
+        if (key === "LINKS") result = value;
+        return result;
     });
-    return result;
+
   }
 
   function GetNoteWidgets(responseDictObject) {
-    let result = [];
     Object.entries(responseDictObject).map( ([key, value]) => {
-        if (key === "NOTES")
-          result = value;
+        let result = [];
+        if (key === "NOTES") result = value;
+        return result;
     });
-    return result;
+    
   }
 
   function GetClipboardWidgets(responseDictObject) {
-    let result = [];
     Object.entries(responseDictObject).map( ([key, value]) => {
-        if (key === "CLIPBOARD")
-          result = value;
+        let result = [];
+        if (key === "CLIPBOARD") result = value;
+        return result;
     });
-    return result;
   }
 
   return (

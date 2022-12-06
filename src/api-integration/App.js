@@ -2,7 +2,7 @@ import * as React from "react";
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 import { UserProvider } from "./UserContext";
-import Devity  from "./Devity";
+import DevityPanels  from "../components/DevityPanels";
 import Profile  from "../components/Profile";
 import Header  from "../components/Header";
 import '../css/App.css';
@@ -45,7 +45,8 @@ function App() {
       }
     })();
   }
-  else{
+  else
+  {
     window.location.replace(sso_url);
   }
 
@@ -56,7 +57,7 @@ return (
     <div className="App">
       <UserProvider>
         <Header></Header>
-        <Devity></Devity>
+        <DevityPanels></DevityPanels>
         <Profile></Profile>
       </UserProvider>
     </div>

@@ -52,10 +52,13 @@ export default function Note(props)
             .catch(err => console.log(err));
     }
 
+    function onSaveNewNote(e) {
+        console.log(e.target.value);
+    }
+
     function onAddNewNote() {
         const newNote = {
             height : 300,
-            id: "00000000-0000-0000-0000-000000000000",
             name: "NEW note",
             order: 0,
             user_id: user.id,
@@ -64,9 +67,9 @@ export default function Note(props)
             width: 300
         }
 
-        const newNoteWidgets = [...props.noteWidgets];
+        const newNoteWidgets = [...noteList];
         newNoteWidgets.splice(0, 0, newNote);
-        props.setNoteWidgets(newNoteWidgets);
+        setNoteList(newNoteWidgets);
     }
 
     return(
@@ -85,11 +88,10 @@ export default function Note(props)
                             <span className="w-container-title">Widget Name(or Content) : {widget.name}</span>
                             <div>
                                 <label>Enter Widget Content : </label>
-                                <textarea
-                                    value={widget.w_content}
-                                    rows={10}
-                                    cols={30}
-                                />
+                                <input 
+                                    defaultValue={widget.w_content} 
+                                    type="text" 
+                                    onChange={onSaveNewNote}/>
                             </div>
                             <button className='btn-delete' onClick={()=>DeleteWidgetHandler(widget.id)}>
                                 <img src={btn_delete} alt="delete"></img>

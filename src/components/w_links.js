@@ -53,6 +53,11 @@ export default function Links(props)
             .catch(err => console.log(err));
     }
 
+    function onSaveNewLink(e) {
+        console.log(e.target);
+        console.log(e.target.value);
+    }
+
     function onAddNewLink() {
 
         const newLink = {
@@ -86,11 +91,10 @@ export default function Links(props)
                             <span className="w-container-title">Widget Name(or Content) : {widget.name}</span>
                             <div>
                                 <label>Enter Widget Content : </label>
-                                <textarea
-                                    value={widget.w_content}
-                                    rows={10}
-                                    cols={30}
-                                />
+                                <input 
+                                    defaultValue={widget.w_content} 
+                                    type="text" 
+                                    onChange={onSaveNewLink}/>
                             </div>
                             <button className='btn-delete' onClick={()=>DeleteWidgetHandler(widget.id)}>
                                 <img src={btn_delete} alt="delete"></img>

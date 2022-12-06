@@ -12,14 +12,15 @@ export default function Clipboard(props)
 {
     const [clipboardList, setClipBoardList] = useState([]);
     const user = React.useContext(UserContext);
+    const [testClipboard, setTestClipboard] = useState(["Ford", "BMW", "Fiat"]);
 
     useEffect(() => {
         let clipboardsWithContent = props.clipboardWidgets.map(async (w, index) => {
-            //await getWidgetContentById(w.id);
+
             return {
                 key: index,
                 ...w, 
-                w_content: "{ get }"
+                w_content: await getWidgetContentById(w.id)
             };
         });
 
@@ -53,8 +54,11 @@ export default function Clipboard(props)
             .catch(err => console.log(err));
     }
 
-    function onClipboardEditing(e) {
-        console.log(e.target);
+    function onSaveClipboardItem(e) {
+        console.log("On Save...",e.target.value);
+        const newTestClipboard = [...testClipboard];
+        newTestClipboard.splice(0, 0, e.target.value);
+        setTestClipboard(newTestClipboard);
     }
 
     function onAddNewClipboard() {
@@ -62,7 +66,6 @@ export default function Clipboard(props)
         const newClipboard = {
             key: props.clipboardWidgets.Length+1,
             height : 300,
-            id: "00000000-0000-0000-0000-000000000000",
             name: "NEW Clipboard",
             order: 0,
             user_id: user.id,
@@ -71,9 +74,9 @@ export default function Clipboard(props)
             width: 300
         }
 
-        const newClipboardWidgets = [...props.clipboardWidgets];
+        const newClipboardWidgets = [...clipboardList];
         newClipboardWidgets.splice(0, 0, newClipboard);
-        props.setClipboardWidgets(newClipboardWidgets);
+        setClipBoardList(newClipboardWidgets);
     }
 
     return(
@@ -85,25 +88,21 @@ export default function Clipboard(props)
             >Add New Clipboard</button>
             {
                 clipboardList.map((widget, index) => {
-                    let myTestClipboard = ["Ford", "BMW", "Fiat"];
+
                     return (
                             <div key={index} className="w-container">
-                                <span className="w-container-title">Widget Type : {widget.w_type}</span>
-                                <span className="w-container-title">Widget Name(or Content) : {widget.name}</span>
-                                { 
-                                    myTestClipboard.map( (data, index) => <li key={index}>{data}</li> )
+                                <span className="w-container-title">Widget Name: {widget.name}</span>
+                                {
+                                    testClipboard.map( (data, index) => <li key={index}>{data}</li> )
                                 }
                                 <div>
-                                    <label>Enter Widget Content : </label>
-                                    <textarea
-                                        value={widget.w_content}
-                                        rows={10}
-                                        cols={30}
-                                        onChange={(e)=>onClipboardEditing(e)}
-                                    />
+                                    <input 
+                                        defaultValue={widget.w_content} 
+                                        type="text" 
+                                        onBlur={onSaveClipboardItem}/>
                                 </div>
                                 <button className='btn-delete' onClick={()=>DeleteWidgetHandler(widget.id)}>
-                                    <img src={btn_delete} alt="delete"></img>
+                                    <img src={btn_delete} alt="delete"/>
                                 </button>
                             </div>
                     );

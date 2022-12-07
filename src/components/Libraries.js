@@ -82,12 +82,15 @@ const Libraries = () => {
       {err && <h2>{err}</h2>}
 
  
-
-      <select id="ddl_library" onChange={handleSelect}>
+      <select id="ddl_library" onChange={handleSelect} style={{ display : "inline-block" }}>
         <option value="select">Select Library</option>
         <option value="git_cheatsheet.json">Git Cheatsheet</option>
         <option value="npm_cheatsheet.json">NPM Cheatsheet</option>
       </select>
+      <div className='library-fl' style={{ display : "inline-block" }}>
+        <span className="label">Filter: </span><input onKeyUp={handleKeyUp} id='library-filter' type='text'></input>
+      </div>
+
 
       {isLoading && <h2>Loading...</h2>}
 
@@ -97,10 +100,6 @@ const Libraries = () => {
         <span>{data.Version}</span>
         <span>{data.Type}</span>
       </div> 
-
-      <div className='library-fl'>
-        <span className="label">Filter: </span><input onKeyUp={handleKeyUp} id='library-filter' type='text'></input>
-      </div>
         
         <table className='lib-tbl'>
           <thead>

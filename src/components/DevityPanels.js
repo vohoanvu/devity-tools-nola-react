@@ -48,17 +48,14 @@ export default function DevityPanels(props)
     switch (widgetType) {
       case "CLIPBOARD":
         setClipboardWidgets(newWidgetList);
-        //TODO: POSTing api/widgets here
         createWidget(newWidget);
         break;
       case "NOTES":
         setNoteWidgets(newWidgetList);
-        //TODO: POSTing api/widgets here
         createWidget(newWidget);
         break;
       case "LINKS":
         setLinkWidgets(newWidgetList);
-        //TODO: POSTing api/widgets here
         createWidget(newWidget);
         break;
       default:
@@ -104,7 +101,6 @@ export default function DevityPanels(props)
     </React.Fragment>
   );
 }
-
 
 
 /*<React.Fragment>

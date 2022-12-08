@@ -16,47 +16,38 @@ export default function Widget(props)
     case "CLIPBOARD":
       return (
         <React.Fragment>
-              <div className="w-container">
-                <span className="w-container-title">Widget Name: {props.widget.name}</span>
-                <WidgetClipboard 
-                  widget={props.widget} />
-                <WidgetActions 
-                  widgetId={props.widget.id} 
-                  widgetType={props.widget.w_type}
-                  setWidgetObjState={props.setWidgetObjState}
-                  widgetObjState={props.widgetObjState}/>
-              </div>
+          <WidgetClipboard 
+            widget={props.widget} />
+          <WidgetActions 
+            widgetId={props.widget.id} 
+            widgetType={props.widget.w_type}
+            setWidgetObjState={props.setWidgetObjState}
+            widgetObjState={props.widgetObjState}/>
         </React.Fragment>
       );
 
     case "LINKS":
       return (
         <React.Fragment>
-              <div className="w-container">
-                <span className="w-container-title">Widget Name: {props.widget.name}</span>
-                <WidgetLink 
-                  widget={props.widget} />
-                <WidgetActions 
-                  widgetId={props.widget.id} 
-                  widgetType={props.widget.w_type}
-                  setWidgetObjState={props.setWidgetObjState}
-                  widgetObjState={props.widgetObjState}/>
-              </div>
+          <WidgetLink 
+            widget={props.widget} />
+          <WidgetActions 
+            widgetId={props.widget.id} 
+            widgetType={props.widget.w_type}
+            setWidgetObjState={props.setWidgetObjState}
+            widgetObjState={props.widgetObjState}/>
         </React.Fragment>
       );
       
     case "NOTES":
       return (
         <React.Fragment>
-              <div className="w-container">
-                <span className="w-container-title">Widget Name: {props.widget.name}</span>
-                <WidgetNote widget={props.widget} />
-                <WidgetActions 
-                  widgetId={props.widget.id} 
-                  widgetType={props.widget.w_type}
-                  setWidgetObjState={props.setWidgetObjState}
-                  widgetObjState={props.widgetObjState}/>
-              </div>
+          <WidgetNote widget={props.widget} />
+          <WidgetActions 
+            widgetId={props.widget.id} 
+            widgetType={props.widget.w_type}
+            setWidgetObjState={props.setWidgetObjState}
+            widgetObjState={props.widgetObjState}/>
         </React.Fragment>
       );
                 

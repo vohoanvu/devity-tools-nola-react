@@ -94,12 +94,14 @@ export default function DevityPanels(props)
               {
                 value.map((w, index) => {
                   return (
+                    <div key={index} className="w-container">
+                      <span className="w-container-title">Widget Name: {w.name}</span>
                       <Widget
-                        key={index}
                         widget={w}
                         setWidgetObjState={setWidgetObject}
                         widgetObjState={widgetObject}
                       />
+                    </div>
                   );
                 })
               }

@@ -21,7 +21,6 @@ export default function Clipboard(props)
             }
             setClipboard(currentWidget);
         })();
-        
 
     }, [props.widget]);
 

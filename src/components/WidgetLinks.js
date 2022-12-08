@@ -22,8 +22,6 @@ export default function Links(props)
             setLink(currentWidget);
         })();
 
-        
-
     }, [props.widget]);
 
     async function getWidgetContentById(w_id) {

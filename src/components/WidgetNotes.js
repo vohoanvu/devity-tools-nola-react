@@ -20,7 +20,6 @@ export default function Note(props)
             }
             setNote(currentWidget);
         })();
-        
 
     }, [props.widget]);
 

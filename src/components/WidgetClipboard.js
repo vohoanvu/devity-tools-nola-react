@@ -8,17 +8,20 @@ const devity_api = configData.DEVITY_API;
 
 export default function Clipboard(props)
 {
-    //const [clipboardList, setClipBoardList] = useState([]);
-    const [testClipboard, setTestClipboard] = useState(["Ford", "BMW", "Fiat"]);
+    const [clipboardContent, setClipboardContent] = useState(["Ford", "BMW", "Fiat"]);
     const [clipboard, setClipboard] = useState({});
 
     useEffect(() => {
         (async () => {
             const content = await getWidgetContentById(props.widget.id);
+            const contentArray = JSON.parse(content).map(pair => pair.CLIPBOARD)[0];
+            console.log(contentArray, 1234)
             const currentWidget = {
                 ...props.widget,
                 w_content: content
             }
+
+            setClipboardContent(contentArray);
             setClipboard(currentWidget);
         })();
 
@@ -36,22 +39,21 @@ export default function Clipboard(props)
 
     function onSaveClipboardItem(e) {
         console.log("On Save...",e.target.value);
-        const newTestClipboard = [...testClipboard];
-        newTestClipboard.splice(0, 0, e.target.value);
-        setTestClipboard(newTestClipboard);
+        const newClipboardContent = [...clipboardContent];
+        newClipboardContent.splice(0, 0, e.target.value);
+        setClipboardContent(newClipboardContent);
     }
 
+
     return (
-        <React.Fragment>
-            <div>
-                {
-                    testClipboard.map( (data, index) => <li key={index}>{data}</li> )
-                }
-                <input 
-                    defaultValue={clipboard.w_content} 
-                    type="text" 
-                    onBlur={onSaveClipboardItem}/>
-            </div>
-        </React.Fragment>
+        <div>
+            {
+                clipboardContent.map( (data, index) => <li key={index}>{data}</li> )
+            }
+            <input 
+                defaultValue={clipboard.w_content} 
+                type="text" 
+                onBlur={onSaveClipboardItem}/>
+        </div>
     );
 }

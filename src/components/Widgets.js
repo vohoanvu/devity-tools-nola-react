@@ -11,30 +11,17 @@ export default function Widget(props)
     setWidgetType(props.widget.w_type);
   }, [props.widget.w_type]);
 
-  switch (widgetType) {
+  switch (widgetType) 
+  {
     case "CLIPBOARD":
-      return (
-        <React.Fragment>
-          <WidgetClipboard 
-            widget={props.widget} />
-        </React.Fragment>
-      );
+      return (<WidgetClipboard widget={props.widget} />);
 
     case "LINKS":
-      return (
-        <React.Fragment>
-          <WidgetLink 
-            widget={props.widget} />
-        </React.Fragment>
-      );
-      
+      return (<WidgetLink widget={props.widget} />);
+
     case "NOTES":
-      return (
-        <React.Fragment>
-          <WidgetNote widget={props.widget} />
-        </React.Fragment>
-      );
-                
+      return (<WidgetNote widget={props.widget} />);
+
     default:
       return <div className="w-container">NOTHING HERE</div>;
   }

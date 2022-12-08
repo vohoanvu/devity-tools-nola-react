@@ -6,7 +6,7 @@ import WidgetActions from './WidgetActions';
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
-export default function DevityPanels(props) 
+export default function DevityPanels() 
 {
   const [widgetObject, setWidgetObject] = useState({});
 
@@ -84,10 +84,7 @@ export default function DevityPanels(props)
           return (
             <div key={index} className="w-panel">
               <span className="w-panel-title">{key}</span>
-              <button 
-                type="button"
-                className='btn btn-primary' 
-                onClick={()=>onAddNewWidget(key, value)}>Add New</button>
+              <button onClick={()=>onAddNewWidget(key, value)}>Add New</button>
               {
                 value.map((w, index) => {
                   return (
@@ -107,35 +104,10 @@ export default function DevityPanels(props)
                   );
                 })
               }
-            </div>)
+            </div>
+          )
         })
       }
     </React.Fragment>
   );
 }
-
-
-
-
-
-/* <React.Fragment>
-      <div className="w-panel">
-          <span className="w-panel-title">CLIPBOARD</span>
-          <button type="button" 
-            className='btn btn-primary' 
-            onClick={()=>onAddNewWidget("CLIPBOARD", clipboardWidgets)}>Add New Clipboard</button>
-          <WidgetClipboard clipboardWidgets={clipboardWidgets} setClipboardWidgets={setClipboardWidgets}/>
-      </div>
-      <div className="w-panel">
-          <span className="w-panel-title">NOTES</span>
-          <button type="button" className='btn btn-primary' 
-            onClick={()=>onAddNewWidget("NOTES", noteWidgets)}>Add New Note</button>
-          <WidgetNote noteWidgets={noteWidgets} setNoteWidgets={setNoteWidgets}/>
-      </div>
-      <div className="w-panel">
-          <span className="w-panel-title">LINKS</span>
-          <button type="button" className='btn btn-primary' 
-            onClick={()=>onAddNewWidget("LINKS", linkWidgets)}>Add New Link</button>
-          <WidgetLink linkWidgets={linkWidgets} setLinkWidgets={setLinkWidgets}/>
-      </div>
-    </React.Fragment> */

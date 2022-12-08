@@ -8,11 +8,9 @@ const devity_api = configData.DEVITY_API;
 
 export default function Links(props)
 {
-    //const [linkList, setLinkList] = useState([]);
     const [link, setLink] = useState({});
 
     useEffect(() => {
-
         (async () => {
             const content = await getWidgetContentById(props.widget.id);
             const currentWidget = {
@@ -40,14 +38,12 @@ export default function Links(props)
     }
 
     return (
-        <React.Fragment>
-            <div>
-                <label>Enter Widget Content : </label>
-                <input 
-                    defaultValue={link.w_content} 
-                    type="text" 
-                    onChange={onSaveNewLink}/>
-            </div>
-        </React.Fragment>
+        <div>
+            <label>Enter Widget Content : </label>
+            <input 
+                defaultValue={link.w_content} 
+                type="text" 
+                onChange={onSaveNewLink}/>
+        </div>
     );
 }

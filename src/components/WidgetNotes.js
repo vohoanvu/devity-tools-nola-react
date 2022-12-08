@@ -7,11 +7,9 @@ const devity_api = configData.DEVITY_API;
 
 export default function Note(props)
 {
-    //const [noteList, setNoteList] = useState([]);
     const [note, setNote] = useState({});
 
     useEffect(() => {
-
         (async () => {
             const content = await getWidgetContentById(props.widget.id);
             const currentWidget = {
@@ -39,15 +37,13 @@ export default function Note(props)
 
 
     return (
-        <React.Fragment>
-            <div>
-                <label>Enter Widget Content : </label>
-                <input 
-                    defaultValue={note.w_content} 
-                    type="text" 
-                    onChange={onSaveNewNote}/>
-            </div>
-        </React.Fragment>
+        <div>
+            <label>Enter Widget Content : </label>
+            <input 
+                defaultValue={note.w_content} 
+                type="text" 
+                onChange={onSaveNewNote}/>
+        </div>
     );
     
 }

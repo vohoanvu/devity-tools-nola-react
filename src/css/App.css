@@ -123,8 +123,8 @@ button{
   border-style: solid;
 }
 button:hover {
-  cursor: pointer;
-  background-color: #ccc;
+    cursor: pointer;
+    background-color: #ccc;
 }
 button:disabled{
   border: 1px;
@@ -212,6 +212,22 @@ a:active {
 .btn-delete:hover {
   cursor: pointer;
   background-color: #ccc;
+}
+.img-btn-save {
+	cursor:pointer;
+  width: 20px;
+  height: auto;
+  background-color: #00A8EA;
+  color: #fff;
+  border: solid 1px #0095cc;
+  text-align: center;
+  float: right;
+  padding: 3px;
+  border-radius: 3px;
+}
+.btn-box
+{
+  position:absolute;
 }
 
 

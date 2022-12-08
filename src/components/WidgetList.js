@@ -48,7 +48,7 @@ export default function WidgetList(props)
           {
             props.widgetArray.map( (widget, index) => 
               <WidgetClipboard key={index} clipboardWidget={widget} setClipboardWidgets={props.setWidgetArray}/> )
-          }op
+          }
         </div>
       );
 

@@ -2,28 +2,35 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
 import '../css/App.css';
-import WidgetActions from './WidgetActions';
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
 
 export default function Clipboard(props)
 {
-    const [clipboardList, setClipBoardList] = useState([]);
+    //const [clipboardList, setClipBoardList] = useState([]);
     const [testClipboard, setTestClipboard] = useState(["Ford", "BMW", "Fiat"]);
+    const [clipboard, setClipboard] = useState({});
 
     useEffect(() => {
-        let clipboardsWithContent = props.clipboardWidgets.map(async (w, index) => {
+        // let clipboardsWithContent = props.clipboardWidgets.map(async (w, index) => {
 
-            return {
-                key: index,
-                ...w, 
-                w_content: await getWidgetContentById(w.id)
-            };
-        });
+        //     return {
+        //         key: index,
+        //         ...w, 
+        //         w_content: await getWidgetContentById(w.id)
+        //     };
+        // });
+        // Promise.all(clipboardsWithContent).then(result => setClipBoardList(result) );
 
-        Promise.all(clipboardsWithContent).then(result => setClipBoardList(result) );
-    }, [props.clipboardWidgets]);
+        const content = getWidgetContentById(props.widget.id).then(result => result);
+        const currentWidget = {
+            ...props.widget,
+            w_content: content
+        }
+        setClipboard(currentWidget);
+
+    }, [props.widget]);
 
     async function getWidgetContentById(w_id) {
         return await axios.get(devity_api + '/api/widgets/'+ w_id)
@@ -42,32 +49,26 @@ export default function Clipboard(props)
         setTestClipboard(newTestClipboard);
     }
 
-    return(
-        <div>
-            {
-                clipboardList.map((widget, index) => {
+    // return(
+    //     <div>
+    //         {
+    //             clipboardList.map((widget, index) => {
+    //             })
+    //         }
+    //     </div>
+    // );
 
-                    return (
-                            <div key={index} className="w-container">
-                                <span className="w-container-title">Widget Name: {widget.name}</span>
-                                {
-                                    testClipboard.map( (data, index) => <li key={index}>{data}</li> )
-                                }
-                                <div>
-                                    <input 
-                                        defaultValue={widget.w_content} 
-                                        type="text" 
-                                        onBlur={onSaveClipboardItem}/>
-                                </div>
-                                <WidgetActions 
-                                    widgetId={widget.id} 
-                                    resetWidgetList={props.setClipboardWidgets}
-                                    widgetList={props.clipboardWidgets}
-                                />
-                            </div>
-                    );
-                })
-            }
-        </div>
+    return (
+        <React.Fragment>
+            <div>
+                {
+                    testClipboard.map( (data, index) => <li key={index}>{data}</li> )
+                }
+                <input 
+                    defaultValue={clipboard.w_content} 
+                    type="text" 
+                    onBlur={onSaveClipboardItem}/>
+            </div>
+        </React.Fragment>
     );
 }

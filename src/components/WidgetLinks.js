@@ -9,19 +9,19 @@ const devity_api = configData.DEVITY_API;
 
 export default function Links(props)
 {
-    const [linkList, setLinkList] = useState([]);
+    //const [linkList, setLinkList] = useState([]);
+    const [link, setLink] = useState({});
 
     useEffect(() => {
-        let linksWithContent = props.linkWidgets.map(async (w, index) => {
+        // let linksWithContent = props.linkWidgets.map(async (w, index) => {
 
-            return {
-                key: index,
-                ...w, 
-                w_content: await getWidgetContentById(w.id)
-            };
-        });
-
-        Promise.all(linksWithContent).then(result => setLinkList(result) );
+        //     return {
+        //         key: index,
+        //         ...w, 
+        //         w_content: await getWidgetContentById(w.id)
+        //     };
+        // });
+        // Promise.all(linksWithContent).then(result => setLinkList(result) );
     }, [props.linkWidgets]);
 
     async function getWidgetContentById(w_id) {
@@ -39,31 +39,26 @@ export default function Links(props)
         console.log(e.target.value);
     }
 
-    
-    return(
-        <div>
-            {
-                linkList.map((widget) => {
-                    return (
-                        <div key={widget.id} className="w-container">
-                            <span className="w-container-title">Widget Name: {widget.name}</span>
-                            <div>
-                                <label>Enter Widget Content : </label>
-                                <input 
-                                    defaultValue={widget.w_content} 
-                                    type="text" 
-                                    onChange={onSaveNewLink}/>
-                            </div>
-                            <WidgetActions 
-                                widgetId={widget.id} 
-                                resetWidgetList={props.setLinkWidgets}
-                                widgetList={props.linkWidgets}
-                            />
-                        </div>
-                    );
-                })
-            }
-        </div>
-    
+    return (
+        <React.Fragment>
+            <div>
+                <label>Enter Widget Content : </label>
+                <input 
+                    defaultValue={link.w_content} 
+                    type="text" 
+                    onChange={onSaveNewLink}/>
+            </div>
+        </React.Fragment>
     );
 }
+
+// return(
+//     <div>
+//         {
+//             linkList.map((widget) => {
+                
+//             })
+//         }
+//     </div>
+
+// );

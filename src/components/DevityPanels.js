@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
-import Widget from './Widget';
+import Widget from './Widgets';
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 

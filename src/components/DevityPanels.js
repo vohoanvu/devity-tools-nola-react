@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
 import Widget from './Widgets';
+import WidgetActions from './WidgetActions';
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
@@ -24,7 +25,7 @@ export default function DevityPanels(props)
   }, []);
 
 
-  function onAddNewWidget(widgetType, widgetList) {
+  async function onAddNewWidget(widgetType, widgetList) {
     let newName = (widgetList.length+1).toString();
     let jsonObj = []
     let contentItem = {};
@@ -41,32 +42,23 @@ export default function DevityPanels(props)
         width: 300
     }
     const newWidgetArray = [...widgetList];
-    newWidgetArray.splice(0, 0, newWidget);
-    const newWidgetsObject = {...widgetObject};
-    newWidgetsObject[widgetType] = newWidgetArray;
 
     switch (widgetType) {
       case "CLIPBOARD":
-        console.log(newWidgetsObject, 11111);
-        setWidgetObject(newWidgetsObject);
-        createWidget(newWidget);
+        createWidget(newWidget, newWidgetArray, widgetType);
         break;
       case "NOTES":
-        console.log(newWidgetsObject, 11111);
-        setWidgetObject(newWidgetsObject);
-        createWidget(newWidget);
+        createWidget(newWidget, newWidgetArray, widgetType);
         break;
       case "LINKS":
-        console.log(newWidgetsObject, 11111);
-        setWidgetObject(newWidgetsObject);
-        createWidget(newWidget);
+        createWidget(newWidget, newWidgetArray, widgetType);
         break;
       default:
         break;
     }
   }
 
-  async function createWidget(postBody) {
+  async function createWidget(postBody, newWidgetArray, type) {
     delete postBody["key"];
 
     await axios.post(devity_api + "/api/widgets/", { ...postBody })
@@ -74,7 +66,11 @@ export default function DevityPanels(props)
             return response.data
           })
           .then(result => {
-            return result
+              postBody["id"] = result.id;
+              newWidgetArray.splice(0, 0, postBody);
+              const newWidgetsObject = {...widgetObject};
+              newWidgetsObject[type] = newWidgetArray;
+              setWidgetObject(newWidgetsObject);
           })
           .catch(err => console.log(err));
   }
@@ -89,6 +85,7 @@ export default function DevityPanels(props)
             <div key={index} className="w-panel">
               <span className="w-panel-title">{key}</span>
               <button 
+                type="button"
                 className='btn btn-primary' 
                 onClick={()=>onAddNewWidget(key, value)}>Add New</button>
               {
@@ -101,6 +98,11 @@ export default function DevityPanels(props)
                         setWidgetObjState={setWidgetObject}
                         widgetObjState={widgetObject}
                       />
+                      <WidgetActions 
+                        widgetId={w.id} 
+                        widgetType={w.w_type}
+                        setWidgetObjState={setWidgetObject}
+                        widgetObjState={widgetObject}/>
                     </div>
                   );
                 })

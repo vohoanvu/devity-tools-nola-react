@@ -122,6 +122,10 @@ button{
   border-color: var(--COLOR_BODY);
   border-style: solid;
 }
+button:hover {
+  cursor: pointer;
+  background-color: #ccc;
+}
 button:disabled{
   border: 1px;
   border-radius: 5%;

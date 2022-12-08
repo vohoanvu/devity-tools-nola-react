@@ -18,11 +18,6 @@ export default function Widget(props)
         <React.Fragment>
           <WidgetClipboard 
             widget={props.widget} />
-          <WidgetActions 
-            widgetId={props.widget.id} 
-            widgetType={props.widget.w_type}
-            setWidgetObjState={props.setWidgetObjState}
-            widgetObjState={props.widgetObjState}/>
         </React.Fragment>
       );
 
@@ -31,11 +26,6 @@ export default function Widget(props)
         <React.Fragment>
           <WidgetLink 
             widget={props.widget} />
-          <WidgetActions 
-            widgetId={props.widget.id} 
-            widgetType={props.widget.w_type}
-            setWidgetObjState={props.setWidgetObjState}
-            widgetObjState={props.widgetObjState}/>
         </React.Fragment>
       );
       
@@ -43,11 +33,6 @@ export default function Widget(props)
       return (
         <React.Fragment>
           <WidgetNote widget={props.widget} />
-          <WidgetActions 
-            widgetId={props.widget.id} 
-            widgetType={props.widget.w_type}
-            setWidgetObjState={props.setWidgetObjState}
-            widgetObjState={props.widgetObjState}/>
         </React.Fragment>
       );
                 

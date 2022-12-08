@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
-import WidgetNote from './WidgetNotes';
-import WidgetLink from './WidgetLinks';
-import WidgetClipboard from './WidgetClipboard';
+import Widget from './Widgets';
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
 export default function DevityPanels(props) 
 {
-  const [linkWidgets, setLinkWidgets] = useState([]);
-  const [noteWidgets, setNoteWidgets] = useState([]);
-  const [clipboardWidgets, setClipboardWidgets] = useState([]);
+  const [widgetObject, setWidgetObject] = useState({});
 
   useEffect(() => {
     async function fetchData() {
@@ -19,9 +15,7 @@ export default function DevityPanels(props)
         .then((res) => {
             if (res.status === '401') window.location.replace(sso_url);
 
-            setLinkWidgets(res.data["LINKS"]);
-            setNoteWidgets(res.data["NOTES"]);
-            setClipboardWidgets(res.data["CLIPBOARD"]);
+            setWidgetObject(res.data);
         })
         .catch((err) => console.log(err));
     };
@@ -32,30 +26,39 @@ export default function DevityPanels(props)
 
   function onAddNewWidget(widgetType, widgetList) {
     let newName = (widgetList.length+1).toString();
+    let jsonObj = []
+    let contentItem = {};
+    contentItem[widgetType.toString()] = [];
+    jsonObj.push(contentItem);
 
     const newWidget = {
         key: widgetList.length+1,
-        w_content: "{}",
+        w_content: JSON.stringify(jsonObj),
         name: "TEST Widget " + newName,
         order: widgetList.length+1,
         w_type: widgetType,
         height : 300,
         width: 300
     }
-    const newWidgetList = [...widgetList];
-    newWidgetList.splice(0, 0, newWidget);
+    const newWidgetArray = [...widgetList];
+    newWidgetArray.splice(0, 0, newWidget);
+    const newWidgetsObject = {...widgetObject};
+    newWidgetsObject[widgetType] = newWidgetArray;
 
     switch (widgetType) {
       case "CLIPBOARD":
-        setClipboardWidgets(newWidgetList);
+        console.log(newWidgetsObject, 11111);
+        setWidgetObject(newWidgetsObject);
         createWidget(newWidget);
         break;
       case "NOTES":
-        setNoteWidgets(newWidgetList);
+        console.log(newWidgetsObject, 11111);
+        setWidgetObject(newWidgetsObject);
         createWidget(newWidget);
         break;
       case "LINKS":
-        setLinkWidgets(newWidgetList);
+        console.log(newWidgetsObject, 11111);
+        setWidgetObject(newWidgetsObject);
         createWidget(newWidget);
         break;
       default:
@@ -79,6 +82,41 @@ export default function DevityPanels(props)
 
   return (
     <React.Fragment>
+      {
+        Object.entries(widgetObject).map( ([key,value], index) => {
+
+          return (
+            <div key={index} className="w-panel">
+              <span className="w-panel-title">{key}</span>
+              <button 
+                className='btn btn-primary' 
+                onClick={()=>onAddNewWidget(key, value)}>Add New</button>
+              {
+                value.map((w, index) => {
+                  return (
+                    <div key={index} className="w-container">
+                      <span className="w-container-title">Widget Name: {w.name}</span>
+                      <Widget
+                        widget={w}
+                        setWidgetObjState={setWidgetObject}
+                        widgetObjState={widgetObject}
+                      />
+                    </div>
+                  );
+                })
+              }
+            </div>)
+        })
+      }
+    </React.Fragment>
+  );
+}
+
+
+
+
+
+/* <React.Fragment>
       <div className="w-panel">
           <span className="w-panel-title">CLIPBOARD</span>
           <button type="button" 
@@ -98,22 +136,4 @@ export default function DevityPanels(props)
             onClick={()=>onAddNewWidget("LINKS", linkWidgets)}>Add New Link</button>
           <WidgetLink linkWidgets={linkWidgets} setLinkWidgets={setLinkWidgets}/>
       </div>
-    </React.Fragment>
-  );
-}
-
-
-/*<React.Fragment>
-  {
-    Object.entries(widgetList).map( ([key,value], index) => {
-      return (
-        <WidgetList
-          key={index}
-          widgetType={key}
-          widgetArray={value}
-          setWidgetListState={setWidgetList}
-        />
-      );
-    })
-  }
-</React.Fragment> */
+    </React.Fragment> */

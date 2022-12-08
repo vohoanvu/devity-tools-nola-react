@@ -2,26 +2,26 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
 import '../css/App.css';
-import WidgetActions from './WidgetActions';
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
 export default function Note(props)
 {
-    const [noteList, setNoteList] = useState([]);
+    //const [noteList, setNoteList] = useState([]);
+    const [note, setNote] = useState({});
 
     useEffect(() => {
-        let notesWithContent = props.noteWidgets.map(async (w, index) => {
 
-            return {
-                key: index,
-                ...w, 
-                w_content: await getWidgetContentById(w.id)
-            };
-        });
-        
-        Promise.all(notesWithContent).then(result => setNoteList(result) );
-    }, [props.noteWidgets]);
+        (async () => {
+            const content = await getWidgetContentById(props.widget.id);
+            const currentWidget = {
+                ...props.widget,
+                w_content: content
+            }
+            setNote(currentWidget);
+        })();
+
+    }, [props.widget]);
 
     async function getWidgetContentById(w_id) {
         return await axios.get(devity_api + '/api/widgets/'+ w_id)
@@ -37,30 +37,17 @@ export default function Note(props)
         console.log(e.target.value);
     }
 
-    return(
-        <div>
-            {
-                noteList.map((widget) => {
 
-                    return (
-                        <div key={widget.id} className="w-container">
-                            <span className="w-container-title">Widget Name: {widget.name}</span>
-                            <div>
-                                <label>Enter Widget Content : </label>
-                                <input 
-                                    defaultValue={widget.w_content} 
-                                    type="text" 
-                                    onChange={onSaveNewNote}/>
-                            </div>
-                            <WidgetActions 
-                                widgetId={widget.id} 
-                                resetWidgetList={props.setNoteWidgets}
-                                widgetList={props.noteWidgets}
-                            />
-                        </div>
-                    );
-                })
-            }
-        </div>
+    return (
+        <React.Fragment>
+            <div>
+                <label>Enter Widget Content : </label>
+                <input 
+                    defaultValue={note.w_content} 
+                    type="text" 
+                    onChange={onSaveNewNote}/>
+            </div>
+        </React.Fragment>
     );
+    
 }

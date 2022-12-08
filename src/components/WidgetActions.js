@@ -19,8 +19,11 @@ export default function WidgetActions(props)
   }
 
   async function deleteWidget(id) {
-    let newWidgetList = props.widgetList.filter((w) => w.id !== id);
-    props.resetWidgetList(newWidgetList);
+
+    const newWidgetObjState = {...props.widgetObjState}
+    const newWidgetList = props.widgetObjState[props.widgetType].filter(w => w.id !== id);
+    newWidgetObjState[props.widgetType] = newWidgetList;
+    props.setWidgetObjState(newWidgetObjState);
 
     await axios.delete(devity_api + '/api/widgets/' + id)
         .then(res => {

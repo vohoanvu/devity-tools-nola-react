@@ -2,7 +2,6 @@ import * as React from "react";
 import WidgetNote from './WidgetNotes';
 import WidgetLink from './WidgetLinks';
 import WidgetClipboard from './WidgetClipboard';
-import WidgetActions from './WidgetActions';
 
 export default function Widget(props) 
 {

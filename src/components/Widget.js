@@ -10,7 +10,7 @@ export default function Widget(props)
 
   React.useEffect(() => {
     setWidgetType(props.widget.w_type);
-  }, []);
+  }, [props.widget.w_type]);
 
   switch (widgetType) {
     case "CLIPBOARD":
@@ -22,6 +22,7 @@ export default function Widget(props)
                   widget={props.widget} />
                 <WidgetActions 
                   widgetId={props.widget.id} 
+                  widgetType={props.widget.w_type}
                   setWidgetObjState={props.setWidgetObjState}
                   widgetObjState={props.widgetObjState}/>
               </div>
@@ -52,6 +53,7 @@ export default function Widget(props)
                 <WidgetNote widget={props.widget} />
                 <WidgetActions 
                   widgetId={props.widget.id} 
+                  widgetType={props.widget.w_type}
                   setWidgetObjState={props.setWidgetObjState}
                   widgetObjState={props.widgetObjState}/>
               </div>

@@ -7,9 +7,6 @@ const devity_api = configData.DEVITY_API;
 
 export default function DevityPanels(props) 
 {
-  //const [linkWidgets, setLinkWidgets] = useState([]);
-  //const [noteWidgets, setNoteWidgets] = useState([]);
-  //const [clipboardWidgets, setClipboardWidgets] = useState([]);
   const [widgetObject, setWidgetObject] = useState({});
 
   useEffect(() => {
@@ -18,9 +15,6 @@ export default function DevityPanels(props)
         .then((res) => {
             if (res.status === '401') window.location.replace(sso_url);
 
-            //setLinkWidgets(res.data["LINKS"]);
-            //setNoteWidgets(res.data["NOTES"]);
-            //setClipboardWidgets(res.data["CLIPBOARD"]);
             setWidgetObject(res.data);
         })
         .catch((err) => console.log(err));
@@ -30,33 +24,41 @@ export default function DevityPanels(props)
   }, []);
 
 
-  function onAddNewWidget(widgetType) {
-    let newName = (widgetObject[widgetType].length+1).toString();
+  function onAddNewWidget(widgetType, widgetList) {
+    let newName = (widgetList.length+1).toString();
+    let jsonObj = []
+    let contentItem = {};
+    contentItem[widgetType.toString()] = [];
+    jsonObj.push(contentItem);
 
     const newWidget = {
-        key: widgetObject[widgetType].length+1,
-        w_content: `{ ${widgetType}: [] }`,
+        key: widgetList.length+1,
+        w_content: JSON.stringify(jsonObj),
         name: "TEST Widget " + newName,
-        order: widgetObject[widgetType].length+1,
+        order: widgetList.length+1,
         w_type: widgetType,
         height : 300,
         width: 300
     }
-    const newWidgetArray = [...widgetObject[widgetType]];
+    const newWidgetArray = [...widgetList];
     newWidgetArray.splice(0, 0, newWidget);
-    widgetObject[widgetType] = newWidgetArray;
+    const newWidgetsObject = {...widgetObject};
+    newWidgetsObject[widgetType] = newWidgetArray;
 
     switch (widgetType) {
       case "CLIPBOARD":
-        setWidgetObject(widgetObject);
+        console.log(newWidgetsObject, 11111);
+        setWidgetObject(newWidgetsObject);
         createWidget(newWidget);
         break;
       case "NOTES":
-        setWidgetObject(widgetObject);
+        console.log(newWidgetsObject, 11111);
+        setWidgetObject(newWidgetsObject);
         createWidget(newWidget);
         break;
       case "LINKS":
-        setWidgetObject(widgetObject);
+        console.log(newWidgetsObject, 11111);
+        setWidgetObject(newWidgetsObject);
         createWidget(newWidget);
         break;
       default:
@@ -81,24 +83,27 @@ export default function DevityPanels(props)
   return (
     <React.Fragment>
       {
-        Object.entries(widgetObject).map( ([key,value]) => {
+        Object.entries(widgetObject).map( ([key,value], index) => {
 
-          <div className="w-panel">
-            <span className="w-panel-title">{key}</span>
-            <button className='btn btn-primary' onClick={onAddNewWidget(props.widgetType)}>Add New</button>
-            {
-              value.map((w, index) => {
-                return (
-                    <Widget
-                      key={index}
-                      widget={w}
-                      setWidgetObjState={setWidgetObject}
-                      widgetObjState={widgetObject}
-                    />
-                );
-              })
-            }
-          </div>
+          return (
+            <div key={index} className="w-panel">
+              <span className="w-panel-title">{key}</span>
+              <button 
+                className='btn btn-primary' 
+                onClick={()=>onAddNewWidget(key, value)}>Add New</button>
+              {
+                value.map((w, index) => {
+                  return (
+                      <Widget
+                        key={index}
+                        widget={w}
+                        setWidgetObjState={setWidgetObject}
+                        widgetObjState={widgetObject}
+                      />
+                  );
+                })
+              }
+            </div>)
         })
       }
     </React.Fragment>
@@ -109,7 +114,7 @@ export default function DevityPanels(props)
 
 
 
-{/* <React.Fragment>
+/* <React.Fragment>
       <div className="w-panel">
           <span className="w-panel-title">CLIPBOARD</span>
           <button type="button" 
@@ -129,4 +134,4 @@ export default function DevityPanels(props)
             onClick={()=>onAddNewWidget("LINKS", linkWidgets)}>Add New Link</button>
           <WidgetLink linkWidgets={linkWidgets} setLinkWidgets={setLinkWidgets}/>
       </div>
-    </React.Fragment> */}
+    </React.Fragment> */

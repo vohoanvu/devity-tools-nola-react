@@ -13,22 +13,15 @@ export default function Clipboard(props)
     const [clipboard, setClipboard] = useState({});
 
     useEffect(() => {
-        // let clipboardsWithContent = props.clipboardWidgets.map(async (w, index) => {
-
-        //     return {
-        //         key: index,
-        //         ...w, 
-        //         w_content: await getWidgetContentById(w.id)
-        //     };
-        // });
-        // Promise.all(clipboardsWithContent).then(result => setClipBoardList(result) );
-
-        const content = getWidgetContentById(props.widget.id).then(result => result);
-        const currentWidget = {
-            ...props.widget,
-            w_content: content
-        }
-        setClipboard(currentWidget);
+        (async () => {
+            const content = await getWidgetContentById(props.widget.id);
+            const currentWidget = {
+                ...props.widget,
+                w_content: content
+            }
+            setClipboard(currentWidget);
+        })();
+        
 
     }, [props.widget]);
 
@@ -48,15 +41,6 @@ export default function Clipboard(props)
         newTestClipboard.splice(0, 0, e.target.value);
         setTestClipboard(newTestClipboard);
     }
-
-    // return(
-    //     <div>
-    //         {
-    //             clipboardList.map((widget, index) => {
-    //             })
-    //         }
-    //     </div>
-    // );
 
     return (
         <React.Fragment>

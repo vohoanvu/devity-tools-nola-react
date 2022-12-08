@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
 import '../css/App.css';
-import WidgetActions from './WidgetActions';
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
@@ -13,16 +12,19 @@ export default function Links(props)
     const [link, setLink] = useState({});
 
     useEffect(() => {
-        // let linksWithContent = props.linkWidgets.map(async (w, index) => {
 
-        //     return {
-        //         key: index,
-        //         ...w, 
-        //         w_content: await getWidgetContentById(w.id)
-        //     };
-        // });
-        // Promise.all(linksWithContent).then(result => setLinkList(result) );
-    }, [props.linkWidgets]);
+        (async () => {
+            const content = await getWidgetContentById(props.widget.id);
+            const currentWidget = {
+                ...props.widget,
+                w_content: content
+            }
+            setLink(currentWidget);
+        })();
+
+        
+
+    }, [props.widget]);
 
     async function getWidgetContentById(w_id) {
         return await axios.get(devity_api + '/api/widgets/'+ w_id)
@@ -51,14 +53,3 @@ export default function Links(props)
         </React.Fragment>
     );
 }
-
-// return(
-//     <div>
-//         {
-//             linkList.map((widget) => {
-                
-//             })
-//         }
-//     </div>
-
-// );

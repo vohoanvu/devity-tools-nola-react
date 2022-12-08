@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
 import '../css/App.css';
-import WidgetActions from './WidgetActions';
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
@@ -12,21 +11,16 @@ export default function Note(props)
     const [note, setNote] = useState({});
 
     useEffect(() => {
-        // let notesWithContent = props.noteWidgets.map(async (w, index) => {
 
-        //     return {
-        //         key: index,
-        //         ...w, 
-        //         w_content: await getWidgetContentById(w.id)
-        //     };
-        // });
-        // Promise.all(notesWithContent).then(result => setNoteList(result) );
-        const content = getWidgetContentById(props.widget.id).then(result => result);
-        const currentWidget = {
-            ...props.widget,
-            w_content: content
-        }
-        setNote(currentWidget);
+        (async () => {
+            const content = await getWidgetContentById(props.widget.id);
+            const currentWidget = {
+                ...props.widget,
+                w_content: content
+            }
+            setNote(currentWidget);
+        })();
+        
 
     }, [props.widget]);
 
@@ -58,13 +52,3 @@ export default function Note(props)
     );
     
 }
-
-// return(
-//     <div>
-//         {
-//             noteList.map((widget) => {
-
-//             })
-//         }
-//     </div>
-// );

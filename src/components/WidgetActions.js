@@ -3,6 +3,7 @@ import axios from 'axios';
 import configData from "../config.json";
 import btn_delete from "../img/cntrl_delete.jpg";
 import btn_save_content from "../img/save-disk-icon.png";
+import '../css/buttons.css';
 const devity_api = configData.DEVITY_API;
 
 export default function WidgetActions(props)
@@ -33,16 +34,16 @@ export default function WidgetActions(props)
             .catch(err => console.log(err));
     }
 
-    function saveContentHandler() {
-        console.log("On saving content to db...");
+    function saveContentHandler(contentList) {
+        console.log("On saving content to db...", contentList);
     }
 
     return (
-        <div>
+        <div className='btn-box'>
             <button className='btn-delete' onClick={()=>DeleteWidgetHandler(widgetId)}>
                 <img src={btn_delete} alt="delete"/>
             </button>
-            <button className='btn-save' onClick={()=>saveContentHandler()}>
+            <button className='btn-save' onClick={()=>saveContentHandler(props.contentList)}>
                 <img src={btn_save_content} alt="save"/>
             </button> 
         </div>

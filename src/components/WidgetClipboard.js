@@ -15,7 +15,7 @@ export default function Clipboard(props)
         (async () => {
             const content = await getWidgetContentById(props.widget.id);
             const contentArray = JSON.parse(content).map(pair => pair.CLIPBOARD)[0];
-            console.log(contentArray, 1234)
+
             const currentWidget = {
                 ...props.widget,
                 w_content: content
@@ -38,7 +38,6 @@ export default function Clipboard(props)
     }
 
     function onSaveClipboardItem(e) {
-        console.log("On Save...",e.target.value);
         const newClipboardContent = [...clipboardContent];
         newClipboardContent.splice(0, 0, e.target.value);
         setClipboardContent(newClipboardContent);

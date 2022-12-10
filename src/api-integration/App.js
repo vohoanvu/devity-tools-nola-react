@@ -5,6 +5,7 @@ import { UserProvider } from "./UserContext";
 import DevityPanels  from "../components/DevityPanels";
 import Libraries  from "../components/Libraries";
 import Profile  from "../components/Profile";
+import Search from "../components/Search";
 import Header  from "../components/Header";
 import '../css/App.css';
 import configData from "../config.json";
@@ -60,6 +61,7 @@ return (
     <div className="App">
       <UserProvider>
         <Header></Header>
+        <Search></Search>
         <DevityPanels></DevityPanels>
         <Profile></Profile>
         <Libraries></Libraries>

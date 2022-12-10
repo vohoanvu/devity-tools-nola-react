@@ -45,7 +45,7 @@ export default function Clipboard(props)
 
 
     return (
-        <div>
+        <div className='widget'>
             {
                 clipboardContent.map( (data, index) => <li key={index}>{data}</li> )
             }

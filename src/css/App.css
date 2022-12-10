@@ -22,48 +22,96 @@
 .label{
   color: var(--COLOR_TEXT);
 }
-.w-panel{
+.p-panel{
 display: block;
 margin: 10px;
-padding: 20px;
-width: 90%;
+width: 98%;
 min-height: 250px;
 border: 1px;
 border-style: solid;
 border-radius: 15px;
 border-color: var(--COLOR_PANEL_BRD);
 overflow: auto;
-  
 }
-.w-panel-title{
+
+.p-contents{
+  padding: 10px;
+}
+
+.p-title{
   display: block;
-  width: 100%;
   align-items: center;
   color: var(--COLOR_TEXT);
+  float: left;
+  margin-right: 20px;
+}
 
+.p-chrome{
+  display: block;
+  padding: 10px;
+  height: 25px;
+  background-color: var(--COLOR_PANEL_CHROME_BG);
+  margin-bottom: 20px;
+}
+
+.p-chrome button{
+  display: block;
+  align-self: left;
+}
+
+.p-chrome img{
+  display: block;
+  width: 25px;
+  float: left;
+  margin-right: 5px;
 }
 
 .w-container{
   display: block;
   float: left;
-  margin: 20px;
-  padding: 21px;
   width: 300px;
   height: 300px;
-  border: 5px;
+  border: 2px;
   border-style: solid;
-  border-radius: 15px;
+  border-radius: 5px;
+  margin: 10px;
   border-color: var(--COLOR_WIDGET_BRD);
   background-color: var(--COLOR_WIDGET_BG);
   position: relative;
 }
 
-  .w-container-title{
-    display: block;
-    width: 100%;
-    align-items: center;
-    color: var(--COLOR_TEXT);
+
+.w-chrome{
+  padding: 10px;
+  height: 25px;
+  background-color: var(--COLOR_PANEL_CHROME_BG);
+  margin-bottom: 10px;
+}
+
+.w-title{
+  display: block;
+  width: 100%;
+  align-items: center;
+  color: var(--COLOR_TEXT);
+}
+
+.rotate {
+  animation: rotation 2s infinite linear;
+}
+
+
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
   }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+
+  
 
 @keyframes App-logo-spin {
   from {
@@ -171,10 +219,7 @@ li { margin: 5px; padding: 5px; width: 150px; }
   border-width: 2;
   overflow: auto;
 }
-.widget{
-  overflow: auto;
-  padding: 5px;
-}
+
 .w_container{
   background-color: var(--COLOR_WIDGET_BG);
   border-radius: 5%;
@@ -193,6 +238,12 @@ li { margin: 5px; padding: 5px; width: 150px; }
 .w_maximize{
   height: 100%;
 }
+
+.widget{
+  overflow: auto;
+  padding: 5px;
+}
+
 .w_title{
   color: white;
 }

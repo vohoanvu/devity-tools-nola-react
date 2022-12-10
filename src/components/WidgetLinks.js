@@ -52,7 +52,7 @@ export default function Links(props)
     }
 
     return (
-        <div>
+        <div className='widget'>
             {
                 displayLinks.map((item, index) => 
                     <li key={index}><a href={item.hyperLink}>{item.displayName}</a></li> )

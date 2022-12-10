@@ -3,6 +3,8 @@ import axios from 'axios';
 import configData from "../config.json";
 import Widget from './Widgets';
 import WidgetActions from './WidgetActions';
+import btn_image_config from "../img/d_btn_ctrl_config.png";
+import $ from "jquery";
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
@@ -43,6 +45,8 @@ export default function DevityPanels()
     }
     const newWidgetArray = [...widgetList];
 
+  
+
     switch (widgetType) {
       case "CLIPBOARD":
         createWidget(newWidget, newWidgetArray, widgetType);
@@ -60,7 +64,7 @@ export default function DevityPanels()
 
   async function createWidget(postBody, newWidgetArray, type) {
     delete postBody["key"];
-
+    $('div[data-panel=' + type + '] .gear').addClass('rotate');
     await axios.post(devity_api + "/api/widgets/", { ...postBody })
           .then(response => {
             return response.data
@@ -71,6 +75,7 @@ export default function DevityPanels()
               const newWidgetsObject = {...widgetObject};
               newWidgetsObject[type] = newWidgetArray;
               setWidgetObject(newWidgetsObject);
+              $('div[data-panel=' + type + '] .gear').removeClass('rotate');
           })
           .catch(err => console.log(err));
   }
@@ -82,14 +87,21 @@ export default function DevityPanels()
         Object.entries(widgetObject).map( ([key,value], index) => {
 
           return (
-            <div key={index} className="w-panel">
-              <span className="w-panel-title">{key}</span>
-              <button onClick={()=>onAddNewWidget(key, value)}>Add New</button>
+            <div key={index} className="p-panel" data-panel={key}>
+              <div className='p-chrome'>
+                <img  src={btn_image_config} className="gear" />
+                <span className="p-title">{key}</span>
+                <button onClick={()=>onAddNewWidget(key, value)}>+</button>
+              </div>
+              <div className='p-contents'>
+              
               {
                 value.map((w, index) => {
                   return (
                     <div key={index} className="w-container">
-                      <span className="w-container-title">Widget Name: {w.name}</span>
+                      <div className='w-chrome'>
+                        <span className="w-title">{w.name}</span>
+                      </div>
                       <Widget
                         widget={w}
                         setWidgetObjState={setWidgetObject}
@@ -104,6 +116,7 @@ export default function DevityPanels()
                   );
                 })
               }
+              </div>
             </div>
           )
         })

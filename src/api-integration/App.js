@@ -23,10 +23,8 @@ function App() {
   // const element = document.querySelector('#post-request-async-await .article-id');
 
   let bearer = cookies.get(devity_cookie);
-  if(bearer){
-  axios.defaults.headers.common['Authorization'] = bearer;
-  }
-  else if(token)
+  
+  if(token)
   {
     (async () => {
       try{
@@ -46,6 +44,9 @@ function App() {
         window.location.replace(sso_url);
       }
     })();
+  }
+  else if(bearer){
+    axios.defaults.headers.common['Authorization'] = bearer;
   }
   else
   {

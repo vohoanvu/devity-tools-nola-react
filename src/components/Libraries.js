@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import axios from 'axios';
 import $ from "jquery";
+import btn_image_config from "../img/d_btn_ctrl_config.png";
 const Libraries = () => {
   const [data, setData] = useState({data: {}});
   const [isLoading, setIsLoading] = useState(false);
@@ -78,7 +79,14 @@ const Libraries = () => {
   console.log(data);
 
   return (
-    <div className="w-panel library">
+              <div className='p-panel library' data-panel='LIBRARIES'>
+              <div className='p-chrome'>
+                <img  src={btn_image_config} className='gear' />
+                <span className='p-title'>Libraries</span>
+              </div>
+              <div className='p-contents'>
+
+
       {err && <h2>{err}</h2>}
 
  
@@ -126,7 +134,7 @@ const Libraries = () => {
             </tr>
           </tfoot>
         </table>
-
+        </div>
     </div>
   );
 };

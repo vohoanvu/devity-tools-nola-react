@@ -37,7 +37,7 @@ export default function Note(props)
 
 
     return (
-        <div>
+        <div className='widget'>
             <label>Enter Widget Content : </label>
             <input 
                 defaultValue={note.w_content} 

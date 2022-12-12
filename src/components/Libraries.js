@@ -81,7 +81,7 @@ const Libraries = () => {
   return (
               <div className='p-panel library' data-panel='LIBRARIES'>
               <div className='p-chrome'>
-                <img  src={btn_image_config} className='gear' />
+                <img  src={btn_image_config} className='gear' alt="devity gear" />
                 <span className='p-title'>Libraries</span>
               </div>
               <div className='p-contents'>

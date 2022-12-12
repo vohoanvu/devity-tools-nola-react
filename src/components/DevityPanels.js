@@ -16,7 +16,7 @@ export default function DevityPanels()
     async function fetchData() {
       await axios.get(devity_api + '/api/widgets')
         .then((res) => {
-            if (res.status === '401') window.location.replace(sso_url);
+            if (res.status === 401) window.location.replace(sso_url);
 
             setWidgetObject(res.data);
         })
@@ -89,7 +89,7 @@ export default function DevityPanels()
           return (
             <div key={index} className="p-panel" data-panel={key}>
               <div className='p-chrome'>
-                <img  src={btn_image_config} className="gear" />
+                <img src={btn_image_config} className="gear" alt="devity gear"/>
                 <span className="p-title">{key}</span>
                 <button onClick={()=>onAddNewWidget(key, value)}>+</button>
               </div>

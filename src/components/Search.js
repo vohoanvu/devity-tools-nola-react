@@ -5,7 +5,7 @@ import btn_image_config from "../img/d_btn_ctrl_config.png";
 
 const Search = () => {
   const [data, setData] = useState({data: []});
-  const [isLoading, setIsLoading] = useState(false);
+  //const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState('');
 
   const fetchData = async () => {
@@ -20,7 +20,10 @@ const Search = () => {
             setData(res.data.items);
             $('div[data-panel=RESULTS] .gear').removeClass('rotate');
             
-    }).catch((err) => console.log(err));
+    }).catch((err) => {
+      console.log(err)
+      setErr(err);
+    });
 
   };
 
@@ -32,16 +35,18 @@ const Search = () => {
                 <input 
                     onBlur={fetchData}
                     id='search_input'
-                    maxlength="2048" 
+                    maxLength="2048" 
                     type="text" 
                     aria-autocomplete="both" 
                     aria-haspopup="false" 
-                    autocapitalize="off" 
-                    autocomplete="off" 
-                    autocorrect="off"
-                    autofocus="" 
-                    role="combobox" 
-                    spellcheck="false" 
+                    autoCapitalize="off" 
+                    autoComplete="off" 
+                    autoCorrect="off"
+                    autoFocus="" 
+                    role="combobox"
+                    aria-controls="search_input"
+                    aria-expanded="true"
+                    spellCheck="false" 
                     title="Search" 
                     aria-label="Search">
                 </input>
@@ -52,19 +57,19 @@ const Search = () => {
 
             <div className='p-panel results hidden' data-panel='RESULTS'>
               <div className='p-chrome'>
-                <img  src={btn_image_config} className='gear' />
+                <img  src={btn_image_config} className='gear' alt="devity gear"/>
                 <span className='p-title'>Developer Search</span>
               </div>
 
                 <ul>
-                    {Object.entries(data).map(([key, value]) => {
+                    {Object.entries(data).map(([key, value], index) => {
                         return (
-                            <li>
-                            <a target='_blank' href={value.link}>{value.title}</a>
-                            <div>
-                            <span dangerouslySetInnerHTML={{__html: value.htmlSnippet}} />
-                        
-                            </div>
+                            <li key={index}>
+                              <a target='_blank' href={value.link} rel="noreferrer">{value.title}</a>
+                              <div>
+                              <span dangerouslySetInnerHTML={{__html: value.htmlSnippet}} />
+                          
+                              </div>
                             </li>
                         );
                     })}

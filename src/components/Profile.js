@@ -21,7 +21,7 @@ class Profile extends React.Component {
   render() {
     return <div className="p-panel" data-panel="PROFILE">
               <div className='p-chrome'>
-                <img  src={btn_image_config} className="gear" />
+                <img  src={btn_image_config} className="gear" alt="devity gear" />
                 <span className="p-title">Profile</span>
               </div>
               <div className='p-contents'>

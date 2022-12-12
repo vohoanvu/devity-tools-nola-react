@@ -76,6 +76,6 @@ color: var(--COLOR_LINK);
     height: 30px;
 }
 
-#linkForm label {
+#contentForm label {
   display: grid;
 }

@@ -50,7 +50,7 @@ export default function Links(props)
         console.log("on saving Current Display Links...", displayLinks);
     }
 
-    function handleChange(evt) {
+    function handleLinkChange(evt) {
         const value = evt.target.value;
         setLinkContent({
             ...linkContent,
@@ -64,14 +64,14 @@ export default function Links(props)
                 displayLinks.map((item, index) => 
                     <li key={index}><a href={item.hyperLink}>{item.displayName}</a></li> )
             }
-            <form id="linkForm">
+            <form id="contentForm">
                 <label>
                     Link Url: 
                     <input 
                         value={linkContent.hyperLink} 
                         type="text" 
                         name="hyperLink"
-                        onChange={handleChange}/>
+                        onChange={handleLinkChange}/>
                 </label>
                 <label>
                     Display Name: 
@@ -79,10 +79,10 @@ export default function Links(props)
                         value={linkContent.displayName} 
                         type="text" 
                         name="displayName"
-                        onChange={handleChange}/>
+                        onChange={handleLinkChange}/>
                 </label>
                 <button type='button' value="Submit" onClick={onAddNewLink}>Add Link</button>
-                <button type='button' value="Submit" onClick={onSaveLink}>Save Link</button>
+                <button type='button' hidden value="Submit" onClick={onSaveLink}>Save Link</button>
             </form>
         </div>
     );

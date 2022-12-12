@@ -75,3 +75,7 @@ color: var(--COLOR_LINK);
     float: right;
     height: 30px;
 }
+
+#linkForm label {
+  display: grid;
+}

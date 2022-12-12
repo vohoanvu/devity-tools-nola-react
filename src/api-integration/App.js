@@ -42,7 +42,7 @@ function App() {
       }
       catch(error){
         console.log(Object.keys(error), error.message);
-        //window.location.replace(sso_url);
+        window.location.replace(sso_url);
       }
     })();
   }

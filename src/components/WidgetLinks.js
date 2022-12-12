@@ -5,7 +5,6 @@ import '../css/App.css';
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
-
 export default function Links(props)
 {
     const [link, setLink] = useState({});

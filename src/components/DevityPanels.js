@@ -5,7 +5,7 @@ import Widget from './Widgets';
 import WidgetActions from './WidgetActions';
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import btn_add from "../img/btn_add.png";
-import Editable from './Editable';
+//import Editable from './Editable';
 import $ from "jquery";
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
@@ -103,12 +103,10 @@ export default function DevityPanels()
           .catch(err => console.log(err));
   }
 
-  function handleTitleChange(newValue, currentWidget) {
-    widgetObject[currentWidget.w_type].find(w => w.id === currentWidget.id).name = newValue;
-    setWidgetObject({
-      ...widgetObject
-    });
-  }
+  // function handleTitleChange(newValue, currentWidget) {
+  //   widgetObject[currentWidget.w_type].find(w => w.id === currentWidget.id).name = newValue;
+  //   setWidgetObject({...widgetObject});
+  // }
 
   return (
     <React.Fragment>
@@ -128,7 +126,7 @@ export default function DevityPanels()
                 value.map((w, index) => {
                   return (
                     <div key={index} className="w-container">
-                      <div className='w-chrome'>
+                      {/* <div className='w-chrome'>
                           <Editable text={w.name} placeholder="Enter a name for widget" inputType="input" childInputRef={inputRef}>
                               <input
                                 ref={inputRef}
@@ -140,17 +138,17 @@ export default function DevityPanels()
                                 onChange={e => handleTitleChange(e.target.value, w)}
                               />
                           </Editable>
-                      </div>
+                      </div> */}
+                      <WidgetActions 
+                        widget={w}
+                        setWidgetObjState={setWidgetObject}
+                        widgetObjState={widgetObject}
+                        inputRef={inputRef}/>
                       <Widget
                         widget={w}
                         setWidgetObjState={setWidgetObject}
                         widgetObjState={widgetObject}
                       />
-                      <WidgetActions 
-                        widgetId={w.id} 
-                        widgetType={w.w_type}
-                        setWidgetObjState={setWidgetObject}
-                        widgetObjState={widgetObject}/>
                     </div>
                   );
                 })

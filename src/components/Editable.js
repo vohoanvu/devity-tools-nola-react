@@ -19,9 +19,9 @@ export default function Editable({
 
     const handleKeyDown = (event, type) => {
         const { key } = event;
-        const keys = ["Escape", "Tab"];
+        const keys = ["Escape", "Tab"]; // use this array to check for <textarea/> inputType
         const enterKey = "Enter";
-        const allKeys = [...keys, enterKey]; // All keys array
+        const allKeys = [...keys, enterKey];
 
         if (type !== "textarea" && allKeys.indexOf(key) > -1)   setEditing(false);
     };

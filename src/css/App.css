@@ -231,13 +231,6 @@ overflow: auto;
 }
 
 
-.w-chrome{
-  padding: 10px;
-  height: 25px;
-  background-color: var(--COLOR_PANEL_CHROME_BG);
-  margin-bottom: 10px;
-}
-
 .w-title{
   display: block;
   width: 100%;
@@ -383,11 +376,6 @@ li { margin: 5px; padding: 5px; width: 150px; } */
 }
 .w_maximize{
   height: 100%;
-}
-
-.widget{
-  overflow: auto;
-  padding: 5px;
 }
 
 .w_title{

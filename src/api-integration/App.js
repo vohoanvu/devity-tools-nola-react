@@ -5,12 +5,13 @@ import { UserProvider } from "./UserContext";
 import DevityPanels  from "../components/DevityPanels";
 import Libraries  from "../components/Libraries";
 import Profile  from "../components/Profile";
-import Search from "../components/Search";
+import Prompt from "../components/Prompt";
 import Header  from "../components/Header";
 import '../css/App.css';
 import configData from "../config.json";
 import {useLocation} from 'react-router-dom';
-//import $ from "jquery";
+
+
 
 function App() {
   const search = useLocation().search;
@@ -22,6 +23,16 @@ function App() {
   const devity_cookie = 'devity-token';
 
   // const element = document.querySelector('#post-request-async-await .article-id');
+
+    console.stdlog = console.log.bind(console);
+    console.logs = [];
+    console.log = function(){
+      let i = arguments["0"];
+      if(typeof i === 'string' || i instanceof String){
+      console.logs.push(Array.from(arguments));
+      console.stdlog.apply(console, arguments);
+      }
+    }
 
   let bearer = cookies.get(devity_cookie);
   
@@ -60,8 +71,10 @@ return (
 
     <div className="App">
       <UserProvider>
-        <Header></Header>
-        <Search></Search>
+        <div id="header_container">
+          <Header></Header>
+          <Prompt></Prompt>
+        </div>
         <DevityPanels></DevityPanels>
         <Profile></Profile>
         <Libraries></Libraries>

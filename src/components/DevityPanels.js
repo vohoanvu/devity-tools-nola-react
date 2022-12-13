@@ -4,6 +4,7 @@ import configData from "../config.json";
 import Widget from './Widgets';
 import WidgetActions from './WidgetActions';
 import btn_image_config from "../img/d_btn_ctrl_config.png";
+import btn_add from "../img/btn_add.png";
 import $ from "jquery";
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
@@ -76,6 +77,7 @@ export default function DevityPanels()
               newWidgetsObject[type] = newWidgetArray;
               setWidgetObject(newWidgetsObject);
               $('div[data-panel=' + type + '] .gear').removeClass('rotate');
+              console.log("Created " + type + " widget.")
           })
           .catch(err => console.log(err));
   }
@@ -91,7 +93,7 @@ export default function DevityPanels()
               <div className='p-chrome'>
                 <img  src={btn_image_config} className="gear" />
                 <span className="p-title">{key}</span>
-                <button onClick={()=>onAddNewWidget(key, value)}>+</button>
+                <img className='add-btn' src={btn_add} onClick={()=>onAddNewWidget(key, value)}></img>
               </div>
               <div className='p-contents'>
               

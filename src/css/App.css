@@ -2,49 +2,154 @@
  
 }
 
-.App-header{
-  width: 100%;
-  height: 175px;
-}
 
-.App-logo {
-  height: 120px;
-  width: 120px;
+.logo{
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.nav-max{
+  width: 100%;
+  display: flex;
 }
 
-#navigation_container{
-  margin: auto;
-  width: 50%;
-  padding: 10px;
+.nav-max .ribbon-cntrls{
+  margin:auto;
+  width: 820px;
+  margin-bottom: 5px;
 }
-#search_container{
-  margin: auto;
-  width: 50%;
-  padding: 10px;
+
+.nav-max button{
+  background-color:  var(--COLOR_BODY);
+  margin-right: 10px;
 }
-#search_container input[type="text"]{
-  width: 100%;
-  height: 25px;
+.nav-max button img{
+  height: 100px;
+  width: 100px;;
+}
+.nav-min{
+  display: flex;
+}
+.nav-min button{
+  background-color:  var(--COLOR_BODY);
+  margin-right: 7px;
+}
+.nav-min button img{
+  height: 50px;
+  width: 50px;
+}
+.nav-min span{
+  font-size: 11px;
+}
+
+.nav-min .ribbon-cntrls{
+
+}
+
+.display-flex{
+  display: flex !important;
+}
+
+
+#console_log
+{
+  height: 200px;
+  overflow: auto;
+}
+.console-max {
+  display: flex;
+}
+.console-min {
+  width: 500px;
+  margin-bottom: 5px;
+}
+
+#console_log ul{
+  display: inline-block;
+  align-self: flex-end;
+}
+#console_log ul li{
+list-style-type: none;
+}
+
+#prompt_container{
+  margin: auto;
+  width: 500px;
+  padding: 8px;
   border: 2px;
   border-style: solid;
-  border-radius: 15px;
   border-color: var(--COLOR_PANEL_BRD);
-  background-color : var(--COLOR_SEARCH_INPUT_BG); 
+  background-color: #000;
+}
+#prompt_cmd{
+  font-size: 20px;
+  font-family: "Consolas";
+}
+#prompt_container input[type="text"]{
+  width: 60%;
+  height: 15px;
+  background-color : var(--COLOR_prompt_input_BG); 
   color: var(--COLOR_TEXT);
   font-family: "Consolas";
-  font-size: 16px;
-  padding: 10px;
+  font-size: 20px;
+  padding: 2px;
+  border: none;
+}
+#prompt_container input:focus{
   caret-color: red;
-  caret-shape: block;
+  outline: none;
+  top: -5px;
+}
+
+
+@media (max-width: 780px) {
+
+  #console_btn{
+    display: none;
+  }
+  .ribbon-cntrls{
+    margin:auto;
+    margin-bottom: 5px;
+  }
+  
+  .nav-max button{
+    background-color:  var(--COLOR_BODY);
+    margin-right: 7px;
+  }
+  .nav-max button img{
+    height: 50px;
+    width: 50px;;
+  }
+
+  #prompt_container{
+    display: block;
+    position: relative;
+    left: 8px;
+    margin: auto;
+    width: 95%;
+    padding: 5px;
+    border: 1px;
+    border-style: solid;
+    border-radius: 15px;
+    border-color: var(--COLOR_PANEL_BRD);
+  }
+  #prompt_cmd{
+    font-size: 15px;
+    font-family: "Consolas";
+  }
+  #prompt_container input[type="text"]{
+    width: 60%;
+    height: 15px;
+    background-color : var(--COLOR_prompt_input_BG); 
+    color: var(--COLOR_TEXT);
+    font-family: "Consolas";
+    font-size: 16px;
+    padding: 2px;
+    border: none;
+  }
 
 }
+
+
 
 
 
@@ -82,7 +187,7 @@ overflow: auto;
   align-items: center;
   color: var(--COLOR_TEXT);
   float: left;
-  margin-right: 20px;
+  margin-right: 5px;
 }
 
 .p-chrome{
@@ -98,10 +203,16 @@ overflow: auto;
   align-self: left;
 }
 
-.p-chrome img{
+.p-chrome .gear{
   display: block;
   width: 25px;
   float: left;
+  margin-right: 5px;
+}
+
+.p-chrome .add-btn{
+  cursor: pointer;
+  width: 12px;
   margin-right: 5px;
 }
 
@@ -194,29 +305,12 @@ label{
 li{
   color:  var(--COLOR_TEXT);
 }
-.nav-ctrl{
-  background-color:  var(--COLOR_BODY);
-  width: 175px;
-  height: 175px;
-  display: block;
-  float:left;
-  margin-right:10px;
 
-}
 
-.nav-ctrl figure{
 
-}
 
-.nav-ctrl figure figcaption{
-  display: block;
-  text-align: center;
-  width: 100px
-}
-.nav-ctrl figure img{
-  width: 100px;
-  height: 100px;
-}
+
+
 .w_ctrl_add{
 
 
@@ -330,3 +424,9 @@ color: var(--COLOR_TEXT);
 .lib-tbl tr:nth-child(odd):hover td{
   background-color: var(--COLOR_LIBRARY_TABLE_ROW_HOVER);
 }
+
+
+.hide{
+  display: none !important;
+}
+

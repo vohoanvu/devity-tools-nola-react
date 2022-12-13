@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
-import btn_delete from "../img/cntrl_delete.jpg";
+import btn_delete from "../img/btn_delete.png";
 import btn_save_content from "../img/save-disk-icon.png";
 import '../css/buttons.css';
 const devity_api = configData.DEVITY_API;
@@ -32,6 +32,8 @@ export default function WidgetActions(props)
                 //do nothing yet
             })
             .catch(err => console.log(err));
+
+            console.log('deleted widget ' + id);
     }
 
     function saveContentHandler(contentList) {

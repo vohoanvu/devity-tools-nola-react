@@ -111,7 +111,7 @@ export default function DevityPanels()
               <div className='p-chrome'>
                 <img src={btn_image_config} className="gear" alt="devity gear"/>
                 <span className="p-title">{key}</span>
-                <img className='add-btn' src={btn_add} onClick={()=>onAddNewWidget(key, value)}></img>
+                <img className='add-btn' src={btn_add} onClick={()=>onAddNewWidget(key, value)} alt="devity widget"/>
               </div>
               <div className='p-contents'>
               

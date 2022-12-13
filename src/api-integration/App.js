@@ -26,11 +26,11 @@ function App() {
 
     console.stdlog = console.log.bind(console);
     console.logs = [];
-    console.log = function(){
+    console.log = function() {
       let i = arguments["0"];
-      if(typeof i === 'string' || i instanceof String){
-      console.logs.push(Array.from(arguments));
-      console.stdlog.apply(console, arguments);
+      if (typeof i === 'string' || i instanceof String) {
+        console.logs.push(Array.from(arguments));
+        console.stdlog.apply(console, arguments);
       }
     }
 

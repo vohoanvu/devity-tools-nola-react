@@ -21,19 +21,21 @@ const Prompt = () => {
 
     console.log('serach for ' + term);
   
-    if(term) {
+    if (term) {
       $("#prompt_input").val('');
-        let search_api = "https://www.googleapis.com/customsearch/v1?key=AIzaSyAzgX2yArFJrRogwd5GCdkjmQaUwGUWMqs&cx=b2801acca79e24323&q=" + encodeURIComponent(term);
         
-        return await axios.get(search_api)
-            .then((res) => {
-                setData(res.data.items);
-                $('div[data-panel=RESULTS] .gear').removeClass('rotate');
-                console.log('search for ' + term);    
-            }).catch((error) => {
-                setErr(error);
-                console.log(err);
-            })
+      let search_api = "https://www.googleapis.com/customsearch/v1?key=AIzaSyAzgX2yArFJrRogwd5GCdkjmQaUwGUWMqs&cx=b2801acca79e24323&q=" + encodeURIComponent(term);
+        
+      return await axios.get(search_api)
+          .then((res) => {
+              setData(res.data.items);
+              $('div[data-panel=RESULTS] .gear').removeClass('rotate');
+              console.log('search for ' + term);    
+          }).catch((error) => {
+              setErr(error);
+              console.log(err);
+          })
+
     } else {
       console.log('Attempt tp search without entering search term');
     }
@@ -58,31 +60,27 @@ const Prompt = () => {
       <div id="prompt_container">
       <div id="console_log" className="hide">
           <ul onChange={scroll} className="console">
-          {console.logs?.map(i => {
-                  return (
-                      <li>
-                        {i}                            
-                      </li>
-                  );
-              })}
+          {
+            console.logs?.map((i, index) => { return (<li key={index}>{i}</li>); })
+          }
           </ul>
       </div>
         <span id='prompt_cmd'>D#&gt;</span>
                 <input 
                     onKeyPress={(e) => handleKeyPress(e)}
                     id='prompt_input'
-                    maxlength="2048" 
+                    maxLength="2048" 
                     type="text" 
                     aria-autocomplete="both" 
                     aria-haspopup="false" 
-                    autocapitalize="off" 
-                    autocomplete="off" 
-                    autocorrect="off"
-                    autofocus="" 
+                    autoCapitalize="off" 
+                    autoComplete="off" 
+                    autoCorrect="off"
+                    autoFocus="" 
                     role="combobox" 
                     aria-controls="prompt_input"
                     aria-expanded="true"
-                    spellcheck="false" 
+                    spellCheck="false" 
                     title="Search" 
                     aria-label="Search">
                 </input>
@@ -97,21 +95,19 @@ const Prompt = () => {
               </div>
 
                 <ul>
-                    {Object.entries(data).map(([key, value]) => {
+                    {Object.entries(data).map(([key, value], index) => {
                         return (
-                            <li data-cacheId={value.cacheId}>
+                            <li key={index} data-cacheid={value.cacheId}>
                               <span>[{value.displayLink}]</span><br></br>
                               <a target='_blank' href={value.link} rel="noreferrer">{value.title}</a> 
-                            <div>
-                            <span dangerouslySetInnerHTML={{__html: value.htmlSnippet}} />
-                        
-                            </div>
+                              <div>
+                                <span dangerouslySetInnerHTML={{__html: value.htmlSnippet}} />
+                              </div>
                             </li>
                         );
                     })}
                 </ul>
 
-                
       </div>
     </div>
   );

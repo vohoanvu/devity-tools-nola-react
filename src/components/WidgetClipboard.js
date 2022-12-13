@@ -8,51 +8,87 @@ const devity_api = configData.DEVITY_API;
 
 export default function Clipboard(props)
 {
-    const [clipboardContent, setClipboardContent] = useState(["Ford", "BMW", "Fiat"]);
-    const [clipboard, setClipboard] = useState({});
+    const [clipboardContent, setClipboardContent] = useState({
+        currentText: '',
+        content: ["FORD", "BMW"],
+        widget: {}
+    });
 
     useEffect(() => {
-        (async () => {
-            const content = await getWidgetContentById(props.widget.id);
-            const contentArray = JSON.parse(content).map(pair => pair.CLIPBOARD)[0];
+        const getWidgetContent = async () => {
+            const widget = await getWidgetContentById(props.widget.id);
+            const contentArray = JSON.parse(widget.w_content).map(pair => pair.CLIPBOARD)[0];
 
-            const currentWidget = {
-                ...props.widget,
-                w_content: content
-            }
+            setClipboardContent({
+                ...clipboardContent,
+                content: contentArray,
+                widget: widget
+            });
+        }
 
-            setClipboardContent(contentArray);
-            setClipboard(currentWidget);
-        })();
-
-    }, [props.widget]);
+        getWidgetContent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.widget.id]);
 
     async function getWidgetContentById(w_id) {
         return await axios.get(devity_api + '/api/widgets/'+ w_id)
             .then((res) => {
-                if (res.status === '401') window.location.replace(sso_url);
+                if (res.status === 401) window.location.replace(sso_url);
 
-                return res.data.w_content;
+                return res.data;
             }).then(result => result)
             .catch((err) => console.log(err));
     }
 
     function onSaveClipboardItem(e) {
-        const newClipboardContent = [...clipboardContent];
-        newClipboardContent.splice(0, 0, e.target.value);
-        setClipboardContent(newClipboardContent);
+        const newClipboardContentArray = [...clipboardContent.content];
+        newClipboardContentArray.splice(0, 0, e.target.value);
+        setClipboardContent({
+            ...clipboardContent,
+            content: newClipboardContentArray
+        });
+
+        updateWidgetContent(newClipboardContentArray, clipboardContent.widget.w_type);
+    }
+
+    async function updateWidgetContent(currentContentArray, type) {
+        //TODO: make PUT call here by props.callPUTRequest(putBody, widgetType)
+        let jsonObjList = JSON.parse(clipboardContent.widget.w_content);
+        jsonObjList[0].CLIPBOARD = currentContentArray;
+
+        const putBody = {
+            ...clipboardContent.widget,
+            w_content: JSON.stringify(jsonObjList)
+        }
+
+        const result = await props.callPUTRequest(putBody, type);
+        console.log("On After Widget Update success...", result);
+    }
+
+    function handleClipboardChange(e) {
+        setClipboardContent({
+            ...clipboardContent,
+            currentText: e.target.value
+        })
     }
 
 
     return (
         <div className='widget'>
             {
-                clipboardContent.map( (data, index) => <li key={index}>{data}</li> )
+                clipboardContent.content.map( (data, index) => 
+                <li key={index}>{data}</li> )
             }
-            <input 
-                defaultValue={clipboard.w_content} 
-                type="text" 
-                onBlur={onSaveClipboardItem}/>
+            <form id="contentForm">
+                <label>
+                    Input Clipboard:
+                    <input 
+                        value={clipboardContent.currentText}
+                        type="text" 
+                        onChange={handleClipboardChange}
+                        onBlur={onSaveClipboardItem}/>
+                </label>
+            </form>
         </div>
     );
 }

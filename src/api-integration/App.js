@@ -42,9 +42,9 @@ function App() {
       try{
         const tk = { token: token };
         let response = await axios.post(devity_api + '/api/sessions', tk);
-        if(response.status !== '200'){
+        if(response.status !== 200){
           window.location.replace(sso_url);
-        }  
+        }
         let bearer = "Devity " + response.data.id;
         let expires = "expires="+ response.data.expires;
         axios.defaults.headers.common['Authorization'] = bearer;

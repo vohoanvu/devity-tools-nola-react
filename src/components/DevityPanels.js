@@ -17,7 +17,7 @@ export default function DevityPanels()
     async function fetchData() {
       await axios.get(devity_api + '/api/widgets')
         .then((res) => {
-            if (res.status === '401') window.location.replace(sso_url);
+            if (res.status === 401) window.location.replace(sso_url);
 
             setWidgetObject(res.data);
         })
@@ -30,14 +30,12 @@ export default function DevityPanels()
 
   async function onAddNewWidget(widgetType, widgetList) {
     let newName = (widgetList.length+1).toString();
-    let jsonObj = []
-    let contentItem = {};
-    contentItem[widgetType.toString()] = [];
-    jsonObj.push(contentItem);
+
+    let jsonContentObject = PrepareWidgetContentObject(widgetType);
 
     const newWidget = {
         key: widgetList.length+1,
-        w_content: JSON.stringify(jsonObj),
+        w_content: JSON.stringify(jsonContentObject),
         name: "TEST Widget " + newName,
         order: widgetList.length+1,
         w_type: widgetType,
@@ -45,8 +43,6 @@ export default function DevityPanels()
         width: 300
     }
     const newWidgetArray = [...widgetList];
-
-  
 
     switch (widgetType) {
       case "CLIPBOARD":
@@ -58,6 +54,28 @@ export default function DevityPanels()
       case "LINKS":
         createWidget(newWidget, newWidgetArray, widgetType);
         break;
+      default:
+        break;
+    }
+  }
+
+  function PrepareWidgetContentObject(type) {
+    let jsonObj = [];
+    let contentItem = {};
+
+    switch (type) {
+      case "CLIPBOARD":
+        contentItem[type.toString()] = [];  //format: "{ CLIPBOARD: [ "string1", "string2" ] }"
+        jsonObj.push(contentItem);
+        return jsonObj;
+      case "NOTES":
+        //TODO: reformat json content string for NOTE
+        break;
+      case "LINKS":
+        contentItem["hyperLink"] = "";
+        contentItem["displayName"] = ""; //format: "{ "hyperLink": "noladigital.net", "displayName": "NOLA" }"
+        jsonObj.push(contentItem);
+        return jsonObj;
       default:
         break;
     }
@@ -91,7 +109,7 @@ export default function DevityPanels()
           return (
             <div key={index} className="p-panel" data-panel={key}>
               <div className='p-chrome'>
-                <img  src={btn_image_config} className="gear" />
+                <img src={btn_image_config} className="gear" alt="devity gear"/>
                 <span className="p-title">{key}</span>
                 <img className='add-btn' src={btn_add} onClick={()=>onAddNewWidget(key, value)}></img>
               </div>

@@ -5,11 +5,13 @@ import '../css/App.css';
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
-
 export default function Links(props)
 {
     const [link, setLink] = useState({});
-    const [linkContent, setLinkContent] = useState({});
+    const [linkContent, setLinkContent] = useState({
+        hyperLink: "www.noladigital.com",
+        displayName: "NOLA Digital"
+    });
     const [displayLinks, setDisplayLinks] = useState([]);
 
     useEffect(() => {
@@ -20,11 +22,7 @@ export default function Links(props)
                 ...props.widget,
                 w_content: contentArray
             }
-            const linkContent = {
-                hyperLink: "www.noladigital.com",
-                displayName: "NOLA Digital"
-            }
-            setLinkContent(linkContent);
+
             setLink(currentWidget);
         })();
 
@@ -51,24 +49,40 @@ export default function Links(props)
         console.log("on saving Current Display Links...", displayLinks);
     }
 
+    function handleLinkChange(evt) {
+        const value = evt.target.value;
+        setLinkContent({
+            ...linkContent,
+            [evt.target.name]: value
+        })
+    }
+
     return (
         <div className='widget'>
             {
                 displayLinks.map((item, index) => 
                     <li key={index}><a href={item.hyperLink}>{item.displayName}</a></li> )
             }
-            <label>Enter your hyper link : </label>
-            <input 
-                value={linkContent.hyperLink} 
-                type="text" 
-                onChange={e => setLinkContent({ hyperLink: e.target.value})}/>
-            <label>Enter your Display Name : </label>
-            <input 
-                value={linkContent.displayName} 
-                type="text" 
-                onChange={e => setLinkContent({ displayName: e.target.value})}/>
-            <button onClick={onAddNewLink}>Add Link</button>
-            <button onClick={onSaveLink}>Save Link</button>
+            <form id="contentForm">
+                <label>
+                    Link Url: 
+                    <input 
+                        value={linkContent.hyperLink} 
+                        type="text" 
+                        name="hyperLink"
+                        onChange={handleLinkChange}/>
+                </label>
+                <label>
+                    Display Name: 
+                    <input 
+                        value={linkContent.displayName} 
+                        type="text" 
+                        name="displayName"
+                        onChange={handleLinkChange}/>
+                </label>
+                <button type='button' value="Submit" onClick={onAddNewLink}>Add Link</button>
+                <button type='button' hidden value="Submit" onClick={onSaveLink}>Save Link</button>
+            </form>
         </div>
     );
 }

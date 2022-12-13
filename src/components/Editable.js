@@ -6,6 +6,7 @@ export default function Editable({
     placeholder,
     children,
     childInputRef,
+    passFromChildToParent,
     ...props
 })
 {
@@ -26,11 +27,16 @@ export default function Editable({
         if (type !== "textarea" && allKeys.indexOf(key) > -1)   setEditing(false);
     };
 
+    function handleInputOnBlur(e) {
+        setEditing(false);
+        passFromChildToParent(e.target.value);
+    }
+
     return (
         <section {...props}>
             {
                 isEditing ? (
-                    <div onBlur={()=> setEditing(false)} onKeyDown={(e)=>handleKeyDown(e, inputType)}>
+                    <div onBlur={(e)=> handleInputOnBlur(e)} onKeyDown={(e)=>handleKeyDown(e, inputType)}>
                         {children}
                     </div>
                 ) : (

@@ -44,9 +44,18 @@ export default function WidgetActions(props)
         props.setWidgetObjState({...props.widgetObjState});
     }
 
+    function saveWidgetTitle(childData) {
+        console.log(childData, '...to be saved to db');
+    }
+
     return (
         <div className='w-chrome'>
-            <Editable text={props.widget.name} placeholder="Enter a name for widget" inputType="input" childInputRef={props.inputRef}>
+            <Editable 
+                text={props.widget.name} 
+                placeholder="Enter a name for widget" 
+                inputType="input" 
+                childInputRef={props.inputRef}
+                passFromChildToParent={saveWidgetTitle}>
                 <input
                     ref={props.inputRef}
                     type="text"

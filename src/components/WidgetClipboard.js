@@ -18,11 +18,12 @@ export default function Clipboard(props)
         const getWidgetContent = async () => {
             const widget = await getWidgetContentById(props.widget.id);
             console.log(JSON.parse(widget.w_content), 11111);
-            const contentArray = JSON.parse(widget.w_content)[0];
+            const contentArray = JSON.parse(widget.w_content)[0].CLIPBOARD;
             console.log(contentArray, 22222);
 
             setClipboardContent({
                 ...clipboardContent,
+                content: contentArray,
                 widget: widget
             });
         }

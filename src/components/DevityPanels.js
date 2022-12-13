@@ -69,8 +69,9 @@ export default function DevityPanels()
         jsonObj.push(contentItem);
         return jsonObj;
       case "NOTES":
-        //TODO: reformat json content string for NOTE
-        break;
+        contentItem[type.toString()] = [];  //format: "{ NOTES: [ "string1", "string2" ] }"
+        jsonObj.push(contentItem);
+        return jsonObj;
       case "LINKS":
         contentItem["hyperLink"] = "";
         contentItem["displayName"] = ""; //format: "{ "hyperLink": "noladigital.net", "displayName": "NOLA" }"

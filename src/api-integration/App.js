@@ -1,15 +1,16 @@
-import * as React from "react";
+import React, { useState } from 'react';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 import { UserProvider } from "./UserContext";
 import DevityPanels  from "../components/DevityPanels";
 import Libraries  from "../components/Libraries";
 import Profile  from "../components/Profile";
-import Prompt from "../components/Prompt";
+import Console from "../components/Console";
 import Header  from "../components/Header";
 import '../css/App.css';
 import configData from "../config.json";
 import {useLocation} from 'react-router-dom';
+import SearchResults from '../components/SearchResults';
 
 
 
@@ -21,23 +22,23 @@ function App() {
   const devity_api = configData.DEVITY_API;
   const devity_url = configData.DEVITY;
   const devity_cookie = 'devity-token';
+  const [searchResultData, setSearchResultData] = useState([]);
 
   // const element = document.querySelector('#post-request-async-await .article-id');
 
-    console.stdlog = console.log.bind(console);
-    console.logs = [];
-    console.log = function() {
-      let i = arguments["0"];
-      if (typeof i === 'string' || i instanceof String) {
-        console.logs.push(Array.from(arguments));
-        console.stdlog.apply(console, arguments);
-      }
+  console.stdlog = console.log.bind(console);
+  console.logs = [];
+  console.log = function() {
+    let i = arguments["0"];
+    if (typeof i === 'string' || i instanceof String) {
+      console.logs.push(Array.from(arguments));
+      console.stdlog.apply(console, arguments);
     }
+  }
 
   let bearer = cookies.get(devity_cookie);
   
-  if(token)
-  {
+  if (token) {
     (async () => {
       try{
         const tk = { token: token };
@@ -56,8 +57,7 @@ function App() {
         window.location.replace(sso_url);
       }
     })();
-  }
-  else if(bearer){
+  } else if(bearer){
     axios.defaults.headers.common['Authorization'] = bearer;
   }
   else
@@ -66,6 +66,9 @@ function App() {
   }
 
 
+  function childToParent(childResultData) {
+    setSearchResultData(childResultData);
+  }
 
 return (
 
@@ -73,11 +76,12 @@ return (
       <UserProvider>
         <div id="header_container">
           <Header></Header>
-          <Prompt></Prompt>
+          <Console passFromChildToParent={childToParent}/>
         </div>
         <DevityPanels></DevityPanels>
         <Profile></Profile>
         <Libraries></Libraries>
+        <SearchResults data={searchResultData}/>
       </UserProvider>
     </div>
     

@@ -2,13 +2,11 @@ import * as React from "react";
 import $ from "jquery";
 import axios from 'axios';
 import {useState} from 'react';
-import btn_image_config from "../img/d_btn_ctrl_config.png";
 
 
-const Prompt = () => 
+const Console = (props) => 
 {
-  const [data, setData] = useState({data: []});
-  //const [isLoading, setIsLoading] = useState(false);
+  //const [data, setData] = useState({data: []});
   const [err, setErr] = useState('');
 
   const fetchData = async () => {
@@ -27,10 +25,12 @@ const Prompt = () =>
         
       return await axios.get(search_api)
           .then((res) => {
-              setData(res.data.items);
+              //setData(res.data.items);
+              props.passFromChildToParent(res.data.items);
               $('div[data-panel=RESULTS] .gear').removeClass('rotate');
-              console.log('search for ' + term);    
-          }).catch((error) => {
+              console.log('search for ' + term);
+          })
+          .catch((error) => {
               setErr(error);
               console.log(err);
           })
@@ -41,7 +41,7 @@ const Prompt = () =>
 
   };
 
-  function handleKeyPress(e) {
+  function handleKeyDown(e) {
     var key = e.key;
     if (key==='Enter') {
         fetchData();
@@ -65,7 +65,7 @@ const Prompt = () =>
         </div>
         <span id='prompt_cmd'>D#&gt;</span>
           <input 
-              onKeyPress={(e) => handleKeyPress(e)}
+              onKeyDown={(e) => handleKeyDown(e)}
               id='prompt_input'
               maxLength="2048" 
               type="text" 
@@ -85,34 +85,9 @@ const Prompt = () =>
           <div id="search_results"></div>
       </div>
 
-      <div className='p-panel results hidden' data-panel='RESULTS'>
-              <div className='p-chrome'>
-                <img src={btn_image_config} className='gear' alt="devity gear"/>
-                <span className='p-title'>Dev-Search (Please up-vote useful results!)</span>
-              </div>
-
-                <ul>
-                    {
-                      Object.entries(data).map(([key, value], index) => {
-                          //console.log(key, 11111);
-                          //console.log(value, 2222);
-                          return (
-                              <li key={index} data-cacheid={value.cacheId}>
-                                <span>[{value.displayLink}]</span><br></br>
-                                <a target='_blank' href={value.link} rel="noreferrer">{value.title}</a> 
-                                <div>
-                                  <span dangerouslySetInnerHTML={{__html: value.htmlSnippet}} />
-                                </div>
-                              </li>
-                          );
-                      })
-                    }
-                </ul>
-
-      </div>
     </div>
   );
    
 };
 
-export default Prompt;
+export default Console;

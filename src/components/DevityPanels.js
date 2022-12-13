@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
 import Widget from './Widgets';
 import WidgetActions from './WidgetActions';
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import btn_add from "../img/btn_add.png";
+import Editable from './Editable';
 import $ from "jquery";
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
@@ -12,6 +13,7 @@ const devity_api = configData.DEVITY_API;
 export default function DevityPanels() 
 {
   const [widgetObject, setWidgetObject] = useState({});
+  const inputRef = useRef();
 
   useEffect(() => {
     async function fetchData() {
@@ -101,6 +103,12 @@ export default function DevityPanels()
           .catch(err => console.log(err));
   }
 
+  function handleTitleChange(newValue, currentWidget) {
+    widgetObject[currentWidget.w_type].find(w => w.id === currentWidget.id).name = newValue;
+    setWidgetObject({
+      ...widgetObject
+    });
+  }
 
   return (
     <React.Fragment>
@@ -121,7 +129,17 @@ export default function DevityPanels()
                   return (
                     <div key={index} className="w-container">
                       <div className='w-chrome'>
-                        <span className="w-title">{w.name}</span>
+                          <Editable text={w.name} placeholder="Enter a name for widget" inputType="input" childInputRef={inputRef}>
+                              <input
+                                ref={inputRef}
+                                style={{ width: 130 }}
+                                type="text"
+                                name="widgetTitle"
+                                placeholder="Enter a name for widget"
+                                value={w.name}
+                                onChange={e => handleTitleChange(e.target.value, w)}
+                              />
+                          </Editable>
                       </div>
                       <Widget
                         widget={w}

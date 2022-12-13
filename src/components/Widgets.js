@@ -31,7 +31,7 @@ export default function Widget(props)
     return result;
   }
 
-  switch (widgetType) 
+  switch (widgetType)
   {
     case "CLIPBOARD":
       return (<WidgetClipboard widget={props.widget} callPUTRequest={updateWidgetRequest}/>);

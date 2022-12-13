@@ -21,7 +21,6 @@ export default function WidgetActions(props)
     }
 
     async function deleteWidget(id) {
-
         const newWidgetObjState = {...props.widgetObjState}
         const newWidgetList = props.widgetObjState[props.widgetType].filter(w => w.id !== id);
         newWidgetObjState[props.widgetType] = newWidgetList;

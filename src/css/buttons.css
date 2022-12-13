@@ -68,7 +68,7 @@ color: var(--COLOR_LINK);
     top:0;
     right: 0;
     cursor: pointer;
-    width: 100%;
+    width: 50%;
 }
 .btn-box button {
     position: relative;

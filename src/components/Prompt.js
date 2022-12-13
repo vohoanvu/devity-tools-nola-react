@@ -20,14 +20,11 @@ const Prompt = () => {
     var term = $("#prompt_input").val();
 
     console.log('serach for ' + term);
-    $("#prompt_input").val('');
-    $('div[data-panel=RESULTS] .gear').removeClass('rotate');
-    return;
-
+  
     if(term){
     $("#prompt_input").val('');
 
-      let search_api = "https://www.googleapis.com/customsearch/v1?key=AIzaSyAzgX2yArFJrRogwd5GCdkjmQaUwGUWMqs&cx=b2801acca79e24323&q=" + encodeURIComponent($("#prompt_input").val());
+      let search_api = "https://www.googleapis.com/customsearch/v1?key=AIzaSyAzgX2yArFJrRogwd5GCdkjmQaUwGUWMqs&cx=b2801acca79e24323&q=" + encodeURIComponent(term);
       return await axios.get(search_api)
           .then((res) => {
               setData(res.data.items);
@@ -97,14 +94,15 @@ const Prompt = () => {
       <div className='p-panel results hidden' data-panel='RESULTS'>
               <div className='p-chrome'>
                 <img  src={btn_image_config} className='gear' />
-                <span className='p-title'>Developer Search</span>
+                <span className='p-title'>Dev-Search (Please up-vote useful results!)</span>
               </div>
 
                 <ul>
                     {Object.entries(data).map(([key, value]) => {
                         return (
-                            <li>
-                            <a target='_blank' href={value.link}>{value.title}</a>
+                            <li data-cacheId={value.cacheId}>
+                              <span>[{value.displayLink}]</span><br></br>
+                              <a target='_blank' href={value.link}>{value.title}</a> 
                             <div>
                             <span dangerouslySetInnerHTML={{__html: value.htmlSnippet}} />
                         

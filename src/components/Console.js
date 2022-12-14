@@ -36,7 +36,7 @@ const Console = (props) =>
           })
 
     } else {
-      console.log('Attempt tp search without entering search term');
+      console.log('Attempt to search without entering search term');
     }
 
   };

@@ -6,6 +6,7 @@ import btn_image_links from "../img/d_btn_ctrl_links.png";
 import btn_image_notes from "../img/d_btn_ctrl_notes.png";
 import btn_image_clipboard from "../img/d_btn_ctrl_clipboard.png";
 import btn_image_code from "../img/d_btn_ctrl_code.png";
+import btn_image_lib from "../img/d_btn_ctrl_lib.png";
 import { UserContext } from "../api-integration/UserContext";
 
 
@@ -41,7 +42,7 @@ class Header extends React.Component {
         </button>
 
         <button onClick={()=>onNavigate('LIBRARIES')}>
-          <img  src={btn_image_code} className="" alt="Libraries" /><br />
+          <img  src={btn_image_lib} className="" alt="Libraries" /><br />
           <span>Libraries</span>
         </button>
 

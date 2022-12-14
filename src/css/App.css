@@ -49,6 +49,22 @@
   display: flex !important;
 }
 
+.result-container{
+  display: flex;
+}
+.result-container .up-vote-btn{
+ width: 30px;
+ height: 50px;
+ background-image: url('http://localhost:3000/img/btn_up_vote.png');
+ cursor: pointer;
+ margin-right: 10px;
+}
+.result-container .up-vote-btn span{
+  color: var(--COLOR_TEXT);
+  display: table;
+  margin: 0 auto;
+  padding: 5px;
+}
 
 #console_log
 {

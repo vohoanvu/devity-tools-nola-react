@@ -22,11 +22,19 @@ export default function SearchResults(props)
                         Object.entries(searchResults).map(([key, value]) => {
                             return (
                                 <li key={key} data-cacheid={value.cacheId}>
-                                    <span>[{value.displayLink}]</span><br></br>
-                                    <a target='_blank' href={value.link} rel="noreferrer">{value.title}</a> 
-                                    <div>
-                                        <span dangerouslySetInnerHTML={{__html: value.htmlSnippet}} />
-                                    </div> 
+                                    <div className='result-container'>
+                                        <div className='up-vote-btn' data-result-id={value.cacheId}>
+                                            <span>0</span>
+                                        </div>
+                                        <div>
+                                            <span>[{value.displayLink}]</span><br></br>
+                                            <a target='_blank' href={value.link} rel="noreferrer">{value.title}</a> 
+                                            <div>
+                                                <span dangerouslySetInnerHTML={{__html: value.htmlSnippet}} />
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </li>
                             );
                         })

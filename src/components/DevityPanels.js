@@ -92,10 +92,8 @@ export default function DevityPanels()
           })
           .then(result => {
               postBody["id"] = result.id;
-              newWidgetArray.splice(0, 0, postBody);
-              const newWidgetsObject = {...widgetObject};
-              newWidgetsObject[type] = newWidgetArray;
-              setWidgetObject(newWidgetsObject);
+              widgetObject[type].push(postBody);
+              setWidgetObject({...widgetObject});
               $('div[data-panel=' + type + '] .gear').removeClass('rotate');
               console.log("Created " + type + " widget.")
           })

@@ -71,23 +71,30 @@ export default function Clipboard(props)
         })
     }
 
+    const handleKeyDown = (event) => {
+        const { key } = event;
+        const keys = ["Escape", "Tab", "Enter"];
+
+        if (keys.indexOf(key) > -1) onSaveClipboardItem(event);
+    };
 
     return (
         <div className='widget'>
-            {
-                clipboardContent.content.map( (data, index) => 
-                    <li key={index}>{data}</li> )
-            }
-            <form id="contentForm">
+            <form id="contentForm" onSubmit={e => e.preventDefault() }>
                 <label>
                     Input Clipboard:
                     <input 
                         value={clipboardContent.currentText}
                         type="text" 
                         onChange={handleClipboardChange}
-                        onBlur={onSaveClipboardItem}/>
+                        onBlur={onSaveClipboardItem}
+                        onKeyDown={handleKeyDown}/>
                 </label>
             </form>
+            {
+                clipboardContent.content.map( (data, index) => 
+                    <li key={index}>{data}</li> )
+            }
         </div>
     );
 }

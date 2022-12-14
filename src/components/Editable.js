@@ -24,7 +24,9 @@ export default function Editable({
         const enterKey = "Enter";
         const allKeys = [...keys, enterKey];
 
-        if (type !== "textarea" && allKeys.indexOf(key) > -1)   setEditing(false);
+        if (type !== "textarea" && allKeys.indexOf(key) > -1) {
+            setEditing(false);
+        }
     };
 
     function handleInputOnBlur(e) {

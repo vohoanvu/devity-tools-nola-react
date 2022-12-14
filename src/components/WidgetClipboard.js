@@ -17,6 +17,7 @@ export default function Clipboard(props)
     useEffect(() => {
         const getWidgetContent = async () => {
             const widget = await getWidgetContentById(props.widget.id);
+            console.log("Widget Content: ", JSON.parse(widget.w_content));
             const contentArray = JSON.parse(widget.w_content)[0].CLIPBOARD;
 
             setClipboardContent({

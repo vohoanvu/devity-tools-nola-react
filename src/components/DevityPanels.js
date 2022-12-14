@@ -118,15 +118,11 @@ export default function DevityPanels()
                 value.map((w, index) => {
                   return (
                     <div key={index} className="w-container">
-                      <WidgetActions 
-                        widget={w}
-                        setWidgetObjState={setWidgetObject}
-                        widgetObjState={widgetObject}
-                        inputRef={inputRef}/>
                       <Widget
                         widget={w}
                         setWidgetObjState={setWidgetObject}
                         widgetObjState={widgetObject}
+                        inputRef={inputRef}
                       />
                     </div>
                   );

@@ -43,15 +43,6 @@ export default function Clipboard(props)
             .catch((err) => console.log(err));
     }
 
-    function onBlurClipboardItem(e) {
-        clipboardContent.content.splice(0, 0, e.target.value);
-        setClipboardContent({
-            ...clipboardContent,
-            currentText: ''
-        });
-        updateWidgetContent(clipboardContent.content, clipboardContent.widget.w_type);
-    }
-
     async function updateWidgetContent(currentContentArray, type) {
         let jsonObjList = JSON.parse(clipboardContent.widget.w_content);
         jsonObjList["CLIPBOARD"] = currentContentArray;
@@ -64,14 +55,23 @@ export default function Clipboard(props)
         await props.callPUTRequest(putBody, type);
     }
 
-    function handleClipboardChange(e) {
+    function handleContentOnChange(e) {
         setClipboardContent({
             ...clipboardContent,
             currentText: e.target.value
         });
     }
 
-    const handleKeyDown = (event) => {
+    function onBlurClipboardContent(e) {
+        clipboardContent.content.splice(0, 0, e.target.value);
+        setClipboardContent({
+            ...clipboardContent,
+            currentText: ''
+        });
+        updateWidgetContent(clipboardContent.content, clipboardContent.widget.w_type);
+    }
+
+    const handleContentKeyDown = (event) => {
         const { key } = event;
         const keys = ["Escape", "Tab", "Enter"];
 
@@ -88,9 +88,9 @@ export default function Clipboard(props)
                     <input 
                         value={clipboardContent.currentText}
                         type="text" 
-                        onChange={handleClipboardChange}
-                        onBlur={onBlurClipboardItem}
-                        onKeyDown={handleKeyDown}/>
+                        onChange={handleContentOnChange}
+                        onBlur={onBlurClipboardContent}
+                        onKeyDown={handleContentKeyDown}/>
                 </label>
             </form>
             {

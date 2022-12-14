@@ -36,7 +36,7 @@ export default function Editable({
     }
 
     return (
-        <section {...props}>
+        <div style={{ display: 'inline-block' }} {...props}>
             {
                 isEditing ? (
                     <div onBlur={(e)=> handleInputOnBlur(e)} onKeyDown={(e)=>handleKeyDown(e, inputType)}>
@@ -48,6 +48,6 @@ export default function Editable({
                     </div>
                 )
             }
-        </section>
+        </div>
     );
 }

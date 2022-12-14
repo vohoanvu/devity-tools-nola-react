@@ -36,10 +36,9 @@ export default function WidgetActions(props)
         props.setWidgetObjState({...props.widgetObjState});
     }
 
-    function saveWidgetTitle(newTitle) {
-        console.log(newTitle, '...to be saved to db');
+    async function saveWidgetTitle(newTitle) {
         const putBody = {...props.widget, name: newTitle};
-        props.callPUTRequest(putBody, props.widget.w_type);
+        await props.callPUTRequest(putBody, props.widget.w_type);
     }
 
     return (

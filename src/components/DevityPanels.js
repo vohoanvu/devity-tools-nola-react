@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
 import Widget from './Widgets';
-import WidgetActions from './WidgetActions';
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import btn_add from "../img/btn_add.png";
 import $ from "jquery";
@@ -61,23 +60,19 @@ export default function DevityPanels()
   }
 
   function PrepareWidgetContentObject(type) {
-    let jsonObj = [];
-    let contentItem = {};
+    let jsonObject = {};
 
     switch (type) {
-      case "CLIPBOARD":
-        contentItem[type.toString()] = [];  //format: "{ CLIPBOARD: [ "string1", "string2" ] }"
-        jsonObj.push(contentItem);
-        return jsonObj;
+      case "CLIPBOARD": //format: "{ CLIPBOARD: [ "string1", "string2" ] }"
+        jsonObject["CLIPBOARD"] = [];
+        return jsonObject;
       case "NOTES":
-        contentItem[type.toString()] = [];  //format: "{ NOTES: [ "string1", "string2" ] }"
-        jsonObj.push(contentItem);
-        return jsonObj;
+        jsonObject["NOTES"] = []; //format: "{ NOTES: [ "string1", "string2" ] }"
+        return jsonObject;
       case "LINKS":
-        contentItem["hyperLink"] = "";
-        contentItem["displayName"] = ""; //format: "{ "hyperLink": "noladigital.net", "displayName": "NOLA" }"
-        jsonObj.push(contentItem);
-        return jsonObj;
+        jsonObject["hyperLink"] = "";
+        jsonObject["displayName"] = ""; //format: "{ "hyperLink": "noladigital.net", "displayName": "NOLA" }"
+        return jsonObject;
       default:
         break;
     }

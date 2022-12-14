@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
 import Widget from './Widgets';
@@ -12,6 +12,7 @@ const devity_api = configData.DEVITY_API;
 export default function DevityPanels() 
 {
   const [widgetObject, setWidgetObject] = useState({});
+  const inputRef = useRef();
 
   useEffect(() => {
     async function fetchData() {
@@ -69,8 +70,9 @@ export default function DevityPanels()
         jsonObj.push(contentItem);
         return jsonObj;
       case "NOTES":
-        //TODO: reformat json content string for NOTE
-        break;
+        contentItem[type.toString()] = [];  //format: "{ NOTES: [ "string1", "string2" ] }"
+        jsonObj.push(contentItem);
+        return jsonObj;
       case "LINKS":
         contentItem["hyperLink"] = "";
         contentItem["displayName"] = ""; //format: "{ "hyperLink": "noladigital.net", "displayName": "NOLA" }"
@@ -100,7 +102,6 @@ export default function DevityPanels()
           .catch(err => console.log(err));
   }
 
-
   return (
     <React.Fragment>
       {
@@ -111,7 +112,7 @@ export default function DevityPanels()
               <div className='p-chrome'>
                 <img src={btn_image_config} className="gear" alt="devity gear"/>
                 <span className="p-title">{key}</span>
-                <img className='add-btn' src={btn_add} onClick={()=>onAddNewWidget(key, value)}></img>
+                <img className='add-btn' src={btn_add} onClick={()=>onAddNewWidget(key, value)} alt="devity widget"/>
               </div>
               <div className='p-contents'>
               
@@ -119,19 +120,16 @@ export default function DevityPanels()
                 value.map((w, index) => {
                   return (
                     <div key={index} className="w-container">
-                      <div className='w-chrome'>
-                        <span className="w-title">{w.name}</span>
-                      </div>
+                      <WidgetActions 
+                        widget={w}
+                        setWidgetObjState={setWidgetObject}
+                        widgetObjState={widgetObject}
+                        inputRef={inputRef}/>
                       <Widget
                         widget={w}
                         setWidgetObjState={setWidgetObject}
                         widgetObjState={widgetObject}
                       />
-                      <WidgetActions 
-                        widgetId={w.id} 
-                        widgetType={w.w_type}
-                        setWidgetObjState={setWidgetObject}
-                        widgetObjState={widgetObject}/>
                     </div>
                   );
                 })

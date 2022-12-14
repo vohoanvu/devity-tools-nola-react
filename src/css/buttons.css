@@ -62,18 +62,24 @@ color: var(--COLOR_LINK);
     top:0;
     right: 0;
 }
-.btn-box
-{
-    position:absolute;
-    top:0;
-    right: 0;
-    cursor: pointer;
-    width: 100%;
+
+.w-chrome {
+  padding: 10px;
+  height: 25px;
+  background-color: var(--COLOR_PANEL_CHROME_BG);
+  margin-bottom: 10px;
+  cursor: pointer;
 }
-.btn-box button {
+.w-chrome button {
     position: relative;
     float: right;
     height: 30px;
+}
+.widget{
+  overflow: auto;
+  padding: 5px;
+  width: 95%;
+  height: 80%;
 }
 
 #contentForm label {

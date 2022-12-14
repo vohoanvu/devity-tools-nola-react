@@ -17,7 +17,7 @@ export default function Clipboard(props)
     useEffect(() => {
         const getWidgetContent = async () => {
             const widget = await getWidgetContentById(props.widget.id);
-            const contentArray = JSON.parse(widget.w_content).map(pair => pair.CLIPBOARD)[0];
+            const contentArray = JSON.parse(widget.w_content)[0].CLIPBOARD;
 
             setClipboardContent({
                 ...clipboardContent,
@@ -52,7 +52,6 @@ export default function Clipboard(props)
     }
 
     async function updateWidgetContent(currentContentArray, type) {
-        //TODO: make PUT call here by props.callPUTRequest(putBody, widgetType)
         let jsonObjList = JSON.parse(clipboardContent.widget.w_content);
         jsonObjList[0].CLIPBOARD = currentContentArray;
 
@@ -77,7 +76,7 @@ export default function Clipboard(props)
         <div className='widget'>
             {
                 clipboardContent.content.map( (data, index) => 
-                <li key={index}>{data}</li> )
+                    <li key={index}>{data}</li> )
             }
             <form id="contentForm">
                 <label>

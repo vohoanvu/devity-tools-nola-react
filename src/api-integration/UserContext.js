@@ -4,6 +4,7 @@ import * as React from "react";
 export const UserContext = React.createContext();
 
 function fetchUser() {
+
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({ id: 1, name: "Ben" });

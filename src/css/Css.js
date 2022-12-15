@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Cookies from 'universal-cookie';
-const devity_cookie = 'devity-token';
 const cookies = new Cookies();
 
 export default class Css extends React.Component
@@ -10,7 +9,7 @@ export default class Css extends React.Component
 
         this.state = {
             stylePath: './css/ui-darkness.css',
-            currentUserAuthToken: cookies.get(devity_cookie)
+            currentUserAuthToken: cookies.get(props.devityCookie)
         };
     }
 
@@ -20,7 +19,7 @@ export default class Css extends React.Component
         if (!isUserLoggedIn) return;
 
         this.setState({
-            stylePath: localStorage.getItem(devity_cookie)
+            stylePath: localStorage.getItem(this.props.devityCookie)
         });
     }
 
@@ -30,7 +29,7 @@ export default class Css extends React.Component
             stylePath: event.target.value
         });
 
-        localStorage.setItem(devity_cookie, event.target.value);
+        localStorage.setItem(this.props.devity_cookie, event.target.value);
     };
 
     render()

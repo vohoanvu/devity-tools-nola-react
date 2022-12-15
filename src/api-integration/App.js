@@ -81,13 +81,13 @@ export default function App() {
       <UserProvider>
         <div id="header_container">
           <Header 
-            mostRecentPage={localStorage.getItem(UserMostReventView)} 
+            mostRecentPage={localStorage.getItem(UserMostReventView) ?? ''} 
             isPanelsRendered={isAllPanelsRendered}
             UserMostReventView={UserMostReventView}></Header>
           <Console passFromChildToParent={childToParent}/>
         </div>
         <DevityPanels triggerMostRecentView={renderSelectedPanel}></DevityPanels>
-        <Profile></Profile>
+        <Profile devity_cookie={devity_cookie}></Profile>
         <Libraries></Libraries>
         <SearchResults data={searchResultData}/>
       </UserProvider>

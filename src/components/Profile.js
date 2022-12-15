@@ -22,7 +22,7 @@ export default function Profile(props)
         <span className="p-title">{user.id}</span>
       </div>
       <div className='p-contents'>
-        <div id="ctrl_add_links" className="nav-ctrl w_ctrl_add"><Css /></div>
+        <div id="ctrl_add_links" className="nav-ctrl w_ctrl_add"><Css devityCookie={props.devity_cookie}/></div>
       </div>
     </div>
   );

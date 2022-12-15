@@ -2,7 +2,10 @@ import {useState} from 'react';
 import axios from 'axios';
 import $ from "jquery";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
-const Libraries = () => {
+const UserSelectedLibrary = 'currentLibrary';
+
+const Libraries = (props) => 
+{
   const [data, setData] = useState({data: {}});
   const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState('');
@@ -29,9 +32,9 @@ const Libraries = () => {
   // };
 
 
-  const handleSelect = async () => {
+  const handleSelect = async (e) => {
     setIsLoading(true);
-
+    localStorage.setItem(UserSelectedLibrary, e.target.value);
     var lib_file_name = "/libs/" + $('#ddl_library').find(":selected").val();
 
     try {
@@ -107,7 +110,7 @@ const Libraries = () => {
         <span>{data.Description}</span>
         <span>{data.Version}</span>
         <span>{data.Type}</span>
-      </div> 
+      </div>
         
         <table className='lib-tbl'>
           <thead>

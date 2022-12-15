@@ -53,7 +53,7 @@
   display: flex;
 }
 .result-container .up-vote-btn{
- width: 30px;
+ width: 55px;
  height: 50px;
  background-image: url('http://localhost:3000/img/btn_up_vote.png');
  cursor: pointer;

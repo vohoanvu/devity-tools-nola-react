@@ -11,10 +11,10 @@ import '../css/App.css';
 import configData from "../config.json";
 import {useLocation} from 'react-router-dom';
 import SearchResults from '../components/SearchResults';
+const UserMostReventView = 'mostRecentView';
 
 
-
-function App() {
+export default function App() {
   const search = useLocation().search;
   const token = new URLSearchParams(search).get('token');
   const cookies = new Cookies();
@@ -23,6 +23,7 @@ function App() {
   const devity_url = configData.DEVITY;
   const devity_cookie = 'devity-token';
   const [searchResultData, setSearchResultData] = useState([]);
+  const [isAllPanelsRendered, setIsAllPanelsRendered] = useState(false);
 
   // const element = document.querySelector('#post-request-async-await .article-id');
 
@@ -70,15 +71,22 @@ function App() {
     setSearchResultData(childResultData);
   }
 
-return (
+  function renderSelectedPanel(isAllPanelsRendered) {
+    setIsAllPanelsRendered(isAllPanelsRendered);
+  }
+
+  return (
 
     <div className="App">
       <UserProvider>
         <div id="header_container">
-          <Header></Header>
+          <Header 
+            mostRecentPage={localStorage.getItem(UserMostReventView)} 
+            isPanelsRendered={isAllPanelsRendered}
+            UserMostReventView={UserMostReventView}></Header>
           <Console passFromChildToParent={childToParent}/>
         </div>
-        <DevityPanels></DevityPanels>
+        <DevityPanels triggerMostRecentView={renderSelectedPanel}></DevityPanels>
         <Profile></Profile>
         <Libraries></Libraries>
         <SearchResults data={searchResultData}/>
@@ -87,5 +95,3 @@ return (
     
   );
 }
-
-export default App;

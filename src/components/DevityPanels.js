@@ -8,7 +8,7 @@ import $ from "jquery";
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
-export default function DevityPanels() 
+export default function DevityPanels(props) 
 {
   const [widgetObject, setWidgetObject] = useState({});
   const inputRef = useRef();
@@ -21,11 +21,12 @@ export default function DevityPanels()
 
             setWidgetObject(res.data);
         })
+        .then(result => props.triggerMostRecentView(true))
         .catch((err) => console.log(err));
     };
 
     fetchData();
-  }, []);
+  }, [props]);
 
 
   async function onAddNewWidget(widgetType, widgetList) {

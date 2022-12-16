@@ -2,14 +2,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
 import Widget from './Widgets';
-import WidgetActions from './WidgetActions';
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import btn_add from "../img/btn_add.png";
 import $ from "jquery";
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
-export default function DevityPanels() 
+export default function DevityPanels(props) 
 {
   const [widgetObject, setWidgetObject] = useState({});
   const inputRef = useRef();
@@ -22,11 +21,12 @@ export default function DevityPanels()
 
             setWidgetObject(res.data);
         })
+        .then(result => props.triggerMostRecentView(true))
         .catch((err) => console.log(err));
     };
 
     fetchData();
-  }, []);
+  }, [props]);
 
 
   async function onAddNewWidget(widgetType, widgetList) {
@@ -61,23 +61,19 @@ export default function DevityPanels()
   }
 
   function PrepareWidgetContentObject(type) {
-    let jsonObj = [];
-    let contentItem = {};
+    let jsonObject = {};
 
     switch (type) {
-      case "CLIPBOARD":
-        contentItem[type.toString()] = [];  //format: "{ CLIPBOARD: [ "string1", "string2" ] }"
-        jsonObj.push(contentItem);
-        return jsonObj;
+      case "CLIPBOARD": //format: "{ CLIPBOARD: [ "string1", "string2" ] }"
+        jsonObject["CLIPBOARD"] = [];
+        return jsonObject;
       case "NOTES":
-        contentItem[type.toString()] = [];  //format: "{ NOTES: [ "string1", "string2" ] }"
-        jsonObj.push(contentItem);
-        return jsonObj;
+        jsonObject["NOTES"] = []; //format: "{ NOTES: [ "string1", "string2" ] }"
+        return jsonObject;
       case "LINKS":
-        contentItem["hyperLink"] = "";
-        contentItem["displayName"] = ""; //format: "{ "hyperLink": "noladigital.net", "displayName": "NOLA" }"
-        jsonObj.push(contentItem);
-        return jsonObj;
+        jsonObject["hyperLink"] = "";
+        jsonObject["displayName"] = ""; //format: "{ "hyperLink": "noladigital.net", "displayName": "NOLA" }"
+        return jsonObject;
       default:
         break;
     }
@@ -92,10 +88,8 @@ export default function DevityPanels()
           })
           .then(result => {
               postBody["id"] = result.id;
-              newWidgetArray.splice(0, 0, postBody);
-              const newWidgetsObject = {...widgetObject};
-              newWidgetsObject[type] = newWidgetArray;
-              setWidgetObject(newWidgetsObject);
+              widgetObject[type].push(postBody);
+              setWidgetObject({...widgetObject});
               $('div[data-panel=' + type + '] .gear').removeClass('rotate');
               console.log("Created " + type + " widget.")
           })
@@ -120,15 +114,11 @@ export default function DevityPanels()
                 value.map((w, index) => {
                   return (
                     <div key={index} className="w-container">
-                      <WidgetActions 
-                        widget={w}
-                        setWidgetObjState={setWidgetObject}
-                        widgetObjState={widgetObject}
-                        inputRef={inputRef}/>
                       <Widget
                         widget={w}
                         setWidgetObjState={setWidgetObject}
                         widgetObjState={widgetObject}
+                        inputRef={inputRef}
                       />
                     </div>
                   );

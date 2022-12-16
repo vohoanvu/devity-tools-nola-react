@@ -4,6 +4,7 @@ import axios from 'axios';
 import WidgetNote from './WidgetNotes';
 import WidgetLink from './WidgetLinks';
 import WidgetClipboard from './WidgetClipboard';
+import WidgetActions from './WidgetActions';
 import $ from "jquery";
 const devity_api = configData.DEVITY_API;
 
@@ -20,6 +21,7 @@ export default function Widget(props)
     $('div[data-panel=' + type + '] .gear').addClass('rotate');
     const result = await axios.put(devity_api + "/api/widgets/", { ...putBody })
           .then(response => {
+            console.log(response.status, '...on update');
             return response.data
           })
           .then(result => {
@@ -31,19 +33,33 @@ export default function Widget(props)
     return result;
   }
 
-  switch (widgetType)
-  {
-    case "CLIPBOARD":
-      return (<WidgetClipboard widget={props.widget} callPUTRequest={updateWidgetRequest}/>);
-
-    case "LINKS":
-      return (<WidgetLink widget={props.widget} callPUTRequest={updateWidgetRequest}/>);
-
-    case "NOTES":
-      return (<WidgetNote widget={props.widget} callPUTRequest={updateWidgetRequest}/>);
-
-    default:
-      return <div className="w-container">NOTHING HERE</div>;
+  function renderSwitchCases(type) {
+    switch (type)
+    {
+      case "CLIPBOARD":
+        return (<WidgetClipboard widget={props.widget} callPUTRequest={updateWidgetRequest}/>);
+  
+      case "LINKS":
+        return (<WidgetLink widget={props.widget} callPUTRequest={updateWidgetRequest}/>);
+  
+      case "NOTES":
+        return (<WidgetNote widget={props.widget} callPUTRequest={updateWidgetRequest}/>);
+  
+      default:
+        return <div className="w-container">NOTHING HERE</div>;
+    }
   }
 
+  return (
+    <React.Fragment>
+      <WidgetActions 
+        widget={props.widget}
+        setWidgetObjState={props.setWidgetObjState}
+        widgetObjState={props.widgetObjState}
+        inputRef={props.inputRef}
+        callPUTRequest={updateWidgetRequest}/>
+      {renderSwitchCases(widgetType)}
+    </React.Fragment>
+  );
+  
 }

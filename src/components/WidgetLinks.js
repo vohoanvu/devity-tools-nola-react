@@ -59,10 +59,6 @@ export default function Links(props)
 
     return (
         <div className='widget'>
-            {
-                displayLinks.map((item, index) => 
-                    <li key={index}><a href={item.hyperLink}>{item.displayName}</a></li> )
-            }
             <form id="contentForm">
                 <label>
                     Link Url: 
@@ -83,6 +79,10 @@ export default function Links(props)
                 <button type='button' value="Submit" onClick={onAddNewLink}>Add Link</button>
                 <button type='button' hidden value="Submit" onClick={onSaveLink}>Save Link</button>
             </form>
+            {
+                displayLinks.map((item, index) => 
+                    <li key={index}><a href={item.hyperLink}>{item.displayName}</a></li> )
+            }
         </div>
     );
 }

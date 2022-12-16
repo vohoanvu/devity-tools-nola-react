@@ -10,14 +10,17 @@ export default function Clipboard(props)
 {
     const [clipboardContent, setClipboardContent] = useState({
         currentText: '',
-        content: ["FORD", "BMW"],
+        content: [],
         widget: {}
     });
 
     useEffect(() => {
         const getWidgetContent = async () => {
             const widget = await getWidgetContentById(props.widget.id);
-            const contentArray = JSON.parse(widget.w_content)[0].CLIPBOARD;
+            let contentArray = [];
+            if (Object.keys(JSON.parse(widget.w_content)).length !== 0) {
+                contentArray = JSON.parse(widget.w_content)["CLIPBOARD"];
+            }
 
             setClipboardContent({
                 ...clipboardContent,
@@ -40,54 +43,60 @@ export default function Clipboard(props)
             .catch((err) => console.log(err));
     }
 
-    function onSaveClipboardItem(e) {
-        const newClipboardContentArray = [...clipboardContent.content];
-        newClipboardContentArray.splice(0, 0, e.target.value);
-        setClipboardContent({
-            ...clipboardContent,
-            content: newClipboardContentArray
-        });
-
-        updateWidgetContent(newClipboardContentArray, clipboardContent.widget.w_type);
-    }
-
     async function updateWidgetContent(currentContentArray, type) {
         let jsonObjList = JSON.parse(clipboardContent.widget.w_content);
-        jsonObjList[0].CLIPBOARD = currentContentArray;
+        jsonObjList["CLIPBOARD"] = currentContentArray;
 
         const putBody = {
             ...clipboardContent.widget,
             w_content: JSON.stringify(jsonObjList)
         }
 
-        const result = await props.callPUTRequest(putBody, type);
-        console.log("On After Widget Update success...", result);
+        await props.callPUTRequest(putBody, type);
     }
 
-    function handleClipboardChange(e) {
+    function handleContentOnChange(e) {
         setClipboardContent({
             ...clipboardContent,
             currentText: e.target.value
-        })
+        });
     }
 
+    function onBlurClipboardContent(e) {
+        clipboardContent.content.splice(0, 0, e.target.value);
+        setClipboardContent({
+            ...clipboardContent,
+            currentText: ''
+        });
+        updateWidgetContent(clipboardContent.content, clipboardContent.widget.w_type);
+    }
+
+    const handleContentKeyDown = (event) => {
+        const { key } = event;
+        const keys = ["Escape", "Tab", "Enter"];
+
+        if (keys.indexOf(key) > -1) {
+            event.currentTarget.blur();
+        }
+    };
 
     return (
         <div className='widget'>
-            {
-                clipboardContent.content.map( (data, index) => 
-                    <li key={index}>{data}</li> )
-            }
-            <form id="contentForm">
+            <form id="contentForm" onSubmit={e => e.preventDefault() }>
                 <label>
                     Input Clipboard:
                     <input 
                         value={clipboardContent.currentText}
                         type="text" 
-                        onChange={handleClipboardChange}
-                        onBlur={onSaveClipboardItem}/>
+                        onChange={handleContentOnChange}
+                        onBlur={onBlurClipboardContent}
+                        onKeyDown={handleContentKeyDown}/>
                 </label>
             </form>
+            {
+                clipboardContent.content?.map( (data, index) => 
+                    <li key={index}>{data}</li> )
+            }
         </div>
     );
 }

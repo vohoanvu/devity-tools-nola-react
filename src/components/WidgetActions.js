@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
 import btn_delete from "../img/btn_delete.png";
-import btn_save_content from "../img/save-disk-icon.png";
 import '../css/buttons.css';
 import Editable from './Editable';
 const devity_api = configData.DEVITY_API;
@@ -22,21 +21,14 @@ export default function WidgetActions(props)
     }
 
     async function deleteWidget(id) {
-        const newWidgetObjState = {...props.widgetObjState}
-        const newWidgetList = props.widgetObjState[props.widget.w_type].filter(w => w.id !== id);
-        newWidgetObjState[props.widget.w_type] = newWidgetList;
-        props.setWidgetObjState(newWidgetObjState);
+        props.widgetObjState[props.widget.w_type] = props.widgetObjState[props.widget.w_type].filter(w => w.id !== id);
+        props.setWidgetObjState({...props.widgetObjState});
 
         await axios.delete(devity_api + '/api/widgets/' + id)
             .then(res => {
-                //do nothing yet
-                console.log(res, 'on delete');
+                console.log(res.status, '...on delete');
             })
             .catch(err => console.log(err));
-    }
-
-    function saveContentHandler(contentList) {
-        console.log("On saving content to db...", contentList);
     }
 
     function handleTitleChange(newValue, currentWidget) {
@@ -44,8 +36,9 @@ export default function WidgetActions(props)
         props.setWidgetObjState({...props.widgetObjState});
     }
 
-    function saveWidgetTitle(childData) {
-        console.log(childData, '...to be saved to db');
+    async function saveWidgetTitle(newTitle) {
+        const putBody = {...props.widget, name: newTitle};
+        await props.callPUTRequest(putBody, props.widget.w_type);
     }
 
     return (
@@ -68,9 +61,6 @@ export default function WidgetActions(props)
             <button className='btn-delete' onClick={()=>DeleteWidgetHandler(widgetId)}>
                 <img src={btn_delete} alt="delete"/>
             </button>
-            <button className='btn-save' onClick={()=>saveContentHandler(props.contentList)}>
-                <img src={btn_save_content} alt="save"/>
-            </button> 
         </div>
     );
 }

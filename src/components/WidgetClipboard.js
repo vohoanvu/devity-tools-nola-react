@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
 import '../css/App.css';
+import Editable from './Editable';
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
@@ -13,6 +14,7 @@ export default function Clipboard(props)
         content: [],
         widget: {}
     });
+    const inputRef = useRef();
 
     useEffect(() => {
         const getWidgetContent = async () => {
@@ -62,8 +64,8 @@ export default function Clipboard(props)
         });
     }
 
-    function onBlurClipboardContent(e) {
-        clipboardContent.content.splice(0, 0, e.target.value);
+    function onBlurClipboardContent(newValue) {
+        clipboardContent.content.splice(0, 0, newValue);
         setClipboardContent({
             ...clipboardContent,
             currentText: ''
@@ -71,27 +73,34 @@ export default function Clipboard(props)
         updateWidgetContent(clipboardContent.content, clipboardContent.widget.w_type);
     }
 
-    const handleContentKeyDown = (event) => {
-        const { key } = event;
-        const keys = ["Escape", "Tab", "Enter"];
+    // const handleContentKeyDown = (event) => {
+    //     const { key } = event;
+    //     const keys = ["Escape", "Tab", "Enter"];
 
-        if (keys.indexOf(key) > -1) {
-            event.currentTarget.blur();
-        }
-    };
+    //     if (keys.indexOf(key) > -1) {
+    //         event.currentTarget.blur();
+    //     }
+    // };
+
 
     return (
         <div className='widget'>
             <form id="contentForm" onSubmit={e => e.preventDefault() }>
-                <label>
-                    Input Clipboard:
-                    <input 
+                <Editable 
+                    text={clipboardContent.currentText}
+                    placeholder="Enter Clipboard Content" 
+                    inputType="input" 
+                    childInputRef={inputRef}
+                    passFromChildToParent={onBlurClipboardContent}>
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        name="clipboardContent"
+                        placeholder="Enter Clipboard Content"
                         value={clipboardContent.currentText}
-                        type="text" 
                         onChange={handleContentOnChange}
-                        onBlur={onBlurClipboardContent}
-                        onKeyDown={handleContentKeyDown}/>
-                </label>
+                    />
+                </Editable>
             </form>
             {
                 clipboardContent.content?.map( (data, index) => 
@@ -100,3 +109,13 @@ export default function Clipboard(props)
         </div>
     );
 }
+
+/* <label>
+    Input Clipboard:
+    <input 
+        value={clipboardContent.currentText}
+        type="text" 
+        onChange={handleContentOnChange}
+        onBlur={onBlurClipboardContent}
+        onKeyDown={handleContentKeyDown}/>
+</label> */

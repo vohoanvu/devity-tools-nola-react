@@ -3,6 +3,7 @@ import axios from 'axios';
 import configData from "../config.json";
 import '../css/App.css';
 import Editable from './Editable';
+import btn_add from "../img/btn_add.png";
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
@@ -73,19 +74,11 @@ export default function Clipboard(props)
         updateWidgetContent(clipboardContent.content, clipboardContent.widget.w_type);
     }
 
-    // const handleContentKeyDown = (event) => {
-    //     const { key } = event;
-    //     const keys = ["Escape", "Tab", "Enter"];
-
-    //     if (keys.indexOf(key) > -1) {
-    //         event.currentTarget.blur();
-    //     }
-    // };
-
 
     return (
         <div className='widget'>
             <form id="contentForm" onSubmit={e => e.preventDefault() }>
+                <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
                 <Editable 
                     text={clipboardContent.currentText}
                     placeholder="Enter Clipboard Content" 

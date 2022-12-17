@@ -20,13 +20,13 @@ async function fetchUser() {
   });
 }
 
-export function UserProvider({ children, ...props }) 
+export function UserProvider({ children })
 {
   const [userProfile, setUserProfile] = React.useState({});
 
   React.useEffect(() => {
     fetchUser().then((result) => { 
-      setUserProfile(result) 
+      setUserProfile(result);
     });
   },[]);
 
@@ -37,9 +37,3 @@ export function UserProvider({ children, ...props })
     </UserContext.Provider>
   );
 }
-
-// return new Promise((resolve) => {
-//   setTimeout(() => {
-//     resolve({ id: 1, name: "Ben" });
-//   }, 1000);
-// });

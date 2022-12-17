@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import btn_add from "../img/btn_add.png";
 
 export default function Editable({
     text,
@@ -45,7 +44,6 @@ export default function Editable({
                     </div>
                 ) : (
                     <div onClick={()=>setEditing(true)}>
-                        <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
                         <span>{text || placeholder || "Editable Content"}</span>
                     </div>
                 )

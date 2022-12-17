@@ -28,50 +28,44 @@ export default function App()
 
   // const element = document.querySelector('#post-request-async-await .article-id');
 
-  console.stdlog = console.log.bind(console);
-  console.logs = [];
-  console.log = function() {
-    let i = arguments["0"];
-    if (typeof i === 'string' || i instanceof String) {
-      console.logs.push(Array.from(arguments));
-      console.stdlog.apply(console, arguments);
-    }
-  }
+  // console.stdlog = console.log.bind(console);
+  // console.logs = [];
+  // console.log = function() {
+  //   let i = arguments["0"];
+  //   if (typeof i === 'string' || i instanceof String) {
+  //     console.logs.push(Array.from(arguments));
+  //     console.stdlog.apply(console, arguments);
+  //   }
+  // }
 
-  GetUserSession();
-
-  function GetUserSession() {
-
-      if (token) {
-        (async () => {
-          try{
-            const tk = { token: token };
-            let response = await axios.post(devity_api + '/api/sessions', tk);
-            if(response.status !== 200){
-              window.location.replace(sso_url);
-            }
-            let bearer = "Devity " + response.data.id;
-            let expires = "expires="+ response.data.expires;
-            axios.defaults.headers.common['Authorization'] = bearer;
-            cookies.set(devity_cookie, bearer, expires, { path: '/' });
-            cookies.set('devity-user', response.data.user_id, expires, { path: '/' });
-
-            window.location.replace(devity_url);
-          }
-          catch(error){
-            console.log(Object.keys(error), error.message);
-            window.location.replace(sso_url);
-          }
-        })();
-      } else if(bearer){
+  if (token) {
+    (async () => {
+      try{
+        const tk = { token: token };
+        let response = await axios.post(devity_api + '/api/sessions', tk);
+        if(response.status !== 200){
+          window.location.replace(sso_url);
+        }
+        let bearer = "Devity " + response.data.id;
+        let expires = "expires="+ response.data.expires;
         axios.defaults.headers.common['Authorization'] = bearer;
+        cookies.set(devity_cookie, bearer, expires, { path: '/' });
+        cookies.set('devity-user', response.data.user_id, expires, { path: '/' });
+
+        window.location.replace(devity_url);
       }
-      else
-      {
+      catch(error){
+        console.log(Object.keys(error), error.message);
         window.location.replace(sso_url);
       }
+    })();
+  } else if(bearer){
+    axios.defaults.headers.common['Authorization'] = bearer;
   }
-
+  else
+  {
+    window.location.replace(sso_url);
+  }
 
   function childToParent(childResultData) {
     setSearchResultData(childResultData);

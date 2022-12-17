@@ -83,5 +83,13 @@ color: var(--COLOR_LINK);
 }
 
 #contentForm label {
-  display: grid;
+  display: inline-block;
+}
+
+input[name="hyperLink"] {
+  width: 250px;
+}
+
+input[name="displayName"] {
+  width: 241px;
 }

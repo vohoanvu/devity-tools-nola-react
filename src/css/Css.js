@@ -9,7 +9,7 @@ export default class Css extends React.Component
 
         this.state = {
             stylePath: './css/ui-darkness.css',
-            currentUserAuthToken: cookies.get(props.devityCookie)
+            currentUserAuthToken: cookies.get(this.props.devityCookie)
         };
     }
 
@@ -29,7 +29,7 @@ export default class Css extends React.Component
             stylePath: event.target.value
         });
 
-        localStorage.setItem(this.props.devity_cookie, event.target.value);
+        localStorage.setItem(this.props.devityCookie, event.target.value);
     };
 
     render()

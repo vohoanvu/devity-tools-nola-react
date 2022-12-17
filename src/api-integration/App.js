@@ -55,7 +55,7 @@ export default function App()
             axios.defaults.headers.common['Authorization'] = bearer;
             cookies.set(devity_cookie, bearer, expires, { path: '/' });
             cookies.set('devity-user', response.data.user_id, expires, { path: '/' });
-            console.log('on session response...', response.data);
+
             window.location.replace(devity_url);
           }
           catch(error){
@@ -71,9 +71,6 @@ export default function App()
         window.location.replace(sso_url);
       }
   }
-
-
-  
 
 
   function childToParent(childResultData) {
@@ -96,7 +93,7 @@ export default function App()
             <Console passFromChildToParent={childToParent}/>
           </div>
           <DevityPanels triggerMostRecentView={renderSelectedPanel}></DevityPanels>
-          <Profile></Profile>
+          <Profile devity_cookie={devity_cookie}></Profile>
           <Libraries></Libraries>
           <SearchResults data={searchResultData}/>
         </UserProvider>

@@ -1,0 +1,11 @@
+.user-card {
+    box-shadow: 0 4px 8px 0 var(--COLOR_PANEL_BRD);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+}
+
+.title {
+    color: grey;
+    font-size: 18px;
+}

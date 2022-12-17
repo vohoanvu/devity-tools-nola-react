@@ -1,29 +1,45 @@
+import axios from "axios";
 import * as React from "react";
+import configData from "../config.json";
+import Cookies from 'universal-cookie';
+const devity_api = configData.DEVITY_API;
+
 
 
 export const UserContext = React.createContext();
 
-function fetchUser() {
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ id: 1, name: "Ben" });
-    }, 1000);
+async function fetchUser() {
+  const cookies = new Cookies();
+  const userId = cookies.get('devity-user');
+  return await axios.get(devity_api + '/api/users/' + userId)
+  .then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.log(error);
   });
 }
 
-export function UserProvider({ children }) {
-  const [user, setUser] = React.useState({ name: "..." });
+export function UserProvider({ children, ...props }) 
+{
+  const [userProfile, setUserProfile] = React.useState({});
 
   React.useEffect(() => {
-    fetchUser().then((user) => {
-      setUser(user);
+    fetchUser().then((result) => { 
+      setUserProfile(result) 
     });
-  }, []);
+  },[]);
+
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={userProfile}>
       {children}
     </UserContext.Provider>
   );
 }
+
+// return new Promise((resolve) => {
+//   setTimeout(() => {
+//     resolve({ id: 1, name: "Ben" });
+//   }, 1000);
+// });

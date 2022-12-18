@@ -65,8 +65,8 @@ export default function Clipboard(props)
         });
     }
 
-    function onBlurClipboardContent(newValue) {
-        clipboardContent.content.splice(0, 0, newValue);
+    function onBlurClipboardContent(eventTarget) {
+        clipboardContent.content.splice(0, 0, eventTarget.value);
         setClipboardContent({
             ...clipboardContent,
             currentText: ''

@@ -2,7 +2,7 @@ import * as React from 'react';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-export default class Css extends React.Component
+export default class ViewModeSelection extends React.Component
 {
     constructor(props) {
         super(props);

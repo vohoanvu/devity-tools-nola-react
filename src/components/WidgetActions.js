@@ -36,8 +36,8 @@ export default function WidgetActions(props)
         props.setWidgetObjState({...props.widgetObjState});
     }
 
-    async function saveWidgetTitle(newTitle) {
-        const putBody = {...props.widget, name: newTitle};
+    async function saveWidgetTitleOnBlur(eventTarget) {
+        const putBody = {...props.widget, name: eventTarget.value};
         await props.callPUTRequest(putBody, props.widget.w_type);
     }
 
@@ -47,7 +47,7 @@ export default function WidgetActions(props)
                 displayText={<span>{props.widget.name || "Enter a name for widget" }</span>}
                 inputType="input" 
                 childInputRef={props.inputRef}
-                passFromChildToParent={saveWidgetTitle}>
+                passFromChildToParent={saveWidgetTitleOnBlur}>
                 <input
                     ref={props.inputRef}
                     type="text"

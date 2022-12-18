@@ -9,16 +9,20 @@ const devity_api = configData.DEVITY_API;
 export const UserContext = React.createContext();
 
 async function fetchUser() {
-  const cookies = new Cookies();
-  const userId = cookies.get('devity-user');
-  return await axios.get(devity_api + '/api/users/' + userId)
-  .then((response) => {
-    return response.data;
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+  // const cookies = new Cookies();
+  // const userId = cookies.get('devity-user');
+  // return await axios.get(devity_api + '/api/users/' + userId)
+  // .then((response) => {
+  //   return response.data;
+  // })
+  // .catch((error) => {
+  //   console.log(error);
+  // });
+  var user = {};
+  user.name = "Ben";
+  return user;
 }
+
 
 export function UserProvider({ children })
 {

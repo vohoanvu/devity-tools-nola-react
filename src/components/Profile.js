@@ -66,7 +66,7 @@ export default function Profile(props)
   }
 
   return (
-    <div className="p-panel" data-panel="PROFILE">
+    <div className="p-panel" style={{display:'none'}} data-panel="PROFILE">
       <div className='p-chrome'>
         <img src={btn_image_config} className="gear" alt="devity gear" />
         <span className="p-title">Profile</span>

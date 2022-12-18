@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
+import $ from "jquery";
 import configData from "../config.json";
 import '../css/App.css';
 import Editable from './Editable';
@@ -74,10 +75,25 @@ export default function Clipboard(props)
         updateWidgetContent(clipboardContent.content, clipboardContent.widget.w_type);
     }
 
+    const handleItemClick = event => {
+        var text = $(event.currentTarget).text();
+    
+        $(event.currentTarget).animate({ opacity: '0.1' }, "fast");
+        $(event.currentTarget).animate({ opacity: '1' }, "fast");
+        
+    
+        navigator.clipboard.writeText(text).then(function() {
+          console.log(text);
+        }, function(err) {
+          console.error('Async: Could not copy text: ', err);
+        });
+    
+      };
 
     return (
-        <div className='widget'>
-            <form id="contentForm" onSubmit={e => e.preventDefault() }>
+        <div className='widget clipboard'>
+            <div>
+            <form id="contentForm" onSubmit={e => e.preventDefault() } autocomplete="off">
                 <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
                 <Editable 
                     displayText={<span>{clipboardContent.currentText || "Enter Clipboard Content"}</span>}
@@ -88,16 +104,21 @@ export default function Clipboard(props)
                         ref={inputRef}
                         type="text"
                         name="clipboardContent"
-                        placeholder="Enter Clipboard Content"
+                        placeholder=""
                         value={clipboardContent.currentText}
                         onChange={handleContentOnChange}
                     />
                 </Editable>
             </form>
-            {
-                clipboardContent.content?.map( (data, index) => 
-                    <li key={index}>{data}</li> )
-            }
+            </div>
+            <div className='w_overflowable'>
+                <ul>
+                {
+                    clipboardContent.content?.map( (data, index) => 
+                        <li className='w_copyable' onClick={handleItemClick} key={index}>{data}</li> )
+                }
+                </ul>
+            </div>
         </div>
     );
 }

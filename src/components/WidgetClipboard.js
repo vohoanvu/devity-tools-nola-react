@@ -80,8 +80,7 @@ export default function Clipboard(props)
             <form id="contentForm" onSubmit={e => e.preventDefault() }>
                 <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
                 <Editable 
-                    text={clipboardContent.currentText}
-                    placeholder="Enter Clipboard Content" 
+                    displayText={<span>{clipboardContent.currentText || "Enter Clipboard Content"}</span>}
                     inputType="input" 
                     childInputRef={inputRef}
                     passFromChildToParent={onBlurClipboardContent}>

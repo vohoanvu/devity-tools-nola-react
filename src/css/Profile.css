@@ -1,5 +1,5 @@
 .user-card {
-    box-shadow: 0 4px 8px 0 var(--COLOR_PANEL_BRD);
+    box-shadow: 0 5px 15px 5px var(--COLOR_PANEL_BRD);
     max-width: 300px;
     margin: auto;
     text-align: center;

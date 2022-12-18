@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 export default function Editable({
-    text,
+    displayText,
     inputType,
     placeholder,
     children,
@@ -44,7 +44,7 @@ export default function Editable({
                     </div>
                 ) : (
                     <div onClick={()=>setEditing(true)}>
-                        <span>{text || placeholder || "Editable Content"}</span>
+                        { displayText }
                     </div>
                 )
             }

@@ -44,8 +44,7 @@ export default function WidgetActions(props)
     return (
         <div className='w-chrome'>
             <Editable 
-                text={props.widget.name} 
-                placeholder="Enter a name for widget" 
+                displayText={<span>{props.widget.name || "Enter a name for widget" }</span>}
                 inputType="input" 
                 childInputRef={props.inputRef}
                 passFromChildToParent={saveWidgetTitle}>

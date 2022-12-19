@@ -4,6 +4,10 @@ import ViewModeSelection from '../css/ViewModeSelection';
 import "../css/Profile.css";
 import { UserContext } from "../api-integration/UserContext";
 import Editable from './Editable';
+import axios from 'axios';
+import configData from "../config.json";
+import $ from "jquery";
+const devity_api = configData.DEVITY_API;
 
 export default function Profile(props)
 {
@@ -61,8 +65,24 @@ export default function Profile(props)
       default:
         break;
     }
-    //TODO: Update user profile with PUT User API
+
     console.log('userProfile: ', userProfile);
+
+    updateProfileInDb(userProfile);
+  }
+
+  async function updateProfileInDb(putBody) {
+    $('div[data-panel=Profile] .gear').addClass('rotate');
+    return await axios.put(devity_api + '/api/profile', {...putBody})
+          .then((response) => {
+            console.log('updateProfileInDb status: ', response.status);
+            return response.data;
+          }).then((result) => {
+            console.log('updateProfileInDb result: ', result);
+            $('div[data-panel=Profile] .gear').removeClass('rotate');
+            return result;
+          })
+          .catch((error) => console.log(error));
   }
 
   return (

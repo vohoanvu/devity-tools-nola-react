@@ -14,9 +14,20 @@ export default function Profile(props)
   const user = React.useContext(UserContext);
   const inputRef = useRef();
   const [userProfile, setUserProfile] = React.useState({});
+  const [interestsChecked, setInterestsChecked] = React.useState({});
 
   useEffect(() => {
     setUserProfile(user);
+    let interestsCheck = {};
+    if (user.user_interests) {
+      user.user_interests.forEach(i => {
+        console.log("for each obj...", i);
+        console.log("for each Title...", i.title); 
+        console.log("for each IsUserSelected...", i.IsUserSelected);  //wtf is this?
+        interestsCheck[i.title] = i.IsUserSelected;
+      });
+    }
+    setInterestsChecked(interestsCheck);
   },[user])
 
 
@@ -136,6 +147,18 @@ export default function Profile(props)
                 onChange={e => handleUserEmailOnChange(e.target.value)}
             />
           </Editable>
+        </div>
+        <div className='interests-card'>
+          <h2>Interests</h2>
+          {
+            Object.entries(interestsChecked).map(([key,value], index) => {
+              return (
+                  <label key={index} htmlFor={key} style={{ margin: '20px' }}>
+                    {key} : <input type="checkbox" name={key} value={key} checked={value} />
+                  </label>
+              );
+            })
+          }
         </div>
       </div>
     </div>

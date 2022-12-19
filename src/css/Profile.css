@@ -5,6 +5,13 @@
     text-align: center;
 }
 
+.interests-card {
+    box-shadow: 0 5px 15px 5px var(--COLOR_PANEL_BRD);
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+}
+
 .title {
     color: grey;
     font-size: 18px;

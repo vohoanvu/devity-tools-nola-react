@@ -2,11 +2,10 @@ import * as React from "react";
 import $ from "jquery";
 import axios from 'axios';
 import {useState} from 'react';
-
+import { log } from '../Utilities'
 
 const Console = (props) => 
 {
-  //const [data, setData] = useState({data: []});
   const [err, setErr] = useState('');
 
   const fetchData = async () => {
@@ -15,8 +14,6 @@ const Console = (props) =>
     $('div[data-panel=RESULTS] .gear').addClass('rotate');
 
     var term = $("#prompt_input").val();
-
-    console.log('search for ' + term);
   
     if (term) {
       $("#prompt_input").val('');
@@ -30,11 +27,12 @@ const Console = (props) =>
               props.passFromChildToParent(res.data.items);
               
               $('div[data-panel=RESULTS] .gear').removeClass('rotate');
-              console.log('search for ' + term);
+              log('search for ' + term);
           })
           .catch((error) => {
               setErr(error);
               console.log(err);
+              log(err);
           })
 
     } else {
@@ -59,10 +57,11 @@ const Console = (props) =>
       
       <div id="prompt_container">
         <div id="console_log" className="hide">
-            <ul onChange={scroll} className="console">
-            {
+            <ul id="console_output" onChange={scroll} className="console">
+              <li>Welcome to devity!</li>
+            {/* {
               console.logs?.map((i, index) => { return (<li key={index}>{i}</li>); })
-            }
+            } */}
             </ul>
         </div>
         <span id='prompt_cmd'>D#&gt;</span>

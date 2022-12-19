@@ -16,14 +16,16 @@ export default function Links(props)
 
     useEffect(() => {
         (async () => {
-            const content = await getWidgetContentById(props.widget.id);
-            const contentArray = JSON.parse(content);
+            const widget = await getWidgetContentById(props.widget.id);
+
+            const contentArray = JSON.parse(widget.w_content);
             const currentWidget = {
-                ...props.widget,
+                ...widget,
                 w_content: contentArray
             }
 
             setLink(currentWidget);
+            setDisplayLinks(currentWidget.w_content);
         })();
 
     }, [props.widget]);
@@ -31,9 +33,9 @@ export default function Links(props)
     async function getWidgetContentById(w_id) {
         return await axios.get(devity_api + '/api/widgets/'+ w_id)
             .then((res) => {
-                if (res.status === '401') window.location.replace(sso_url);
+                if (res.status === 401) window.location.replace(sso_url);
 
-                return res.data.w_content;
+                return res.data;
         }).then(result => result)
         .catch((err) => console.log(err));
     }
@@ -43,17 +45,14 @@ export default function Links(props)
         currentDisplay.splice(0, 0, linkContent);
         setDisplayLinks(currentDisplay);
 
-        //TODO: Update the Link widget content in DB using link object
-        console.log('current link...', link);
         updateLinkContentInDb(link, currentDisplay);
     }
 
     async function updateLinkContentInDb(currentLink, linkContentList) {
-        let jsonObjList = JSON.parse(linkContentList);
-
+        console.log(111, linkContentList);
         const putBody = {
             ...currentLink,
-            w_content: JSON.stringify(jsonObjList)
+            w_content: JSON.stringify(linkContentList)
         }
 
         await props.callPUTRequest(putBody, currentLink.w_type);

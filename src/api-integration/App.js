@@ -50,7 +50,6 @@ export default function App()
         let expires = "expires="+ response.data.expires;
         axios.defaults.headers.common['Authorization'] = bearer;
         cookies.set(devity_cookie, bearer, expires, { path: '/' });
-        cookies.set('devity-user', response.data.user_id, expires, { path: '/' });
 
         window.location.replace(devity_url);
       }

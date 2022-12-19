@@ -11,6 +11,8 @@ import '../css/App.css';
 import SearchResults from '../components/SearchResults';
 import {useLocation} from 'react-router-dom';
 import Cookies from 'universal-cookie';
+
+
 const UserMostReventView = 'mostRecentView';
 const sso_url = configData.SSO_URL;
 const devity_url = configData.DEVITY;
@@ -25,18 +27,6 @@ export default function App()
   let bearer = cookies.get(devity_cookie);
   const [searchResultData, setSearchResultData] = useState([]);
   const [isAllPanelsRendered, setIsAllPanelsRendered] = useState(false);
-
-  // const element = document.querySelector('#post-request-async-await .article-id');
-
-  // console.stdlog = console.log.bind(console);
-  // console.logs = [];
-  // console.log = function() {
-  //   let i = arguments["0"];
-  //   if (typeof i === 'string' || i instanceof String) {
-  //     console.logs.push(Array.from(arguments));
-  //     console.stdlog.apply(console, arguments);
-  //   }
-  // }
 
   if (token) {
     (async () => {

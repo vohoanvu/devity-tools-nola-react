@@ -4,6 +4,7 @@ import configData from "../config.json";
 import btn_delete from "../img/btn_delete.png";
 import '../css/buttons.css';
 import Editable from './Editable';
+import { log } from '../Utilities'
 const devity_api = configData.DEVITY_API;
 
 export default function WidgetActions(props)
@@ -26,7 +27,7 @@ export default function WidgetActions(props)
 
         await axios.delete(devity_api + '/api/widgets/' + id)
             .then(res => {
-                console.log(res.status, '...on delete');
+                log('deleted ' + props.widget.w_type + ' widget ' + props.widget.name);
             })
             .catch(err => console.log(err));
     }

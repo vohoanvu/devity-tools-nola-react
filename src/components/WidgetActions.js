@@ -36,19 +36,18 @@ export default function WidgetActions(props)
         props.setWidgetObjState({...props.widgetObjState});
     }
 
-    async function saveWidgetTitle(newTitle) {
-        const putBody = {...props.widget, name: newTitle};
+    async function saveWidgetTitleOnBlur(eventTarget) {
+        const putBody = {...props.widget, name: eventTarget.value};
         await props.callPUTRequest(putBody, props.widget.w_type);
     }
 
     return (
         <div className='w-chrome'>
             <Editable 
-                text={props.widget.name} 
-                placeholder="Enter a name for widget" 
+                displayText={<span>{props.widget.name || "Enter a name for widget" }</span>}
                 inputType="input" 
                 childInputRef={props.inputRef}
-                passFromChildToParent={saveWidgetTitle}>
+                passFromChildToParent={saveWidgetTitleOnBlur}>
                 <input
                     ref={props.inputRef}
                     type="text"

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 export default function Editable({
-    text,
+    displayText,
     inputType,
     placeholder,
     children,
@@ -26,13 +26,13 @@ export default function Editable({
 
         if (type !== "textarea" && allKeys.indexOf(key) > -1) {
             setEditing(false);
-            passFromChildToParent(event.target.value);
+            passFromChildToParent(event.target);
         }
     };
 
     function handleInputOnBlur(e) {
         setEditing(false);
-        passFromChildToParent(e.target.value);
+        passFromChildToParent(e.target);
     }
 
     return (
@@ -44,7 +44,7 @@ export default function Editable({
                     </div>
                 ) : (
                     <div onClick={()=>setEditing(true)}>
-                        <span>{text || placeholder || "Editable Content"}</span>
+                        { displayText }
                     </div>
                 )
             }

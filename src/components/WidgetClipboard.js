@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
+import $ from "jquery";
 import configData from "../config.json";
 import '../css/App.css';
+import Editable from './Editable';
+import btn_add from "../img/btn_add.png";
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
@@ -13,6 +16,7 @@ export default function Clipboard(props)
         content: [],
         widget: {}
     });
+    const inputRef = useRef();
 
     useEffect(() => {
         const getWidgetContent = async () => {
@@ -62,8 +66,8 @@ export default function Clipboard(props)
         });
     }
 
-    function onBlurClipboardContent(e) {
-        clipboardContent.content.splice(0, 0, e.target.value);
+    function onBlurClipboardContent(eventTarget) {
+        clipboardContent.content.splice(0, 0, eventTarget.value);
         setClipboardContent({
             ...clipboardContent,
             currentText: ''
@@ -71,32 +75,60 @@ export default function Clipboard(props)
         updateWidgetContent(clipboardContent.content, clipboardContent.widget.w_type);
     }
 
-    const handleContentKeyDown = (event) => {
-        const { key } = event;
-        const keys = ["Escape", "Tab", "Enter"];
-
-        if (keys.indexOf(key) > -1) {
-            event.currentTarget.blur();
-        }
-    };
+    const handleItemClick = event => {
+        var text = $(event.currentTarget).text();
+    
+        $(event.currentTarget).animate({ opacity: '0.1' }, "fast");
+        $(event.currentTarget).animate({ opacity: '1' }, "fast");
+        
+    
+        navigator.clipboard.writeText(text).then(function() {
+          console.log(text);
+        }, function(err) {
+          console.error('Async: Could not copy text: ', err);
+        });
+    
+      };
 
     return (
-        <div className='widget'>
-            <form id="contentForm" onSubmit={e => e.preventDefault() }>
-                <label>
-                    Input Clipboard:
-                    <input 
+        <div className='widget clipboard'>
+            <div>
+            <form id="contentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
+                <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
+                <Editable 
+                    displayText={<span>{clipboardContent.currentText || "Enter Clipboard Content"}</span>}
+                    inputType="input" 
+                    childInputRef={inputRef}
+                    passFromChildToParent={onBlurClipboardContent}>
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        name="clipboardContent"
+                        placeholder=""
                         value={clipboardContent.currentText}
-                        type="text" 
                         onChange={handleContentOnChange}
-                        onBlur={onBlurClipboardContent}
-                        onKeyDown={handleContentKeyDown}/>
-                </label>
+                    />
+                </Editable>
             </form>
-            {
-                clipboardContent.content?.map( (data, index) => 
-                    <li key={index}>{data}</li> )
-            }
+            </div>
+            <div className='w_overflowable'>
+                <ul>
+                {
+                    clipboardContent.content?.map( (data, index) => 
+                        <li className='w_copyable' onClick={handleItemClick} key={index}>{data}</li> )
+                }
+                </ul>
+            </div>
         </div>
     );
 }
+
+/* <label>
+    Input Clipboard:
+    <input 
+        value={clipboardContent.currentText}
+        type="text" 
+        onChange={handleContentOnChange}
+        onBlur={onBlurClipboardContent}
+        onKeyDown={handleContentKeyDown}/>
+</label> */

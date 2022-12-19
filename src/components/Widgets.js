@@ -19,7 +19,7 @@ export default function Widget(props)
   async function updateWidgetRequest(putBody, type) {
     delete putBody["key"];
     $('div[data-panel=' + type + '] .gear').addClass('rotate');
-    const result = await axios.put(devity_api + "/api/widgets/", { ...putBody })
+    const result = await axios.put(devity_api + "/api/widgets", { ...putBody })
           .then(response => {
             console.log(response.status, '...on update');
             return response.data

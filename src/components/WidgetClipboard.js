@@ -93,7 +93,7 @@ export default function Clipboard(props)
     return (
         <div className='widget clipboard'>
             <div>
-            <form id="contentForm" onSubmit={e => e.preventDefault() } autocomplete="off">
+            <form id="contentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
                 <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
                 <Editable 
                     displayText={<span>{clipboardContent.currentText || "Enter Clipboard Content"}</span>}

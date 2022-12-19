@@ -45,6 +45,18 @@ export default function Links(props)
 
         //TODO: Update the Link widget content in DB using link object
         console.log('current link...', link);
+        updateLinkContentInDb(link, currentDisplay);
+    }
+
+    async function updateLinkContentInDb(currentLink, linkContentList) {
+        let jsonObjList = JSON.parse(linkContentList);
+
+        const putBody = {
+            ...currentLink,
+            w_content: JSON.stringify(jsonObjList)
+        }
+
+        await props.callPUTRequest(putBody, currentLink.w_type);
     }
 
 

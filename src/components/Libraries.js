@@ -82,7 +82,7 @@ const Libraries = (props) =>
   console.log(data);
 
   return (
-              <div className='p-panel library' data-panel='LIBRARIES'>
+              <div className='p-panel library' style={{display:'none'}} data-panel='LIBRARIES'>
               <div className='p-chrome'>
                 <img  src={btn_image_config} className='gear' alt="devity gear" />
                 <span className='p-title'>Libraries</span>

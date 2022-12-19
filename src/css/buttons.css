@@ -22,6 +22,7 @@ button figure figcaption{
 color: var(--COLOR_LINK);
 }
 
+
 /* .img-btn-add-links{
   display: block;
   width: 100px;
@@ -75,13 +76,27 @@ color: var(--COLOR_LINK);
     float: right;
     height: 30px;
 }
-.widget{
-  overflow: auto;
-  padding: 5px;
-  width: 95%;
-  height: 80%;
-}
+
 
 #contentForm label {
-  display: grid;
+  display: inline-block;
+}
+
+input[name="hyperLink"] {
+  width: 250px;
+}
+
+input[name="displayName"] {
+  width: 241px;
+}
+
+input[type=text] {
+  background-color: var(--COLOR_INPUT_TEXT_BG);
+  padding: 5px;
+  color: var(--COLOR_TEXT);
+  border: 0px;
+  caret-color: red;
+}
+input[type=text]:focus {
+  outline: none;
 }

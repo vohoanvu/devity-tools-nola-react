@@ -26,7 +26,9 @@ const Console = (props) =>
       return await axios.get(search_api)
           .then((res) => {
               //setData(res.data.items);
+              localStorage.setItem('mostReventView', "RESULTS");
               props.passFromChildToParent(res.data.items);
+              
               $('div[data-panel=RESULTS] .gear').removeClass('rotate');
               console.log('search for ' + term);
           })

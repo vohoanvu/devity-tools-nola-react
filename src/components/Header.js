@@ -16,14 +16,21 @@ class Header extends React.Component {
       this.onNavigate = this.onNavigate.bind(this);
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-      this.onNavigate(this.props.mostRecentPage);
+    componentDidUpdate() {
+      $('.p-panel').hide();
+      let mostReventView = localStorage.getItem('mostReventView');
+      if(mostReventView){
+        this.onNavigate(mostReventView);
+      }
+      else{
+        this.onNavigate("ALL");
+      }
     }
 
 
     onNavigate(target) {
       let recentView = target ?? '';
-      localStorage.setItem(this.props.UserMostReventView, recentView);
+      localStorage.setItem('mostReventView', recentView);
       if (target === "CONSOLE") {
         $('#console_log').toggleClass('hide');
         $('#navigation').toggleClass('nav-max');
@@ -34,7 +41,7 @@ class Header extends React.Component {
       } else {
         $('.p-panel').hide();
     
-        if (target === '') {
+        if (target === 'ALL') {
           $('.p-panel').show();
         } else {
           $('div[data-panel=' + target + ']').show();
@@ -49,7 +56,7 @@ class Header extends React.Component {
       return <div id="navigation" className="nav-max">
 
       <div id="logo">
-        <button onClick={()=>this.onNavigate('')}>
+        <button onClick={()=>this.onNavigate('ALL')}>
           <img  src={logo} className="logo" alt="logo" />
         </button>
       </div>

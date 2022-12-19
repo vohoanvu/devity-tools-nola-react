@@ -9,8 +9,8 @@ export default function Links(props)
 {
     const [link, setLink] = useState({});
     const [linkContent, setLinkContent] = useState({
-        hyperLink: "www.noladigital.com",
-        displayName: "NOLA Digital"
+        hyperLink: "",
+        displayName: ""
     });
     const [displayLinks, setDisplayLinks] = useState([]);
 
@@ -38,16 +38,27 @@ export default function Links(props)
         .catch((err) => console.log(err));
     }
 
-    function onAddNewLink() {
+    function onSaveNewLink() {
         const currentDisplay = [...displayLinks];
         currentDisplay.splice(0, 0, linkContent);
         setDisplayLinks(currentDisplay);
+
+        //TODO: Update the Link widget content in DB using link object
+        console.log('current link...', link);
+        updateLinkContentInDb(link, currentDisplay);
     }
 
-    function onSaveLink() {
-        console.log("on saving Link Wiget Content...", link.w_content);
-        console.log("on saving Current Display Links...", displayLinks);
+    async function updateLinkContentInDb(currentLink, linkContentList) {
+        let jsonObjList = JSON.parse(linkContentList);
+
+        const putBody = {
+            ...currentLink,
+            w_content: JSON.stringify(jsonObjList)
+        }
+
+        await props.callPUTRequest(putBody, currentLink.w_type);
     }
+
 
     function handleLinkChange(evt) {
         const value = evt.target.value;
@@ -61,7 +72,7 @@ export default function Links(props)
         <div className='widget'>
             <form id="contentForm">
                 <label>
-                    Link Url: 
+                    Url: 
                     <input 
                         value={linkContent.hyperLink} 
                         type="text" 
@@ -69,15 +80,14 @@ export default function Links(props)
                         onChange={handleLinkChange}/>
                 </label>
                 <label>
-                    Display Name: 
+                    Title: 
                     <input 
                         value={linkContent.displayName} 
                         type="text" 
                         name="displayName"
                         onChange={handleLinkChange}/>
                 </label>
-                <button type='button' value="Submit" onClick={onAddNewLink}>Add Link</button>
-                <button type='button' hidden value="Submit" onClick={onSaveLink}>Save Link</button>
+                <button type='button' value="Submit" onClick={onSaveNewLink}>Save</button>
             </form>
             {
                 displayLinks.map((item, index) => 

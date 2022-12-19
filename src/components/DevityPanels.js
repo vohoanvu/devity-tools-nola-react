@@ -5,6 +5,8 @@ import Widget from './Widgets';
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import btn_add from "../img/btn_add.png";
 import $ from "jquery";
+import { log } from '../Utilities'
+
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
@@ -91,7 +93,7 @@ export default function DevityPanels(props)
               widgetObject[type].push(postBody);
               setWidgetObject({...widgetObject});
               $('div[data-panel=' + type + '] .gear').removeClass('rotate');
-              console.log("Created " + type + " widget.")
+              log("Created " + type + " widget.")
           })
           .catch(err => console.log(err));
   }

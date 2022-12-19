@@ -14,20 +14,9 @@ export default function Profile(props)
   const user = React.useContext(UserContext);
   const inputRef = useRef();
   const [userProfile, setUserProfile] = React.useState({});
-  const [interestsChecked, setInterestsChecked] = React.useState({});
 
   useEffect(() => {
     setUserProfile(user);
-    let interestsCheck = {};
-    if (user.user_interests) {
-      user.user_interests.forEach(i => {
-        console.log("for each obj...", i);
-        console.log("for each Title...", i.title); 
-        console.log("for each IsUserSelected...", i.IsUserSelected);  //wtf is this?
-        interestsCheck[i.title] = i.IsUserSelected;
-      });
-    }
-    setInterestsChecked(interestsCheck);
   },[user])
 
 
@@ -95,6 +84,24 @@ export default function Profile(props)
           .catch((error) => console.log(error));
   }
 
+  function saveUserInterests() {
+    const seletecedInterests = userProfile.user_interests.filter(i => i.IsUserSelected).map(i => i.Id);
+    console.log("userSeletecd Interest Ids...", seletecedInterests);
+  }
+
+  function handleInterestsOnChange(e) {
+    userProfile.user_interests.forEach(i => {
+      if (i.Title === e.target.name)  i.IsUserSelected = e.target.checked;
+    });
+  
+    setUserProfile({
+      ...userProfile,
+      user_interests: [
+        ...userProfile.user_interests
+      ]
+    });
+  }
+
   return (
     <div className="p-panel" style={{display:'none'}} data-panel="PROFILE">
       <div className='p-chrome'>
@@ -149,16 +156,26 @@ export default function Profile(props)
           </Editable>
         </div>
         <div className='interests-card'>
-          <h2>Interests</h2>
-          {
-            Object.entries(interestsChecked).map(([key,value], index) => {
-              return (
-                  <label key={index} htmlFor={key} style={{ margin: '20px' }}>
-                    {key} : <input type="checkbox" name={key} value={key} checked={value} />
-                  </label>
-              );
-            })
-          }
+          <h3>Interests</h3>
+          <ul>
+            {
+              userProfile.user_interests?.map((i, index) => {
+                return (
+                  <li key={index}>
+                    <input 
+                        type="checkbox" 
+                        id={i.Id}
+                        name={i.Title} 
+                        value={i.Id} 
+                        checked={i.IsUserSelected} 
+                        onChange={handleInterestsOnChange}/>
+                    <label htmlFor={i.Id}>{i.Title}</label>
+                  </li>
+                );
+              })
+            }
+          </ul>
+          <button type="submit" onClick={saveUserInterests}>Save</button>
         </div>
       </div>
     </div>

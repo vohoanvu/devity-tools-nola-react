@@ -7,6 +7,7 @@ import { log } from '../Utilities'
 const Console = (props) => 
 {
   const [err, setErr] = useState('');
+  const [cmd, setCmd] = useState('');
 
   const fetchData = async () => {
     $('.p-panel').hide();
@@ -43,26 +44,64 @@ const Console = (props) =>
 
   function handleKeyDown(e) {
     var key = e.key;
+    
+    if (key==='CapsLockf' || key==='CapsLock') {
+      return;
+    }
+
     if (key==='Enter') {
         fetchData();
+        return;
     }
-  }
+    
+    if (key==='Backspace') {
+      let c = cmd.slice(0,-1);
+      setCmd(c);
+      return;
+    }
 
-  function scroll() {
-    $('#console_log').scrollBottom($('#console_log')[0].scrollHeight);
+    if(key === ' '){
+      let c = cmd.charAt(0);
+      if( c === "#" ){
+        switch(cmd.toLowerCase()) {
+          case "#f":
+            // code block
+            $("#prompt_cmd").html('#filter>');
+            $("#prompt_input").val('');
+            setCmd('');
+            break;
+          case "#s":
+            // code block
+            $("#prompt_input").val('#search>');
+            $("#prompt_input").val('');
+            setCmd('');
+            break;
+          default:
+            // code block
+        }
+      }
+    }
+
+    if(key !== 'Shift'){
+      let c = cmd + key;
+      setCmd(c);
+    }
+
+
   }
 
   return (
     <div id="console" className="console-max">
-      
+    
       <div id="prompt_container">
         <div id="console_log" className="hide">
-            <ul id="console_output" onChange={scroll} className="console">
+            <ul id="console_output" className="console">
               <li>Welcome to devity!</li>
             {/* {
               console.logs?.map((i, index) => { return (<li key={index}>{i}</li>); })
             } */}
             </ul>
+            
         </div>
         <span id='prompt_cmd'>D#&gt;</span>
           <input 
@@ -84,6 +123,7 @@ const Console = (props) =>
               aria-label="Search">
           </input>
           <div id="search_results"></div>
+          <span>{cmd}</span>
       </div>
 
     </div>

@@ -28,6 +28,17 @@ export function UserProvider({ children })
     });
   },[]);
 
+  async function fetchAllInterests() {
+      return await axios.get(devity_api + '/api/userinterests/all')
+          .then((response) => {
+            return response.data;
+          }).then((result) => {
+            return result;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+  }
 
   return (
     <UserContext.Provider value={userProfile}>

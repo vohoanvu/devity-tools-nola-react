@@ -19,6 +19,7 @@ export default function Links(props)
             const widget = await getWidgetContentById(props.widget.id);
 
             const contentArray = JSON.parse(widget.w_content);
+
             const currentWidget = {
                 ...widget,
                 w_content: contentArray
@@ -49,7 +50,6 @@ export default function Links(props)
     }
 
     async function updateLinkContentInDb(currentLink, linkContentList) {
-        console.log(111, linkContentList);
         const putBody = {
             ...currentLink,
             w_content: JSON.stringify(linkContentList)
@@ -89,7 +89,7 @@ export default function Links(props)
                 <button type='button' value="Submit" onClick={onSaveNewLink}>Save</button>
             </form>
             {
-                displayLinks.map((item, index) => 
+                Object.entries(displayLinks).map((item, index) => 
                     <li key={index}><a href={item.hyperLink}>{item.displayName}</a></li> )
             }
         </div>

@@ -90,7 +90,7 @@ export default function DevityPanels(props)
           })
           .then(result => {
               postBody["id"] = result.id;
-              widgetObject[type].push(postBody);
+              widgetObject[type].splice(0, 0, postBody);
               setWidgetObject({...widgetObject});
               $('div[data-panel=' + type + '] .gear').removeClass('rotate');
               log("Created " + type + " widget.")

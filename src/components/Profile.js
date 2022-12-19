@@ -78,7 +78,6 @@ export default function Profile(props)
             console.log('updateProfileInDb status: ', response.status);
             return response.data;
           }).then((result) => {
-            console.log('updateProfileInDb result: ', result);
             $('div[data-panel=Profile] .gear').removeClass('rotate');
             return result;
           })

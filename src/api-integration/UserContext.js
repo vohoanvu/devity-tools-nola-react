@@ -21,15 +21,15 @@ export function UserProvider({ children })
 
   React.useEffect(() => {
     async function fetchUserInterests() {
-        return await axios.get(devity_api + '/api/userinterests')
-            .then((response) => {
-              return response.data;
-            }).then((result) => {
-              return result;
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+      return await axios.get(devity_api + '/api/userinterests')
+          .then((response) => {
+            return response.data;
+          }).then((result) => {
+            return result;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     }
 
     fetchUser().then(async (result) => { 

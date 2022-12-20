@@ -122,13 +122,3 @@ export default function Clipboard(props)
         </div>
     );
 }
-
-/* <label>
-    Input Clipboard:
-    <input 
-        value={clipboardContent.currentText}
-        type="text" 
-        onChange={handleContentOnChange}
-        onBlur={onBlurClipboardContent}
-        onKeyDown={handleContentKeyDown}/>
-</label> */

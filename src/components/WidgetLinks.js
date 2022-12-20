@@ -18,8 +18,9 @@ export default function Links(props)
         (async () => {
             const widget = await getWidgetContentById(props.widget.id);
 
-            const contentArray = JSON.parse(widget.w_content);
-
+            const contentArray = JSON.parse(widget.w_content)
+            .filter(item => item.hyperLink.length !== 0 && item.displayName.length !== 0);
+            console.log(2222, contentArray);
             const currentWidget = {
                 ...widget,
                 w_content: contentArray
@@ -42,11 +43,10 @@ export default function Links(props)
     }
 
     function onSaveNewLink() {
-        const currentDisplay = [...displayLinks];
-        currentDisplay.splice(0, 0, linkContent);
-        setDisplayLinks(currentDisplay);
+        displayLinks.splice(0, 0, linkContent);
+        setDisplayLinks([...displayLinks]);
 
-        updateLinkContentInDb(link, currentDisplay);
+        updateLinkContentInDb(link, displayLinks);
     }
 
     async function updateLinkContentInDb(currentLink, linkContentList) {
@@ -86,11 +86,12 @@ export default function Links(props)
                         name="displayName"
                         onChange={handleLinkChange}/>
                 </label>
-                <button type='button' value="Submit" onClick={onSaveNewLink}>Save</button>
+                <button id='LinkContentSaving' type='button' value="Submit" onClick={onSaveNewLink}>Save</button>
             </form>
             {
-                Object.entries(displayLinks).map((item, index) => 
-                    <li key={index}><a href={item.hyperLink}>{item.displayName}</a></li> )
+                displayLinks.map((item, index) => {
+                    return <li key={index}><a href={item.hyperLink}>{item.displayName}</a></li>;
+                })
             }
         </div>
     );

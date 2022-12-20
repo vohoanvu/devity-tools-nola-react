@@ -73,9 +73,11 @@ export default function DevityPanels(props)
         jsonObject["NOTES"] = []; //format: "{ NOTES: [ "string1", "string2" ] }"
         return jsonObject;
       case "LINKS":
+        let jsonObjList = [];
         jsonObject["hyperLink"] = "";
         jsonObject["displayName"] = ""; //format: "{ "hyperLink": "noladigital.net", "displayName": "NOLA" }"
-        return jsonObject;
+        jsonObjList.push(jsonObject);
+        return jsonObjList;
       default:
         break;
     }

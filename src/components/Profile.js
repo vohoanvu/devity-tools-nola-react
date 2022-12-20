@@ -66,27 +66,33 @@ export default function Profile(props)
         break;
     }
 
-    console.log('userProfile: ', userProfile);
-
     updateProfileInDb(userProfile);
   }
 
   async function updateProfileInDb(putBody) {
-    $('div[data-panel=Profile] .gear').addClass('rotate');
+    $('div[data-panel=PROFILE] .gear').addClass('rotate');
     return await axios.put(devity_api + '/api/profile', {...putBody})
           .then((response) => {
             console.log('updateProfileInDb status: ', response.status);
             return response.data;
           }).then((result) => {
-            $('div[data-panel=Profile] .gear').removeClass('rotate');
+            $('div[data-panel=PROFILE] .gear').removeClass('rotate');
             return result;
           })
           .catch((error) => console.log(error));
   }
 
-  function saveUserInterests() {
-    const seletecedInterests = userProfile.user_interests.filter(i => i.IsUserSelected).map(i => i.Id);
-    console.log("userSeletecd Interest Ids...", seletecedInterests);
+  async function saveUserInterestsInDb() {
+    const selectedInterests = userProfile.user_interests.filter(i => i.IsUserSelected).map(i => i.Id);
+    console.log("userSeletecd Interest Ids...", selectedInterests);
+    $('div[data-panel=PROFILE] .gear').addClass('rotate');
+
+    await axios.post(devity_api + '/api/userinterests', [ ...selectedInterests ])
+          .then((response) => {
+            console.log('saveUserInterestsInDb status: ', response.status);
+            if (response.status === 200) $('div[data-panel=PROFILE] .gear').removeClass('rotate');
+          })
+          .catch((error) => console.log(error));
   }
 
   function handleInterestsOnChange(e) {
@@ -175,7 +181,7 @@ export default function Profile(props)
               })
             }
           </ul>
-          <button type="submit" onClick={saveUserInterests}>Save</button>
+          <button type="submit" onClick={saveUserInterestsInDb}>Save</button>
         </div>
       </div>
     </div>

@@ -38,7 +38,10 @@ export default function WidgetActions(props)
     }
 
     async function saveWidgetTitleOnBlur(eventTarget) {
-        const putBody = {...props.widget, name: eventTarget.value};
+        const putBody = {
+            ...props.widget, 
+            name: eventTarget.value
+        };
         await props.callPUTRequest(putBody, props.widget.w_type);
     }
 

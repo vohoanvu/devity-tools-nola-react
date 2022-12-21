@@ -48,12 +48,12 @@ export default function Clipboard(props)
     }
 
     async function updateWidgetContent(currentContentArray, type) {
-        let jsonObjList = JSON.parse(clipboardContent.widget.w_content);
-        jsonObjList["CLIPBOARD"] = currentContentArray;
+        let jsonObject = JSON.parse(clipboardContent.widget.w_content);
+        jsonObject["CLIPBOARD"] = currentContentArray;
 
         const putBody = {
             ...clipboardContent.widget,
-            w_content: JSON.stringify(jsonObjList)
+            w_content: JSON.stringify(jsonObject)
         }
 
         await props.callPUTRequest(putBody, type);

@@ -50,6 +50,8 @@ export default function Links(props)
     }
 
     async function updateLinkContentInDb(currentLink, linkContentList) {
+        //TODO: refactor to save PUT request using link.w_content
+
         const putBody = {
             ...currentLink,
             w_content: JSON.stringify(linkContentList)

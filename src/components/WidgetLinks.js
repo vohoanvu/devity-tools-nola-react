@@ -46,18 +46,16 @@ export default function Links(props)
         displayLinks.splice(0, 0, linkContent);
         setDisplayLinks([...displayLinks]);
 
-        updateLinkContentInDb(link, displayLinks);
+        updateLinkContentInDb();
     }
 
-    async function updateLinkContentInDb(currentLink, linkContentList) {
-        //TODO: refactor to save PUT request using link.w_content
-
+    async function updateLinkContentInDb() {
         const putBody = {
-            ...currentLink,
-            w_content: JSON.stringify(linkContentList)
+            ...link,
+            w_content: JSON.stringify(link.w_content)
         }
 
-        await props.callPUTRequest(putBody, currentLink.w_type);
+        await props.callPUTRequest(putBody, link.w_type);
     }
 
 

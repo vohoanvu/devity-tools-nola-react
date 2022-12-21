@@ -24,7 +24,7 @@ export default function Note(props)
     async function getWidgetContentById(w_id) {
         return await axios.get(devity_api + '/api/widgets/'+ w_id)
             .then((res) => {
-                if (res.status === '401') window.location.replace(sso_url);
+                if (res.status === 401) window.location.replace(sso_url);
 
                 return res.data.w_content;
             }).then(result => {return result;} )

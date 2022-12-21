@@ -20,7 +20,7 @@ export default function Links(props)
 
             const contentArray = JSON.parse(widget.w_content)
             .filter(item => item.hyperLink.length !== 0 && item.displayName.length !== 0);
-            console.log(2222, contentArray);
+
             const currentWidget = {
                 ...widget,
                 w_content: contentArray

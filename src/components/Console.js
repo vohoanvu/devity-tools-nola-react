@@ -9,9 +9,7 @@ const Console = (props) =>
 {
   const [err, setErr] = useState('');
   const [cmd, setCmd] = useState('#d ');
-  Array.prototype.contains = function(element){
-    return this.indexOf(element) > -1;
-  };
+
   const keys_ignore = ['Shift', 'Capslock', 'Alt', 'Control', 'Alt', 'Delete', 'End', 'PageDown', 'PageUp', 'Meta', 'ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft', 'NumLock', 'Pause', 'ScrollLock', 'Home', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10','F11','F12'];
   const command_ignore = ['Tab', 'Escape'];
 
@@ -114,7 +112,7 @@ const Console = (props) =>
 
     var key = e.key;
     
-    if (keys_ignore.contains(key)) {
+    if (keys_ignore.includes(key)) {
       return;
     }
 
@@ -160,7 +158,7 @@ const Console = (props) =>
       }
     }
 
-    if(!command_ignore.contains(key)){
+    if(!command_ignore.includes(key)){
       let c = cmd + key;
       setCmd(c);
     }
@@ -175,7 +173,7 @@ const Console = (props) =>
 
     var key = e.key;
 
-    if (keys_ignore.contains(key)) {
+    if (keys_ignore.includes(key)) {
       return;
     }
 
@@ -215,7 +213,7 @@ const Console = (props) =>
           <input 
               onKeyDown={(e) => handleKeyDown(e)}
               onKeyUp={(e) => handleKeyUp(e)}
-              onBlur={() => focus_cmd()}
+              onClick={() => focus_cmd()}
               id='prompt_input'
               maxLength="2048" 
               type="text" 
@@ -224,7 +222,7 @@ const Console = (props) =>
               autoCapitalize="off" 
               autoComplete="off" 
               autoCorrect="off"
-              autoFocus="1"
+              autoFocus={false}
               role="combobox" 
               aria-controls="prompt_input"
               aria-expanded="true"

@@ -20,7 +20,7 @@ export default function Links(props)
 
             const contentArray = JSON.parse(widget.w_content)
             .filter(item => item.hyperLink.length !== 0 && item.displayName.length !== 0);
-            console.log(2222, contentArray);
+
             const currentWidget = {
                 ...widget,
                 w_content: contentArray
@@ -46,16 +46,16 @@ export default function Links(props)
         displayLinks.splice(0, 0, linkContent);
         setDisplayLinks([...displayLinks]);
 
-        updateLinkContentInDb(link, displayLinks);
+        updateLinkContentInDb();
     }
 
-    async function updateLinkContentInDb(currentLink, linkContentList) {
+    async function updateLinkContentInDb() {
         const putBody = {
-            ...currentLink,
-            w_content: JSON.stringify(linkContentList)
+            ...link,
+            w_content: JSON.stringify(link.w_content)
         }
 
-        await props.callPUTRequest(putBody, currentLink.w_type);
+        await props.callPUTRequest(putBody, link.w_type);
     }
 
 

@@ -45,21 +45,8 @@ export default function DevityPanels(props)
         height : 300,
         width: 300
     }
-    const newWidgetArray = [...widgetList];
 
-    switch (widgetType) {
-      case "CLIPBOARD":
-        createWidget(newWidget, newWidgetArray, widgetType);
-        break;
-      case "NOTES":
-        createWidget(newWidget, newWidgetArray, widgetType);
-        break;
-      case "LINKS":
-        createWidget(newWidget, newWidgetArray, widgetType);
-        break;
-      default:
-        break;
-    }
+    createWidget(newWidget, widgetType);
   }
 
   function PrepareWidgetContentObject(type) {
@@ -70,12 +57,12 @@ export default function DevityPanels(props)
         jsonObject["CLIPBOARD"] = [];
         return jsonObject;
       case "NOTES":
-        jsonObject["NOTES"] = []; //format: "{ NOTES: [ "string1", "string2" ] }"
+        jsonObject["NOTES"] = "<p></p>"; //format: "{ NOTES: "<p>html-encoded-string-from-TINY-editor</p>" }"
         return jsonObject;
       case "LINKS":
         let jsonObjList = [];
         jsonObject["hyperLink"] = "";
-        jsonObject["displayName"] = ""; //format: "{ "hyperLink": "noladigital.net", "displayName": "NOLA" }"
+        jsonObject["displayName"] = ""; //format: "[{ "hyperLink": "noladigital.net", "displayName": "NOLA" }]"
         jsonObjList.push(jsonObject);
         return jsonObjList;
       default:
@@ -83,7 +70,7 @@ export default function DevityPanels(props)
     }
   }
 
-  async function createWidget(postBody, newWidgetArray, type) {
+  async function createWidget(postBody, type) {
     delete postBody["key"];
     $('div[data-panel=' + type + '] .gear').addClass('rotate');
     await axios.post(devity_api + "/api/widgets/", { ...postBody })

@@ -56,39 +56,39 @@ class Header extends React.Component {
       return <div id="navigation" className="nav-max">
 
       <div id="logo">
-        <button onClick={()=>this.onNavigate('ALL')}>
+        <button id="nav_all" onClick={()=>this.onNavigate('ALL')}>
           <img  src={logo} className="logo" alt="logo" />
         </button>
       </div>
       
       <header id="ribbon" className="ribbon-cntrls" >
-        <button onClick={()=>this.onNavigate('LINKS')}>
+        <button id='nav_links' onClick={()=>this.onNavigate('LINKS')}>
           <img src={btn_image_links} alt="Links" /><br />
           <span>Links</span>
         </button>
 
-        <button onClick={()=>this.onNavigate('CLIPBOARD')}>
+        <button id="nav_clipboard" onClick={()=>this.onNavigate('CLIPBOARD')}>
           <img  src={btn_image_clipboard} className="" alt="Clipboard" /><br />
           <span>Clipboard</span>
         </button>
 
-        <button onClick={()=>this.onNavigate('NOTES')}>
+        <button id='nav_notes' onClick={()=>this.onNavigate('NOTES')}>
           <img  src={btn_image_notes} className="" alt="Notes" /><br />
           <span>Notes</span>
         </button>
 
-        <button onClick={()=>this.onNavigate('LIBRARIES')}>
+        <button id='nav_libraries' onClick={()=>this.onNavigate('LIBRARIES')}>
           <img  src={btn_image_lib} className="" alt="Libraries" /><br />
           <span>Libraries</span>
         </button>
 
-        <button id="console_btn" onClick={()=>this.onNavigate('CONSOLE')}>
+        <button id="nav_console" onClick={()=>this.onNavigate('CONSOLE')}>
           <img  src={btn_image_code} className="" alt="Console" /><br />
           <span>Console</span>
         </button>
 
 
-        <button onClick={()=>this.onNavigate('PROFILE')}>
+        <button id='nav_profile' onClick={()=>this.onNavigate('PROFILE')}>
           <img  src={btn_image_avitar} className="App-avitar" alt="{user.name}" /><br />
           <Username />
         </button>

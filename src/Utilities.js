@@ -6,4 +6,8 @@ export function log(value) {
     objDiv.scrollTop = objDiv.scrollHeight;
     return true;
   }
+
+  export function focus_cmd() {
+    document.getElementById("prompt_input").focus({focusVisible: true});
+  }
   

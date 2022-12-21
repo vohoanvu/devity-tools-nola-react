@@ -120,7 +120,7 @@ list-style-type: none;
 
 @media (max-width: 780px) {
 
-  #console_btn{
+  #nav_console{
     display: none;
   }
   .ribbon-cntrls{

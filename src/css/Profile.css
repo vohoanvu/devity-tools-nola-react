@@ -18,14 +18,3 @@
     width: 170px;
 }
 
-.tiny-editor-box {
-    border-color: white;
-    border-radius: 5%;
-    border-style: groove;
-    height: 200px;
-    padding: 5px 5px 5px 5px;
-}
-
-div.mce-content-body {
-    min-height: 200px;
-}

@@ -3,6 +3,7 @@ import axios from 'axios';
 import configData from "../config.json";
 import '../css/App.css';
 import { Editor } from '@tinymce/tinymce-react';
+import { log } from '../Utilities'
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
@@ -33,7 +34,7 @@ export default function Note(props)
 
                 return res.data.w_content;
             }).then(result => {return result;} )
-            .catch((err) => console.log(err));
+            .catch((err) => log(err));
     }
 
     const saveNoteEditor = () => {
@@ -59,22 +60,17 @@ export default function Note(props)
 
 
     return (
-        <div className='widget'>
-            <button onClick={saveNoteEditor} disabled={!dirty}>Save content</button>
-            {dirty && <p style={{ color: 'red'}}>You have unsaved content!</p>}
+        <div className='widget notes'>
+            {dirty && <button className='w-notes-save-btn' onClick={saveNoteEditor} disabled={!dirty}>Save</button>}
             <div className='tiny-editor-box w_overflowable'>
                 <Editor
-                    inline
                     apiKey='c706reknirqudytbeuz7vvwxpc7qdscxg9j4jixwm0zhqbo4'
                     onInit={(evt, editor) => editorRef.current = editor}
                     initialValue={note.w_content}
                     onDirty={() => setDirty(true)}
                     init={{
-                        height: 250,
-                        menubar: false,
-                        plugins: ['anchor','autolink','charmap', 'codesample', 'emoticons', 'image', 'link','lists', 'media', 'searchreplace','table', 'visualblocks', 'wordcount'],
-                        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat | code',
-                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                        skin: 'CUSTOM',
+                        skin_url: '../css/CUSTOM'
                     }}
                 />
             </div>

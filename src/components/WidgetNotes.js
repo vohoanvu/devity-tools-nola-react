@@ -60,7 +60,7 @@ export default function Note(props)
 
     return (
         <div className='widget'>
-            <button onClick={saveNoteEditor} disabled={!dirty}>Save content</button>
+            <button type="submit" onClick={saveNoteEditor} disabled={!dirty}>Save content</button>
             {dirty && <p style={{ color: 'red'}}>You have unsaved content!</p>}
             <div className='tiny-editor-box w_overflowable'>
                 <Editor

@@ -26,6 +26,7 @@ export default function App()
   const token = new URLSearchParams(search).get('token');
   let bearer = cookies.get(devity_cookie);
   const [searchResultData, setSearchResultData] = useState([]);
+  const [youtubeResultData, setYoutubeResultData] = useState([]);
   const [isAllPanelsRendered, setIsAllPanelsRendered] = useState(false);
 
   if (token) {
@@ -56,8 +57,12 @@ export default function App()
     window.location.replace(sso_url);
   }
 
-  function childToParent(childResultData) {
+  function renderGoogleSearchResults(childResultData) {
     setSearchResultData(childResultData);
+  }
+
+  function renderYoutubeSearchResults(childResultData) {
+    setYoutubeResultData(childResultData);
   }
 
   function renderSelectedPanel(isAllPanelsRendered) {
@@ -73,12 +78,17 @@ export default function App()
               mostRecentPage={localStorage.getItem(UserMostReventView) ?? ''} 
               isPanelsRendered={isAllPanelsRendered}
               UserMostReventView={UserMostReventView}></Header>
-            <Console passFromChildToParent={childToParent}/>
+            <Console 
+              passGoogleResultFromChildToParent={renderGoogleSearchResults}
+              passYoutubeResultFromChildToParent={renderYoutubeSearchResults}
+              />
           </div>
           <DevityPanels triggerMostRecentView={renderSelectedPanel}></DevityPanels>
           <Profile devity_cookie={devity_cookie}></Profile>
           <Libraries></Libraries>
-          <SearchResults style={{display:"none;"}} data={searchResultData}/>
+          <SearchResults style={{display:"none;"}} 
+            googleData={searchResultData}
+            youtubeData={youtubeResultData}/>
         </UserProvider>
     </div>
     

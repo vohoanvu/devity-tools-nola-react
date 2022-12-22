@@ -3,6 +3,7 @@ import $ from "jquery";
 import axios from 'axios';
 import {useState} from 'react';
 import { log, focus_cmd } from '../Utilities'
+const VuYoutubeApiKey = "AIzaSyADpcOL5mxw_D8UWq8K5ki0lvxHh8vU8F0";
 
 
 const Console = (props) => 
@@ -28,23 +29,41 @@ const Console = (props) =>
         if (parameters) {
           $("#prompt_input").val('');
             
-          let search_api = "https://www.googleapis.com/customsearch/v1?key=AIzaSyAzgX2yArFJrRogwd5GCdkjmQaUwGUWMqs&cx=b2801acca79e24323&q=" + encodeURIComponent(parameters);
-            
-          return await axios.get(search_api)
-              .then((res) => {
+          const googleSearchApi = "https://www.googleapis.com/customsearch/v1?key=AIzaSyAzgX2yArFJrRogwd5GCdkjmQaUwGUWMqs&cx=b2801acca79e24323&q=" + encodeURIComponent(parameters);
+          await axios.get(googleSearchApi)
+                .then((res) => {
+                    localStorage.setItem('mostReventView', "RESULTS");
+                    props.passGoogleResultFromChildToParent(res.data.items);
+                    
+                    $('div[data-panel=RESULTS] .gear').removeClass('rotate');
+                    setCmd('#s ');
+                    log('fetched search results for ' + parameters);
+                })
+                .catch((error) => {
+                    setErr(error);
+                    console.log(err);
+                    log(err);
+                });
+
+
+          const youtubeSearchApi = "https://www.googleapis.com/youtube/v3/search?part=snippet&forDeveloper=true&maxResults=25&q=" 
+          + encodeURIComponent(parameters) + "&key=" + VuYoutubeApiKey;
+          await axios.get(youtubeSearchApi)
+                .then((res) => {
+                  console.log('youtube search response: ', res.data);
                   localStorage.setItem('mostReventView', "RESULTS");
-                  props.passFromChildToParent(res.data.items);
-                  
+                  props.passYoutubeResultFromChildToParent(res.data.items);
+                  return res.data.items
+                })
+                .then((result) => {
+                  console.log('youtube search results: ', result);
                   $('div[data-panel=RESULTS] .gear').removeClass('rotate');
                   setCmd('#s ');
                   log('fetched search results for ' + parameters);
-              })
-              .catch((error) => {
-                  setErr(error);
-                  console.log(err);
-                  log(err);
-              })
-    
+                })
+                .catch((error) => console.log(error));
+
+          return;
         } else {
           log('Attempt to search without entering search term');
         }
@@ -107,6 +126,13 @@ const Console = (props) =>
       }
 
   };
+
+  function loadClient() {
+    gapi.client.setApiKey("YOUR_API_KEY");
+    return gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
+        .then(function() { console.log("GAPI client loaded for API"); },
+              function(err) { console.error("Error loading GAPI client for API", err); });
+  }
 
   function handleKeyDown(e) {
 
@@ -198,7 +224,7 @@ const Console = (props) =>
 
   return (
     <div id="console" className="console-max">
-    
+      <script src="https://apis.google.com/js/api.js"></script>
       <div id="prompt_container">
         <div id="console_log" className="hide">
             <ul id="console_output" className="console">

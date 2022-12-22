@@ -4,11 +4,13 @@ import btn_image_config from "../img/d_btn_ctrl_config.png";
 
 export default function SearchResults(props)
 {
-    const [searchResults, setSearchResults] = useState([]);
+    const [googleSearchResults, setGoogleSearchResults] = useState([]);
+    const [youtubeSearchResults, setYoutubeSearchResults] = useState([]);
 
     useEffect(() => {
-        setSearchResults(props.data);
-    }, [props.data, searchResults]);
+        setGoogleSearchResults(props.googleData);
+        setYoutubeSearchResults(props.youtubeData);
+    }, [props.googleData, googleSearchResults,props.youtubeData, youtubeSearchResults]);
 
     return (
         <div className='p-panel results hidden' data-panel='RESULTS'>
@@ -19,7 +21,7 @@ export default function SearchResults(props)
 
                 <ul>
                     {
-                        Object.entries(searchResults).map(([key, value]) => {
+                        Object.entries(googleSearchResults).map(([key, value]) => {
                             return (
                                 <li key={key} data-cacheid={value.cacheId}>
                                     <div className='result-container'>

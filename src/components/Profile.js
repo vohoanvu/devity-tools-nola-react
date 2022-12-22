@@ -108,6 +108,12 @@ export default function Profile(props)
     });
   }
 
+  async function upgradeProfileMembership() {
+    if (window.confirm("Are you sure you want to upgrade to a PAID membership?")) {
+      await updateProfileInDb({...userProfile, paid: true});
+    }
+  }
+
   return (
     <div className="p-panel" style={{display:'none'}} data-panel="PROFILE">
       <div className='p-chrome'>
@@ -160,6 +166,7 @@ export default function Profile(props)
                 onChange={e => handleUserEmailOnChange(e.target.value)}
             />
           </Editable>
+          <button type="submit" disabled={true} onClick={upgradeProfileMembership}>Upgrade</button>
         </div>
         <div className='interests-card'>
           <h3>Interests</h3>

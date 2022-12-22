@@ -69,8 +69,8 @@ export default function Note(props)
                     initialValue={note.w_content}
                     onDirty={() => setDirty(true)}
                     init={{
-                        skin: 'CUSTOM',
-                        skin_url: '../css/CUSTOM'
+                        selector: 'textarea', 
+                        skin_url: './css/CUSTOM'
                     }}
                 />
             </div>
@@ -78,3 +78,4 @@ export default function Note(props)
     );
     
 }
+

@@ -120,7 +120,7 @@ const Libraries = (props) =>
 
           {data.Items?.map((i,index) => {
                       return (
-                        <tr key={index} className='lib-tbl-row filterable_parent' onClick={handleRowClick} >
+                        <tr key={index} className='lib-tbl-row' onClick={handleRowClick} >
                           <td className="lib_content lib-tbl-row-cmd filterable" dangerouslySetInnerHTML={{__html: i.Command}}></td>
                           <td className="lib_content filterable" dangerouslySetInnerHTML={{__html: i.Details}}></td>
                         </tr>

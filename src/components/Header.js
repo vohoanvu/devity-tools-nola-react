@@ -8,6 +8,7 @@ import btn_image_clipboard from "../img/d_btn_ctrl_clipboard.png";
 import btn_image_code from "../img/d_btn_ctrl_code.png";
 import btn_image_lib from "../img/d_btn_ctrl_lib.png";
 import { UserContext } from "../api-integration/UserContext";
+import { log } from '../Utilities'
 
 
 class Header extends React.Component {
@@ -27,7 +28,6 @@ class Header extends React.Component {
       }
     }
 
-
     onNavigate(target) {
       let recentView = target ?? '';
       localStorage.setItem('mostReventView', recentView);
@@ -37,6 +37,7 @@ class Header extends React.Component {
         $('#navigation').toggleClass('nav-min');
         $('#console').toggleClass('console-max');
         $('#console').toggleClass('console-min');
+        $('#cmd_type_radio').toggle();
         // $('#header_container').toggleClass('display-flex');
       } else {
         $('.p-panel').hide();

@@ -60,7 +60,7 @@ export default function Note(props)
 
 
     return (
-        <div className='widget notes'>
+        <div className='widget notes filterable'>
             {dirty && <button className='w-notes-save-btn' onClick={saveNoteEditor} disabled={!dirty}>Save</button>}
             <div className='tiny-editor-box w_overflowable'>
                 <Editor

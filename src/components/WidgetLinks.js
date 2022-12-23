@@ -90,7 +90,7 @@ export default function Links(props)
             </form>
             {
                 displayLinks.map((item, index) => {
-                    return <li key={index}><a href={item.hyperLink}>{item.displayName}</a></li>;
+                    return <li key={index}><a className='filterable' href={item.hyperLink}>{item.displayName}</a></li>;
                 })
             }
         </div>

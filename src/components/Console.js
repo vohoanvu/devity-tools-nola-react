@@ -2,52 +2,46 @@ import * as React from "react";
 import $ from "jquery";
 import axios from 'axios';
 import {useState} from 'react';
-import { log, focus_cmd } from '../Utilities'
+import { log } from '../Utilities'
 const VuYoutubeApiKey = "AIzaSyADpcOL5mxw_D8UWq8K5ki0lvxHh8vU8F0";
 
 
 const Console = (props) => 
 {
   const [err, setErr] = useState('');
-  const [cmd, setCmd] = useState('#d ');
-
+  const [cmd, setCmd] = useState('#filter');
+  const [params, setParams] = useState(' ');
   const keys_ignore = ['Shift', 'Capslock', 'Alt', 'Control', 'Alt', 'Delete', 'End', 'PageDown', 'PageUp', 'Meta', 'ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft', 'NumLock', 'Pause', 'ScrollLock', 'Home', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10','F11','F12'];
   const command_ignore = ['Tab', 'Escape'];
 
-  const runCcommand = async () => {
+  const runCommand = async () => {
 
-    let command = cmd.slice(0,2);
-    let parameters = cmd.substring(2).trim().toLowerCase();
+    switch(cmd) {
+      case '#search':
 
-    switch(command) {
-      case '#s':
-        // search
         $('.p-panel').hide();
         $('div[data-panel=RESULTS]').show();
         $('div[data-panel=RESULTS] .gear').addClass('rotate');
       
-        if (parameters) {
-          $("#prompt_input").val('');
+        if (params) {
             
-          const googleSearchApi = "https://www.googleapis.com/customsearch/v1?key=AIzaSyAzgX2yArFJrRogwd5GCdkjmQaUwGUWMqs&cx=b2801acca79e24323&q=" + encodeURIComponent(parameters);
+          const googleSearchApi = "https://www.googleapis.com/customsearch/v1?key=AIzaSyAzgX2yArFJrRogwd5GCdkjmQaUwGUWMqs&cx=b2801acca79e24323&q=" + encodeURIComponent(params);
           await axios.get(googleSearchApi)
                 .then((res) => {
                     localStorage.setItem('mostReventView', "RESULTS");
                     props.passGoogleResultFromChildToParent(res.data.items);
                     
                     $('div[data-panel=RESULTS] .gear').removeClass('rotate');
-                    setCmd('#s ');
-                    log('fetched search results for ' + parameters);
+                    log('fetched google search api results for ' + params);
                 })
                 .catch((error) => {
                     setErr(error);
-                    console.log(err);
                     log(err);
                 });
 
 
           const youtubeSearchApi = "https://www.googleapis.com/youtube/v3/search?part=snippet&forDeveloper=true&maxResults=25&q=" 
-          + encodeURIComponent(parameters) + "&key=" + VuYoutubeApiKey;
+          + encodeURIComponent(params) + "&key=" + VuYoutubeApiKey;
           await axios.get(youtubeSearchApi)
                 .then((res) => {
                   console.log('youtube search response: ', res.data);
@@ -58,73 +52,35 @@ const Console = (props) =>
                 .then((result) => {
                   console.log('youtube search results: ', result);
                   $('div[data-panel=RESULTS] .gear').removeClass('rotate');
-                  setCmd('#s ');
-                  log('fetched search results for ' + parameters);
+                  log('fetched youtube results for ' + params);
                 })
                 .catch((error) => console.log(error));
 
-          return;
+
         } else {
           log('Attempt to search without entering search term');
         }
-        return;
-      case '#d':
-        if(parameters === 'clear'){
-          $('#console_output').empty();
-          setCmd('#d ');
-          $("#prompt_input").val('');
-          return;
-        }
-        if(parameters === 'profile'){
-          $('#nav_profile').trigger('click');
-          setCmd('#d ');
-          $("#prompt_input").val('');
-          return;
-        }
-        if(parameters === 'clipboard'){
-          $('#nav_clipboard').trigger('click');
-          setCmd('#d ');
-          $("#prompt_input").val('');
-          return;
-        }
-        if(parameters === 'notes'){
-          $('#nav_notes').trigger('click');
-          setCmd('#d ');
-          $("#prompt_input").val('');
-          return;
-        }
-        if(parameters === 'links'){
-          $('#nav_links').trigger('click');
-          setCmd('#d ');
-          $("#prompt_input").val('');
-          return;
-        }
-        if(parameters === 'libraries'){
-          $('#nav_libraries').trigger('click');
-          setCmd('#d ');
-          $("#prompt_input").val('');
-          return;
-        }
-        if(parameters === 'console'){
-          $('#nav_console').trigger('click');
-          setCmd('#d ');
-          $("#prompt_input").val('');
-          return;
-        }
-        if(parameters === 'all'){
-          $('#nav_all').trigger('click');
-          setCmd('#d ');
-          $("#prompt_input").val('');
-          return;
-        }
+        break;
+      case '#devity':
 
-        log(command + ' is not a recognized command');
-        return;
+        if(params === 'clear'){$('#console_output').empty();}
+        if(params === 'profile'){$('#nav_profile').trigger('click');}
+        if(params === 'clipboard'){$('#nav_clipboard').trigger('click');}
+        if(params === 'notes'){$('#nav_notes').trigger('click');}
+        if(params === 'links'){$('#nav_links').trigger('click');}
+        if(params === 'libraries'){$('#nav_libraries').trigger('click');}
+        if(params === 'console'){$('#nav_console').trigger('click');}
+        if(params === 'all'){$('#nav_all').trigger('click');}
+        break;
+      case '#filter':
+        break;
       default:
-        log(command + ' is not a recognized command');
-        return;
+        log(cmd + ' is not a recognized command');
+        break;
       }
 
+      $("#prompt_input").val('');
+      setParams('');
   };
 
   function handleKeyDown(e) {
@@ -136,57 +92,45 @@ const Console = (props) =>
     }
 
     if(key === 'Escape'){
-      $("#prompt_cmd").html('D#>');
-      setCmd('#d ');
+      setCmd('#devity');
+      setParams('');
+      $('.filterable').parent().show();
       $("#prompt_input").val('');
       return;
     }
-
-    if (key==='Enter') {
-        runCcommand();
-        return;
-    }
-    
-    if (key==='Backspace') {
-      let c = cmd.slice(0,-1);
-      setCmd(c);
-      return;
-    }
-
+   
     if(key === ' ' || key === 'Tab'){
-      let c = cmd.charAt(0);
-      if( c === "#" ){
-        
-        let command = cmd.toLowerCase();
+      if( params === "#f" || params === "#filter" ){
+        setCmd("#filter")
+        setParams('');
+        $("#prompt_input").val('');
 
-        if(command === "#f" || command === "#filter"){
-          $("#prompt_cmd").html('#filter>');
-          $("#prompt_input").val('');
-          setCmd('#f ');
-          
-          return;
-        }
-  
-        if(command === "#s" || command === "#search"){
-          $("#prompt_cmd").html('#search>');
-          $("#prompt_input").val('');
-          setCmd('#s ');
-          
-          return;
-        }
+      }
+      if(params === "#s" || params === "#search"){
+        setCmd("#search")
+        setParams('');
+        $("#prompt_input").val('');
+        $('.filterable').parent().show();
+
+      }
+      if(params === "#d" || params === "#devity"){
+        setCmd("#devity")
+        setParams('');
+        $("#prompt_input").val('');
+        $('.filterable').parent().show();
       }
     }
 
-    if(!command_ignore.includes(key)){
-      let c = cmd + key;
-      setCmd(c);
+    if (key==='Enter') {
+      runCommand();
+      return;
     }
-          
-    
-
 
   }
 
+  function handleCmdChange(e) {
+    setCmd('#' + e.target.value);
+  }
 
   function handleKeyUp(e) {
 
@@ -196,28 +140,43 @@ const Console = (props) =>
       return;
     }
 
-    let command = cmd.slice(0,2);
+    if(!command_ignore.includes(key)){
+      setParams($("#prompt_input").val().toLowerCase().trim());
+    }
 
-    if(command === '#f'){
-      // Then filter page
-      let parameters = cmd.substring(2).trim();
-      $(".lib-tbl").find(".lib-tbl-row").find('td').filter(() => {
-        return $(this).toggle( $(this).text().toLowerCase().indexOf(parameters) > -1 );
+    if(cmd === '#filter'){
+
+      $(".filterable").filter(function() {
+        $(this).parent().toggle($(this).text().toLowerCase().indexOf(params) > -1)
       });
-
-      // $(".filterable_parent").find(".filterable").filter(() => {
-      //   var x = $(this);
-      //   var y = $(this).text().toLowerCase();
-      //   return $(this).parent().toggle( $(this).text().toLowerCase().indexOf(parameters) > -1 );
-      // });
 
     }
   }
 
+  function RadionButtonFilter(){
+    if(cmd === "#filter"){
+      return <input onClick={handleCmdChange} type="radio" name="cmdType" checked value="filter" />;
+    }
+    else{
+      return <input onClick={handleCmdChange} type="radio" name="cmdType" value="filter" />;
+    }
+  }
+  function RadionButtonSearch(){
+    if(cmd === "#search"){
+      return <input onClick={handleCmdChange} type="radio" name="cmdType" checked value="search" />;
+    }
+    else{
+      return <input onClick={handleCmdChange} type="radio" name="cmdType" value="search" />;
+    }
+  }
 
   return (
     <div id="console" className="console-max">
       <script src="https://apis.google.com/js/api.js"></script>
+      <div id='cmd_type_radio'>
+        <RadionButtonFilter /><label for="opt_search">Filter</label><br />
+        <RadionButtonSearch /><label for="opt_filter">Search</label>
+      </div>
       <div id="prompt_container">
         <div id="console_log" className="hide">
             <ul id="console_output" className="console">
@@ -228,11 +187,10 @@ const Console = (props) =>
             </ul>
             
         </div>
-        <span id='prompt_cmd'>D#&gt;</span>
+        <span id='prompt_cmd'>{cmd}&gt;</span>
           <input 
               onKeyDown={(e) => handleKeyDown(e)}
               onKeyUp={(e) => handleKeyUp(e)}
-              onClick={() => focus_cmd()}
               id='prompt_input'
               maxLength="2048" 
               type="text" 
@@ -250,8 +208,10 @@ const Console = (props) =>
               aria-label="Search">
           </input>
           <div id="search_results"></div>
-          <span>{cmd}</span>
+          {/* <span>cmd: {cmd}</span>< br />
+          <span>params: {params}</span> */}
       </div>
+      
 
     </div>
   );

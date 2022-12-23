@@ -24,7 +24,7 @@ export default function SearchResults(props)
                         Object.entries(googleSearchResults).map(([key, value]) => {
                             return (
                                 <li key={key} data-cacheid={value.cacheId}>
-                                    <div className='result-container'>
+                                    <div className='result-container filterable'>
                                         <div className='up-vote-btn' data-result-id={value.cacheId}>
                                             <span>0</span>
                                         </div>

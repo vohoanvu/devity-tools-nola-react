@@ -115,7 +115,7 @@ export default function Clipboard(props)
                 <ul>
                 {
                     clipboardContent.content?.map( (data, index) => 
-                        <li><span className='w_copyable filterable' onClick={handleItemClick} key={index}>{data}</span></li> )
+                        <li key={index}><span className='w_copyable filterable' onClick={handleItemClick}>{data}</span></li> )
                 }
                 </ul>
             </div>

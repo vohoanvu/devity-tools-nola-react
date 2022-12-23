@@ -14,14 +14,14 @@ export default function SearchResults(props)
 
     return (
         <div className='p-panel results hidden' data-panel='RESULTS'>
-              <div className='p-chrome'>
-                <img src={btn_image_config} className='gear' alt="devity gear"/>
-                <span className='p-title'>Dev-Search (Please up-vote useful results!)</span>
-              </div>
-
+            <div id='googleSearchResult'>
+                <div className='p-chrome'>
+                    <img src={btn_image_config} className='gear' alt="devity gear"/>
+                    <span className='p-title'>Dev-Search (Please up-vote useful results!)</span>
+                </div>
                 <ul>
                     {
-                        Object.entries(googleSearchResults).map(([key, value]) => {
+                        googleSearchResults && Object.entries(googleSearchResults).map(([key, value]) => {
                             return (
                                 <li key={key} data-cacheid={value.cacheId}>
                                     <div className='result-container filterable'>
@@ -42,7 +42,38 @@ export default function SearchResults(props)
                         })
                     }
                 </ul>
+            </div>
 
+            <div id='youtubeSearchResults'>
+                <div className='p-chrome'>
+                    <img src={btn_image_config} className='gear' alt="devity gear"/>
+                    <span className='p-title'>Youtube Search (Please up-vote useful results!)</span>
+                </div>
+                <ul>
+                    {
+                        youtubeSearchResults && Object.entries(youtubeSearchResults).map(([key, value]) => {
+                            const youtubeUrl = "https://www.youtube.com/watch?v=" + value.id.videoId;
+                            return (
+                                <li key={key} data-cacheid={value.cacheId}>
+                                    <div className='result-container filterable'>
+                                        <div className='up-vote-btn' data-result-id={value.cacheId}>
+                                            <span>0</span>
+                                        </div>
+                                        <div>
+                                            <span>{value.snippet.channelTitle}</span><br></br>
+                                            <a target='_blank' href={youtubeUrl} rel="noreferrer">{value.snippet.title}</a> 
+                                            <div>
+                                                <span dangerouslySetInnerHTML={{__html: value.snippet.description}} />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </li>
+                            );
+                        })
+                    }
+                </ul>
+            </div>
       </div>
     );
 }

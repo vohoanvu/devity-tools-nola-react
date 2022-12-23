@@ -248,6 +248,18 @@ overflow: auto;
   position: relative;
 }
 
+.w-chrome {
+  padding: 5px 0px 10px 20px;
+  height: 25px;
+  background-color: var(--COLOR_PANEL_CHROME_BG);
+  margin-bottom: 3px;
+  cursor: pointer;
+}
+.w-chrome button {
+    position: relative;
+    float: right;
+    height: 30px;
+}
 
 .w-title{
   display: block;
@@ -410,10 +422,26 @@ li { margin: 5px; padding: 5px; width: 150px; } */
   float: left;
 }
 .widget{
-  padding: 5px;
-  width: 95%;
-  height: 80%;
+
 }
+
+.w-links{
+padding: 10px;
+}
+.w-links ul{
+padding-left: 0px;
+}
+.w-links ul li{
+list-style-type: none;
+margin-bottom: 5px;
+}
+.w-links a{
+  text-decoration: none;
+}
+.w-links a:hover{
+  color: red;
+}
+
 
 .w-notes-save-btn{
   display: flex;
@@ -472,14 +500,22 @@ color: var(--COLOR_TEXT);
   display: none !important;
 }
 
+.clipboard{
+  padding-left: 10px;
+}
 .clipboard ul{
  margin-top: 5px;
- padding-left: 5px;
+ padding-left: 0px;
 }
 .clipboard ul li{
   list-style-type: none;
+  margin-bottom: 5px;
+
 }
-.clipboard ul li:hover{
+.clipboard ul li span{
+  display: block;
+}
+.clipboard ul li span:hover{
   color: var(--COLOR_LINK_HOVER);
 }
 

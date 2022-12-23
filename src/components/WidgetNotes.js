@@ -62,20 +62,19 @@ export default function Note(props)
     return (
         <div className='widget notes filterable'>
             {dirty && <button className='w-notes-save-btn' onClick={saveNoteEditor} disabled={!dirty}>Save</button>}
-            <div className='tiny-editor-box w_overflowable'>
+            <div className='tiny-editor-box'>
                 <Editor
-                    inline
                     apiKey='c706reknirqudytbeuz7vvwxpc7qdscxg9j4jixwm0zhqbo4'
                     onInit={(evt, editor) => editorRef.current = editor}
                     initialValue={note.w_content}
                     onDirty={() => setDirty(true)}
                     init={{
                         height: 250,
-                        menubar: true,
+                        menubar: false,
                         plugins: ['anchor','autolink','charmap', 'codesample','link','lists', 'searchreplace','table'],
                         toolbar: 'bold italic underline strikethrough | link table | align lineheight | numlist bullist indent outdent | removeformat | code',
                         content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-                        skin_url: './css/CUSTOM'
+                        skin_url: './css/CUSTOM/skins/ui/CUSTOM'
                     }}
                 />
 

@@ -96,7 +96,7 @@ export default function Clipboard(props)
             <form id="contentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
                 <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
                 <Editable 
-                    displayText={<span>{clipboardContent.currentText || "Enter Clipboard Content"}</span>}
+                    displayText={<span>{clipboardContent.currentText || "add"}</span>}
                     inputType="input" 
                     childInputRef={inputRef}
                     passFromChildToParent={onBlurClipboardContent}>
@@ -115,7 +115,7 @@ export default function Clipboard(props)
                 <ul>
                 {
                     clipboardContent.content?.map( (data, index) => 
-                        <li><span className='w_copyable filterable' onClick={handleItemClick} key={index}>{data}</span></li> )
+                        <li key={index} ><span className='w_copyable filterable' onClick={handleItemClick}>{data}</span></li> )
                 }
                 </ul>
             </div>

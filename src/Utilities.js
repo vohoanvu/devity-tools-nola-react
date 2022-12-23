@@ -12,3 +12,9 @@ export function log(value) {
     document.getElementById("prompt_input").focus({focusVisible: true});
   }
   
+  export function format_link(link) {
+    if( link.toLowerCase().indexOf("http") === -1){
+      return "http://" + link;
+    }
+    return link;
+  }

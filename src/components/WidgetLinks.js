@@ -2,8 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
 import '../css/App.css';
+import { format_link } from '../Utilities'
+
+
+
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
+
+
 
 export default function Links(props)
 {
@@ -68,7 +74,7 @@ export default function Links(props)
     }
 
     return (
-        <div className='widget'>
+        <div className='widget w-links'>
             <form id="contentForm">
                 <label>
                     Url: 
@@ -88,11 +94,13 @@ export default function Links(props)
                 </label>
                 <button id='LinkContentSaving' type='button' value="Submit" onClick={onSaveNewLink}>Save</button>
             </form>
+            <ul>
             {
                 displayLinks.map((item, index) => {
-                    return <li key={index}><a className='filterable' href={item.hyperLink}>{item.displayName}</a></li>;
+                    return <li key={index}><a className='filterable' target="_blank" href={format_link(item.hyperLink)}>{item.displayName}</a></li>;
                 })
             }
+            </ul>
         </div>
     );
 }

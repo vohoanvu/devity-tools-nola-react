@@ -40,7 +40,7 @@ const Console = (props) =>
                 });
 
 
-          const youtubeSearchApi = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=" 
+          const youtubeSearchApi = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=" 
           + encodeURIComponent(params) + "&type=video&key=" + VuYoutubeApiKey;
           await axios.get(youtubeSearchApi)
                 .then((res) => {

@@ -40,22 +40,20 @@ const Console = (props) =>
                 });
 
 
-          const youtubeSearchApi = "https://www.googleapis.com/youtube/v3/search?part=snippet&forDeveloper=true&maxResults=25&q=" 
-          + encodeURIComponent(params) + "&key=" + VuYoutubeApiKey;
+          const youtubeSearchApi = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=" 
+          + encodeURIComponent(params) + "&type=video&key=" + VuYoutubeApiKey;
           await axios.get(youtubeSearchApi)
                 .then((res) => {
-                  console.log('youtube search response: ', res.data);
                   localStorage.setItem('mostReventView', "RESULTS");
-                  props.passYoutubeResultFromChildToParent(res.data.items);
-                  return res.data.items
+                  return res.data.items;
                 })
                 .then((result) => {
                   console.log('youtube search results: ', result);
+                  props.passYoutubeResultFromChildToParent(result);
                   $('div[data-panel=RESULTS] .gear').removeClass('rotate');
                   log('fetched youtube results for ' + params);
                 })
                 .catch((error) => console.log(error));
-
 
         } else {
           log('Attempt to search without entering search term');
@@ -147,7 +145,7 @@ const Console = (props) =>
     if(cmd === '#filter'){
 
       $(".filterable").filter(function() {
-        $(this).parent().toggle($(this).text().toLowerCase().indexOf(params) > -1)
+        return $(this).parent().toggle($(this).text().toLowerCase().indexOf(params) > -1);
       });
 
     }

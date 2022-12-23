@@ -1,16 +1,19 @@
 import axios from "axios";
 import * as React from "react";
 import configData from "../config.json";
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 const devity_api = configData.DEVITY_API;
 
 export const UserContext = React.createContext();
 
-async function fetchUser() {
+async function fetchUser(bearer) {
   return await axios.get(devity_api + '/api/profile')
   .then((response) => {
     return response.data;
   })
   .catch((error) => {
+    if (error.response.status === 401) axios.defaults.headers.common['Authorization'] = bearer;
     console.log(error);
   });
 }
@@ -18,6 +21,7 @@ async function fetchUser() {
 export function UserProvider({ children })
 {
   const [userProfile, setUserProfile] = React.useState({});
+  const bearer = cookies.get('devity-token');
 
   React.useEffect(() => {
     async function fetchUserInterests() {
@@ -32,7 +36,7 @@ export function UserProvider({ children })
           });
     }
 
-    fetchUser().then(async (result) => { 
+    fetchUser(bearer).then(async (result) => { 
       let userInterests = await fetchUserInterests();
       setUserProfile({
         ...result,
@@ -40,7 +44,7 @@ export function UserProvider({ children })
       });
     });
 
-  },[]);
+  },[bearer]);
 
 
 

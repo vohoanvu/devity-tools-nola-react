@@ -35,22 +35,23 @@ export default function Widget(props)
   }
 
   function renderSAVEbutton(onClickHandler, isDisabled, cssNames) {
+
     return (
       <button type='button' value="Submit" className={cssNames} onClick={onClickHandler} disabled={isDisabled}>Save</button>
     );
   }
 
-  function renderSwitchCases(type) {
+  function renderIndividualWidget(type) {
     switch (type)
     {
       case "CLIPBOARD":
-        return (<WidgetClipboard widget={props.widget} callPUTRequest={updateWidgetRequest} />);
+        return <WidgetClipboard widget={props.widget} callPUTRequest={updateWidgetRequest} />;
   
       case "LINKS":
-        return (<WidgetLink widget={props.widget} callPUTRequest={updateWidgetRequest} renderSaveBtn={renderSAVEbutton}/>);
+        return <WidgetLink widget={props.widget} callPUTRequest={updateWidgetRequest} renderSAVEbutton={renderSAVEbutton}/>;
   
       case "NOTES":
-        return (<WidgetNote widget={props.widget} callPUTRequest={updateWidgetRequest} renderSaveBtn={renderSAVEbutton}/>);
+        return <WidgetNote widget={props.widget} callPUTRequest={updateWidgetRequest} renderSAVEbutton={renderSAVEbutton}/>;
   
       default:
         return <div className="w-container">NOTHING HERE</div>;
@@ -65,7 +66,7 @@ export default function Widget(props)
         widgetObjState={props.widgetObjState}
         inputRef={props.inputRef}
         callPUTRequest={updateWidgetRequest}/>
-      {renderSwitchCases(widgetType)}
+      {renderIndividualWidget(widgetType)}
     </React.Fragment>
   );
   

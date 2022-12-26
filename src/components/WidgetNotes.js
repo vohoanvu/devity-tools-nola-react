@@ -63,7 +63,7 @@ export default function Note(props)
 //<button className='w-notes-save-btn' onClick={saveNoteEditor} disabled={!dirty}>Save</button>
     return (
         <div className='widget notes filterable'>
-            {dirty && props.renderSaveBtn(saveNoteEditor, !dirty, 'w-notes-save-btn')}
+            {dirty && props.renderSAVEbutton(saveNoteEditor, !dirty, 'w-notes-save-btn')}
             <div className='tiny-editor-box'>
                 <Editor
                     apiKey='c706reknirqudytbeuz7vvwxpc7qdscxg9j4jixwm0zhqbo4'

@@ -24,7 +24,7 @@ export default function DevityPanels(props)
             console.log(res.data);
             setWidgetObject(res.data);
         })
-        .then(result => props.triggerMostRecentView(true))
+        .then(result => props.signalAllPanelRendered(true))
         .catch((err) => console.log(err));
     };
 

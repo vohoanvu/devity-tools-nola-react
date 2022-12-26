@@ -197,7 +197,7 @@ const Console = (props) =>
               autoCapitalize="off" 
               autoComplete="off" 
               autoCorrect="off"
-              autoFocus={false}
+              autoFocus={true}
               role="combobox" 
               aria-controls="prompt_input"
               aria-expanded="true"

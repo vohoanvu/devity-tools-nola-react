@@ -12,8 +12,6 @@ import SearchResults from '../components/SearchResults';
 import {useLocation} from 'react-router-dom';
 import Cookies from 'universal-cookie';
 
-
-const UserMostReventView = 'mostRecentView';
 const sso_url = configData.SSO_URL;
 const devity_url = configData.DEVITY;
 const devity_cookie = 'devity-token';
@@ -27,7 +25,10 @@ export default function App()
   let bearer = cookies.get(devity_cookie);
   const [searchResultData, setSearchResultData] = useState([]);
   const [youtubeResultData, setYoutubeResultData] = useState([]);
-  const [isAllPanelsRendered, setIsAllPanelsRendered] = useState(false);
+  const [mostRecentView, setMostRecentView] = useState({
+    isAllPanelRendered: false,
+    mostRecentPanel: localStorage.getItem("mostRecentView")
+  });
 
   if (token) {
     (async () => {
@@ -65,8 +66,19 @@ export default function App()
     setYoutubeResultData(childResultData);
   }
 
-  function renderSelectedPanel(isAllPanelsRendered) {
-    setIsAllPanelsRendered(isAllPanelsRendered);
+
+  // function renderSelectedPanels(mostRecentView) {
+  //   setMostRecentView({
+  //     ...mostRecentView,
+  //     isAllPanelRendered: true,
+  //   });
+  // }
+
+  function renderSelectedPanels(isAllPanelRendered) {
+    setMostRecentView({
+      ...mostRecentView,
+      isAllPanelRendered: isAllPanelRendered
+    });
   }
 
   return (
@@ -75,15 +87,15 @@ export default function App()
         <UserProvider>
           <div id="header_container">
             <Header 
-              mostRecentPage={localStorage.getItem(UserMostReventView) ?? ''} 
-              isPanelsRendered={isAllPanelsRendered}
-              UserMostReventView={UserMostReventView}></Header>
+              mostRecentPanel={mostRecentView.mostRecentPanel} 
+              isPanelsRendered={mostRecentView.isAllPanelRendered}></Header>
             <Console 
               passGoogleResultFromChildToParent={renderGoogleSearchResults}
               passYoutubeResultFromChildToParent={renderYoutubeSearchResults}
               />
           </div>
-          <DevityPanels triggerMostRecentView={renderSelectedPanel}></DevityPanels>
+          <DevityPanels 
+            signalAllPanelRendered={renderSelectedPanels}></DevityPanels>
           <Profile devity_cookie={devity_cookie}></Profile>
           <Libraries></Libraries>
           <SearchResults

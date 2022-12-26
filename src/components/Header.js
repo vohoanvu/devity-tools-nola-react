@@ -20,6 +20,7 @@ class Header extends React.Component {
     componentDidUpdate() {
       $('.p-panel').hide();
       let mostReventView = localStorage.getItem('mostReventView');
+
       if(mostReventView){
         this.onNavigate(mostReventView);
       }
@@ -29,7 +30,7 @@ class Header extends React.Component {
     }
 
     onNavigate(target) {
-      let recentView = target ?? '';
+      let recentView = target ?? 'ALL';
       localStorage.setItem('mostReventView', recentView);
       if (target === "CONSOLE") {
         $('#console_log').toggleClass('hide');
@@ -58,7 +59,7 @@ class Header extends React.Component {
 
       <div id="logo">
         <button id="nav_all" onClick={()=>this.onNavigate('ALL')}>
-          <img  src={logo} className="logo" alt="logo" />
+          <img src={logo} className="logo" alt="logo" />
         </button>
       </div>
       

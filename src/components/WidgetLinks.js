@@ -3,9 +3,6 @@ import axios from 'axios';
 import configData from "../config.json";
 import '../css/buttons.css';
 import { format_link } from '../Utilities'
-
-
-
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
@@ -74,10 +71,10 @@ export default function Links(props)
             [evt.target.name]: value
         })
     }
-//<button type='button' value="Submit" onClick={onSaveNewLink}>Save</button>
+    
     return (
         <React.Fragment>
-            {props.renderSaveBtn(onSaveNewLink, false, 'w-notes-save-btn')}
+            {props.renderSAVEbutton(onSaveNewLink, false, 'btn-save w-notes-save-btn')}
             <div className='widget w-links'>
                 <form id="contentForm">
                     <label>

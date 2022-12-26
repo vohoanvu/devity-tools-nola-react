@@ -256,9 +256,14 @@ overflow: auto;
   cursor: pointer;
 }
 .w-chrome button {
-    position: relative;
-    float: right;
-    height: 30px;
+  position: relative;
+  background: transparent;
+  border: 0px;
+  float: right;
+  height: 30px;
+}
+.w-chrome button:hover {
+  background: transparent;
 }
 
 .w-title{

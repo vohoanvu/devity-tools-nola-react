@@ -64,18 +64,7 @@ color: var(--COLOR_LINK);
     right: 0;
 }
 
-.w-chrome {
-  padding: 5px 0px 10px 20px;
-  height: 25px;
-  background-color: var(--COLOR_PANEL_CHROME_BG);
-  margin-bottom: 3px;
-  cursor: pointer;
-}
-.w-chrome button {
-    position: relative;
-    float: right;
-    height: 30px;
-}
+
 
 
 #contentForm label {

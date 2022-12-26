@@ -21,6 +21,8 @@ export default function DevityPanels(props)
         .then((res) => {
             if (res.status === 401) window.location.replace(sso_url);
 
+            console.log("Get panels data");
+            console.log(res.data);
             setWidgetObject(res.data);
         })
         .then(result => props.triggerMostRecentView(true))

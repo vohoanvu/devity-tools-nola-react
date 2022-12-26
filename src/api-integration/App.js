@@ -86,7 +86,7 @@ export default function App()
           <DevityPanels triggerMostRecentView={renderSelectedPanel}></DevityPanels>
           <Profile devity_cookie={devity_cookie}></Profile>
           <Libraries></Libraries>
-          <SearchResults style={{display:"none;"}} 
+          <SearchResults
             googleData={searchResultData}
             youtubeData={youtubeResultData}/>
         </UserProvider>

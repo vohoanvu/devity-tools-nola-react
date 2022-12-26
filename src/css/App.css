@@ -537,3 +537,17 @@ div.mce-content-body {
   margin-right: 0;
 }
 
+div[data-panel=RESULTS] {
+  display: flex;
+}
+
+#googleSearchResult {
+  float: left;
+}
+
+#youtubeSearchResults {
+  float: right;
+}
+
+
+

@@ -89,3 +89,12 @@ input[type=text] {
 input[type=text]:focus {
   outline: none;
 }
+
+.w-notes-save-btn{
+  display: flex;
+  margin: auto;
+  position: relative;
+  color: red;
+  top: -30px;
+  left: 85px;
+}

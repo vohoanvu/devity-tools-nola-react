@@ -448,13 +448,6 @@ margin-bottom: 5px;
 }
 
 
-.w-notes-save-btn{
-  display: flex;
-  margin: auto;
-  position:relative;
-  color: red;
-  top: -45px;
-}
 .w_copyable{
   cursor: copy;
 }

@@ -6,6 +6,7 @@ import WidgetLink from './WidgetLinks';
 import WidgetClipboard from './WidgetClipboard';
 import WidgetActions from './WidgetActions';
 import $ from "jquery";
+import '../css/buttons.css';
 const devity_api = configData.DEVITY_API;
 
 export default function Widget(props) 
@@ -33,17 +34,23 @@ export default function Widget(props)
     return result;
   }
 
+  function renderSAVEbutton(onClickHandler, isDisabled, cssNames) {
+    return (
+      <button type='button' value="Submit" className={cssNames} onClick={onClickHandler} disabled={isDisabled}>Save</button>
+    );
+  }
+
   function renderSwitchCases(type) {
     switch (type)
     {
       case "CLIPBOARD":
-        return (<WidgetClipboard widget={props.widget} callPUTRequest={updateWidgetRequest}/>);
+        return (<WidgetClipboard widget={props.widget} callPUTRequest={updateWidgetRequest} />);
   
       case "LINKS":
-        return (<WidgetLink widget={props.widget} callPUTRequest={updateWidgetRequest}/>);
+        return (<WidgetLink widget={props.widget} callPUTRequest={updateWidgetRequest} renderSaveBtn={renderSAVEbutton}/>);
   
       case "NOTES":
-        return (<WidgetNote widget={props.widget} callPUTRequest={updateWidgetRequest}/>);
+        return (<WidgetNote widget={props.widget} callPUTRequest={updateWidgetRequest} renderSaveBtn={renderSAVEbutton}/>);
   
       default:
         return <div className="w-container">NOTHING HERE</div>;

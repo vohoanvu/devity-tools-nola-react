@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
-import '../css/App.css';
+import '../css/buttons.css';
 import { Editor } from '@tinymce/tinymce-react';
 import { log } from '../Utilities'
 const sso_url = configData.SSO_URL;
@@ -60,10 +60,10 @@ export default function Note(props)
         await props.callPUTRequest(putBody, note.w_type);
     }
 
-
+//<button className='w-notes-save-btn' onClick={saveNoteEditor} disabled={!dirty}>Save</button>
     return (
         <div className='widget notes filterable'>
-            {dirty && <button className='w-notes-save-btn' onClick={saveNoteEditor} disabled={!dirty}>Save</button>}
+            {dirty && props.renderSaveBtn(saveNoteEditor, !dirty, 'w-notes-save-btn')}
             <div className='tiny-editor-box'>
                 <Editor
                     apiKey='c706reknirqudytbeuz7vvwxpc7qdscxg9j4jixwm0zhqbo4'

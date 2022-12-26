@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
-import '../css/App.css';
+import '../css/buttons.css';
 import { format_link } from '../Utilities'
 
 
@@ -74,35 +74,37 @@ export default function Links(props)
             [evt.target.name]: value
         })
     }
-
+//<button type='button' value="Submit" onClick={onSaveNewLink}>Save</button>
     return (
-        <div className='widget w-links'>
-            <form id="contentForm">
-                <label>
-                    Url: 
-                    <input 
-                        value={linkContent.hyperLink} 
-                        type="text" 
-                        name="hyperLink"
-                        onChange={handleLinkChange}/>
-                </label>
-                <label>
-                    Title: 
-                    <input 
-                        value={linkContent.displayName} 
-                        type="text" 
-                        name="displayName"
-                        onChange={handleLinkChange}/>
-                </label>
-                <button id='LinkContentSaving' type='button' value="Submit" onClick={onSaveNewLink}>Save</button>
-            </form>
-            <ul>
-            {
-                displayLinks.map((item, index) => {
-                    return <li key={index}><a className='filterable' target="_blank" href={format_link(item.hyperLink)} rel="noreferrer">{item.displayName}</a></li>;
-                })
-            }
-            </ul>
-        </div>
+        <React.Fragment>
+            {props.renderSaveBtn(onSaveNewLink, false, 'w-notes-save-btn')}
+            <div className='widget w-links'>
+                <form id="contentForm">
+                    <label>
+                        Url: 
+                        <input 
+                            value={linkContent.hyperLink} 
+                            type="text" 
+                            name="hyperLink"
+                            onChange={handleLinkChange}/>
+                    </label>
+                    <label>
+                        Title: 
+                        <input 
+                            value={linkContent.displayName} 
+                            type="text" 
+                            name="displayName"
+                            onChange={handleLinkChange}/>
+                    </label>
+                </form>
+                <ul>
+                {
+                    displayLinks.map((item, index) => {
+                        return <li key={index}><a className='filterable' target="_blank" href={format_link(item.hyperLink)} rel="noreferrer">{item.displayName}</a></li>;
+                    })
+                }
+                </ul>
+            </div>
+        </React.Fragment>        
     );
 }

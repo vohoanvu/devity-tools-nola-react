@@ -99,7 +99,7 @@ export default function Links(props)
             <ul>
             {
                 displayLinks.map((item, index) => {
-                    return <li key={index}><a className='filterable' target="_blank" href={format_link(item.hyperLink)}>{item.displayName}</a></li>;
+                    return <li key={index}><a className='filterable' target="_blank" href={format_link(item.hyperLink)} rel="noreferrer">{item.displayName}</a></li>;
                 })
             }
             </ul>

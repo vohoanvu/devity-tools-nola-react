@@ -17,8 +17,7 @@ export default function DevityPanels(props)
 
   useEffect(() => {
     async function fetchData() {
-      await axios.get(devity_api + '/api/widgets')
-        .then((res) => {
+      await axios.get(devity_api + '/api/widgets').then((res) => {
             if (res.status === 401) window.location.replace(sso_url);
 
             console.log("Get panels data");
@@ -30,7 +29,9 @@ export default function DevityPanels(props)
     };
 
     fetchData();
-  }, [props]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
 
   async function onAddNewWidget(widgetType, widgetList) {
@@ -93,7 +94,6 @@ export default function DevityPanels(props)
     <React.Fragment>
       {
         Object.entries(widgetObject).map( ([key,value], index) => {
-
           return (
             <div key={index} className="p-panel" data-panel={key}>
               <div className='p-chrome'>

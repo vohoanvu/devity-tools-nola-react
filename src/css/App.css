@@ -250,6 +250,7 @@ overflow: auto;
 
 .w-chrome {
   padding: 5px 0px 10px 20px;
+  display: flex;
   height: 25px;
   background-color: var(--COLOR_PANEL_CHROME_BG);
   margin-bottom: 3px;

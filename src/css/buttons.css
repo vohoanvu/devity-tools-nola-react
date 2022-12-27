@@ -48,7 +48,10 @@ color: var(--COLOR_LINK);
   position: relative;
 }
  
-
+.w-chrome .delete{
+margin-left: auto;
+}
+ 
 
 
 #contentForm label {

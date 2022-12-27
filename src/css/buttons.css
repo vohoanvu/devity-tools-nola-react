@@ -41,29 +41,13 @@ color: var(--COLOR_LINK);
   height: 25;
   background-image: url("/img/btn_maximize.jpg");
 } */
-.btn-delete{
-    line-height: 12px;
-    font-size: 8pt;
-    font-family: tahoma;
-    margin-top: 1px;
-    margin-right: 2px;
-    position:absolute;
-    top:0;
-    right:0;
-    background-color: grey;
-}
-.btn-save {
-    line-height: 12px;
-    cursor:pointer;
-    margin-top: 1px;
-    background-color: grey;
-    color: #fff;
-    text-align: center;
-    position:absolute;
-    top:0;
-    right: 0;
-}
 
+
+.img-btn{
+  display: block;
+  position: relative;
+}
+ 
 
 
 

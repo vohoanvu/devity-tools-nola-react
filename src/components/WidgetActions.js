@@ -61,9 +61,7 @@ export default function WidgetActions(props)
                     onChange={e => handleTitleChange(e.target.value, props.widget)}
                 />
             </Editable>
-            <button className='btn-delete' onClick={()=>DeleteWidgetHandler(widgetId)}>
-                <img src={btn_delete} alt="delete"/>
-            </button>
+            <img className='img-btn delete' onClick={()=>DeleteWidgetHandler(widgetId)} src={btn_delete} alt="delete"/>
         </div>
     );
 }

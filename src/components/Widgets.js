@@ -5,6 +5,7 @@ import WidgetNote from './WidgetNotes';
 import WidgetLink from './WidgetLinks';
 import WidgetClipboard from './WidgetClipboard';
 import WidgetActions from './WidgetActions';
+import btn_save from "../img/btn_save.png";
 import $ from "jquery";
 import '../css/buttons.css';
 const devity_api = configData.DEVITY_API;
@@ -37,7 +38,7 @@ export default function Widget(props)
   function renderSAVEbutton(onClickHandler, isDisabled, cssNames) {
 
     return (
-      <button type='button' value="Submit" className={cssNames} onClick={onClickHandler} disabled={isDisabled}>Save</button>
+      <img className={cssNames} onClick={onClickHandler} disabled={isDisabled} src={btn_save} alt="save widget"/>
     );
   }
 

@@ -74,7 +74,7 @@ export default function Links(props)
     
     return (
         <React.Fragment>
-            {props.renderSAVEbutton(onSaveNewLink, false, 'btn-save w-notes-save-btn')}
+            {props.renderSAVEbutton(onSaveNewLink, false, 'img-btn save links')}
             <div className='widget w-links'>
                 <form id="contentForm">
                     <label>

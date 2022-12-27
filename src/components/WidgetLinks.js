@@ -27,12 +27,11 @@ export default function Links(props)
                 ...links,
                 displayList: contentArray
             });
-
-            return links;
         };
 
         fetchWidgetContent();
         
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.widget]);
 
     async function getWidgetContentById(w_id) {
@@ -40,8 +39,8 @@ export default function Links(props)
             .then((res) => {
                 if (res.status === 401) window.location.replace(sso_url);
 
-                console.log("Get LINKS widget");
-                console.log(res.data);
+                //console.log("Get LINKS widget");
+                //console.log(res.data);
                 return res.data;
         }).then(result => result)
         .catch((err) => console.log(err));

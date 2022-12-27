@@ -40,12 +40,6 @@ export default function Widget(props)
     return result;
   }
 
-  // function renderSAVEbutton(onClickHandler, isDisabled, cssNames) {
-  //   return (
-  //     <img className={cssNames} onClick={onClickHandler} disabled={isDisabled} src={btn_save} alt="save widget"/>
-  //   );
-  // }
-
   function DeleteWidgetHandler(id) {
     if (window.confirm("Are you use you want to delete this widget?")) {
         deleteWidget(id);
@@ -79,12 +73,13 @@ export default function Widget(props)
       await updateWidgetRequest(putBody, props.widget.w_type);
   }
 
-  function passContentToParent(jsonData, type) {  
+  function passContentFromChildToParent(jsonData, type) {  
+    console.log(jsonData, 'data from child');
     setWidget({
       ...props.widget,
       w_type: type,
       w_content: JSON.stringify(jsonData)
-    })
+    });
   }
 
   function renderIndividualWidget(type) {
@@ -95,10 +90,10 @@ export default function Widget(props)
         return <WidgetClipboard widget={props.widget} callPUTRequest={updateWidgetRequest} />;
   
       case "LINKS":
-        return <WidgetLink widget={props.widget} passContentToParent={passContentToParent}/>;
+        return <WidgetLink widget={props.widget} passContentToParent={passContentFromChildToParent}/>;
   
       case "NOTES":
-        return <WidgetNote widget={props.widget} passContentToParent={passContentToParent}/>;
+        return <WidgetNote widget={props.widget} passContentToParent={passContentFromChildToParent}/>;
   
       default:
         return <div className="w-container">LOADING...</div>;
@@ -138,9 +133,7 @@ export default function Widget(props)
               src={btn_delete} alt="delete"/>
         </div>
       </div>
-      {
-        renderIndividualWidget(widgetType)
-      }
+      { renderIndividualWidget(widgetType) }
     </React.Fragment>
   );
   

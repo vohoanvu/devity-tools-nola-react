@@ -24,7 +24,7 @@ export default function Note(props)
             setNote(currentWidget);
             setDirty(false);
         })();
-        if (dirty) props.setOnSaveHandler(saveNoteEditor);
+
     }, [props.widget]);
 
     async function getWidgetContentById(w_id) {
@@ -39,36 +39,45 @@ export default function Note(props)
             .catch((err) => log(err));
     }
 
-    const saveNoteEditor = () => {
-        if (editorRef.current) {
-            const noteContentText = editorRef.current.getContent();
-            setDirty(false);
-            editorRef.current.setDirty(false);
+    // const saveNoteEditor = () => {
+    //     if (editorRef.current) {
+    //         const noteContentText = editorRef.current.getContent();
+    //         setDirty(false);
+    //         editorRef.current.setDirty(false);
 
-            updateNoteContentinDb(noteContentText);
-        }
-    };
+    //         updateNoteContentinDb(noteContentText);
+    //     }
+    // };
 
-    async function updateNoteContentinDb(noteContentText) {
-        const jsonObj = {};
-        jsonObj["NOTES"] = noteContentText;
-        const putBody = {
-            ...note,
-            w_content: JSON.stringify(jsonObj)
-        }
+    // async function updateNoteContentinDb(noteContentText) {
+    //     const jsonObj = {};
+    //     jsonObj["NOTES"] = noteContentText;
+    //     const putBody = {
+    //         ...note,
+    //         w_content: JSON.stringify(jsonObj)
+    //     }
 
-        await props.callPUTRequest(putBody, note.w_type);
-    }
+    //     await props.callPUTRequest(putBody, note.w_type);
+    // }
 
-//<button className='w-notes-save-btn' onClick={saveNoteEditor} disabled={!dirty}>Save</button>
     return (
         <div className='widget notes filterable'>
             <div className='tiny-editor-box'>
+                { dirty && <span style={{ color: 'red'}}>Unsaved Content!</span> }
                 <Editor
                     apiKey='c706reknirqudytbeuz7vvwxpc7qdscxg9j4jixwm0zhqbo4'
                     onInit={(evt, editor) => editorRef.current = editor}
                     initialValue={note.w_content}
-                    onDirty={() => setDirty(true)}
+                    onDirty={() => {
+                        setDirty(true);
+                    }}
+                    onBlur={(e)=> {
+                        const jsonObj = {};
+                        jsonObj["NOTES"] = e.target.getContent();
+                        setDirty(false);
+                        editorRef.current.setDirty(false);
+                        props.passContentToParent(jsonObj, "NOTES");
+                    }}
                     init={{
                         height: 250,
                         menubar: false,

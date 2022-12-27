@@ -24,7 +24,7 @@ export default function Note(props)
             setNote(currentWidget);
             setDirty(false);
         })();
-
+        if (dirty) props.setOnSaveHandler(saveNoteEditor);
     }, [props.widget]);
 
     async function getWidgetContentById(w_id) {
@@ -32,8 +32,8 @@ export default function Note(props)
             .then((res) => {
                 if (res.status === 401) window.location.replace(sso_url);
 
-                console.log("Get NOTES widget");
-                console.log(res.data);
+                //console.log("Get NOTES widget");
+                //console.log(res.data);
                 return res.data.w_content;
             }).then(result => {return result;} )
             .catch((err) => log(err));
@@ -63,7 +63,6 @@ export default function Note(props)
 //<button className='w-notes-save-btn' onClick={saveNoteEditor} disabled={!dirty}>Save</button>
     return (
         <div className='widget notes filterable'>
-            {dirty && props.renderSAVEbutton(saveNoteEditor, !dirty, 'img-btn save')}
             <div className='tiny-editor-box'>
                 <Editor
                     apiKey='c706reknirqudytbeuz7vvwxpc7qdscxg9j4jixwm0zhqbo4'

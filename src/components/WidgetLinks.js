@@ -10,29 +10,29 @@ const devity_api = configData.DEVITY_API;
 
 export default function Links(props)
 {
-    const [link, setLink] = useState({});
-    const [linkContent, setLinkContent] = useState({
-        hyperLink: "",
-        displayName: ""
+    const [links, setLinks] = useState({
+        inputLink: "",
+        inputTitle: "",
+        displayList: []
     });
-    const [displayLinks, setDisplayLinks] = useState([]);
 
     useEffect(() => {
-        (async () => {
+        async function fetchWidgetContent() {
             const widget = await getWidgetContentById(props.widget.id);
 
             const contentArray = JSON.parse(widget.w_content)
             .filter(item => item.hyperLink.length !== 0 && item.displayName.length !== 0);
 
-            const currentWidget = {
-                ...widget,
-                w_content: contentArray
-            }
+            setLinks({
+                ...links,
+                displayList: contentArray
+            });
 
-            setLink(currentWidget);
-            setDisplayLinks(currentWidget.w_content);
-        })();
+            return links;
+        };
 
+        fetchWidgetContent();
+        
     }, [props.widget]);
 
     async function getWidgetContentById(w_id) {
@@ -47,56 +47,64 @@ export default function Links(props)
         .catch((err) => console.log(err));
     }
 
-    function onSaveNewLink() {
-        displayLinks.splice(0, 0, linkContent);
-        setDisplayLinks([...displayLinks]);
-
-        updateLinkContentInDb();
-    }
-
-    async function updateLinkContentInDb() {
-        const putBody = {
-            ...link,
-            w_content: JSON.stringify(link.w_content)
+    function onSaveNewLinkHandler() {
+        const newLink = {
+            hyperLink: links.inputLink,
+            displayName: links.inputTitle
         }
+        links.displayList.splice(0, 0, newLink);
+        setLinks({
+            ...links,
+            displayList: links.displayList
+        });
 
-        await props.callPUTRequest(putBody, link.w_type);
-    }
+        //updateLinkContentInDb();
+        props.passContentToParent(links.displayList, "LINKS");
+    };
+
+    // async function updateLinkContentInDb(widget, displayList) {
+    //     console.log('is clicked yet', 111111)
+    //     const putBody = {
+    //         ...widget,
+    //         w_content: JSON.stringify(displayList)
+    //     }
+    //     await props.callPUTRequest(putBody, widget.w_type);
+    // }
 
 
     function handleLinkChange(evt) {
         const value = evt.target.value;
-        setLinkContent({
-            ...linkContent,
+        setLinks({
+            ...links,
             [evt.target.name]: value
-        })
+        });
     }
     
     return (
         <React.Fragment>
-            {props.renderSAVEbutton(onSaveNewLink, false, 'img-btn save links')}
             <div className='widget w-links'>
                 <form id="contentForm">
                     <label>
                         Url: 
                         <input 
-                            value={linkContent.hyperLink} 
+                            value={links.inputLink} 
                             type="text" 
-                            name="hyperLink"
+                            name="inputLink"
                             onChange={handleLinkChange}/>
                     </label>
                     <label>
                         Title: 
                         <input 
-                            value={linkContent.displayName} 
+                            value={links.inputTitle} 
                             type="text" 
-                            name="displayName"
+                            name="inputTitle"
                             onChange={handleLinkChange}/>
                     </label>
                 </form>
+                <button className='btn btn-primary' onClick={onSaveNewLinkHandler}>Save</button>
                 <ul>
                 {
-                    displayLinks.map((item, index) => {
+                    links.displayList?.map((item, index) => {
                         return <li key={index}><a className='filterable' target="_blank" href={format_link(item.hyperLink)} rel="noreferrer">{item.displayName}</a></li>;
                     })
                 }

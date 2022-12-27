@@ -42,14 +42,25 @@ color: var(--COLOR_LINK);
   background-image: url("/img/btn_maximize.jpg");
 } */
 
+.chrome-btn-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  height: 30px;
+  position: relative;
+  left: 50px;
+}
 
-.img-btn{
+.img-btn-save{
   display: block;
   position: relative;
+  margin-left: auto;
 }
  
 .w-chrome .delete{
-margin-left: auto;
+  margin-left: auto;
 }
  
 

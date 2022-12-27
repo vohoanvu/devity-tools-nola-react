@@ -5,6 +5,7 @@ import btn_delete from "../img/btn_delete.png";
 import '../css/buttons.css';
 import Editable from './Editable';
 import { log } from '../Utilities'
+import btn_save from "../img/btn_save.png";
 const devity_api = configData.DEVITY_API;
 
 export default function WidgetActions(props)
@@ -61,7 +62,11 @@ export default function WidgetActions(props)
                     onChange={e => handleTitleChange(e.target.value, props.widget)}
                 />
             </Editable>
-            <img className='img-btn delete' onClick={()=>DeleteWidgetHandler(widgetId)} src={btn_delete} alt="delete"/>
+            <div className='chrome-btn-bar'>
+                <img className='img-btn save' onClick={props.onClickHandler} disabled={props.isDisabled} src={btn_save} alt="save widget"/>
+                <img className='img-btn delete' onClick={()=>DeleteWidgetHandler(widgetId)} src={btn_delete} alt="delete"/>
+            </div>
+            
         </div>
     );
 }

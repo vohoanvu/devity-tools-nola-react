@@ -12,6 +12,24 @@ export default function SearchResults(props)
         setYoutubeSearchResults(props.youtubeData);
     }, [props.googleData, googleSearchResults,props.youtubeData, youtubeSearchResults]);
 
+
+    function renderVideoFigure(videoId, descriptionText, width, height) {
+        return (
+            <figure>
+                <iframe
+                    width={width}
+                    height={height}
+                    src={`https://www.youtube.com/embed/${videoId}`}
+                    title="Devity Youtube Search"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                />
+                <figcaption>{descriptionText}</figcaption>
+            </figure>
+        );
+    }
+
     return (
         <div className='p-panel results hidden' data-panel='RESULTS'>
             <div id='googleSearchResult'>
@@ -52,6 +70,8 @@ export default function SearchResults(props)
                 <ul>
                     {
                         youtubeSearchResults && Object.entries(youtubeSearchResults).map(([key, value]) => {
+                            const videoWidth = value.snippet.thumbnails.medium.width;
+                            const videoHeight = value.snippet.thumbnails.medium.height;
                             const youtubeUrl = "https://www.youtube.com/watch?v=" + value.id.videoId;
                             return (
                                 <li key={key} data-cacheid={value.cacheId}>
@@ -62,9 +82,9 @@ export default function SearchResults(props)
                                         <div>
                                             <span>{value.snippet.channelTitle}</span><br></br>
                                             <a target='_blank' href={youtubeUrl} rel="noreferrer">{value.snippet.title}</a> 
-                                            <div>
-                                                <span dangerouslySetInnerHTML={{__html: value.snippet.description}} />
-                                            </div>
+                                            {
+                                                renderVideoFigure(value.id.videoId, value.snippet.description, videoWidth, videoHeight)
+                                            }
                                         </div>
                                     </div>
 

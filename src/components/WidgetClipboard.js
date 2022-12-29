@@ -20,6 +20,8 @@ export default function Clipboard(props)
 
     useEffect(() => {
         const getWidgetContent = async () => {
+            if (props.mostRecentView && props.mostRecentView !== "CLIPBOARD") return;
+
             const widget = await getWidgetContentById(props.widget.id);
             let contentArray = [];
             if (Object.keys(JSON.parse(widget.w_content)).length !== 0) {
@@ -35,7 +37,7 @@ export default function Clipboard(props)
 
         getWidgetContent();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.widget.id]);
+    }, [props.widget.id, props.mostRecentView]);
 
     async function getWidgetContentById(w_id) {
         return await axios.get(devity_api + '/api/widgets/'+ w_id)
@@ -58,7 +60,7 @@ export default function Clipboard(props)
             w_content: JSON.stringify(jsonObject)
         }
 
-        await props.callPUTRequest(putBody, type);
+        await props.sendContentFromChildToParent(putBody, null, null);
     }
 
     function handleContentOnChange(e) {

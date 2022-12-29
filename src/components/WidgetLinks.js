@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
 import '../css/buttons.css';
-import { format_link } from '../Utilities'
+import { format_link } from '../Utilities';
+import Editable from './Editable';
+import btn_add from "../img/btn_add.png";
+import $ from "jquery";
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
@@ -13,11 +16,17 @@ export default function Links(props)
     const [links, setLinks] = useState({
         inputLink: "",
         inputTitle: "",
-        displayList: []
+        displayList: [],
+        link: props.widget,
+        w_type: props.widget.w_type
     });
+    const inputLinkRef = useRef(null);
+    const inputTitleRef = useRef(null);
 
     useEffect(() => {
         async function fetchWidgetContent() {
+            if (props.mostRecentView && props.mostRecentView !== "LINKS") return;
+
             const widget = await getWidgetContentById(props.widget.id);
 
             const contentArray = JSON.parse(widget.w_content)
@@ -25,14 +34,14 @@ export default function Links(props)
 
             setLinks({
                 ...links,
-                displayList: contentArray
+                displayList: contentArray,
             });
         };
 
         fetchWidgetContent();
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.widget]);
+    }, [props.widgetm, props.mostRecentView]);
 
     async function getWidgetContentById(w_id) {
         return await axios.get(devity_api + '/api/widgets/'+ w_id)
@@ -46,10 +55,23 @@ export default function Links(props)
         .catch((err) => console.log(err));
     }
 
-    function onSaveNewLinkHandler() {
+    function onBlurNewLinkHandler() {
+        if (links.inputLink.length === 0 && links.inputTitle.length !== 0) {
+            alert('Please enter a link before blurring');
+            return;
+        }
+        let displayText = links.inputTitle;
+        if (links.inputLink.length !== 0 && links.inputTitle.length === 0) {
+            $(`#${props.widget.id}`).click();
+        }
+
+        if (inputTitleRef && inputTitleRef.current && links.inputTitle.length === 0) {
+            displayText = format_link(links.inputLink);
+        }
+        
         const newLink = {
             hyperLink: links.inputLink,
-            displayName: links.inputTitle
+            displayName: displayText
         }
         links.displayList.splice(0, 0, newLink);
         setLinks({
@@ -57,18 +79,16 @@ export default function Links(props)
             displayList: links.displayList
         });
 
-        //updateLinkContentInDb();
-        props.passContentToParent(links.displayList, "LINKS");
+        updateLinkContentInDb();
     };
 
-    // async function updateLinkContentInDb(widget, displayList) {
-    //     console.log('is clicked yet', 111111)
-    //     const putBody = {
-    //         ...widget,
-    //         w_content: JSON.stringify(displayList)
-    //     }
-    //     await props.callPUTRequest(putBody, widget.w_type);
-    // }
+    async function updateLinkContentInDb() {
+        const putBody = {
+            ...props.widget,
+            w_content: JSON.stringify(links.displayList)
+        }
+        await props.sendContentFromChildToParent(putBody, null, null);
+    }
 
 
     function handleLinkChange(evt) {
@@ -82,25 +102,39 @@ export default function Links(props)
     return (
         <React.Fragment>
             <div className='widget w-links'>
-                <form id="contentForm">
-                    <label>
-                        Url: 
-                        <input 
-                            value={links.inputLink} 
-                            type="text" 
+                <form id="contentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
+                    <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
+                    <Editable 
+                        displayText={<span>{links.inputLink || "Url"}</span>}
+                        inputType="input" 
+                        childInputRef={inputLinkRef}
+                        passFromChildToParent={onBlurNewLinkHandler}>
+                        <input
+                            ref={inputLinkRef}
+                            type="text"
                             name="inputLink"
-                            onChange={handleLinkChange}/>
-                    </label>
-                    <label>
-                        Title: 
-                        <input 
-                            value={links.inputTitle} 
-                            type="text" 
+                            placeholder=""
+                            value={links.inputLink}
+                            onChange={handleLinkChange}
+                        />
+                    </Editable>
+                    <br></br>
+                    <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
+                    <Editable 
+                        displayText={<span id={props.widget.id}>{links.inputTitle || "Title"}</span>}
+                        inputType="input" 
+                        childInputRef={inputTitleRef}
+                        passFromChildToParent={onBlurNewLinkHandler}>
+                        <input
+                            ref={inputTitleRef}
+                            type="text"
                             name="inputTitle"
-                            onChange={handleLinkChange}/>
-                    </label>
+                            placeholder=""
+                            value={links.inputTitle}
+                            onChange={handleLinkChange}
+                        />
+                    </Editable>
                 </form>
-                <button className='btn btn-primary' onClick={onSaveNewLinkHandler}>Save</button>
                 <ul>
                 {
                     links.displayList?.map((item, index) => {

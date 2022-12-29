@@ -7,12 +7,13 @@ const devity_api = configData.DEVITY_API;
 export const UserContext = React.createContext();
 
 
-export function UserProvider({ children })
+export function UserProvider({ children, ...props })
 {
   const [userProfile, setUserProfile] = React.useState({});
   const bearer = cookies.get('devity-token');
   
   async function fetchUserInterests() {
+
     return await axios.get(devity_api + '/api/userinterests')
         .then((response) => {
           return response.data;
@@ -26,6 +27,7 @@ export function UserProvider({ children })
 
   React.useEffect(() => {
     async function fetchUser(bearer) {
+
       return await axios.get(devity_api + '/api/profile')
       .then((response) => {
         return response.data;
@@ -43,6 +45,7 @@ export function UserProvider({ children })
         user_interests: userInterests
       });
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[bearer]);
 
 

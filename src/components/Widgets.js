@@ -1,13 +1,8 @@
 import * as React from "react";
 import configData from "../config.json";
 import axios from 'axios';
-import WidgetNote from './WidgetNotes';
-import WidgetLink from './WidgetLinks';
-import WidgetClipboard from './WidgetClipboard';
-//import WidgetActions from './WidgetActions';
 import Editable from './Editable';
 import btn_save from "../img/btn_save.png";
-import $ from "jquery";
 import '../css/buttons.css';
 import { log } from '../Utilities'
 import btn_delete from "../img/btn_delete.png";
@@ -15,30 +10,13 @@ const devity_api = configData.DEVITY_API;
 
 export default function Widget(props) 
 {
-  const [widgetType, setWidgetType] = React.useState("");
-  const [widget, setWidget] = React.useState({});
+  //const [widgetType, setWidgetType] = React.useState("");
+  //const [widget, setWidget] = React.useState({});
   const saveBtnRef = React.useRef(null);
 
   React.useEffect(() => {
-    setWidgetType(props.widget.w_type);
-  }, [props.widget.w_type]);
-
-  async function updateWidgetRequest(putBody, type) {
-    delete putBody["key"];
-    $('div[data-panel=' + type + '] .gear').addClass('rotate');
-    const result = await axios.put(devity_api + "/api/widgets", { ...putBody })
-          .then(response => {
-            console.log(response.status, '...on update');
-            return response.data;
-          })
-          .then(result => {
-              $('div[data-panel=' + type + '] .gear').removeClass('rotate');
-              return result;
-          })
-          .catch(err => console.log(err));
-
-    return result;
-  }
+    //setWidgetType(props.widget.w_type);
+  }, []);
 
   function DeleteWidgetHandler(id) {
     if (window.confirm("Are you use you want to delete this widget?")) {
@@ -70,35 +48,7 @@ export default function Widget(props)
           ...props.widget, 
           name: eventTarget.value
       };
-      await updateWidgetRequest(putBody, props.widget.w_type);
-  }
-
-  function passContentFromChildToParent(jsonData, type) {  
-    console.log(jsonData, 'data from child');
-    setWidget({
-      ...props.widget,
-      w_type: type,
-      w_content: JSON.stringify(jsonData)
-    });
-  }
-
-  function renderIndividualWidget(type) {
-
-    switch (type)
-    {
-      case "CLIPBOARD":
-        return <WidgetClipboard widget={props.widget} callPUTRequest={updateWidgetRequest} />;
-  
-      case "LINKS":
-        return <WidgetLink widget={props.widget} passContentToParent={passContentFromChildToParent}/>;
-  
-      case "NOTES":
-        return <WidgetNote widget={props.widget} passContentToParent={passContentFromChildToParent}/>;
-  
-      default:
-        return <div className="w-container">LOADING...</div>;
-    }
-
+      await props.callPUTRequest(putBody, props.widget.w_type);
   }
 
   return (
@@ -123,8 +73,12 @@ export default function Widget(props)
               className='img-btn save' 
               ref={saveBtnRef}
               onClick={async ()=> {
-                  console.log('save button clicked', widget);
-                  await updateWidgetRequest(widget, widget.w_type);
+                  console.log('save button clicked', props.widget);
+                  if (props.isReadyToSave.isReadyToSave) {
+                    await props.callPUTRequest(props.isReadyToSave.putBody, props.isReadyToSave.type);
+                  } else {
+                    alert('not ready to save! Please check sendPUTContentFromChildToParent() method in DevityPanel.js');
+                  }
               }}
               src={btn_save} alt="save widget"/>
             <img 
@@ -133,7 +87,6 @@ export default function Widget(props)
               src={btn_delete} alt="delete"/>
         </div>
       </div>
-      { renderIndividualWidget(widgetType) }
     </React.Fragment>
   );
   

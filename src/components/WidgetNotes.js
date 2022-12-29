@@ -10,11 +10,13 @@ const devity_api = configData.DEVITY_API;
 export default function Note(props)
 {
     const [note, setNote] = useState({});
-    const editorRef = useRef(null);
     const [dirty, setDirty] = useState(false);
+    const editorRef = useRef(null);
 
     useEffect(() => {
         (async () => {
+            if (props.mostRecentView && props.mostRecentView !== "NOTES") return;
+
             const content = await getWidgetContentById(props.widget.id);
             const noteText = JSON.parse(content)["NOTES"];
             const currentWidget = {
@@ -25,7 +27,7 @@ export default function Note(props)
             setDirty(false);
         })();
 
-    }, [props.widget]);
+    }, [props.widget, props.mostRecentView]);
 
     async function getWidgetContentById(w_id) {
         return await axios.get(devity_api + '/api/widgets/'+ w_id)
@@ -63,7 +65,6 @@ export default function Note(props)
     return (
         <div className='widget notes filterable'>
             <div className='tiny-editor-box'>
-                { dirty && <span style={{ color: 'red'}}>Unsaved Content!</span> }
                 <Editor
                     apiKey='c706reknirqudytbeuz7vvwxpc7qdscxg9j4jixwm0zhqbo4'
                     onInit={(evt, editor) => editorRef.current = editor}
@@ -71,12 +72,9 @@ export default function Note(props)
                     onDirty={() => {
                         setDirty(true);
                     }}
-                    onBlur={(e)=> {
-                        const jsonObj = {};
-                        jsonObj["NOTES"] = e.target.getContent();
+                    onBlur={() => {
                         setDirty(false);
-                        editorRef.current.setDirty(false);
-                        props.passContentToParent(jsonObj, "NOTES");
+                        props.sendContentFromChildToParent(note, setNote, editorRef.current.getContent());
                     }}
                     init={{
                         height: 250,

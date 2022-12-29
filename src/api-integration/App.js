@@ -67,13 +67,6 @@ export default function App()
   }
 
 
-  // function renderSelectedPanels(mostRecentView) {
-  //   setMostRecentView({
-  //     ...mostRecentView,
-  //     isAllPanelRendered: true,
-  //   });
-  // }
-
   function renderSelectedPanels(isAllPanelRendered) {
     setMostRecentView({
       ...mostRecentView,
@@ -95,7 +88,8 @@ export default function App()
               />
           </div>
           <DevityPanels 
-            signalAllPanelRendered={renderSelectedPanels}></DevityPanels>
+            signalAllPanelRendered={renderSelectedPanels}
+            mostRecentPanel={mostRecentView.mostRecentPanel}></DevityPanels>
           <Profile devity_cookie={devity_cookie}></Profile>
           <Libraries></Libraries>
           <SearchResults

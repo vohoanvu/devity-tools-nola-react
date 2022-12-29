@@ -10,12 +10,9 @@ const devity_api = configData.DEVITY_API;
 
 export default function Widget(props) 
 {
-  //const [widgetType, setWidgetType] = React.useState("");
-  //const [widget, setWidget] = React.useState({});
   const saveBtnRef = React.useRef(null);
 
   React.useEffect(() => {
-    //setWidgetType(props.widget.w_type);
   }, []);
 
   function DeleteWidgetHandler(id) {
@@ -70,6 +67,7 @@ export default function Widget(props)
         </Editable>
         <div className='chrome-btn-bar'>
             <img 
+              id={`save-btn-${props.widget.id}`}
               className='img-btn save' 
               ref={saveBtnRef}
               onClick={async ()=> {

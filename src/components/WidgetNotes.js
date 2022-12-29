@@ -3,14 +3,14 @@ import axios from 'axios';
 import configData from "../config.json";
 import '../css/buttons.css';
 import { Editor } from '@tinymce/tinymce-react';
-import { log } from '../Utilities'
+import { log } from '../Utilities';
+import $ from "jquery";
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
 export default function Note(props)
 {
     const [note, setNote] = useState({});
-    const [dirty, setDirty] = useState(false);
     const editorRef = useRef(null);
 
     useEffect(() => {
@@ -24,9 +24,11 @@ export default function Note(props)
                 w_content: noteText
             }
             setNote(currentWidget);
-            setDirty(false);
+            props.setDirtyNote(false);
         })();
 
+        $(`#save-btn-${props.widget.id}`).hide();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.widget, props.mostRecentView]);
 
     async function getWidgetContentById(w_id) {
@@ -70,11 +72,13 @@ export default function Note(props)
                     onInit={(evt, editor) => editorRef.current = editor}
                     initialValue={note.w_content}
                     onDirty={() => {
-                        setDirty(true);
+                        props.setDirtyNote(true);
+                        $(`#save-btn-${props.widget.id}`).show();
                     }}
                     onBlur={() => {
-                        setDirty(false);
-                        props.sendContentFromChildToParent(note, setNote, editorRef.current.getContent());
+                        props.setDirtyNote(false);
+                        props.sendContentFromChildToParent(note, null, editorRef.current.getContent());
+                        $(`#save-btn-${props.widget.id}`).show();
                     }}
                     init={{
                         height: 250,

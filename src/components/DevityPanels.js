@@ -22,6 +22,7 @@ export default function DevityPanels(props)
     putBody: {},
     type: ""
   });
+  const [dirtyNote, setDirtyNote] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -160,7 +161,12 @@ export default function DevityPanels(props)
         return <WidgetLink widget={widget} sendContentFromChildToParent={sendPUTContentFromChildToParent} mostRecentView={mostRecentView}/>;
   
       case "NOTES":
-        return <WidgetNote widget={widget} sendContentFromChildToParent={sendPUTContentFromChildToParent} mostRecentView={mostRecentView}/>;
+        return <WidgetNote 
+          widget={widget} 
+          sendContentFromChildToParent={sendPUTContentFromChildToParent} 
+          mostRecentView={mostRecentView}
+          setDirtyNote={setDirtyNote}
+          isDirty={dirtyNote}/>;
   
       default:
         return <div className="w-container">LOADING...</div>;

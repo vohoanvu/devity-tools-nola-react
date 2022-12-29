@@ -66,23 +66,52 @@ export default function Profile(props)
         break;
     }
 
-    console.log('userProfile: ', userProfile);
-
     updateProfileInDb(userProfile);
   }
 
   async function updateProfileInDb(putBody) {
-    $('div[data-panel=Profile] .gear').addClass('rotate');
+    $('div[data-panel=PROFILE] .gear').addClass('rotate');
     return await axios.put(devity_api + '/api/profile', {...putBody})
           .then((response) => {
             console.log('updateProfileInDb status: ', response.status);
             return response.data;
           }).then((result) => {
-            console.log('updateProfileInDb result: ', result);
-            $('div[data-panel=Profile] .gear').removeClass('rotate');
+            $('div[data-panel=PROFILE] .gear').removeClass('rotate');
             return result;
           })
           .catch((error) => console.log(error));
+  }
+
+  async function saveUserInterestsInDb() {
+    const selectedInterests = userProfile.user_interests.filter(i => i.IsUserSelected).map(i => i.Id);
+    console.log("userSeletecd Interest Ids...", selectedInterests);
+    $('div[data-panel=PROFILE] .gear').addClass('rotate');
+
+    await axios.post(devity_api + '/api/userinterests', [ ...selectedInterests ])
+          .then((response) => {
+            console.log('saveUserInterestsInDb status: ', response.status);
+            if (response.status === 200) $('div[data-panel=PROFILE] .gear').removeClass('rotate');
+          })
+          .catch((error) => console.log(error));
+  }
+
+  function handleInterestsOnChange(e) {
+    userProfile.user_interests.forEach(i => {
+      if (i.Title === e.target.name)  i.IsUserSelected = e.target.checked;
+    });
+  
+    setUserProfile({
+      ...userProfile,
+      user_interests: [
+        ...userProfile.user_interests
+      ]
+    });
+  }
+
+  async function upgradeProfileMembership() {
+    if (window.confirm("Are you sure you want to upgrade to a PAID membership?")) {
+      await updateProfileInDb({...userProfile, paid: true});
+    }
   }
 
   return (
@@ -137,6 +166,29 @@ export default function Profile(props)
                 onChange={e => handleUserEmailOnChange(e.target.value)}
             />
           </Editable>
+          <button type="submit" disabled={true} onClick={upgradeProfileMembership}>Upgrade</button>
+        </div>
+        <div className='interests-card'>
+          <h3>Interests</h3>
+          <ul>
+            {
+              userProfile.user_interests?.map((i, index) => {
+                return (
+                  <li key={index}>
+                    <input 
+                        type="checkbox" 
+                        id={i.Id}
+                        name={i.Title} 
+                        value={i.Id} 
+                        checked={i.IsUserSelected} 
+                        onChange={handleInterestsOnChange}/>
+                    <label htmlFor={i.Id}>{i.Title}</label>
+                  </li>
+                );
+              })
+            }
+          </ul>
+          <button type="submit" onClick={saveUserInterestsInDb}>Save</button>
         </div>
       </div>
     </div>

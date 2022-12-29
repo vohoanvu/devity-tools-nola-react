@@ -4,6 +4,8 @@ import configData from "../config.json";
 import btn_delete from "../img/btn_delete.png";
 import '../css/buttons.css';
 import Editable from './Editable';
+import { log } from '../Utilities'
+import btn_save from "../img/btn_save.png";
 const devity_api = configData.DEVITY_API;
 
 export default function WidgetActions(props)
@@ -26,7 +28,7 @@ export default function WidgetActions(props)
 
         await axios.delete(devity_api + '/api/widgets/' + id)
             .then(res => {
-                console.log(res.status, '...on delete');
+                log('deleted ' + props.widget.w_type + ' widget ' + props.widget.name);
             })
             .catch(err => console.log(err));
     }
@@ -37,7 +39,10 @@ export default function WidgetActions(props)
     }
 
     async function saveWidgetTitleOnBlur(eventTarget) {
-        const putBody = {...props.widget, name: eventTarget.value};
+        const putBody = {
+            ...props.widget, 
+            name: eventTarget.value
+        };
         await props.callPUTRequest(putBody, props.widget.w_type);
     }
 
@@ -57,9 +62,11 @@ export default function WidgetActions(props)
                     onChange={e => handleTitleChange(e.target.value, props.widget)}
                 />
             </Editable>
-            <button className='btn-delete' onClick={()=>DeleteWidgetHandler(widgetId)}>
-                <img src={btn_delete} alt="delete"/>
-            </button>
+            <div className='chrome-btn-bar'>
+                <img className='img-btn save' onClick={props.onClickHandler} disabled={props.isDisabled} src={btn_save} alt="save widget"/>
+                <img className='img-btn delete' onClick={()=>DeleteWidgetHandler(widgetId)} src={btn_delete} alt="delete"/>
+            </div>
+            
         </div>
     );
 }

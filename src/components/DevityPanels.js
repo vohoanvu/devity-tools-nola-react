@@ -5,6 +5,8 @@ import Widget from './Widgets';
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import btn_add from "../img/btn_add.png";
 import $ from "jquery";
+import { log } from '../Utilities'
+
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
 
@@ -15,18 +17,21 @@ export default function DevityPanels(props)
 
   useEffect(() => {
     async function fetchData() {
-      await axios.get(devity_api + '/api/widgets')
-        .then((res) => {
+      await axios.get(devity_api + '/api/widgets').then((res) => {
             if (res.status === 401) window.location.replace(sso_url);
 
+            console.log("Get panels data");
+            console.log(res.data);
             setWidgetObject(res.data);
         })
-        .then(result => props.triggerMostRecentView(true))
+        .then(result => props.signalAllPanelRendered(true))
         .catch((err) => console.log(err));
     };
 
     fetchData();
-  }, [props]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
 
   async function onAddNewWidget(widgetType, widgetList) {
@@ -43,21 +48,8 @@ export default function DevityPanels(props)
         height : 300,
         width: 300
     }
-    const newWidgetArray = [...widgetList];
 
-    switch (widgetType) {
-      case "CLIPBOARD":
-        createWidget(newWidget, newWidgetArray, widgetType);
-        break;
-      case "NOTES":
-        createWidget(newWidget, newWidgetArray, widgetType);
-        break;
-      case "LINKS":
-        createWidget(newWidget, newWidgetArray, widgetType);
-        break;
-      default:
-        break;
-    }
+    createWidget(newWidget, widgetType);
   }
 
   function PrepareWidgetContentObject(type) {
@@ -68,18 +60,20 @@ export default function DevityPanels(props)
         jsonObject["CLIPBOARD"] = [];
         return jsonObject;
       case "NOTES":
-        jsonObject["NOTES"] = []; //format: "{ NOTES: [ "string1", "string2" ] }"
+        jsonObject["NOTES"] = "<p></p>"; //format: "{ NOTES: "<p>html-encoded-string-from-TINY-editor</p>" }"
         return jsonObject;
       case "LINKS":
+        let jsonObjList = [];
         jsonObject["hyperLink"] = "";
-        jsonObject["displayName"] = ""; //format: "{ "hyperLink": "noladigital.net", "displayName": "NOLA" }"
-        return jsonObject;
+        jsonObject["displayName"] = ""; //format: "[{ "hyperLink": "noladigital.net", "displayName": "NOLA" }]"
+        jsonObjList.push(jsonObject);
+        return jsonObjList;
       default:
         break;
     }
   }
 
-  async function createWidget(postBody, newWidgetArray, type) {
+  async function createWidget(postBody, type) {
     delete postBody["key"];
     $('div[data-panel=' + type + '] .gear').addClass('rotate');
     await axios.post(devity_api + "/api/widgets/", { ...postBody })
@@ -88,10 +82,10 @@ export default function DevityPanels(props)
           })
           .then(result => {
               postBody["id"] = result.id;
-              widgetObject[type].push(postBody);
+              widgetObject[type].splice(0, 0, postBody);
               setWidgetObject({...widgetObject});
               $('div[data-panel=' + type + '] .gear').removeClass('rotate');
-              console.log("Created " + type + " widget.")
+              log("Created " + type + " widget.")
           })
           .catch(err => console.log(err));
   }
@@ -100,7 +94,6 @@ export default function DevityPanels(props)
     <React.Fragment>
       {
         Object.entries(widgetObject).map( ([key,value], index) => {
-
           return (
             <div key={index} className="p-panel" data-panel={key}>
               <div className='p-chrome'>

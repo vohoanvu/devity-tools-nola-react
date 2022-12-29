@@ -11,7 +11,7 @@ import '../css/App.css';
 import SearchResults from '../components/SearchResults';
 import {useLocation} from 'react-router-dom';
 import Cookies from 'universal-cookie';
-const UserMostReventView = 'mostRecentView';
+
 const sso_url = configData.SSO_URL;
 const devity_url = configData.DEVITY;
 const devity_cookie = 'devity-token';
@@ -24,19 +24,11 @@ export default function App()
   const token = new URLSearchParams(search).get('token');
   let bearer = cookies.get(devity_cookie);
   const [searchResultData, setSearchResultData] = useState([]);
-  const [isAllPanelsRendered, setIsAllPanelsRendered] = useState(false);
-
-  // const element = document.querySelector('#post-request-async-await .article-id');
-
-  // console.stdlog = console.log.bind(console);
-  // console.logs = [];
-  // console.log = function() {
-  //   let i = arguments["0"];
-  //   if (typeof i === 'string' || i instanceof String) {
-  //     console.logs.push(Array.from(arguments));
-  //     console.stdlog.apply(console, arguments);
-  //   }
-  // }
+  const [youtubeResultData, setYoutubeResultData] = useState([]);
+  const [mostRecentView, setMostRecentView] = useState({
+    isAllPanelRendered: false,
+    mostRecentPanel: localStorage.getItem("mostRecentView")
+  });
 
   if (token) {
     (async () => {
@@ -50,7 +42,6 @@ export default function App()
         let expires = "expires="+ response.data.expires;
         axios.defaults.headers.common['Authorization'] = bearer;
         cookies.set(devity_cookie, bearer, expires, { path: '/' });
-        cookies.set('devity-user', response.data.user_id, expires, { path: '/' });
 
         window.location.replace(devity_url);
       }
@@ -67,12 +58,27 @@ export default function App()
     window.location.replace(sso_url);
   }
 
-  function childToParent(childResultData) {
+  function renderGoogleSearchResults(childResultData) {
     setSearchResultData(childResultData);
   }
 
-  function renderSelectedPanel(isAllPanelsRendered) {
-    setIsAllPanelsRendered(isAllPanelsRendered);
+  function renderYoutubeSearchResults(childResultData) {
+    setYoutubeResultData(childResultData);
+  }
+
+
+  // function renderSelectedPanels(mostRecentView) {
+  //   setMostRecentView({
+  //     ...mostRecentView,
+  //     isAllPanelRendered: true,
+  //   });
+  // }
+
+  function renderSelectedPanels(isAllPanelRendered) {
+    setMostRecentView({
+      ...mostRecentView,
+      isAllPanelRendered: isAllPanelRendered
+    });
   }
 
   return (
@@ -81,15 +87,20 @@ export default function App()
         <UserProvider>
           <div id="header_container">
             <Header 
-              mostRecentPage={localStorage.getItem(UserMostReventView) ?? ''} 
-              isPanelsRendered={isAllPanelsRendered}
-              UserMostReventView={UserMostReventView}></Header>
-            <Console passFromChildToParent={childToParent}/>
+              mostRecentPanel={mostRecentView.mostRecentPanel} 
+              isPanelsRendered={mostRecentView.isAllPanelRendered}></Header>
+            <Console 
+              passGoogleResultFromChildToParent={renderGoogleSearchResults}
+              passYoutubeResultFromChildToParent={renderYoutubeSearchResults}
+              />
           </div>
-          <DevityPanels triggerMostRecentView={renderSelectedPanel}></DevityPanels>
+          <DevityPanels 
+            signalAllPanelRendered={renderSelectedPanels}></DevityPanels>
           <Profile devity_cookie={devity_cookie}></Profile>
           <Libraries></Libraries>
-          <SearchResults style={{display:"none;"}} data={searchResultData}/>
+          <SearchResults
+            googleData={searchResultData}
+            youtubeData={youtubeResultData}/>
         </UserProvider>
     </div>
     

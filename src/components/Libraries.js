@@ -54,13 +54,13 @@ const Libraries = (props) =>
     }
   };
 
-  const handleKeyUp = async () => {
-    var filter_term = $('#library-filter').val().toLowerCase();
+  // const handleKeyUp = async () => {
+  //   var filter_term = $('#library-filter').val().toLowerCase();
 
-    $(".lib-tbl").find(".lib-tbl-row").filter(() => {
-      return $(this).toggle( $(this).text().toLowerCase().indexOf(filter_term) > -1 );
-    });
-  };
+  //   $(".lib-tbl").find(".lib-tbl-row").filter(() => {
+  //     return $(this).toggle( $(this).text().toLowerCase().indexOf(filter_term) > -1 );
+  //   });
+  // };
 
   const handleRowClick = event => {
     var text = $(event.currentTarget).find('.lib-tbl-row-cmd').text();
@@ -98,9 +98,6 @@ const Libraries = (props) =>
         <option value="git_cheatsheet.json">Git Cheatsheet</option>
         <option value="npm_cheatsheet.json">NPM Cheatsheet</option>
       </select>
-      <div className='library-fl' style={{ display : "inline-block" }}>
-        <span className="label">Filter: </span><input onKeyUp={handleKeyUp} id='library-filter' type='text'></input>
-      </div>
 
 
       {isLoading && <h2>Loading...</h2>}
@@ -121,11 +118,11 @@ const Libraries = (props) =>
           </thead>
           <tbody>
 
-          {data.Items?.map(i => {
+          {data.Items?.map((i,index) => {
                       return (
-                        <tr className='lib-tbl-row' onClick={handleRowClick} >
-                          <td className="lib_content lib-tbl-row-cmd" dangerouslySetInnerHTML={{__html: i.Command}}></td>
-                          <td className="lib_content" dangerouslySetInnerHTML={{__html: i.Details}}></td>
+                        <tr key={index} className='lib-tbl-row' onClick={handleRowClick} >
+                          <td className="lib_content lib-tbl-row-cmd filterable" dangerouslySetInnerHTML={{__html: i.Command}}></td>
+                          <td className="lib_content filterable" dangerouslySetInnerHTML={{__html: i.Details}}></td>
                         </tr>
                       );
                     })}

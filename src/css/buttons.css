@@ -41,41 +41,28 @@ color: var(--COLOR_LINK);
   height: 25;
   background-image: url("/img/btn_maximize.jpg");
 } */
-.btn-delete{
-    line-height: 12px;
-    font-size: 8pt;
-    font-family: tahoma;
-    margin-top: 1px;
-    margin-right: 2px;
-    position:absolute;
-    top:0;
-    right:0;
-    background-color: grey;
-}
-.btn-save {
-    line-height: 12px;
-    cursor:pointer;
-    margin-top: 1px;
-    background-color: grey;
-    color: #fff;
-    text-align: center;
-    position:absolute;
-    top:0;
-    right: 0;
+
+.chrome-btn-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  height: 30px;
+  position: relative;
+  left: 50px;
 }
 
-.w-chrome {
-  padding: 5px 0px 10px 20px;
-  height: 25px;
-  background-color: var(--COLOR_PANEL_CHROME_BG);
-  margin-bottom: 10px;
-  cursor: pointer;
+.img-btn-save{
+  display: block;
+  position: relative;
+  margin-left: auto;
 }
-.w-chrome button {
-    position: relative;
-    float: right;
-    height: 30px;
+ 
+.w-chrome .delete{
+  margin-left: auto;
 }
+ 
 
 
 #contentForm label {
@@ -99,4 +86,13 @@ input[type=text] {
 }
 input[type=text]:focus {
   outline: none;
+}
+
+.w-notes-save-btn{
+  display: flex;
+  margin: auto;
+  position: relative;
+  color: red;
+  top: -30px;
+  left: 85px;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
-import Widget from './Widgets';
+import Widget from './WidgetActions';
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import btn_add from "../img/btn_add.png";
 import $ from "jquery";
@@ -151,7 +151,7 @@ export default function DevityPanels(props)
 
   function renderIndividualWidget(widget) 
   {
-    const mostRecentView = props.mostRecentPanel === 'ALL' ? null : props.mostRecentPanel;
+    const mostRecentView = localStorage.getItem('mostRecentView');
     switch (widget.w_type)
     {
       case "CLIPBOARD":

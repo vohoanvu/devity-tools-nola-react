@@ -19,7 +19,7 @@ class Header extends React.Component {
 
     componentDidUpdate() {
       $('.p-panel').hide();
-      let mostReventView = localStorage.getItem('mostReventView');
+      let mostReventView = localStorage.getItem('mostRecentView');
 
       if(mostReventView){
         this.onNavigate(mostReventView);
@@ -31,7 +31,7 @@ class Header extends React.Component {
 
     onNavigate(target) {
       let recentView = target ?? 'ALL';
-      localStorage.setItem('mostReventView', recentView);
+      localStorage.setItem('mostRecentView', recentView);
       if (target === "CONSOLE") {
         $('#console_log').toggleClass('hide');
         $('#navigation').toggleClass('nav-max');

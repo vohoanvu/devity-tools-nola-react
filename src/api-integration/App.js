@@ -26,8 +26,7 @@ export default function App()
   const [searchResultData, setSearchResultData] = useState([]);
   const [youtubeResultData, setYoutubeResultData] = useState([]);
   const [mostRecentView, setMostRecentView] = useState({
-    isAllPanelRendered: false,
-    mostRecentPanel: localStorage.getItem("mostRecentView")
+    isAllPanelRendered: false
   });
 
   if (token) {
@@ -79,17 +78,14 @@ export default function App()
     <div className="App">
         <UserProvider>
           <div id="header_container">
-            <Header 
-              mostRecentPanel={mostRecentView.mostRecentPanel} 
+            <Header  
               isPanelsRendered={mostRecentView.isAllPanelRendered}></Header>
             <Console 
               passGoogleResultFromChildToParent={renderGoogleSearchResults}
               passYoutubeResultFromChildToParent={renderYoutubeSearchResults}
               />
           </div>
-          <DevityPanels 
-            signalAllPanelRendered={renderSelectedPanels}
-            mostRecentPanel={mostRecentView.mostRecentPanel}></DevityPanels>
+          <DevityPanels signalAllPanelRendered={renderSelectedPanels}></DevityPanels>
           <Profile devity_cookie={devity_cookie}></Profile>
           <Libraries></Libraries>
           <SearchResults

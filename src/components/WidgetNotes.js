@@ -12,10 +12,12 @@ export default function Note(props)
 {
     const [note, setNote] = useState({});
     const editorRef = useRef(null);
+    
 
     useEffect(() => {
+        const mostRecentView = props.activePanel;
         (async () => {
-            if (props.mostRecentView && props.mostRecentView !== "NOTES") return;
+            if (mostRecentView && mostRecentView !== "NOTES" && mostRecentView !== 'ALL') return;
 
             const content = await getWidgetContentById(props.widget.id);
             const noteText = JSON.parse(content)["NOTES"];
@@ -29,7 +31,7 @@ export default function Note(props)
 
         $(`#save-btn-${props.widget.id}`).hide();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.widget, props.mostRecentView]);
+    }, [props.widget, props.activePanel]);
 
     async function getWidgetContentById(w_id) {
         return await axios.get(devity_api + '/api/widgets/'+ w_id)

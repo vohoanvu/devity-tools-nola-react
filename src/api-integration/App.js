@@ -25,9 +25,7 @@ export default function App()
   let bearer = cookies.get(devity_cookie);
   const [searchResultData, setSearchResultData] = useState([]);
   const [youtubeResultData, setYoutubeResultData] = useState([]);
-  const [mostRecentView, setMostRecentView] = useState({
-    isAllPanelRendered: false
-  });
+  const [isAllPanelRendered, setIsAllPanelRendered] = useState(false);
 
   if (token) {
     (async () => {
@@ -67,19 +65,16 @@ export default function App()
 
 
   function renderSelectedPanels(isAllPanelRendered) {
-    setMostRecentView({
-      ...mostRecentView,
-      isAllPanelRendered: isAllPanelRendered
-    });
+    setIsAllPanelRendered(isAllPanelRendered);
   }
+
 
   return (
 
     <div className="App">
         <UserProvider>
           <div id="header_container">
-            <Header  
-              isPanelsRendered={mostRecentView.isAllPanelRendered}></Header>
+            <Header isPanelsRendered={isAllPanelRendered}></Header>
             <Console 
               passGoogleResultFromChildToParent={renderGoogleSearchResults}
               passYoutubeResultFromChildToParent={renderYoutubeSearchResults}

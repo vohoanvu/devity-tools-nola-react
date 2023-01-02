@@ -17,10 +17,12 @@ export default function Clipboard(props)
         widget: {}
     });
     const inputRef = useRef();
+    
 
     useEffect(() => {
+        const mostRecentView = props.activePanel;
         const getWidgetContent = async () => {
-            if (props.mostRecentView && props.mostRecentView !== "CLIPBOARD") return;
+            if (mostRecentView && mostRecentView !== "CLIPBOARD" && mostRecentView !== 'ALL') return;
 
             const widget = await getWidgetContentById(props.widget.id);
             let contentArray = [];
@@ -37,7 +39,7 @@ export default function Clipboard(props)
 
         getWidgetContent();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.widget.id, props.mostRecentView]);
+    }, [props.widget.id, props.activePanel]);
 
     async function getWidgetContentById(w_id) {
         return await axios.get(devity_api + '/api/widgets/'+ w_id)

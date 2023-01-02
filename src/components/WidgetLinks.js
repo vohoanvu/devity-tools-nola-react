@@ -24,8 +24,9 @@ export default function Links(props)
     const inputTitleRef = useRef(null);
 
     useEffect(() => {
+        const mostRecentView = props.activePanel;
         async function fetchWidgetContent() {
-            if (props.mostRecentView && props.mostRecentView !== "LINKS") return;
+            if (mostRecentView && mostRecentView !== "LINKS" && mostRecentView !== 'ALL') return;
 
             const widget = await getWidgetContentById(props.widget.id);
 
@@ -41,7 +42,7 @@ export default function Links(props)
         fetchWidgetContent();
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.widgetm, props.mostRecentView]);
+    }, [props.widgetm, props.activePanel]);
 
     async function getWidgetContentById(w_id) {
         return await axios.get(devity_api + '/api/widgets/'+ w_id)

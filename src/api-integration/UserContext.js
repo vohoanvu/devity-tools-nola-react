@@ -10,6 +10,7 @@ export const UserContext = React.createContext();
 export function UserProvider({ children, ...props })
 {
   const [userProfile, setUserProfile] = React.useState({});
+  const [activePanel, setActivePanel] = React.useState(localStorage.getItem('mostRecentView'));
   const bearer = cookies.get('devity-token');
   
   async function fetchUserInterests() {
@@ -26,6 +27,7 @@ export function UserProvider({ children, ...props })
   }
 
   React.useEffect(() => {
+
     async function fetchUser(bearer) {
 
       return await axios.get(devity_api + '/api/profile')
@@ -51,7 +53,7 @@ export function UserProvider({ children, ...props })
 
 
   return (
-    <UserContext.Provider value={userProfile}>
+    <UserContext.Provider value={{ userProfile, activePanel, setActivePanel}}>
       {children}
     </UserContext.Provider>
   );

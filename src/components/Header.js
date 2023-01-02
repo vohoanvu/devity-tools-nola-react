@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext, useEffect } from "react";
 import $ from "jquery";
 import logo from "../img/devity_logo.png";
 import btn_image_avitar from "../img/d_btn_ctrl_user.png";
@@ -8,30 +8,25 @@ import btn_image_clipboard from "../img/d_btn_ctrl_clipboard.png";
 import btn_image_code from "../img/d_btn_ctrl_code.png";
 import btn_image_lib from "../img/d_btn_ctrl_lib.png";
 import { UserContext } from "../api-integration/UserContext";
-import { log } from '../Utilities'
 
 
-class Header extends React.Component {
-    constructor(props) {
-      super(props);
-      this.onNavigate = this.onNavigate.bind(this);
+export default function Header(props) 
+{
+  const userContext = useContext(UserContext);
+
+  useEffect(()=>{
+    const mostRecentView = userContext.activePanel;
+    $('.p-panel').hide();
+    if(mostRecentView){
+      onNavigate(mostRecentView);
     }
-
-    componentDidUpdate() {
-      $('.p-panel').hide();
-      let mostReventView = localStorage.getItem('mostRecentView');
-
-      if(mostReventView){
-        this.onNavigate(mostReventView);
-      }
-      else{
-        this.onNavigate("ALL");
-      }
+    else{
+      onNavigate("ALL");
     }
+  },[userContext]) 
 
-    onNavigate(target) {
-      let recentView = target ?? 'ALL';
-      localStorage.setItem('mostRecentView', recentView);
+  function onNavigate(target) {
+
       if (target === "CONSOLE") {
         $('#console_log').toggleClass('hide');
         $('#navigation').toggleClass('nav-max');
@@ -52,66 +47,65 @@ class Header extends React.Component {
       }
     }
 
+    function onNavigateClicked(target) {
+      localStorage.setItem('mostRecentView', target);
+      userContext.setActivePanel(target);
+      onNavigate(target);
+    }
 
-    render() 
-    {
-      return <div id="navigation" className="nav-max">
+
+  return (<div id="navigation" className="nav-max">
 
       <div id="logo">
-        <button id="nav_all" onClick={()=>this.onNavigate('ALL')}>
+        <button id="nav_all" onClick={()=>onNavigateClicked('ALL')}>
           <img src={logo} className="logo" alt="logo" />
         </button>
       </div>
       
       <header id="ribbon" className="ribbon-cntrls" >
-        <button id='nav_links' onClick={()=>this.onNavigate('LINKS')}>
+        <button id='nav_links' onClick={()=>onNavigateClicked('LINKS')}>
           <img src={btn_image_links} alt="Links" /><br />
           <span>Links</span>
         </button>
 
-        <button id="nav_clipboard" onClick={()=>this.onNavigate('CLIPBOARD')}>
+        <button id="nav_clipboard" onClick={()=>onNavigateClicked('CLIPBOARD')}>
           <img  src={btn_image_clipboard} className="" alt="Clipboard" /><br />
           <span>Clipboard</span>
         </button>
 
-        <button id='nav_notes' onClick={()=>this.onNavigate('NOTES')}>
+        <button id='nav_notes' onClick={()=>onNavigateClicked('NOTES')}>
           <img  src={btn_image_notes} className="" alt="Notes" /><br />
           <span>Notes</span>
         </button>
 
-        <button id='nav_libraries' onClick={()=>this.onNavigate('LIBRARIES')}>
+        <button id='nav_libraries' onClick={()=>onNavigate('LIBRARIES')}>
           <img  src={btn_image_lib} className="" alt="Libraries" /><br />
           <span>Libraries</span>
         </button>
 
-        <button id="nav_console" onClick={()=>this.onNavigate('CONSOLE')}>
+        <button id="nav_console" onClick={()=>onNavigate('CONSOLE')}>
           <img  src={btn_image_code} className="" alt="Console" /><br />
           <span>Console</span>
         </button>
 
 
-        <button id='nav_profile' onClick={()=>this.onNavigate('PROFILE')}>
+        <button id='nav_profile' onClick={()=>onNavigate('PROFILE')}>
           <img  src={btn_image_avitar} className="App-avitar" alt="{user.name}" /><br />
           <Username />
         </button>
       </header>
 
-      </div>
-    }
-
+      </div>);
 }
 
 
 //another component
 function Username() {
-  const user = React.useContext(UserContext);
+  const userContext = React.useContext(UserContext);
 
   return (
     <span>
-      {user.name}
+      {userContext.userProfile.name}
     </span>
   );
 }
-  
-
-export default Header;

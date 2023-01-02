@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
 import Widget from './WidgetActions';
@@ -9,6 +9,7 @@ import { log } from '../Utilities';
 import WidgetNote from './WidgetNotes';
 import WidgetLink from './WidgetLinks';
 import WidgetClipboard from './WidgetClipboard';
+import { UserContext } from "../api-integration/UserContext";
 
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
@@ -23,6 +24,7 @@ export default function DevityPanels(props)
     type: ""
   });
   const [dirtyNote, setDirtyNote] = useState(false);
+  const userContext = useContext(UserContext);
 
   useEffect(() => {
     async function fetchData() {
@@ -38,7 +40,6 @@ export default function DevityPanels(props)
     };
 
     fetchData();
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -151,22 +152,28 @@ export default function DevityPanels(props)
 
   function renderIndividualWidget(widget) 
   {
-    const mostRecentView = localStorage.getItem('mostRecentView');
+    const widgetType = userContext.activePanel;
     switch (widget.w_type)
     {
       case "CLIPBOARD":
-        return <WidgetClipboard widget={widget} sendContentFromChildToParent={sendPUTContentFromChildToParent} mostRecentView={mostRecentView}/>;
+        return <WidgetClipboard 
+          widget={widget} 
+          sendContentFromChildToParent={sendPUTContentFromChildToParent}
+          activePanel={widgetType}/>;
   
       case "LINKS":
-        return <WidgetLink widget={widget} sendContentFromChildToParent={sendPUTContentFromChildToParent} mostRecentView={mostRecentView}/>;
+        return <WidgetLink 
+          widget={widget} 
+          sendContentFromChildToParent={sendPUTContentFromChildToParent}
+          activePanel={widgetType}/>;
   
       case "NOTES":
         return <WidgetNote 
           widget={widget} 
           sendContentFromChildToParent={sendPUTContentFromChildToParent} 
-          mostRecentView={mostRecentView}
           setDirtyNote={setDirtyNote}
-          isDirty={dirtyNote}/>;
+          isDirty={dirtyNote}
+          activePanel={widgetType}/>;
   
       default:
         return <div className="w-container">LOADING...</div>;

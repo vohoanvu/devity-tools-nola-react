@@ -10,6 +10,7 @@ import W_Note from './WidgetNotes';
 import W_Link from './WidgetLinks';
 import W_Clipboard from './WidgetClipboard';
 import { UserContext } from "../api-integration/UserContext";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const sso_url = CONFIG.SSO_URL;
 const devity_api = CONFIG.DEVITY_API;
@@ -181,6 +182,45 @@ export default function DevityPanels(props)
 
   }
 
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+  
+    return result;
+  };
+
+  const onDragEnd = (result, widgetType) => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+    console.log('current order: ', widgetObject[widgetType]);
+    const newItems = reorder(
+      widgetObject[widgetType],
+      result.source.index,
+      result.destination.index
+    );
+    console.log('new order: ', newItems);
+    setWidgetObject({
+      ...widgetObject,
+      [widgetType]: newItems
+    });
+  };
+
+  const getItemStyle = (isDragging, draggableStyle) => ({
+    // some basic styles to make the items look a bit nicer
+    userSelect: "none",
+    background: isDragging ? "lightgreen" : "none",
+    ...draggableStyle
+  });
+
+  const getListStyle = (isDraggingOver) => ({
+    background: isDraggingOver ? "lightblue" : "none",
+    display: "flex",
+    overflow: "auto"
+  });
+
   return (
     <React.Fragment>
       {
@@ -192,26 +232,51 @@ export default function DevityPanels(props)
                 <span className="p-title">{key}</span>
                 <img className='add-btn' src={btn_add} onClick={()=>w_add(key, value)} alt="create widget"/>
               </div>
-              <div className='p-contents'>
-
-              {
-                value.map((w, index) => {
-                  return (
-                    <div key={index} className="w-container">
-                      <Widget
-                        widget={w}
-                        setWidgetObjState={setWObject}
-                        widgetObjState={wObject}
-                        inputRef={inputRef}
-                        callPUTRequest={w_update}
-                        isReadyToSave={isReadyToSave}
-                      />
-                      { w_render(w) }
-                    </div>
-                  );
-                })
-              }
-              </div>
+              <DragDropContext onDragEnd={(result)=>onDragEnd(result, key)}>
+                <Droppable droppableId="droppable" direction="horizontal">
+                  {
+                    (provided, snapshot) => (
+                      <div 
+                        className='p-contents'
+                        ref={provided.innerRef}
+                        style={getListStyle(snapshot.isDraggingOver)}
+                        {...provided.droppableProps}
+                      >
+                          {
+                            value.map((w, index) => {
+                              return (
+                                <Draggable index={index} key={w.id} draggableId={w.id}>
+                                  {
+                                    (provided, snapshot) => (
+                                      <div 
+                                        className="w-container"
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                        style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+                                          <Widget
+                                            widget={w}
+                                            setWidgetObjState={setWidgetObject}
+                                            widgetObjState={widgetObject}
+                                            inputRef={inputRef}
+                                            callPUTRequest={updateWidgetRequest}
+                                            isReadyToSave={isReadyToSave}
+                                          />
+                                          { renderIndividualWidget(w) }
+                                      </div>
+                                    )
+                                  }
+                                </Draggable>
+                              );
+                            })
+                          }
+                        {provided.placeholder}
+                      </div>
+                    )
+                  } 
+                </Droppable>
+              </DragDropContext>
+              
             </div>
           )
         })

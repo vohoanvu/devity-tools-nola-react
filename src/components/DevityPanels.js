@@ -11,6 +11,7 @@ import W_Link from './WidgetLinks';
 import W_Clipboard from './WidgetClipboard';
 import { UserContext } from "../api-integration/UserContext";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const sso_url = CONFIG.SSO_URL;
 const devity_api = CONFIG.DEVITY_API;

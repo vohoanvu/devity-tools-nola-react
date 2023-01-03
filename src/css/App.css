@@ -58,7 +58,7 @@
  height: 50px;
  background-image: url('http://localhost:3000/img/btn_up_vote.png');
  cursor: pointer;
- margin-right: 10px;
+ margin-right: 5px;
 }
 .result-container .up-vote-btn span{
   color: var(--COLOR_TEXT);

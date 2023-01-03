@@ -1,11 +1,15 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
-import Widget from './Widgets';
+import Widget from './WidgetActions';
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import btn_add from "../img/btn_add.png";
 import $ from "jquery";
-import { log } from '../Utilities'
+import { log } from '../Utilities';
+import WidgetNote from './WidgetNotes';
+import WidgetLink from './WidgetLinks';
+import WidgetClipboard from './WidgetClipboard';
+import { UserContext } from "../api-integration/UserContext";
 
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
@@ -14,6 +18,13 @@ export default function DevityPanels(props)
 {
   const [widgetObject, setWidgetObject] = useState({});
   const inputRef = useRef();
+  const [isReadyToSave, setIsReadyToSave] = useState({
+    isReadyToSave: false,
+    putBody: {},
+    type: ""
+  });
+  const [dirtyNote, setDirtyNote] = useState(false);
+  const userContext = useContext(UserContext);
 
   useEffect(() => {
     async function fetchData() {
@@ -29,7 +40,6 @@ export default function DevityPanels(props)
     };
 
     fetchData();
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -90,6 +100,87 @@ export default function DevityPanels(props)
           .catch(err => console.log(err));
   }
 
+  async function updateWidgetRequest(putBody, type) {
+    delete putBody["key"];
+    $('div[data-panel=' + type + '] .gear').addClass('rotate');
+    const result = await axios.put(devity_api + "/api/widgets", { ...putBody })
+          .then(response => {
+            console.log(response.status, '...on update');
+            return response.data;
+          })
+          .then(result => {
+              $('div[data-panel=' + type + '] .gear').removeClass('rotate');
+              return result;
+          })
+          .catch(err => console.log(err));
+
+    return result;
+  }
+
+  async function sendPUTContentFromChildToParent(widget, setWidgetState, currentContent) {  
+    let putBody = {};
+    
+    switch (widget.w_type)
+    {
+      case "CLIPBOARD":
+        putBody = widget;
+        break;
+
+      case "LINKS":
+        putBody = widget;
+        break;
+
+      case "NOTES":
+        const jsonObj = {};
+        jsonObj[widget.w_type] = currentContent;
+        putBody = {
+          ...widget,
+          w_content: JSON.stringify(jsonObj)
+        };
+
+        break;
+      default:
+        break;
+    }
+
+    setIsReadyToSave({
+      isReadyToSave: true,
+      putBody: putBody,
+      type: widget.w_type
+    });
+  }
+
+  function renderIndividualWidget(widget) 
+  {
+    const widgetType = userContext.activePanel;
+    switch (widget.w_type)
+    {
+      case "CLIPBOARD":
+        return <WidgetClipboard 
+          widget={widget} 
+          sendContentFromChildToParent={sendPUTContentFromChildToParent}
+          activePanel={widgetType}/>;
+  
+      case "LINKS":
+        return <WidgetLink 
+          widget={widget} 
+          sendContentFromChildToParent={sendPUTContentFromChildToParent}
+          activePanel={widgetType}/>;
+  
+      case "NOTES":
+        return <WidgetNote 
+          widget={widget} 
+          sendContentFromChildToParent={sendPUTContentFromChildToParent} 
+          setDirtyNote={setDirtyNote}
+          isDirty={dirtyNote}
+          activePanel={widgetType}/>;
+  
+      default:
+        return <div className="w-container">LOADING...</div>;
+    }
+
+  }
+
   return (
     <React.Fragment>
       {
@@ -102,7 +193,7 @@ export default function DevityPanels(props)
                 <img className='add-btn' src={btn_add} onClick={()=>onAddNewWidget(key, value)} alt="create widget"/>
               </div>
               <div className='p-contents'>
-              
+
               {
                 value.map((w, index) => {
                   return (
@@ -112,7 +203,10 @@ export default function DevityPanels(props)
                         setWidgetObjState={setWidgetObject}
                         widgetObjState={widgetObject}
                         inputRef={inputRef}
+                        callPUTRequest={updateWidgetRequest}
+                        isReadyToSave={isReadyToSave}
                       />
+                      { renderIndividualWidget(w) }
                     </div>
                   );
                 })

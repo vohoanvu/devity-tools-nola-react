@@ -11,13 +11,13 @@ const devity_api = configData.DEVITY_API;
 
 export default function Profile(props)
 {
-  const user = React.useContext(UserContext);
+  const userContext = React.useContext(UserContext);
   const inputRef = useRef();
   const [userProfile, setUserProfile] = React.useState({});
 
   useEffect(() => {
-    setUserProfile(user);
-  },[user])
+    setUserProfile(userContext.userProfile);
+  },[userContext.userProfile])
 
 
   function handleUsernameOnChange(newName) {

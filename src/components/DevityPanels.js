@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import CONFIG from "../config.json";

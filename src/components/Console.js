@@ -1,9 +1,10 @@
 import * as React from "react";
 import $ from "jquery";
 import axios from 'axios';
-import {useState} from 'react';
+import { useState, useContext } from 'react';
 import { log } from '../Utilities'
 import CONFIG from "../config.json";
+import { UserContext } from "../api-integration/UserContext";
 
 const GOOGLE_SEARCH_API = CONFIG.GOOGLE_SEARCH_ENGINE_URL + "?key=" + CONFIG.GOOGLE_API_KEY + "&cx=" + CONFIG.GOOGLE_SEARCH_ENGINE;
 
@@ -15,6 +16,7 @@ const Console = (props) =>
   const [params, setParams] = useState(' ');
   const keys_ignore = ['Shift', 'Capslock', 'Alt', 'Control', 'Alt', 'Delete', 'End', 'PageDown', 'PageUp', 'Meta', 'ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft', 'NumLock', 'Pause', 'ScrollLock', 'Home', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10','F11','F12'];
   const command_ignore = ['Tab', 'Escape'];
+  const userContext = useContext(UserContext);
 
   const runCommand = async () => {
 
@@ -24,7 +26,7 @@ const Console = (props) =>
         $('.p-panel').hide();
         $('div[data-panel=RESULTS]').show();
         $('div[data-panel=RESULTS] .gear').addClass('rotate');
-      
+        userContext.setActivePanel('RESULTS');
         if (params) {
             
           const googleSearchApi = GOOGLE_SEARCH_API + "&q=" + encodeURIComponent(params);

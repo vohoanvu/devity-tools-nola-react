@@ -26,10 +26,11 @@ export default function Links(props)
     useEffect(() => {
         const curr_view = props.activePanel;
         async function fetchWidgetContent() {
-            if (curr_view && curr_view !== "LINKS" && curr_view !== 'ALL') return;
+            if ((curr_view && curr_view !== "LINKS" && curr_view !== 'ALL') || 
+            (curr_view === "LINKS" && links.link['w_content'])) return;
 
             const widget = await getWidgetContentById(props.widget.id);
-
+            links.link['w_content'] = widget.w_content;
             const contentArray = JSON.parse(widget.w_content)
             .filter(item => item.hyperLink.length !== 0 && item.displayName.length !== 0);
 
@@ -49,8 +50,8 @@ export default function Links(props)
             .then((res) => {
                 if (res.status === 401) window.location.replace(sso_url);
 
-                //console.log("Get LINKS widget");
-                //console.log(res.data);
+                console.log("Get LINKS widget");
+                console.log(res.data);
                 return res.data;
         }).then(result => result)
         .catch((err) => console.log(err));

@@ -17,7 +17,8 @@ export default function Note(props)
     useEffect(() => {
         const curr_view = props.activePanel;
         (async () => {
-            if (curr_view && curr_view !== "NOTES" && curr_view !== 'ALL') return;
+            if ((curr_view && curr_view !== "NOTES" && curr_view !== 'ALL') || 
+            (curr_view === "NOTES" && note["w_content"])) return;
 
             const content = await getWidgetContentById(props.widget.id);
             const noteText = JSON.parse(content)["NOTES"];
@@ -38,8 +39,8 @@ export default function Note(props)
             .then((res) => {
                 if (res.status === 401) window.location.replace(sso_url);
 
-                //console.log("Get NOTES widget");
-                //console.log(res.data);
+                console.log("Get NOTES widget");
+                console.log(res.data);
                 return res.data.w_content;
             }).then(result => {return result;} )
             .catch((err) => log(err));

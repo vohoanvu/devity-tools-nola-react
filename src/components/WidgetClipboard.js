@@ -22,7 +22,8 @@ export default function Clipboard(props)
     useEffect(() => {
         const curr_view = props.activePanel;
         const getWidgetContent = async () => {
-            if (curr_view && curr_view !== "CLIPBOARD" && curr_view !== 'ALL') return;
+            if ((curr_view && curr_view !== "CLIPBOARD" && curr_view !== 'ALL') || 
+            (curr_view === "CLIPBOARD" && clipboardContent.widget.w_content)) return;
 
             const widget = await getWidgetContentById(props.widget.id);
             let contentArray = [];
@@ -46,8 +47,8 @@ export default function Clipboard(props)
             .then((res) => {
                 if (res.status === 401) window.location.replace(sso_url);
 
-                //console.log("Get CLIPBOARD widget");
-                //console.log(res.data);
+                console.log("Get CLIPBOARD widget");
+                console.log(res.data);
                 return res.data;
             }).then(result => result)
             .catch((err) => console.log(err));

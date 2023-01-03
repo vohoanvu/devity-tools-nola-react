@@ -195,18 +195,32 @@ export default function DevityPanels(props)
     if (!result.destination) {
       return;
     }
-    console.log('current order: ', wObject[widgetType]);
+
     const newItems = reorder(
       wObject[widgetType],
       result.source.index,
       result.destination.index
     );
-    console.log('new order: ', newItems);
     setWObject({
       ...wObject,
       [widgetType]: newItems
     });
+
+    onDragEndSaveInDb(newItems, widgetType);
   };
+
+  async function onDragEndSaveInDb(orderedWidgetList, type) {
+    console.log('new order: ', orderedWidgetList);
+    let postBody = {};
+    orderedWidgetList.forEach((item, index) => {
+      postBody[item.id] = index;
+    });
+    $('div[data-panel=' + type + '] .gear').addClass('rotate');
+    return await axios.post(devity_api + "/api/widgets/order", { ...postBody })
+          .then(response => console.log('On Order POST Response: ', response.status))
+          .then(result => $('div[data-panel=' + type + '] .gear').removeClass('rotate'))
+          .catch(err => console.log(err));
+  }
 
   const getItemStyle = (isDragging, draggableStyle) => ({
     // some basic styles to make the items look a bit nicer
@@ -244,6 +258,7 @@ export default function DevityPanels(props)
                       >
                           {
                             value.map((w, index) => {
+                              
                               return (
                                 <Draggable index={index} key={w.id} draggableId={w.id}>
                                   {
@@ -276,7 +291,6 @@ export default function DevityPanels(props)
                   } 
                 </Droppable>
               </DragDropContext>
-              
             </div>
           )
         })

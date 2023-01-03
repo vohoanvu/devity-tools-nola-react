@@ -39,8 +39,8 @@ export default function Note(props)
             .then((res) => {
                 if (res.status === 401) window.location.replace(sso_url);
 
-                console.log("Get NOTES widget");
-                console.log(res.data);
+                //console.log("Get NOTES widget");
+                //console.log(res.data);
                 return res.data.w_content;
             }).then(result => {return result;} )
             .catch((err) => log(err));
@@ -80,7 +80,7 @@ export default function Note(props)
                     }}
                     onBlur={() => {
                         props.setDirtyNote(false);
-                        props.sendContentFromChildToParent(note, null, editorRef.current.getContent());
+                        props.sendContentToParent(note, null, editorRef.current.getContent());
                         $(`#save-btn-${props.widget.id}`).show();
                     }}
                     init={{

@@ -18,3 +18,19 @@ export function log(value) {
     }
     return link;
   }
+
+  export function abbriviate(value) {
+    
+    if(value.length > 32){
+      return value.substring(0, 35) + "...";
+    }
+    return value;
+  }
+
+  export function currate_title(value) {
+    
+    if(value.length > 32){
+      return value
+    }
+    return '';
+  }

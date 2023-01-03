@@ -5,6 +5,7 @@ import CONFIG from "../config.json";
 import '../css/App.css';
 import Editable from './Editable';
 import btn_add from "../img/btn_add.png";
+import { abbriviate, currate_title } from '../Utilities';
 const sso_url = CONFIG.SSO_URL;
 const devity_api = CONFIG.DEVITY_API;
 
@@ -83,7 +84,7 @@ export default function Clipboard(props)
     }
 
     const handleItemClick = event => {
-        var text = $(event.currentTarget).text();
+        var text = $(event.currentTarget).data('copy');
     
         $(event.currentTarget).animate({ opacity: '0.1' }, "fast");
         $(event.currentTarget).animate({ opacity: '1' }, "fast");
@@ -122,7 +123,7 @@ export default function Clipboard(props)
                 <ul>
                 {
                     clipboardContent.content?.map( (data, index) => 
-                        <li key={index}><span className='w_copyable filterable' onClick={handleItemClick}>{data}</span></li> )
+                        <li key={index}><span className='w_copyable filterable' title={currate_title(data)} data-copy={data} onClick={handleItemClick}>{abbriviate(data)}</span></li> )
                 }
                 </ul>
             </div>

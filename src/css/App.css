@@ -198,6 +198,7 @@ overflow: auto;
 
 .p-contents{
   padding: 10px;
+  flex-wrap: wrap;
 }
 
 .p-title{

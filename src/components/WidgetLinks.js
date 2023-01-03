@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import configData from "../config.json";
 import '../css/buttons.css';
-import { format_link } from '../Utilities';
+import { format_link, abbriviate, currate_title } from '../Utilities';
 import Editable from './Editable';
 import btn_add from "../img/btn_add.png";
 import $ from "jquery";
@@ -140,7 +140,7 @@ export default function Links(props)
                 <ul>
                 {
                     links.displayList?.map((item, index) => {
-                        return <li key={index}><a className='filterable' target="_blank" href={format_link(item.hyperLink)} rel="noreferrer">{item.displayName}</a></li>;
+                        return <li key={index}><a className='filterable' target="_blank" href={format_link(item.hyperLink)} title={currate_title(item.displayName)} rel="noreferrer">{abbriviate(item.displayName)}</a></li>;
                     })
                 }
                 </ul>

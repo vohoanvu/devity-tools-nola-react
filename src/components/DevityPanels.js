@@ -195,15 +195,15 @@ export default function DevityPanels(props)
     if (!result.destination) {
       return;
     }
-    console.log('current order: ', widgetObject[widgetType]);
+    console.log('current order: ', wObject[widgetType]);
     const newItems = reorder(
-      widgetObject[widgetType],
+      wObject[widgetType],
       result.source.index,
       result.destination.index
     );
     console.log('new order: ', newItems);
-    setWidgetObject({
-      ...widgetObject,
+    setWObject({
+      ...wObject,
       [widgetType]: newItems
     });
   };
@@ -256,13 +256,13 @@ export default function DevityPanels(props)
                                         style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                                           <Widget
                                             widget={w}
-                                            setWidgetObjState={setWidgetObject}
-                                            widgetObjState={widgetObject}
+                                            setWidgetObjState={setWObject}
+                                            widgetObjState={wObject}
                                             inputRef={inputRef}
-                                            callPUTRequest={updateWidgetRequest}
+                                            callPUTRequest={w_update}
                                             isReadyToSave={isReadyToSave}
                                           />
-                                          { renderIndividualWidget(w) }
+                                          { w_render(w) }
                                       </div>
                                     )
                                   }

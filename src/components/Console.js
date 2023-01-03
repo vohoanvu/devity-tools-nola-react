@@ -3,7 +3,9 @@ import $ from "jquery";
 import axios from 'axios';
 import {useState} from 'react';
 import { log } from '../Utilities'
-const VuYoutubeApiKey = "AIzaSyADpcOL5mxw_D8UWq8K5ki0lvxHh8vU8F0";
+import CONFIG from "../config.json";
+
+const GOOGLE_SEARCH_API = CONFIG.GOOGLE_SEARCH_ENGINE_URL + "?key=" + CONFIG.GOOGLE_API_KEY + "&cx=" + CONFIG.GOOGLE_SEARCH_ENGINE;
 
 
 const Console = (props) => 
@@ -25,10 +27,10 @@ const Console = (props) =>
       
         if (params) {
             
-          const googleSearchApi = "https://www.googleapis.com/customsearch/v1?key=AIzaSyAzgX2yArFJrRogwd5GCdkjmQaUwGUWMqs&cx=b2801acca79e24323&q=" + encodeURIComponent(params);
+          const googleSearchApi = GOOGLE_SEARCH_API + "&q=" + encodeURIComponent(params);
           await axios.get(googleSearchApi)
                 .then((res) => {
-                    localStorage.setItem('mostReventView', "RESULTS");
+                    localStorage.setItem('curr_view', "RESULTS");
                     props.passGoogleResultFromChildToParent(res.data.items);
                     
                     $('div[data-panel=RESULTS] .gear').removeClass('rotate');
@@ -40,16 +42,16 @@ const Console = (props) =>
                 });
 
 
-          const youtubeSearchApi = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=" 
-          + encodeURIComponent(params) + "&type=video&key=" + VuYoutubeApiKey;
+          const youtubeSearchApi = CONFIG.YOUTUBE_API_URL 
+          + encodeURIComponent(params) + "&type=video&key=" + CONFIG.YOUTUBE_API_KEY;
           await axios.get(youtubeSearchApi)
                 .then((res) => {
-                  localStorage.setItem('mostReventView', "RESULTS");
+                  localStorage.setItem('curr_view', "RESULTS");
                   return res.data.items;
                 })
                 .then((result) => {
                   console.log('youtube search results: ', result);
-                  props.passYoutubeResultFromChildToParent(result);
+                  props.passvideoResultFromChildToParent(result);
                   $('div[data-panel=RESULTS] .gear').removeClass('rotate');
                   log('fetched youtube results for ' + params);
                 })

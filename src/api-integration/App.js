@@ -5,46 +5,46 @@ import Libraries  from "../components/Libraries";
 import Profile  from "../components/Profile";
 import Console from "../components/Console";
 import Header  from "../components/Header";
-import configData from "../config.json";
+import CONFIG from "../config.json";
 import axios from 'axios';
 import '../css/App.css';
 import SearchResults from '../components/SearchResults';
 import {useLocation} from 'react-router-dom';
 import Cookies from 'universal-cookie';
 
-const sso_url = configData.SSO_URL;
-const devity_url = configData.DEVITY;
-const devity_cookie = 'devity-token';
-const devity_api = configData.DEVITY_API;
+const SSO_URL = CONFIG.SSO_URL;
+const DEVITY_URL = CONFIG.DEVITY;
+const COOKIE_NAME = 'devity-token';
+const API_URL = CONFIG.API_URL;
 const cookies = new Cookies();
 
 export default function App() 
 {
   const search = useLocation().search;
   const token = new URLSearchParams(search).get('token');
-  let bearer = cookies.get(devity_cookie);
-  const [searchResultData, setSearchResultData] = useState([]);
-  const [youtubeResultData, setYoutubeResultData] = useState([]);
+  let bearer = cookies.get(COOKIE_NAME);
+  const [searchResult, setSearchResult] = useState([]);
+  const [videoResult, setvideoResult] = useState([]);
   const [isAllPanelRendered, setIsAllPanelRendered] = useState(false);
 
   if (token) {
     (async () => {
       try{
         const tk = { token: token };
-        let response = await axios.post(devity_api + '/api/sessions', tk);
+        let response = await axios.post(API_URL + '/api/sessions', tk);
         if(response.status !== 200){
-          window.location.replace(sso_url);
+          window.location.replace(SSO_URL);
         }
         let bearer = "Devity " + response.data.id;
         let expires = "expires="+ response.data.expires;
         axios.defaults.headers.common['Authorization'] = bearer;
-        cookies.set(devity_cookie, bearer, expires, { path: '/' });
+        cookies.set(COOKIE_NAME, bearer, expires, { path: '/' });
 
-        window.location.replace(devity_url);
+        window.location.replace(DEVITY_URL);
       }
       catch(error){
         console.log(Object.keys(error), error.message);
-        window.location.replace(sso_url);
+        window.location.replace(SSO_URL);
       }
     })();
   } else if(bearer){
@@ -52,15 +52,15 @@ export default function App()
   }
   else
   {
-    window.location.replace(sso_url);
+    window.location.replace(SSO_URL);
   }
 
-  function renderGoogleSearchResults(childResultData) {
-    setSearchResultData(childResultData);
+  function renderResults(childResultData) {
+    setSearchResult(childResultData);
   }
 
-  function renderYoutubeSearchResults(childResultData) {
-    setYoutubeResultData(childResultData);
+  function renderVideoResults(childResultData) {
+    setvideoResult(childResultData);
   }
 
 
@@ -76,16 +76,16 @@ export default function App()
           <div id="header_container">
             <Header isPanelsRendered={isAllPanelRendered}></Header>
             <Console 
-              passGoogleResultFromChildToParent={renderGoogleSearchResults}
-              passYoutubeResultFromChildToParent={renderYoutubeSearchResults}
+              passGoogleResultFromChildToParent={renderResults}
+              passvideoResultFromChildToParent={renderVideoResults}
               />
           </div>
           <DevityPanels signalAllPanelRendered={renderSelectedPanels}></DevityPanels>
-          <Profile devity_cookie={devity_cookie}></Profile>
+          <Profile COOKIE_NAME={COOKIE_NAME}></Profile>
           <Libraries></Libraries>
           <SearchResults
-            googleData={searchResultData}
-            youtubeData={youtubeResultData}/>
+            searchData={searchResult}
+            videoData={videoResult}/>
         </UserProvider>
     </div>
     

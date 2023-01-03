@@ -15,9 +15,9 @@ export default function Note(props)
     
 
     useEffect(() => {
-        const mostRecentView = props.activePanel;
+        const curr_view = props.activePanel;
         (async () => {
-            if (mostRecentView && mostRecentView !== "NOTES" && mostRecentView !== 'ALL') return;
+            if (curr_view && curr_view !== "NOTES" && curr_view !== 'ALL') return;
 
             const content = await getWidgetContentById(props.widget.id);
             const noteText = JSON.parse(content)["NOTES"];

@@ -121,7 +121,7 @@ export default function Profile(props)
         <span className="p-title">Profile</span>
       </div>
       <div className='p-contents'>
-        <div id="ctrl_add_links" className="nav-ctrl w_ctrl_add"><ViewModeSelection devityCookie={props.devity_cookie}/></div>
+        <div id="ctrl_add_links" className="nav-ctrl w-ctrl-add"><ViewModeSelection devityCookie={props.devity_cookie}/></div>
         <div className='user-card'>
           <Editable 
             displayText={<h1>{userProfile.name}</h1>}

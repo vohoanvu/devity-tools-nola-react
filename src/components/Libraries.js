@@ -2,35 +2,13 @@ import {useState} from 'react';
 import axios from 'axios';
 import $ from "jquery";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
-const UserSelectedLibrary = 'currentLibrary';
+const UserSelectedLibrary = 'curr_lib';
 
 const Libraries = (props) => 
 {
   const [data, setData] = useState({data: {}});
   const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState('');
-
-  // const handleClick = async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const {data} = await axios.get('/libs/git_cheatsheet.json', {
-  //       headers: {
-  //         Accept: 'application/json',
-  //       },
-  //     });
-
-      
-
-  //     console.log('data is: ', JSON.stringify(data, null, 4));
-
-  //     setData(data);
-  //   } catch (err) {
-  //     setErr(err.message);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
 
   const handleSelect = async (e) => {
     setIsLoading(true);
@@ -54,21 +32,12 @@ const Libraries = (props) =>
     }
   };
 
-  // const handleKeyUp = async () => {
-  //   var filter_term = $('#library-filter').val().toLowerCase();
-
-  //   $(".lib-tbl").find(".lib-tbl-row").filter(() => {
-  //     return $(this).toggle( $(this).text().toLowerCase().indexOf(filter_term) > -1 );
-  //   });
-  // };
-
   const handleRowClick = event => {
     var text = $(event.currentTarget).find('.lib-tbl-row-cmd').text();
 
     $(event.currentTarget).animate({ opacity: '0.1' }, "fast");
     $(event.currentTarget).animate({ opacity: '1' }, "fast");
     
-
     navigator.clipboard.writeText(text).then(function() {
       console.log(text);
     }, function(err) {
@@ -77,9 +46,7 @@ const Libraries = (props) =>
 
   };
 
-
-
-  console.log(data);
+  //console.log(data);
 
   return (
               <div className='p-panel library' style={{display:'none'}} data-panel='LIBRARIES'>

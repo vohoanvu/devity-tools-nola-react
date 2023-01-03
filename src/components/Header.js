@@ -15,10 +15,10 @@ export default function Header(props)
   const userContext = useContext(UserContext);
 
   useEffect(()=>{
-    const mostRecentView = userContext.activePanel;
+    const curr_view = userContext.activePanel;
     $('.p-panel').hide();
-    if(mostRecentView){
-      onNavigate(mostRecentView);
+    if(curr_view){
+      onNavigate(curr_view);
     }
     else{
       onNavigate("ALL");
@@ -48,7 +48,7 @@ export default function Header(props)
     }
 
     function onNavigateClicked(target) {
-      localStorage.setItem('mostRecentView', target);
+      localStorage.setItem('curr_view', target);
       userContext.setActivePanel(target);
       onNavigate(target);
     }

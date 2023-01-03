@@ -24,9 +24,9 @@ export default function Links(props)
     const inputTitleRef = useRef(null);
 
     useEffect(() => {
-        const mostRecentView = props.activePanel;
+        const curr_view = props.activePanel;
         async function fetchWidgetContent() {
-            if (mostRecentView && mostRecentView !== "LINKS" && mostRecentView !== 'ALL') return;
+            if (curr_view && curr_view !== "LINKS" && curr_view !== 'ALL') return;
 
             const widget = await getWidgetContentById(props.widget.id);
 

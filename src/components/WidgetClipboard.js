@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import $ from "jquery";
-import configData from "../config.json";
+import CONFIG from "../config.json";
 import '../css/App.css';
 import Editable from './Editable';
 import btn_add from "../img/btn_add.png";
-const sso_url = configData.SSO_URL;
-const devity_api = configData.DEVITY_API;
+const sso_url = CONFIG.SSO_URL;
+const devity_api = CONFIG.DEVITY_API;
 
 
 export default function Clipboard(props)
@@ -20,9 +20,9 @@ export default function Clipboard(props)
     
 
     useEffect(() => {
-        const mostRecentView = props.activePanel;
+        const curr_view = props.activePanel;
         const getWidgetContent = async () => {
-            if (mostRecentView && mostRecentView !== "CLIPBOARD" && mostRecentView !== 'ALL') return;
+            if (curr_view && curr_view !== "CLIPBOARD" && curr_view !== 'ALL') return;
 
             const widget = await getWidgetContentById(props.widget.id);
             let contentArray = [];
@@ -62,7 +62,7 @@ export default function Clipboard(props)
             w_content: JSON.stringify(jsonObject)
         }
 
-        await props.sendContentFromChildToParent(putBody, null, null);
+        await props.sendContentToParent(putBody, null, null);
     }
 
     function handleContentOnChange(e) {

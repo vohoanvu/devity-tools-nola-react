@@ -8,9 +8,9 @@ export default function SearchResults(props)
     const [youtubeSearchResults, setYoutubeSearchResults] = useState([]);
 
     useEffect(() => {
-        setGoogleSearchResults(props.googleData);
-        setYoutubeSearchResults(props.youtubeData);
-    }, [props.googleData, googleSearchResults,props.youtubeData, youtubeSearchResults]);
+        setGoogleSearchResults(props.searchData);
+        setYoutubeSearchResults(props.videoData);
+    }, [props.searchData, googleSearchResults,props.videoData, youtubeSearchResults]);
 
 
     function renderVideoFigure(videoId, descriptionText, width, height) {

@@ -89,7 +89,7 @@ export default function Links(props)
             ...props.widget,
             w_content: JSON.stringify(links.displayList)
         }
-        await props.sendContentFromChildToParent(putBody, null, null);
+        await props.sendContentToParent(putBody, null, null);
     }
 
 

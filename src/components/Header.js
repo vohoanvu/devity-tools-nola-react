@@ -78,18 +78,18 @@ export default function Header(props)
           <span>Notes</span>
         </button>
 
-        <button id='nav_libraries' onClick={()=>onNavigate('LIBRARIES')}>
+        <button id='nav_libraries' onClick={()=>onNavigateClicked('LIBRARIES')}>
           <img  src={btn_image_lib} className="" alt="Libraries" /><br />
           <span>Libraries</span>
         </button>
 
-        <button id="nav_console" onClick={()=>onNavigate('CONSOLE')}>
+        <button id="nav_console" onClick={()=>onNavigateClicked('CONSOLE')}>
           <img  src={btn_image_code} className="" alt="Console" /><br />
           <span>Console</span>
         </button>
 
 
-        <button id='nav_profile' onClick={()=>onNavigate('PROFILE')}>
+        <button id='nav_profile' onClick={()=>onNavigateClicked('PROFILE')}>
           <img  src={btn_image_avitar} className="App-avitar" alt="{user.name}" /><br />
           <Username />
         </button>

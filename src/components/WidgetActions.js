@@ -75,7 +75,7 @@ export default function Widget(props)
                   if (props.isReadyToSave.isReadyToSave) {
                     await props.callPUTRequest(props.isReadyToSave.putBody, props.isReadyToSave.type);
                   } else {
-                    alert('not ready to save! Please check sendPUTContentFromChildToParent() method in DevityPanel.js');
+                    alert('not yet ready to save! Please click Save button again after a few seconds.');
                   }
               }}
               src={btn_save} alt="save widget"/>

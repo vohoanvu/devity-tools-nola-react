@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import CONFIG from "../config.json";
-import Widget from './WidgetActions';
+import WidgetActions from './WidgetActions';
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import btn_add from "../img/btn_add.png";
 import $ from "jquery";
@@ -196,8 +196,10 @@ export default function DevityPanels(props)
       return;
     }
 
+    const newWidgetList = [...wObject[widgetType]];
+
     const newItems = reorder(
-      wObject[widgetType],
+      newWidgetList,
       result.source.index,
       result.destination.index
     );
@@ -205,6 +207,11 @@ export default function DevityPanels(props)
       ...wObject,
       [widgetType]: newItems
     });
+
+    if (widgetType === "NOTES") {
+      console.log('TINY MCE:', $('.mce-content-body'));
+      //$('.mce-content-body').activeEditor.setContent(newItems[result.destination.index].w_content);
+    }
 
     onDragEndSaveInDb(newItems, widgetType);
   };
@@ -234,7 +241,7 @@ export default function DevityPanels(props)
     display: "flex",
     overflow: "auto"
   });
-
+  //style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
   return (
     <React.Fragment>
       {
@@ -258,30 +265,34 @@ export default function DevityPanels(props)
                       >
                           {
                             value.map((w, index) => {
-                              
                               return (
-                                <Draggable index={index} key={w.id} draggableId={w.id}>
-                                  {
-                                    (provided, snapshot) => (
-                                      <div 
-                                        className="w-container"
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                                          <Widget
-                                            widget={w}
-                                            setWidgetObjState={setWObject}
-                                            widgetObjState={wObject}
-                                            inputRef={inputRef}
-                                            callPUTRequest={w_update}
-                                            isReadyToSave={isReadyToSave}
-                                          />
+                                  <Draggable index={index} key={w.id} draggableId={w.id}>
+                                    {
+                                      (provided, snapshot) => (
+                                        <div 
+                                          className="w-container"
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
+                                        >
+                                          <div 
+                                            className='w-chrome'
+                                            {...provided.dragHandleProps}
+                                          >
+                                            <WidgetActions
+                                              widget={w}
+                                              setWidgetObjState={setWObject}
+                                              widgetObjState={wObject}
+                                              inputRef={inputRef}
+                                              callPUTRequest={w_update}
+                                              isReadyToSave={isReadyToSave}
+                                            />
+                                          </div>
                                           { w_render(w) }
-                                      </div>
-                                    )
-                                  }
-                                </Draggable>
+                                        </div>
+                                      )
+                                    }
+                                  </Draggable>
                               );
                             })
                           }

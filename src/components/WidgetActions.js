@@ -50,7 +50,6 @@ export default function Widget(props)
 
   return (
     <React.Fragment>
-      <div className='w-chrome'>
         <Editable 
             displayText={<span>{props.widget.name || "Enter a name for widget" }</span>}
             inputType="input" 
@@ -84,7 +83,6 @@ export default function Widget(props)
               onClick={()=>DeleteWidgetHandler(props.widget.id)} 
               src={btn_delete} alt="delete"/>
         </div>
-      </div>
     </React.Fragment>
   );
   

@@ -27,10 +27,10 @@ export default function Links(props)
         const curr_view = props.activePanel;
         async function fetchWidgetContent() {
             if ((curr_view && curr_view !== "LINKS" && curr_view !== 'ALL') || 
-            (curr_view === "LINKS" && links.link['w_content'])) return;
+            (curr_view === "LINKS" && links.link['w_content'] != null)) return;
 
             const widget = await getWidgetContentById(props.widget.id);
-            links.link['w_content'] = widget.w_content;
+            
             const contentArray = JSON.parse(widget.w_content)
             .filter(item => item.hyperLink.length !== 0 && item.displayName.length !== 0);
 
@@ -53,7 +53,10 @@ export default function Links(props)
                 //console.log("Get LINKS widget");
                 //console.log(res.data);
                 return res.data;
-        }).then(result => result)
+        }).then(widget => {
+            links.link['w_content'] = widget.w_content;
+            return widget;
+        })
         .catch((err) => console.log(err));
     }
 

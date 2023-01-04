@@ -229,12 +229,6 @@ overflow: auto;
   margin-right: 5px;
 }
 
-.add-btn{
-  cursor: pointer;
-  width: 12px;
-  margin-right: 5px;
-}
-
 .w-container{
   display: block;
   float: left;

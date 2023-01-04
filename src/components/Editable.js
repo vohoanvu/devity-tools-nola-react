@@ -20,9 +20,7 @@ export default function Editable({
 
     const handleKeyDown = (event, type) => {
         const { key } = event;
-        const keys = ["Escape", "Tab"]; // use this array to check for <textarea/> inputType
-        const enterKey = "Enter";
-        const allKeys = [...keys, enterKey];
+        const allKeys = ["Escape", "Tab", "Enter"];
 
         if (type !== "textarea" && allKeys.indexOf(key) > -1) {
             setEditing(false);
@@ -43,7 +41,7 @@ export default function Editable({
                         {children}
                     </div>
                 ) : (
-                    <div onClick={()=>setEditing(true)}>
+                    <div id="editableDisplay" onClick={()=>setEditing(true)}>
                         { displayText }
                     </div>
                 )

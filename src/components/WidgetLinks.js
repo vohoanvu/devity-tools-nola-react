@@ -22,6 +22,7 @@ export default function Links(props)
     });
     const inputLinkRef = useRef(null);
     const inputTitleRef = useRef(null);
+    const [isEdit, setIsEdit] = useState(false);
 
     useEffect(() => {
         const curr_view = props.activePanel;
@@ -60,14 +61,15 @@ export default function Links(props)
         .catch((err) => console.log(err));
     }
 
-    function onBlurNewLinkHandler() {
-        if (links.inputLink.length === 0 && links.inputTitle.length !== 0) {
+    function onBlurNewLinkHandler(evtTarget) {
+        if (evtTarget.value.length === 0 && links.inputTitle.length !== 0) {
             alert('Please enter a link before blurring');
             return;
         }
         let displayText = links.inputTitle;
-        if (links.inputLink.length !== 0 && links.inputTitle.length === 0) {
-            $(`#${props.widget.id}`).click();
+        if (evtTarget.value.length !== 0 && links.inputTitle.length === 0) {
+            $('#editableDisplay').trigger('click');
+            return;
         }
 
         if (inputTitleRef && inputTitleRef.current && links.inputTitle.length === 0) {
@@ -81,13 +83,16 @@ export default function Links(props)
         links.displayList.splice(0, 0, newLink);
         setLinks({
             ...links,
-            displayList: links.displayList
+            displayList: links.displayList,
+            inputLink: "",
+            inputTitle: ""
         });
+        setIsEdit(false);
 
-        updateLinkContentInDb();
+        sendLinkContentToParentTobeSaved();
     };
 
-    async function updateLinkContentInDb() {
+    async function sendLinkContentToParentTobeSaved() {
         const putBody = {
             ...props.widget,
             w_content: JSON.stringify(links.displayList)
@@ -103,43 +108,55 @@ export default function Links(props)
             [evt.target.name]: value
         });
     }
+
+    function openEditForm() {
+        setIsEdit(true);
+    }
     
     return (
         <React.Fragment>
             <div className='widget w-links'>
-                <form id="contentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
+                <label onClick={openEditForm}>
                     <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
-                    <Editable 
-                        displayText={<span>{links.inputLink || "Url"}</span>}
-                        inputType="input" 
-                        childInputRef={inputLinkRef}
-                        passFromChildToParent={onBlurNewLinkHandler}>
-                        <input
-                            ref={inputLinkRef}
-                            type="text"
-                            name="inputLink"
-                            placeholder=""
-                            value={links.inputLink}
-                            onChange={handleLinkChange}
-                        />
-                    </Editable>
-                    <br></br>
-                    <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
-                    <Editable 
-                        displayText={<span id={props.widget.id}>{links.inputTitle || "Title"}</span>}
-                        inputType="input" 
-                        childInputRef={inputTitleRef}
-                        passFromChildToParent={onBlurNewLinkHandler}>
-                        <input
-                            ref={inputTitleRef}
-                            type="text"
-                            name="inputTitle"
-                            placeholder=""
-                            value={links.inputTitle}
-                            onChange={handleLinkChange}
-                        />
-                    </Editable>
-                </form>
+                    Add
+                </label>
+                {
+                    isEdit ? (
+                        <form id="linkContentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
+                            <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
+                            <Editable 
+                                displayText={<span>{links.inputLink || "Url"}</span>}
+                                inputType="input" 
+                                childInputRef={inputLinkRef}
+                                passFromChildToParent={onBlurNewLinkHandler}>
+                                <input
+                                    ref={inputLinkRef}
+                                    type="text"
+                                    name="inputLink"
+                                    placeholder=""
+                                    value={links.inputLink}
+                                    onChange={handleLinkChange}
+                                />
+                            </Editable>
+                            <br></br>
+                            <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
+                            <Editable 
+                                displayText={<span>{links.inputTitle || "Title"}</span>}
+                                inputType="input" 
+                                childInputRef={inputTitleRef}
+                                passFromChildToParent={onBlurNewLinkHandler}>
+                                <input
+                                    ref={inputTitleRef}
+                                    type="text"
+                                    name="inputTitle"
+                                    placeholder=""
+                                    value={links.inputTitle}
+                                    onChange={handleLinkChange}
+                                />
+                            </Editable>
+                        </form>
+                    ) : null
+                }
                 <ul>
                 {
                     links.displayList?.map((item, index) => {

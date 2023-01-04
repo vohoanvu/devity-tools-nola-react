@@ -94,3 +94,9 @@ input[type=text]:focus {
   top: -30px;
   left: 85px;
 }
+
+.add-btn{
+  cursor: pointer;
+  width: 12px;
+  margin-right: 5px;
+}

@@ -24,7 +24,6 @@ export default function DevityPanels(props)
     putBody: {},
     type: ""
   });
-  const [dirtyNote, setDirtyNote] = useState(false);
   const userContext = useContext(UserContext);
 
   useEffect(() => {
@@ -172,8 +171,6 @@ export default function DevityPanels(props)
         return <W_Note 
           widget={widget} 
           sendContentToParent={sendPUTContentToParent} 
-          setDirtyNote={setDirtyNote}
-          isDirty={dirtyNote}
           activePanel={widgetType}/>;
   
       default:

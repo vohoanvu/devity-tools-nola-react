@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import axios from 'axios';
 import $ from "jquery";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
@@ -10,11 +10,17 @@ const Libraries = (props) =>
   const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState('');
 
-  const handleSelect = async (e) => {
-    setIsLoading(true);
-    localStorage.setItem(UserSelectedLibrary, e.target.value);
-    var lib_file_name = "/libs/" + $('#ddl_library').find(":selected").val();
+  useEffect(() => {
+    var lib_file_name = "/libs/" + localStorage.getItem(UserSelectedLibrary);
 
+    if (lib_file_name === "/libs/null") return;
+
+    fetchData(lib_file_name);
+  }, []);
+
+  const fetchData = async (lib_file_name) => {
+      
+    setIsLoading(true);
     try {
       const {data} = await axios.get(lib_file_name, {
         headers: {
@@ -22,7 +28,7 @@ const Libraries = (props) =>
         },
       });
 
-      console.log('data is: ', JSON.stringify(data, null, 4));
+      //console.log('data is: ', JSON.stringify(data, null, 4));
 
       setData(data);
     } catch (err) {
@@ -30,6 +36,13 @@ const Libraries = (props) =>
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSelect = async (e) => {
+    localStorage.setItem(UserSelectedLibrary, e.target.value);
+    var lib_file_name = "/libs/" + e.target.value;
+
+    fetchData(lib_file_name);
   };
 
   const handleRowClick = event => {

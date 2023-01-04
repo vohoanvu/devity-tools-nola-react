@@ -6,6 +6,7 @@ import btn_save from "../img/btn_save.png";
 import '../css/buttons.css';
 import { log } from '../Utilities'
 import btn_delete from "../img/btn_delete.png";
+import $ from "jquery";
 const devity_api = configData.DEVITY_API;
 
 export default function Widget(props) 
@@ -73,6 +74,9 @@ export default function Widget(props)
                   console.log('save button clicked', props.widget);
                   if (props.isReadyToSave.isReadyToSave) {
                     await props.callPUTRequest(props.isReadyToSave.putBody, props.isReadyToSave.type);
+                    if (props.widget.w_type === 'NOTES') {
+                      $(`#save-btn-${props.widget.id}`).hide();
+                    }
                   } else {
                     alert('not yet ready to save! Please click Save button again after a few seconds.');
                   }

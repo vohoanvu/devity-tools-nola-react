@@ -49,7 +49,7 @@ export default function Header(props)
 
     function onNavigateClicked(target) {
       localStorage.setItem('curr_view', target);
-      userContext.setActivePanel(target);
+      if (target !== 'CONSOLE') userContext.setActivePanel(target);
       onNavigate(target);
     }
 
@@ -83,7 +83,7 @@ export default function Header(props)
           <span>Libraries</span>
         </button>
 
-        <button id="nav_console" onClick={()=>onNavigateClicked('CONSOLE')}>
+        <button id="nav_console" onClick={()=>onNavigate('CONSOLE')}>
           <img  src={btn_image_code} className="" alt="Console" /><br />
           <span>Console</span>
         </button>

@@ -17,7 +17,7 @@ export default function Note(props)
     useEffect(() => {
         const curr_view = props.activePanel;
         (async () => {
-            console.log('useEffect in WidgetNotes.js');
+            console.log('beginging useEffect in WidgetNotes.js');
             if ((curr_view && curr_view !== "NOTES" && curr_view !== 'ALL') || 
             (curr_view === "NOTES" && note["w_content"])) return;
 
@@ -28,7 +28,6 @@ export default function Note(props)
                 w_content: noteText
             }
             setNote(currentWidget);
-            props.setDirtyNote(false);
         })();
 
         $(`#save-btn-${props.widget.id}`).hide();
@@ -76,11 +75,9 @@ export default function Note(props)
                     onInit={(evt, editor) => editorRef.current = editor}
                     initialValue={note.w_content}
                     onDirty={() => {
-                        props.setDirtyNote(true);
                         $(`#save-btn-${props.widget.id}`).show();
                     }}
                     onBlur={() => {
-                        props.setDirtyNote(false);
                         props.sendContentToParent(note, null, editorRef.current.getContent());
                         $(`#save-btn-${props.widget.id}`).show();
                     }}
@@ -88,7 +85,7 @@ export default function Note(props)
                         height: 250,
                         menubar: false,
                         plugins: ['anchor','autolink','charmap', 'codesample','link','lists', 'searchreplace','table', 'autosave'],
-                        toolbar: 'bold italic underline strikethrough | link table | align lineheight | numlist bullist indent outdent | removeformat | code',
+                        toolbar: 'bold italic underline strikethrough | link table | align lineheight | numlist bullist indent outdent | removeformat | code | autosave',
                         content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
                         skin_url: './css/CUSTOM/skins/ui/CUSTOM'
                     }}

@@ -68,7 +68,7 @@ export default function Widget(props)
         <div className='chrome-btn-bar'>
             <img 
               id={`save-btn-${props.widget.id}`}
-              className='img-btn save' 
+              className='img-btn-save' 
               ref={saveBtnRef}
               onClick={async ()=> {
                   console.log('save button clicked', props.widget);

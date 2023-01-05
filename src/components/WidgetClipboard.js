@@ -5,6 +5,7 @@ import CONFIG from "../config.json";
 import '../css/App.css';
 import Editable from './Editable';
 import btn_add from "../img/btn_add.png";
+import btnContentDelete from "../img/widget-content-delete.png";
 import { abbriviate, currate_title } from '../Utilities';
 const sso_url = CONFIG.SSO_URL;
 const devity_api = CONFIG.DEVITY_API;
@@ -14,7 +15,7 @@ export default function Clipboard(props)
 {
     const [clipboardContent, setClipboardContent] = useState({
         currentText: '',
-        content: [],
+        content: null,
         widget: {}
     });
     const inputRef = useRef();
@@ -96,7 +97,16 @@ export default function Clipboard(props)
           console.error('Async: Could not copy text: ', err);
         });
     
-      };
+    };
+
+    function handleRemoveClipboard(event) {
+        const index = $(event.currentTarget).parent().index();
+        clipboardContent.content.splice(index, 1);
+        setClipboardContent({
+            ...clipboardContent
+        });
+        updateWidgetContent(clipboardContent.content, 'CLIPBOARD');
+    }
 
     return (
         <div className='widget clipboard'>
@@ -122,8 +132,15 @@ export default function Clipboard(props)
             <div className='w_overflowable'>
                 <ul>
                 {
-                    clipboardContent.content?.map( (data, index) => 
-                        <li key={index}><span className='w_copyable filterable' title={currate_title(data)} data-copy={data} onClick={handleItemClick}>{abbriviate(data)}</span></li> )
+                    !clipboardContent.content ? (
+                        <div className="loader"></div>
+                    ) : (
+                        clipboardContent.content.map( (data, index) => 
+                            <li key={index}>
+                                <span className='w_copyable filterable' title={currate_title(data)} data-copy={data} onClick={handleItemClick}>{abbriviate(data)}</span>
+                                <img className='delete-w-content-btn' src={btnContentDelete} alt="delete clipboard" onClick={handleRemoveClipboard}/>
+                            </li>)
+                    )
                 }
                 </ul>
             </div>

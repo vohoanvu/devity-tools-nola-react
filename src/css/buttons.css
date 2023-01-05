@@ -57,6 +57,7 @@ color: var(--COLOR_LINK);
   display: block;
   position: relative;
   margin-left: auto;
+  cursor: pointer;
 }
  
 .w-chrome .delete{
@@ -99,4 +100,15 @@ input[type=text]:focus {
   cursor: pointer;
   width: 12px;
   margin-right: 5px;
+}
+
+.delete-w-content-btn{
+  cursor: pointer;
+  width: 12px;
+  margin-left: 3px;
+  display: inline-block;
+}
+
+span.w_copyable.filterable {
+  display: inline-block;
 }

@@ -7,6 +7,7 @@ import Editable from './Editable';
 import axios from 'axios';
 import configData from "../config.json";
 import $ from "jquery";
+import btn_save from "../img/btn_save.png";
 const devity_api = configData.DEVITY_API;
 
 export default function Profile(props)
@@ -14,6 +15,7 @@ export default function Profile(props)
   const userContext = React.useContext(UserContext);
   const inputRef = useRef();
   const [userProfile, setUserProfile] = React.useState({});
+  const [isEditMode, setIsEditMode] = React.useState(false);
 
   useEffect(() => {
     setUserProfile(userContext.userProfile);
@@ -25,6 +27,7 @@ export default function Profile(props)
       ...userProfile,
       name: newName
     });
+    setIsEditMode(true);
   }
 
   function handleUserProfessionOnChange(newProfession) {
@@ -32,6 +35,7 @@ export default function Profile(props)
       ...userProfile,
       profession: newProfession
     });
+    setIsEditMode(true);
   }
 
   function handleUserEmailOnChange(newEmail) {
@@ -39,6 +43,7 @@ export default function Profile(props)
       ...userProfile,
       email: newEmail
     });
+    setIsEditMode(true);
   }
 
   function updateUserProfileOnBlur(evenTarget) {
@@ -65,7 +70,7 @@ export default function Profile(props)
       default:
         break;
     }
-
+    setIsEditMode(false);
     updateProfileInDb(userProfile);
   }
 
@@ -90,7 +95,10 @@ export default function Profile(props)
     await axios.post(devity_api + '/api/userinterests', [ ...selectedInterests ])
           .then((response) => {
             console.log('saveUserInterestsInDb status: ', response.status);
-            if (response.status === 200) $('div[data-panel=PROFILE] .gear').removeClass('rotate');
+            if (response.status === 200) {
+              setIsEditMode(false);
+              $('div[data-panel=PROFILE] .gear').removeClass('rotate');
+            }
           })
           .catch((error) => console.log(error));
   }
@@ -106,6 +114,7 @@ export default function Profile(props)
         ...userProfile.user_interests
       ]
     });
+    setIsEditMode(true);
   }
 
   async function upgradeProfileMembership() {
@@ -116,9 +125,18 @@ export default function Profile(props)
 
   return (
     <div className="p-panel" style={{display:'none'}} data-panel="PROFILE">
-      <div className='p-chrome'>
+      <div className='p-chrome chrome-btn-profile'>
         <img src={btn_image_config} className="gear" alt="devity gear" />
         <span className="p-title">Profile</span>
+        {
+          isEditMode && (
+            <img 
+              className='img-btn-save' 
+              onClick={saveUserInterestsInDb} 
+              src={btn_save} alt="save widget"/>
+          )
+        }
+        
       </div>
       <div className='p-contents'>
         <div id="ctrl_add_links" className="nav-ctrl w-ctrl-add"><ViewModeSelection devityCookie={props.COOKIE_NAME}/></div>
@@ -166,7 +184,7 @@ export default function Profile(props)
                 onChange={e => handleUserEmailOnChange(e.target.value)}
             />
           </Editable>
-          <button type="submit" disabled={true} onClick={upgradeProfileMembership}>Upgrade</button>
+          <button type="submit" hidden onClick={upgradeProfileMembership}>Upgrade</button>
         </div>
         <div className='interests-card'>
           <h3>Interests</h3>
@@ -188,7 +206,6 @@ export default function Profile(props)
               })
             }
           </ul>
-          <button type="submit" onClick={saveUserInterestsInDb}>Save</button>
         </div>
       </div>
     </div>

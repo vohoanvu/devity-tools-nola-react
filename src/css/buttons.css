@@ -101,3 +101,14 @@ input[type=text]:focus {
   width: 12px;
   margin-right: 5px;
 }
+
+.delete-w-content-btn{
+  cursor: pointer;
+  width: 12px;
+  margin-left: 3px;
+  display: inline-block;
+}
+
+span.w_copyable.filterable {
+  display: inline-block;
+}

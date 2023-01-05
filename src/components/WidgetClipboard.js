@@ -15,7 +15,7 @@ export default function Clipboard(props)
 {
     const [clipboardContent, setClipboardContent] = useState({
         currentText: '',
-        content: [],
+        content: null,
         widget: {}
     });
     const inputRef = useRef();
@@ -132,11 +132,15 @@ export default function Clipboard(props)
             <div className='w_overflowable'>
                 <ul>
                 {
-                    clipboardContent.content?.map( (data, index) => 
+                    !clipboardContent.content ? (
+                        <div className="loader"></div>
+                    ) : (
+                        clipboardContent.content.map( (data, index) => 
                             <li key={index}>
                                 <span className='w_copyable filterable' title={currate_title(data)} data-copy={data} onClick={handleItemClick}>{abbriviate(data)}</span>
                                 <img className='delete-w-content-btn' src={btnContentDelete} alt="delete clipboard" onClick={handleRemoveClipboard}/>
                             </li>)
+                    )
                 }
                 </ul>
             </div>

@@ -5,6 +5,7 @@ import '../css/buttons.css';
 import { format_link, abbriviate, currate_title } from '../Utilities';
 import Editable from './Editable';
 import btn_add from "../img/btn_add.png";
+import btnContentDelete from "../img/widget-content-delete.png";
 import $ from "jquery";
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
@@ -16,7 +17,7 @@ export default function Links(props)
     const [links, setLinks] = useState({
         inputLink: "",
         inputTitle: "",
-        displayList: [],
+        displayList: null,
         link: props.widget,
         w_type: props.widget.w_type
     });
@@ -112,6 +113,15 @@ export default function Links(props)
     function openEditForm() {
         setIsEdit(true);
     }
+
+    function handleRemoveLink(event) {
+        const index = $(event.currentTarget).parent().index();
+        links.displayList.splice(index, 1);
+        setLinks({
+            ...links
+        });
+        sendLinkContentToParentTobeSaved();
+    }
     
     return (
         <React.Fragment>
@@ -159,9 +169,18 @@ export default function Links(props)
                 }
                 <ul>
                 {
-                    links.displayList?.map((item, index) => {
-                        return <li key={index}><a className='filterable' target="_blank" href={format_link(item.hyperLink)} title={currate_title(item.displayName)} rel="noreferrer">{abbriviate(item.displayName)}</a></li>;
-                    })
+                    !links.displayList ? (
+                        <div className="loader"></div>
+                    ) : (
+                        links.displayList.map((item, index) => {
+                            return (
+                                <li key={index}>
+                                    <a className='filterable' target="_blank" href={format_link(item.hyperLink)} title={currate_title(item.displayName)} rel="noreferrer">{abbriviate(item.displayName)}</a>
+                                    <img className='delete-w-content-btn' src={btnContentDelete} alt="delete link" onClick={handleRemoveLink}/>
+                                </li>
+                            )
+                        })
+                    )
                 }
                 </ul>
             </div>

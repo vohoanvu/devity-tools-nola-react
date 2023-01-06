@@ -23,15 +23,16 @@ export default function Widget(props)
   }
 
   async function deleteWidget(id) {
-      console.log(props.widgetObjState, 'before delete');
       const newArray = props.widgetObjState[props.widget.w_type].filter(w => w.id !== id);
       props.setWidgetObjState({
         ...props.widgetObjState,
         [props.widget.w_type]:  newArray
       });
+      $('div[data-panel=' + props.widget.w_type + '] .gear').addClass('rotate');
       await axios.delete(devity_api + '/api/widgets/' + id)
           .then(res => {
-              log('deleted ' + props.widget.w_type + ' widget ' + props.widget.name);
+              log('Succesfully deleted ' + props.widget.w_type + ' widget ' + props.widget.name);
+              $('div[data-panel=' + props.widget.w_type + '] .gear').removeClass('rotate');
           })
           .catch(err => console.log(err));
   }
@@ -83,7 +84,7 @@ export default function Widget(props)
               }}
               src={btn_save} alt="save widget"/>
             <img 
-              className='img-btn delete' 
+              className='img-btn-delete' 
               onClick={()=>DeleteWidgetHandler(props.widget.id)} 
               src={btn_delete} alt="delete"/>
         </div>

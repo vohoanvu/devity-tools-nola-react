@@ -113,11 +113,17 @@ list-style-type: none;
   border: none;
 }
 #prompt_container input:focus{
-  caret-color: red;
+  caret-color: var(--COLOR_CARET);
   outline: none;
   top: -5px;
 }
 
+.widget input[type="text"]:focus{
+  caret-color: var(--COLOR_CARET);
+  background-color: var(--COLOR_WIDGET_INPUT_BG);
+  outline: none;
+  top: -5px;
+}
 
 @media (max-width: 780px) {
 

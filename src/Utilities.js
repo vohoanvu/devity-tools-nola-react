@@ -22,7 +22,7 @@ export function log(value) {
   export function abbriviate(value) {
     
     if(value.length > 32){
-      return value.substring(0, 35) + "...";
+      return value.substring(0, 32) + "...";
     }
     return value;
   }

@@ -170,7 +170,9 @@ export default function Links(props)
                 <ul>
                 {
                     !links.displayList ? (
-                        <div className="loader"></div>
+                        <div style={{ display: 'flex', justifyContent: 'center'}}>
+                            <div className="loader"></div>
+                        </div>
                     ) : (
                         links.displayList.map((item, index) => {
                             return (

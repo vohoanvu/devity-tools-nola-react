@@ -64,6 +64,7 @@ export default function Links(props)
 
     function onBlurNewLinkHandler(evtTarget) {
         if ((evtTarget.value.length === 0 && links.inputTitle.length !== 0) || links.inputLink.length === 0) {
+            setIsEdit(false);
             return;
         }
         let displayText = links.inputTitle;

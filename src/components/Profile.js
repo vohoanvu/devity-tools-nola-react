@@ -122,7 +122,7 @@ export default function Profile(props)
     setIsEditMode(true);
   }
 
-  function handleSearchResultOnChange(e) {
+  function handleSearchResultSelectOnChange(e) {
     localStorage.setItem('search_res_google', $('#google-results').prop('checked'));
     localStorage.setItem('search_res_youtube', $('#youtube-results').prop('checked'));
 
@@ -199,6 +199,7 @@ export default function Profile(props)
                 onChange={e => handleUserEmailOnChange(e.target.value)}
             />
           </Editable>
+          <h3>{ userProfile.paid ? 'Premium Account' : 'Free Account' }</h3>
           <button type="submit" hidden onClick={upgradeProfileMembership}>Upgrade</button>
         </div>
         <div className='interests-card'>
@@ -230,7 +231,7 @@ export default function Profile(props)
               id="google-results" 
               name="search_res_google"
               checked={searchResultSelect.search_res_google}
-              onChange={handleSearchResultOnChange}/>
+              onChange={handleSearchResultSelectOnChange}/>
             <label htmlFor="google-results">Google Search Results</label>
             <br/>
             <input 
@@ -238,7 +239,7 @@ export default function Profile(props)
               id="youtube-results" 
               name="search_res_youtube"
               checked={searchResultSelect.search_res_youtube}
-              onChange={handleSearchResultOnChange}/>
+              onChange={handleSearchResultSelectOnChange}/>
             <label htmlFor="youtube-results">Youtube Search Results</label>
           </form>
         </div>

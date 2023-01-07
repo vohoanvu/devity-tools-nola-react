@@ -267,7 +267,8 @@ export default function DevityPanels(props)
                                     {
                                       (provided, snapshot) => (
                                         <div 
-                                          className="w-container"
+                                          data-w_id={w.id}
+                                          className="w-container min"
                                           ref={provided.innerRef}
                                           {...provided.draggableProps}
                                           style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}

@@ -8,6 +8,7 @@ import axios from 'axios';
 import configData from "../config.json";
 import $ from "jquery";
 import btn_save from "../img/btn_save.png";
+
 const devity_api = configData.DEVITY_API;
 
 export default function Profile(props)

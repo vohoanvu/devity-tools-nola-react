@@ -194,7 +194,7 @@ list-style-type: none;
 display: block;
 margin: 10px;
 width: 98%;
-min-height: 250px;
+height: 700px;
 border: 1px;
 border-style: solid;
 border-radius: 15px;
@@ -238,8 +238,6 @@ overflow: auto;
 .w-container{
   display: block;
   float: left;
-  width: 300px;
-  height: 300px;
   border: 2px;
   border-style: solid;
   border-radius: 5px;
@@ -247,6 +245,16 @@ overflow: auto;
   border-color: var(--COLOR_WIDGET_BRD);
   background-color: var(--COLOR_WIDGET_BG);
   position: relative;
+}
+
+.min{
+  width: 300px;
+  height: 300px;
+}
+
+.max{
+  width: 100%;
+  min-height: 600px;
 }
 
 .w-chrome {

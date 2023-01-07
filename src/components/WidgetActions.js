@@ -3,9 +3,12 @@ import configData from "../config.json";
 import axios from 'axios';
 import Editable from './Editable';
 import btn_save from "../img/btn_save.png";
+import btn_maximize from "../img/btn_maximize.png";
+import btn_minimize from "../img/btn_minimize.png";
+import btn_delete from "../img/btn_delete.png";
 import '../css/buttons.css';
 import { log } from '../Utilities'
-import btn_delete from "../img/btn_delete.png";
+
 import $ from "jquery";
 const devity_api = configData.DEVITY_API;
 
@@ -39,6 +42,37 @@ export default function Widget(props)
   function handleTitleChange(newValue, currentWidget) {
       props.widgetObjState[currentWidget.w_type].find(w => w.id === currentWidget.id).name = newValue;
       props.setWidgetObjState({...props.widgetObjState});
+  }
+
+  function Maximize(id) {
+    let w = $('[data-w_id="' + id + '"]');
+
+    $(w).removeClass('min');
+    $(w).addClass('max');
+
+    // Get the panel parent
+    let p = $(w).parents('.p-panel');
+    $(p).find('.w-container').hide();
+    $(w).show();
+
+    // manage widget max min buttons
+    $(w).find('.maximize').addClass('hide');
+    $(w).find('.minimize').removeClass('hide');
+  }
+  function Minimize(id) {
+    let w = $('[data-w_id="' + id + '"]');
+
+    $(w).removeClass('max');
+    $(w).addClass('min');
+
+    // Get the panel parent
+    let p = $(w).parents('.p-panel');
+    $(p).find('.w-container').show();
+    $(w).show();
+
+    // manage widget max min buttons
+    $(w).find('.minimize').addClass('hide');
+    $(w).find('.maximize').removeClass('hide');
   }
 
   async function saveWidgetTitleOnBlur(eventTarget) {
@@ -86,6 +120,14 @@ export default function Widget(props)
               className='img-btn delete' 
               onClick={()=>DeleteWidgetHandler(props.widget.id)} 
               src={btn_delete} alt="delete"/>
+            <img 
+              className='img-btn maximize' 
+              onClick={()=>Maximize(props.widget.id)} 
+              src={btn_maximize} alt="maximize"/>
+            <img 
+              className='img-btn minimize hide' 
+              onClick={()=>Minimize(props.widget.id)} 
+              src={btn_minimize} alt="minimize"/>
         </div>
     </React.Fragment>
   );

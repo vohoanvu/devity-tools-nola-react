@@ -17,6 +17,10 @@ export default function Profile(props)
   const inputRef = useRef();
   const [userProfile, setUserProfile] = React.useState({});
   const [isEditMode, setIsEditMode] = React.useState(false);
+  const [searchResultSelect, setSearchResultSelect] = React.useState({
+    search_res_google: JSON.parse(localStorage.getItem('search_res_google')) ?? true,
+    search_res_youtube: JSON.parse(localStorage.getItem('search_res_youtube')) ?? true
+  });
 
   useEffect(() => {
     setUserProfile(userContext.userProfile);
@@ -118,6 +122,16 @@ export default function Profile(props)
     setIsEditMode(true);
   }
 
+  function handleSearchResultOnChange(e) {
+    localStorage.setItem('search_res_google', $('#google-results').prop('checked'));
+    localStorage.setItem('search_res_youtube', $('#youtube-results').prop('checked'));
+
+    setSearchResultSelect({
+      ...searchResultSelect,
+      [e.target.name]: e.target.checked
+    });
+  }
+
   async function upgradeProfileMembership() {
     if (window.confirm("Are you sure you want to upgrade to a PAID membership?")) {
       await updateProfileInDb({...userProfile, paid: true});
@@ -207,6 +221,26 @@ export default function Profile(props)
               })
             }
           </ul>
+        </div>
+        <div className='select-results-card'>
+          <h3>Select your favorite search results</h3>
+          <form>
+            <input 
+              type="checkbox" 
+              id="google-results" 
+              name="search_res_google"
+              checked={searchResultSelect.search_res_google}
+              onChange={handleSearchResultOnChange}/>
+            <label htmlFor="google-results">Google Search Results</label>
+            <br/>
+            <input 
+              type="checkbox" 
+              id="youtube-results" 
+              name="search_res_youtube"
+              checked={searchResultSelect.search_res_youtube}
+              onChange={handleSearchResultOnChange}/>
+            <label htmlFor="youtube-results">Youtube Search Results</label>
+          </form>
         </div>
       </div>
     </div>

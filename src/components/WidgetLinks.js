@@ -63,8 +63,8 @@ export default function Links(props)
     }
 
     function onBlurNewLinkHandler(evtTarget) {
-        if (evtTarget.value.length === 0 && links.inputTitle.length !== 0) {
-            alert('Please enter a link before blurring');
+        if ((evtTarget.value.length === 0 && links.inputTitle.length !== 0) || links.inputLink.length === 0) {
+            setIsEdit(false);
             return;
         }
         let displayText = links.inputTitle;
@@ -126,14 +126,17 @@ export default function Links(props)
     return (
         <React.Fragment>
             <div className='widget w-links'>
-                <label onClick={openEditForm}>
-                    <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
-                    Add
-                </label>
+                {
+                    !isEdit && (
+                        <label onClick={openEditForm}>
+                            <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
+                            Add
+                        </label>
+                    )
+                }
                 {
                     isEdit ? (
                         <form id="linkContentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
-                            <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
                             <Editable 
                                 displayText={<span>{links.inputLink || "Url"}</span>}
                                 inputType="input" 
@@ -149,7 +152,6 @@ export default function Links(props)
                                 />
                             </Editable>
                             <br></br>
-                            <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
                             <Editable 
                                 displayText={<span>{links.inputTitle || "Title"}</span>}
                                 inputType="input" 
@@ -170,7 +172,9 @@ export default function Links(props)
                 <ul>
                 {
                     !links.displayList ? (
-                        <div className="loader"></div>
+                        <div style={{ display: 'flex', justifyContent: 'center'}}>
+                            <div className="loader"></div>
+                        </div>
                     ) : (
                         links.displayList.map((item, index) => {
                             return (

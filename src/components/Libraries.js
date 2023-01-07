@@ -11,8 +11,9 @@ const Libraries = (props) =>
   const [err, setErr] = useState('');
 
   useEffect(() => {
-    var lib_file_name = "/libs/" + localStorage.getItem(UserSelectedLibrary);
-
+    let libName = localStorage.getItem(UserSelectedLibrary);
+    $('#ddl_library').val(libName);
+    var lib_file_name = "/libs/" + libName;
     if (lib_file_name === "/libs/null") return;
 
     fetchData(lib_file_name);

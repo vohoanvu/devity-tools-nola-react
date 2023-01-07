@@ -133,7 +133,9 @@ export default function Clipboard(props)
                 <ul>
                 {
                     !clipboardContent.content ? (
-                        <div className="loader"></div>
+                        <div style={{ display: 'flex', justifyContent: 'center'}}>
+                            <div className="loader"></div>
+                        </div>
                     ) : (
                         clipboardContent.content.map( (data, index) => 
                             <li key={index}>

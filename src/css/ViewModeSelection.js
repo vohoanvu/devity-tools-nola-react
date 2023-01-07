@@ -1,14 +1,14 @@
 import * as React from 'react';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
+const themeKey = 'theme';
 
 export default class ViewModeSelection extends React.Component
 {
     constructor(props) {
         super(props);
-
         this.state = {
-            stylePath: './css/ui-darkness.css',
+            stylePath: localStorage.getItem(themeKey) ?? './css/ui-darkness.css',
             currentUserAuthToken: cookies.get(this.props.devityCookie)
         };
     }
@@ -19,7 +19,7 @@ export default class ViewModeSelection extends React.Component
         if (!isUserLoggedIn) return;
 
         this.setState({
-            stylePath: localStorage.getItem(this.props.devityCookie)
+            stylePath: localStorage.getItem(themeKey) ?? './css/ui-darkness.css'
         });
     }
 
@@ -29,7 +29,7 @@ export default class ViewModeSelection extends React.Component
             stylePath: event.target.value
         });
 
-        localStorage.setItem(this.props.devityCookie, event.target.value);
+        localStorage.setItem(themeKey, event.target.value);
     };
 
     render()
@@ -38,11 +38,10 @@ export default class ViewModeSelection extends React.Component
             <div>
                 <link rel="stylesheet" type="text/css" href={this.state.stylePath} />
                 <div>
-                    <select value={this.stylePath} onChange={this.handleChange.bind(this)}>
+                    <select value={this.state.stylePath ?? './css/ui-darkness.css'} onChange={this.handleChange.bind(this)}>
                         <option value="./css/ui-darkness.css">ui-darkness</option>
                         <option value="./css/ui-lightness.css">ui-lightness</option>
                     </select>
-                    {/* <br/><span>URL: {this.state.stylePath}</span> */}
                 </div>
             </div>
         )

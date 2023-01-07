@@ -104,11 +104,16 @@ input[type=text]:focus {
 
 .delete-w-content-btn{
   cursor: pointer;
-  width: 12px;
-  margin-left: 3px;
-  display: inline-block;
+  width: 15px;
+  display: flex;
+  align-items: center;
+  float: right;
 }
 
 span.w_copyable.filterable {
   display: inline-block;
+}
+
+.img-btn-delete {
+  cursor: pointer;
 }

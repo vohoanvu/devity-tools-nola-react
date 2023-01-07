@@ -73,7 +73,9 @@ export default function Note(props)
             <div className='tiny-editor-box'>
                 {
                     (note.w_content === undefined) ? (
-                        <div className="loader"></div>
+                        <div style={{ display: 'flex', justifyContent: 'center'}}>
+                            <div className="loader"></div>
+                        </div>
                     ) : (
                         <Editor
                             apiKey='c706reknirqudytbeuz7vvwxpc7qdscxg9j4jixwm0zhqbo4'

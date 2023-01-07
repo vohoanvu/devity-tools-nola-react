@@ -5,7 +5,7 @@ import CONFIG from "../config.json";
 import '../css/App.css';
 import Editable from './Editable';
 import btn_add from "../img/btn_add.png";
-import btnContentDelete from "../img/btn_delete_sm.png";
+import btn_delete_sm from "../img/btn_delete_sm.png";
 import { abbriviate, currate_title } from '../Utilities';
 const sso_url = CONFIG.SSO_URL;
 const devity_api = CONFIG.DEVITY_API;
@@ -139,8 +139,9 @@ export default function Clipboard(props)
                     ) : (
                         clipboardContent.content.map( (data, index) => 
                             <li key={index}>
-                                <span className='w_copyable filterable' title={currate_title(data)} data-copy={data} onClick={handleItemClick}>{abbriviate(data)}</span>
-                                <img className='img-btn delete-item' src={btnContentDelete} title='delete' alt="delete" onClick={handleRemoveClipboard}/>
+                                <span className='w_copyable filterable truncated' title={currate_title(data)} data-copy={data} onClick={handleItemClick}>{abbriviate(data)}</span>
+                                <span className='w_copyable filterable non-truncated' style={{display:'none'}}  data-copy={data} onClick={handleItemClick}>{data}</span>
+                                <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveClipboard}/>
                             </li>)
                     )
                 }

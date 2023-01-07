@@ -5,7 +5,7 @@ import '../css/buttons.css';
 import { format_link, abbriviate, currate_title } from '../Utilities';
 import Editable from './Editable';
 import btn_add from "../img/btn_add.png";
-import btnContentDelete from "../img/btn_delete_sm.png";
+import btn_delete_sm from "../img/btn_delete_sm.png";
 import $ from "jquery";
 const sso_url = configData.SSO_URL;
 const devity_api = configData.DEVITY_API;
@@ -181,7 +181,7 @@ export default function Links(props)
                                 <li key={index}>
                                     <a className='filterable truncated' target="_blank" href={format_link(item.hyperLink)} title={currate_title(item.displayName)} rel="noreferrer">{abbriviate(item.displayName)}</a>
                                     <a className='filterable non-truncated' style={{display:'none'}} target="_blank" href={format_link(item.hyperLink)} rel="noreferrer">{item.displayName}</a>
-                                    <img className='img-btn delete-item' src={btnContentDelete} title='delete' alt="delete" onClick={handleRemoveLink}/>
+                                    <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveLink}/>
                                 </li>
                             )
                         })

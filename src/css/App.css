@@ -464,8 +464,11 @@ padding-left: 0px;
 list-style-type: none;
 margin-bottom: 5px;
 }
-.w-links a{
+.w-links ul li a{
   text-decoration: none;
+  word-wrap: break-word;
+  display: block;
+  width: 98%;
 }
 .w-links a:hover{
   color: red;
@@ -534,9 +537,12 @@ color: var(--COLOR_TEXT);
 }
 .clipboard ul li span{
   display: block;
+  word-wrap: break-word;
+  width: 98%;
 }
-.clipboard ul li span:hover{
-  color: var(--COLOR_LINK_HOVER);
+.widget ul li:hover{
+  /* color: var(--COLOR_LINK_HOVER); */
+  background-color: var(--COLOR_ROW_HOVER);
 }
 
 .tiny-editor-box {

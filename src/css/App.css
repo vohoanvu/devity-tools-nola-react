@@ -237,6 +237,7 @@ overflow: auto;
 
 .w-container{
   display: block;
+  overflow: hidden;
   float: left;
   border: 2px;
   border-style: solid;
@@ -253,8 +254,8 @@ overflow: auto;
 }
 
 .max{
-  width: 100%;
-  min-height: 600px;
+  width: 98%;
+  height: 98%;
 }
 
 .w-chrome {
@@ -437,8 +438,21 @@ li { margin: 5px; padding: 5px; width: 150px; } */
   float: left;
 }
 .widget{
-
+  padding: 7px;
+  height: 100%;
+  word-wrap: break-word;
+  background-color: var(--COLOR_WIDGET_BG);
 }
+
+.widget ul>li:nth-child(odd){
+  background-color: var(--COLOR_ALT_ROW_BG);
+}
+.widget ul li{
+  display: flex;
+  align-items: center;
+  padding: 3px;
+}​
+
 
 .w-links{
 padding: 10px;
@@ -484,12 +498,10 @@ margin-bottom: 5px;
 
 .lib-tbl{
   width: 100%;
+  color: var(--COLOR_TEXT);
 }
 .lib-tbl tr:nth-child(odd) td{
-  background-color: var(--COLOR_LIBRARY_TABLE_ROW_BG);
-}
-.lib-tbl tr:nth-child(even) td{
-  background-color: var(--COLOR_LIBRARY_TABLE_ROW_BG_ALT);
+  background-color: var(--COLOR_ALT_ROW_BG);
 }
 
 .lib-tbl tr th{
@@ -497,10 +509,10 @@ color: var(--COLOR_TEXT);
 }
 
 .lib-tbl tr:nth-child(even):hover td{
-  background-color: var(--COLOR_LIBRARY_TABLE_ROW_HOVER);
+  background-color: var(--COLOR_ROW_HOVER);
 }
 .lib-tbl tr:nth-child(odd):hover td{
-  background-color: var(--COLOR_LIBRARY_TABLE_ROW_HOVER);
+  background-color: var(--COLOR_ROW_HOVER);
 }
 
 

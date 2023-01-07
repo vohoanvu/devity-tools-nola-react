@@ -56,9 +56,12 @@ export default function Widget(props)
     $(p).find('.w-container').hide();
     $(w).show();
 
+    $(p).find('.non-truncated').show();
+    $(p).find('.truncated').hide();
+
     // manage widget max min buttons
-    $(w).find('.maximize').addClass('hide');
-    $(w).find('.minimize').removeClass('hide');
+    $(w).find('.maximize').hide();
+    $(w).find('.minimize').show();
   }
   function Minimize(id) {
     let w = $('[data-w_id="' + id + '"]');
@@ -71,9 +74,12 @@ export default function Widget(props)
     $(p).find('.w-container').show();
     $(w).show();
 
+    $(p).find('.non-truncated').hide();
+    $(p).find('.truncated').show();
+
     // manage widget max min buttons
-    $(w).find('.minimize').addClass('hide');
-    $(w).find('.maximize').removeClass('hide');
+    $(w).find('.minimize').hide();
+    $(w).find('.maximize').show();
   }
 
   async function saveWidgetTitleOnBlur(eventTarget) {
@@ -118,7 +124,7 @@ export default function Widget(props)
               }}
               src={btn_save} alt="save widget"/>
             <img 
-              className='img-btn-delete' 
+              className='img-btn delete' 
               onClick={()=>DeleteWidgetHandler(props.widget.id)} 
               src={btn_delete} alt="delete"/>
             <img 
@@ -126,7 +132,8 @@ export default function Widget(props)
               onClick={()=>Maximize(props.widget.id)} 
               src={btn_maximize} alt="maximize"/>
             <img 
-              className='img-btn minimize hide' 
+              className='img-btn minimize' 
+              style={{display:'none'}} 
               onClick={()=>Minimize(props.widget.id)} 
               src={btn_minimize} alt="minimize"/>
         </div>

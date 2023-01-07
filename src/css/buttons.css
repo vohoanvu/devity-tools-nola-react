@@ -102,18 +102,18 @@ input[type=text]:focus {
   margin-right: 5px;
 }
 
-.delete-w-content-btn{
-  cursor: pointer;
+.delete-item{
   width: 15px;
-  display: flex;
-  align-items: center;
-  float: right;
+  margin-left: auto;
 }
 
 span.w_copyable.filterable {
   display: inline-block;
 }
 
-.img-btn-delete {
+.img-btn{
+  cursor: pointer;
+}
+.w-input-txt{
   cursor: pointer;
 }

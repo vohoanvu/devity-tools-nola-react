@@ -34,14 +34,14 @@ export default function Editable({
     }
 
     return (
-        <div style={{ display: 'inline-block' }} {...props}>
+        <div className="w-input-txt" style={{ display: 'inline-block' }} {...props}>
             {
                 isEditing ? (
                     <div onBlur={(e)=> handleInputOnBlur(e)} onKeyDown={(e)=>handleKeyDown(e, inputType)}>
                         {children}
                     </div>
                 ) : (
-                    <div id="editableDisplay" onClick={()=>setEditing(true)}>
+                    <div id="editableDisplay"  onClick={()=>setEditing(true)}>
                         { displayText }
                     </div>
                 )

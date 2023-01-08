@@ -1,7 +1,47 @@
-.App {
- 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
+
+body{
+  background-color: var(--COLOR_BODY);
+  font: normal 16px Consolas, Arial, sans-serif;
+  color: var(--COLOR_TEXT);
+  padding: 10px;
+}
+h1{
+  display: block;
+  font-size: 28px;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+h2{margin-bottom: 0;}
+h3{margin-bottom: 0;}
+p{margin-top: 0;}
+span{color: var(--COLOR_TEXT);}
+
+/* unvisited link */
+a:link {
+  color: var(--COLOR_LINK);
+}
+
+/* visited link */
+a:visited {
+  color: var(--COLOR_LINK_VISITED);
+}
+
+/* mouse over link */
+a:hover {
+  color: var(--COLOR_LINK_HOVER);
+}
+
+/* selected link */
+a:active {
+  color: var(--COLOR_LINK_ACTIVE);
+}
 
 .logo{
   pointer-events: none;
@@ -190,17 +230,71 @@ list-style-type: none;
 .label{
   color: var(--COLOR_TEXT);
 }
-.p-panel{
-display: block;
-margin: 10px;
-width: 98%;
-height: 700px;
-border: 1px;
-border-style: solid;
-border-radius: 15px;
-border-color: var(--COLOR_PANEL_BRD);
-overflow: auto;
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+
 }
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {}
+
+  .p-chrome{
+    display: block;
+    padding: 10px;
+    height: 25px;
+    background-color: var(--COLOR_PANEL_CHROME_BG);
+    margin-bottom: 20px;
+    height: 45px;
+  }
+  .w-container{
+    display: block;
+    overflow: hidden;
+    float: left;
+    border: 2px;
+    border-style: solid;
+    border-radius: 5px;
+    margin: 10px;
+    border-color: var(--COLOR_WIDGET_BRD);
+    background-color: var(--COLOR_WIDGET_BG);
+    position: relative;
+  }
+  .p-panel{
+    display: block;
+    margin: 10px;
+    width: 98%;
+    min-height: 600px;
+    border: 1px;
+    border-style: solid;
+    border-radius: 15px;
+    border-color: var(--COLOR_PANEL_BRD);
+    overflow: auto;
+    }
+    
+  .w_container{
+    background-color: var(--COLOR_WIDGET_BG);
+    border-radius: 5%;
+    border: 1px;
+    border-style: solid;
+    border-color: var(--COLOR_WIDGET_BRD);
+    min-width: 300px;
+    min-height: 300px;
+    margin: 10px;
+    padding-left: 0px !important;
+    float: left;
+  }
 
 .p-contents{
   padding: 10px;
@@ -215,13 +309,7 @@ overflow: auto;
   margin-right: 5px;
 }
 
-.p-chrome{
-  display: block;
-  padding: 10px;
-  height: 25px;
-  background-color: var(--COLOR_PANEL_CHROME_BG);
-  margin-bottom: 20px;
-}
+
 
 .p-chrome button{
   display: block;
@@ -235,18 +323,7 @@ overflow: auto;
   margin-right: 5px;
 }
 
-.w-container{
-  display: block;
-  overflow: hidden;
-  float: left;
-  border: 2px;
-  border-style: solid;
-  border-radius: 5px;
-  margin: 10px;
-  border-color: var(--COLOR_WIDGET_BRD);
-  background-color: var(--COLOR_WIDGET_BG);
-  position: relative;
-}
+
 
 .min{
   width: 300px;
@@ -265,6 +342,7 @@ overflow: auto;
   background-color: var(--COLOR_PANEL_CHROME_BG);
   margin-bottom: 3px;
   cursor: pointer;
+  height: 45px;
 }
 .w-chrome button {
   position: relative;
@@ -311,39 +389,7 @@ overflow: auto;
   }
 }
 
-body{
-  background-color: var(--COLOR_BODY);
-  padding: 10px;
-}
-h1{
-  color: var(--COLOR_TEXT);
-  display: block;
-  font-size: 1.5em;
-  margin-block-start: 0.67em;
-  margin-block-end: 0.67em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  font-weight: bold;
-}
-h2{
-  color: var(--COLOR_TEXT);
-}
-h3{
-  color: var(--COLOR_TEXT);
-}
-p{
-  color: var(--COLOR_TEXT);
-}
-span{
-  color: var(--COLOR_TEXT);
-}
-label{
-  color:  var(--COLOR_TEXT);
-}
 
-li{
-  color:  var(--COLOR_TEXT);
-}
 
 
 /* width */
@@ -378,32 +424,6 @@ li{
   color: var(--COLOR_LINK);
 }
 
-/* unvisited link */
-a:link {
-  color: var(--COLOR_LINK);
-}
-
-/* visited link */
-a:visited {
-  color: var(--COLOR_LINK_VISITED);
-}
-
-/* mouse over link */
-a:hover {
-  color: var(--COLOR_LINK_HOVER);
-}
-
-/* selected link */
-a:active {
-  color: var(--COLOR_LINK_ACTIVE);
-}
-
-.hidden{display: none;}
-/* Cannot set a style like this as it effects all elements UL/LI everywhere. Have to be more specific,
-like .my-container ul li {something}
-ul { list-style-type: none; margin: 0; padding: 0;  }
-li { margin: 5px; padding: 5px; width: 150px; } */
-
 .results ul { 
   list-style-type: none; 
   margin: 0; 
@@ -416,27 +436,6 @@ li { margin: 5px; padding: 5px; width: 150px; } */
   margin-bottom: 20px;
 }
 
-.panel{
-  background-color: var(--COLOR_PANEL_BG);
-  min-height: 500;
-  border-color: var(--COLOR_PANEL_BRD);
-  border-style: solid;
-  border-width: 2;
-  overflow: auto;
-}
-
-.w_container{
-  background-color: var(--COLOR_WIDGET_BG);
-  border-radius: 5%;
-  border: 1px;
-  border-style: solid;
-  border-color: var(--COLOR_WIDGET_BRD);
-  min-width: 300px;
-  min-height: 300px;
-  margin: 10px;
-  padding-left: 0px !important;
-  float: left;
-}
 .widget{
   padding: 7px;
   height: 100%;
@@ -471,7 +470,7 @@ margin-bottom: 5px;
   width: 98%;
 }
 .w-links a:hover{
-  color: red;
+  color: var(--COLOR_AFFECT);
 }
 
 
@@ -557,8 +556,8 @@ div.mce-content-body {
 
 #cmd_type_radio{
   display: block;
-  width: 80px;
-  padding: 3px;
+  width: 90px;
+  padding: 7px;
   margin-left: auto;
   margin-right: 0;
 }
@@ -575,5 +574,102 @@ div[data-panel=RESULTS] {
   float: right;
 }
 
+.settings{
+  
+}
+
+.library table tr td{
+  padding: 10px;
+}
+
+#library-hd{
+ display: flex;
+ width: 400px;
+ margin: auto;
+}
+.library-hd span{
+  display: inline-flex;
+  padding-left: 10px;
+ }
+
+.profile{
+  display: flex;
+}
+.profile .card{
+  padding-left: 100px;
+}
+.profile .settings{
+ width: 30%;
+}
+.profile .personal{
+  width: 70%;
+}
+.profile ul{
+
+  display: flex;
+  padding-left: 0px;
+}
+.profile ul li{
+display: inherit;
+list-style-type: none;
+margin-right: 10px;
+border-radius: 25px;
+background: var(--COLOR_WIDGET_BG);
+padding: 20px;
+height: 75px;
+}
+
+.profile ul li label{
+  line-height: 25px;
+}
 
 
+.profile .user-card {
+  box-shadow: 0 5px 15px 5px var(--COLOR_PANEL_BRD);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+}
+
+.profile .interests-card {
+  box-shadow: 0 5px 15px 5px var(--COLOR_PANEL_BRD);
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}
+
+input[type='checkbox']:checked {
+  text-align: center;
+}
+input[type='checkbox']:checked:after {
+  text-align: center;
+  content: '\2713';
+  color:var(--COLOR_AFFECT);
+}
+
+input[type='checkbox']{
+  text-align: center;
+  width: 20px !important;
+  height: 20px !important;
+  appearance:none;
+  border-radius:10%;
+  border: 0px solid var(--COLOR_WIDGET_BG);
+  box-shadow: none;
+  font-size: 1em;
+}
+
+select{
+  background-color: var(--COLOR_WIDGET_BRD);
+  color:var(--COLOR_TEXT);
+  padding: 10px;
+  font-size: 16px;
+}
+
+select > option{
+  padding: 10px;
+  font-size: 16px;
+}
+
+.error{
+  color: red;;
+}

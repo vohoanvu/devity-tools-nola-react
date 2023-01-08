@@ -12,7 +12,7 @@ const Libraries = (props) =>
 
   useEffect(() => {
     let libName = localStorage.getItem(UserSelectedLibrary);
-    $('#ddl_library').val(libName);
+    $('#ddl_library_select').val(libName);
     var lib_file_name = "/libs/" + libName;
     if (lib_file_name === "/libs/null") return;
 
@@ -23,6 +23,12 @@ const Libraries = (props) =>
       
     setIsLoading(true);
     try {
+
+      if(lib_file_name === '/libs/select'){
+        setData({});
+        return;
+      }
+
       const {data} = await axios.get(lib_file_name, {
         headers: {
           Accept: 'application/json',
@@ -33,6 +39,7 @@ const Libraries = (props) =>
 
       setData(data);
     } catch (err) {
+      console.log(err);
       setErr(err.message);
     } finally {
       setIsLoading(false);
@@ -60,8 +67,6 @@ const Libraries = (props) =>
 
   };
 
-  //console.log(data);
-
   return (
               <div className='p-panel library' style={{display:'none'}} data-panel='LIBRARIES'>
               <div className='p-chrome'>
@@ -71,24 +76,22 @@ const Libraries = (props) =>
               <div className='p-contents'>
 
 
-      {err && <h2>{err}</h2>}
+      {err && <span className="error">{err}</span>}
 
- 
-      <select id="ddl_library" onChange={handleSelect} style={{ display : "inline-block" }}>
-        <option value="select">Select Library</option>
-        <option value="git_cheatsheet.json">Git Cheatsheet</option>
-        <option value="npm_cheatsheet.json">NPM Cheatsheet</option>
-      </select>
+        <div id="library-hd">
+              <select id="ddl_library_select" onChange={handleSelect} >
+                <option value="select">Select Library</option>
+                <option value="git_cheatsheet.json">Git Cheatsheet</option>
+                <option value="npm_cheatsheet.json">NPM Cheatsheet</option>
+              </select>
 
-
-      {isLoading && <h2>Loading...</h2>}
-
-      <div className='library-hd'>
-        <span>{data.Title}</span>
-        <span>{data.Description}</span>
-        <span>{data.Version}</span>
-        <span>{data.Type}</span>
-      </div>
+              <div className='library-hd'>
+                <span>Title: </span><span>{data.Title}</span><br />
+                <span>Description: </span><span>{data.Description}</span><br />
+                <span>Version: </span><span>{data.Version}</span><br />
+                <span>Type: </span><span>{data.Type}</span><br />
+              </div>
+        </div>
         
         <table className='lib-tbl'>
           <thead>

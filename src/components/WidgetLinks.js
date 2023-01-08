@@ -125,69 +125,71 @@ export default function Links(props)
     
     return (
         <React.Fragment>
-            <div className='widget w-links'>
-                {
-                    !isEdit && (
-                        <label onClick={openEditForm}>
-                            <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
-                            Add
-                        </label>
-                    )
-                }
-                {
-                    isEdit ? (
-                        <form id="linkContentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
-                            <Editable 
-                                displayText={<span>{links.inputLink || "Url"}</span>}
-                                inputType="input" 
-                                childInputRef={inputLinkRef}
-                                passFromChildToParent={onBlurNewLinkHandler}>
-                                <input
-                                    ref={inputLinkRef}
-                                    type="text"
-                                    name="inputLink"
-                                    placeholder=""
-                                    value={links.inputLink}
-                                    onChange={handleLinkChange}
-                                />
-                            </Editable>
-                            <br></br>
-                            <Editable 
-                                displayText={<span>{links.inputTitle || "Title"}</span>}
-                                inputType="input" 
-                                childInputRef={inputTitleRef}
-                                passFromChildToParent={onBlurNewLinkHandler}>
-                                <input
-                                    ref={inputTitleRef}
-                                    type="text"
-                                    name="inputTitle"
-                                    placeholder=""
-                                    value={links.inputTitle}
-                                    onChange={handleLinkChange}
-                                />
-                            </Editable>
-                        </form>
-                    ) : null
-                }
-                <ul>
-                {
-                    !links.displayList ? (
-                        <div style={{ display: 'flex', justifyContent: 'center'}}>
-                            <div className="loader"></div>
-                        </div>
-                    ) : (
-                        links.displayList.map((item, index) => {
-                            return (
-                                <li key={index}>
-                                    <a className='filterable truncated' target="_blank" href={format_link(item.hyperLink)} title={currate_title(item.displayName)} rel="noreferrer">{abbriviate(item.displayName)}</a>
-                                    <a className='filterable non-truncated' style={{display:'none'}} target="_blank" href={format_link(item.hyperLink)} rel="noreferrer">{item.displayName}</a>
-                                    <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveLink}/>
-                                </li>
-                            )
-                        })
-                    )
-                }
-                </ul>
+            <div className='w_overflowable'>
+                <div className='widget w-links'>
+                    {
+                        !isEdit && (
+                            <label onClick={openEditForm}>
+                                <img style={{ width: '10px', height: '10px'}} className='add-btn' src={btn_add} alt="create widget"/>
+                                Add
+                            </label>
+                        )
+                    }
+                    {
+                        isEdit ? (
+                            <form id="linkContentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
+                                <Editable 
+                                    displayText={<span>{links.inputLink || "Url"}</span>}
+                                    inputType="input" 
+                                    childInputRef={inputLinkRef}
+                                    passFromChildToParent={onBlurNewLinkHandler}>
+                                    <input
+                                        ref={inputLinkRef}
+                                        type="text"
+                                        name="inputLink"
+                                        placeholder=""
+                                        value={links.inputLink}
+                                        onChange={handleLinkChange}
+                                    />
+                                </Editable>
+                                <br></br>
+                                <Editable 
+                                    displayText={<span>{links.inputTitle || "Title"}</span>}
+                                    inputType="input" 
+                                    childInputRef={inputTitleRef}
+                                    passFromChildToParent={onBlurNewLinkHandler}>
+                                    <input
+                                        ref={inputTitleRef}
+                                        type="text"
+                                        name="inputTitle"
+                                        placeholder=""
+                                        value={links.inputTitle}
+                                        onChange={handleLinkChange}
+                                    />
+                                </Editable>
+                            </form>
+                        ) : null
+                    }
+                    <ul>
+                    {
+                        !links.displayList ? (
+                            <div style={{ display: 'flex', justifyContent: 'center'}}>
+                                <div className="loader"></div>
+                            </div>
+                        ) : (
+                            links.displayList.map((item, index) => {
+                                return (
+                                    <li key={index}>
+                                        <a className='filterable truncated' target="_blank" href={format_link(item.hyperLink)} title={currate_title(item.displayName)} rel="noreferrer">{abbriviate(item.displayName)}</a>
+                                        <a className='filterable non-truncated' style={{display:'none'}} target="_blank" href={format_link(item.hyperLink)} rel="noreferrer">{item.displayName}</a>
+                                        <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveLink}/>
+                                    </li>
+                                )
+                            })
+                        )
+                    }
+                    </ul>
+                </div>
             </div>
         </React.Fragment>        
     );

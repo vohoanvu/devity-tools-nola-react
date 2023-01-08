@@ -54,7 +54,7 @@ export default function Header(props)
     }
 
 
-  return (<div id="navigation" className="nav-max">
+  return (<div id="navigation" className="nav nav-max">
 
       <div id="logo">
         <button id="nav_all" onClick={()=>onNavigateClicked('ALL')}>

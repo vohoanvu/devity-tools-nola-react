@@ -80,7 +80,8 @@ input[type=text] {
   background-color: var(--COLOR_INPUT_TEXT_BG);
   padding: 5px;
   color: var(--COLOR_TEXT);
-  border: 0px;
+  border: 1px;
+  border-style: solid;
   caret-color: red;
 }
 input[type=text]:focus {

@@ -23,6 +23,7 @@ export default class ViewModeSelection extends React.Component
         });
     }
 
+   
 
     handleChange = (event) => {
         this.setState({
@@ -35,12 +36,12 @@ export default class ViewModeSelection extends React.Component
     render()
     {
         return (
-            <div>
+            <div >
                 <link rel="stylesheet" type="text/css" href={this.state.stylePath} />
                 <div>
-                    <select value={this.state.stylePath ?? './css/ui-darkness.css'} onChange={this.handleChange.bind(this)}>
-                        <option value="./css/ui-darkness.css">ui-darkness</option>
-                        <option value="./css/ui-lightness.css">ui-lightness</option>
+                <select styles={this.styles} value={this.state.stylePath ?? './css/ui-darkness.css'} onChange={this.handleChange.bind(this)}>
+                        <option className='opt' value="./css/ui-darkness.css">ui-darkness</option>
+                        <option className='opt' value="./css/ui-lightness.css">ui-lightness</option>
                     </select>
                 </div>
             </div>

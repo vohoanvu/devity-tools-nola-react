@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import btn_image_config from "../img/d_btn_ctrl_config.png";
-import ViewModeSelection from '../css/ViewModeSelection';
-import "../css/Profile.css";
+import ViewModeSelection from './ViewModeSelection';
+import JiraToken from './JiraToken';
 import { UserContext } from "../api-integration/UserContext";
 import Editable from './Editable';
 import axios from 'axios';
@@ -51,6 +51,15 @@ export default function Profile(props)
     setIsEditMode(true);
   }
 
+  async function tag_click(id){
+    var el = document.getElementById(id);
+    el.trigger('click');
+  }
+
+  function handleJiraTokenOnBlur(evenTarget) {
+
+  }
+
   function updateUserProfileOnBlur(evenTarget) {
 
     switch (evenTarget.name) {
@@ -66,14 +75,8 @@ export default function Profile(props)
           profession: evenTarget.value
         });
         break;
-      case 'userEmail':
-        setUserProfile({
-          ...userProfile,
-          email: evenTarget.value
-        });
-        break;
       default:
-        break;
+        break;<div id="header_container">…</div>
     }
     setIsEditMode(false);
     updateProfileInDb(userProfile);
@@ -132,6 +135,8 @@ export default function Profile(props)
     });
   }
 
+  
+
   async function upgradeProfileMembership() {
     if (window.confirm("Are you sure you want to upgrade to a PAID membership?")) {
       await updateProfileInDb({...userProfile, paid: true});
@@ -153,10 +158,51 @@ export default function Profile(props)
         }
         
       </div>
-      <div className='p-contents'>
-        <div id="ctrl_add_links" className="nav-ctrl w-ctrl-add"><ViewModeSelection devityCookie={props.COOKIE_NAME}/></div>
-        <div className='user-card'>
-          <Editable 
+      <div className='p-contents profile'>
+        <div className='settings card'>
+          <h1>Settings</h1>
+          <p>Local storage settings</p>
+          <h3>Theme</h3>
+          <ViewModeSelection devityCookie={props.COOKIE_NAME}/>
+          <div className='select-results-card'>
+            <h3>Search result types</h3>
+            <p>Select results types for search command.</p>
+            <form>
+              <ul>
+                <li onClick={() =>  document.getElementById("google-results").click()}>
+              <input 
+                type="checkbox" 
+                id="google-results" 
+                name="search_res_google"
+                checked={searchResultSelect.search_res_google}
+                onChange={handleSearchResultSelectOnChange}/>
+              <label htmlFor="google-results">Google Search Results</label>
+              </li>
+              <li onClick={() =>  document.getElementById("youtube-results").click()}>
+              <input 
+                type="checkbox" 
+                id="youtube-results" 
+                name="search_res_youtube"
+                checked={searchResultSelect.search_res_youtube}
+                onChange={handleSearchResultSelectOnChange}/>
+              <label htmlFor="youtube-results">Youtube Search Results</label>
+              </li>
+              </ul>
+            </form>
+          </div>
+          <div>
+            <h3>Atlassian API Token (Jira &amp; Confluence)</h3>
+            <JiraToken />
+          </div>
+
+        </div>
+        <div className='personal card'>
+          <h1>Techical Profile</h1>
+          <p>Help the Technocore AIs help you by filling out your technical profile.</p>
+          <h2>{ userProfile.paid ? 'Premium Account' : 'Free Account' }</h2>
+          <button type="submit" hidden onClick={upgradeProfileMembership}>Upgrade</button>
+
+        <Editable 
             displayText={<h1>{userProfile.name}</h1>}
             inputType="input" 
             childInputRef={inputRef}
@@ -169,7 +215,7 @@ export default function Profile(props)
                 value={userProfile.name}
                 onChange={e => handleUsernameOnChange(e.target.value)}
             />
-          </Editable>
+          </Editable><br />
           <Editable 
             displayText={<p className="title"> {userProfile.profession} </p>}
             inputType="input" 
@@ -184,64 +230,30 @@ export default function Profile(props)
                 <option value="Infrastructure Engineer">Infrastructure Engineer</option>
                 <option value="UX Engineer">UX Engineer</option>
             </select>
-          </Editable>
-          <Editable 
-            displayText={<p>{userProfile.email}</p>}
-            inputType="input" 
-            childInputRef={inputRef}
-            passFromChildToParent={updateUserProfileOnBlur}>
-            <input 
-                ref={inputRef}
-                type="text"
-                name="userEmail"
-                placeholder="Enter new email"
-                value={userProfile.email}
-                onChange={e => handleUserEmailOnChange(e.target.value)}
-            />
-          </Editable>
-          <h3>{ userProfile.paid ? 'Premium Account' : 'Free Account' }</h3>
-          <button type="submit" hidden onClick={upgradeProfileMembership}>Upgrade</button>
-        </div>
-        <div className='interests-card'>
-          <h3>Interests</h3>
+          </Editable><br />
+
+          <h2>Skills, Interests</h2>
           <ul>
             {
               userProfile.user_interests?.map((i, index) => {
                 return (
-                  <li key={index}>
+                  <li key={index}
+                      onClick={() =>  document.getElementById(i.Id).click()}>
                     <input 
                         type="checkbox" 
+                        onClick={() =>  document.getElementById(i.Id).click()}
                         id={i.Id}
                         name={i.Title} 
                         value={i.Id} 
                         checked={i.IsUserSelected} 
                         onChange={handleInterestsOnChange}/>
-                    <label htmlFor={i.Id}>{i.Title}</label>
+                    <label onClick={() =>  document.getElementById(i.Id).click()} htmlFor={i.Id}>{i.Title}</label>
                   </li>
                 );
               })
             }
           </ul>
-        </div>
-        <div className='select-results-card'>
-          <h3>Select your favorite search results</h3>
-          <form>
-            <input 
-              type="checkbox" 
-              id="google-results" 
-              name="search_res_google"
-              checked={searchResultSelect.search_res_google}
-              onChange={handleSearchResultSelectOnChange}/>
-            <label htmlFor="google-results">Google Search Results</label>
-            <br/>
-            <input 
-              type="checkbox" 
-              id="youtube-results" 
-              name="search_res_youtube"
-              checked={searchResultSelect.search_res_youtube}
-              onChange={handleSearchResultSelectOnChange}/>
-            <label htmlFor="youtube-results">Youtube Search Results</label>
-          </form>
+
         </div>
       </div>
     </div>

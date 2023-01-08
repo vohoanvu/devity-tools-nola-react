@@ -17,7 +17,7 @@ export default function Links(props)
     const [links, setLinks] = useState({
         inputLink: "",
         inputTitle: "",
-        displayList: null,
+        displayList: null, // [{hyperLink: "https://www.google.com", displayName: "Google"}]
         link: props.widget,
         w_type: props.widget.w_type
     });
@@ -62,24 +62,28 @@ export default function Links(props)
         .catch((err) => console.log(err));
     }
 
-    function onBlurNewLinkHandler(evtTarget) {
-        if ((evtTarget.value.length === 0 && links.inputTitle.length !== 0) || links.inputLink.length === 0) {
+    function onBlurNewLinkHandler() {
+        if (links.inputLink.length === 0) {
             setIsEdit(false);
             return;
         }
-        let displayText = links.inputTitle;
-        if (evtTarget.value.length !== 0 && links.inputTitle.length === 0) {
-            $('#editableDisplay').trigger('click');
-            return;
+        if (links.inputLink.length !== 0) {
+            const inputTitleNode = $('div span#inputTitle').parent()[0];
+            inputTitleNode.click();
+        }
+    };
+
+    function onBlurNewTitleHandler() {
+        let displayTextForLink = "";
+        if (links.inputTitle.length === 0) {
+            displayTextForLink = format_link(links.inputLink);
+        } else {
+            displayTextForLink = links.inputTitle;
         }
 
-        if (inputTitleRef && inputTitleRef.current && links.inputTitle.length === 0) {
-            displayText = format_link(links.inputLink);
-        }
-        
         const newLink = {
             hyperLink: links.inputLink,
-            displayName: displayText
+            displayName: displayTextForLink
         }
         links.displayList.splice(0, 0, newLink);
         setLinks({
@@ -89,9 +93,8 @@ export default function Links(props)
             inputTitle: ""
         });
         setIsEdit(false);
-
         sendLinkContentToParentTobeSaved();
-    };
+    }
 
     async function sendLinkContentToParentTobeSaved() {
         const putBody = {
@@ -137,7 +140,7 @@ export default function Links(props)
                     }
                     {
                         isEdit ? (
-                            <form id="linkContentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
+                            <form id="linkContentForm" autoComplete="off">
                                 <Editable 
                                     displayText={<span>{links.inputLink || "Url"}</span>}
                                     inputType="input" 
@@ -154,10 +157,10 @@ export default function Links(props)
                                 </Editable>
                                 <br></br>
                                 <Editable 
-                                    displayText={<span>{links.inputTitle || "Title"}</span>}
+                                    displayText={<span id='inputTitle'>{links.inputTitle || "Title"}</span>}
                                     inputType="input" 
                                     childInputRef={inputTitleRef}
-                                    passFromChildToParent={onBlurNewLinkHandler}>
+                                    passFromChildToParent={onBlurNewTitleHandler}>
                                     <input
                                         ref={inputTitleRef}
                                         type="text"

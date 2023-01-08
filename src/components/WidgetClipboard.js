@@ -76,6 +76,9 @@ export default function Clipboard(props)
     }
 
     function onBlurClipboardContent(eventTarget) {
+        if (eventTarget.value.length === 0) return;
+
+
         clipboardContent.content.splice(0, 0, eventTarget.value);
         setClipboardContent({
             ...clipboardContent,

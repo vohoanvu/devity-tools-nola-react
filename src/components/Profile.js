@@ -170,23 +170,23 @@ export default function Profile(props)
             <form>
               <ul>
                 <li onClick={() =>  document.getElementById("google-results").click()}>
-              <input 
-                type="checkbox" 
-                id="google-results" 
-                name="search_res_google"
-                checked={searchResultSelect.search_res_google}
-                onChange={handleSearchResultSelectOnChange}/>
-              <label htmlFor="google-results">Google Search Results</label>
-              </li>
-              <li onClick={() =>  document.getElementById("youtube-results").click()}>
-              <input 
-                type="checkbox" 
-                id="youtube-results" 
-                name="search_res_youtube"
-                checked={searchResultSelect.search_res_youtube}
-                onChange={handleSearchResultSelectOnChange}/>
-              <label htmlFor="youtube-results">Youtube Search Results</label>
-              </li>
+                  <input 
+                    type="checkbox" 
+                    id="google-results" 
+                    name="search_res_google"
+                    checked={searchResultSelect.search_res_google}
+                    onChange={handleSearchResultSelectOnChange}/>
+                  <label htmlFor="google-results">Google Search Results</label>
+                </li>
+                <li onClick={() =>  document.getElementById("youtube-results").click()}>
+                  <input 
+                    type="checkbox" 
+                    id="youtube-results" 
+                    name="search_res_youtube"
+                    checked={searchResultSelect.search_res_youtube}
+                    onChange={handleSearchResultSelectOnChange}/>
+                  <label htmlFor="youtube-results">Youtube Search Results</label>
+                </li>
               </ul>
             </form>
           </div>

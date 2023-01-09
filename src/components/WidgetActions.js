@@ -113,10 +113,10 @@ export default function Widget(props)
               onClick={async ()=> {
                   console.log('save button clicked', props.widget);
                   if (props.isReadyToSave.isReadyToSave) {
-                    await props.callPUTRequest(props.isReadyToSave.putBody, props.isReadyToSave.type);
-                    if (props.widget.w_type === 'NOTES') {
-                      $(`#save-btn-${props.widget.id}`).hide();
-                    }
+                    await props.callPUTRequest(props.isReadyToSave.putBody, props.isReadyToSave.type)
+                          .then(result => {
+                            $(`#save-btn-${props.widget.id}`).hide();
+                          });
                   } else {
                     alert('not yet ready to save! Please click Save button again after a few seconds.');
                   }

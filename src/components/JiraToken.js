@@ -16,17 +16,16 @@ export default class JiraToken extends React.Component
         });
     }
 
-   
 
-   handleBlur = (event) => {
-        this.setState({
-            jira_token: event.target.value
-        });
-
+    handleBlur = (event) => {
         localStorage.setItem(LOCAL_STORAGE_KEY, event.target.value);
     };
 
-
+    handleOnChange = (event) => {
+        this.setState({
+            jira_token: event.target.value
+        });
+    };
     
 
     render()
@@ -34,7 +33,11 @@ export default class JiraToken extends React.Component
         return (
             <div>
                 <form>
-                <input type="text" value={this.state.jira_token} onBlur={this.handleBlur.bind(this)} />
+                    <input 
+                        type="text" 
+                        value={this.state.jira_token} 
+                        onBlur={this.handleBlur.bind(this)} 
+                        onChange={this.handleOnChange.bind(this)}/>
                 </form>
             </div>
         )

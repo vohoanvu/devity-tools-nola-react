@@ -19,7 +19,6 @@ export default function Clipboard(props)
         widget: {}
     });
     const inputRef = useRef();
-    
 
     useEffect(() => {
         const curr_view = props.activePanel;
@@ -41,6 +40,7 @@ export default function Clipboard(props)
         }
 
         getWidgetContent();
+        $(`#save-btn-${props.widget.id}`).hide();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.widget.id, props.activePanel]);
 
@@ -73,6 +73,7 @@ export default function Clipboard(props)
             ...clipboardContent,
             currentText: e.target.value
         });
+        $(`#save-btn-${props.widget.id}`).show();
     }
 
     function onBlurClipboardContent(eventTarget) {
@@ -108,6 +109,7 @@ export default function Clipboard(props)
         setClipboardContent({
             ...clipboardContent
         });
+        $(`#save-btn-${props.widget.id}`).show();
         updateWidgetContent(clipboardContent.content, 'CLIPBOARD');
     }
 

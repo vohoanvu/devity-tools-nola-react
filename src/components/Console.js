@@ -32,11 +32,12 @@ const Console = (props) =>
           const googleSearchApi = GOOGLE_SEARCH_API + "&q=" + encodeURIComponent(params);
           await axios.get(googleSearchApi)
                 .then((res) => {
+                  console.log('google search results: ', res);
                     localStorage.setItem('curr_view', "RESULTS");
                     props.passGoogleResultFromChildToParent(res.data.items);
                     
                     $('div[data-panel=RESULTS] .gear').removeClass('rotate');
-                    log('fetched google search api results for ' + params);
+                    //log('fetched google search api results for ' + params);
                 })
                 .catch((error) => {
                     setErr(error);
@@ -55,7 +56,7 @@ const Console = (props) =>
                   console.log('youtube search results: ', result);
                   props.passvideoResultFromChildToParent(result);
                   $('div[data-panel=RESULTS] .gear').removeClass('rotate');
-                  log('fetched youtube results for ' + params);
+                  //log('fetched youtube results for ' + params);
                 })
                 .catch((error) => console.log(error));
 
@@ -132,6 +133,7 @@ const Console = (props) =>
 
   function handleCmdChange(e) {
     setCmd('#' + e.target.value);
+    $("#prompt_input").focus();
   }
 
   function handleKeyUp(e) {
@@ -210,8 +212,6 @@ const Console = (props) =>
               aria-label="Search">
           </input>
           <div id="search_results"></div>
-          {/* <span>cmd: {cmd}</span>< br />
-          <span>params: {params}</span> */}
       </div>
       
 

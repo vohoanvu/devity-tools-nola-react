@@ -33,7 +33,7 @@ export default function Header(props)
         $('#navigation').toggleClass('nav-min');
         $('#console').toggleClass('console-max');
         $('#console').toggleClass('console-min');
-        $('#cmd_type_radio').toggle();
+        $('.cmd_type_radio').toggle();
         // $('#header_container').toggleClass('display-flex');
       } else {
         $('.p-panel').hide();

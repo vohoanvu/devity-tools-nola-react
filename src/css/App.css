@@ -4,13 +4,37 @@
   box-sizing: border-box;
 }
 
-
-body{
+body {
+  margin: 0;
+  font-family: Consolas, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background-color: var(--COLOR_BODY);
-  font: normal 16px Consolas, Arial, sans-serif;
   color: var(--COLOR_TEXT);
   padding: 10px;
 }
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.loader {
+  border: 16px solid var(--COLOR_PANEL_BG);
+  border-top: 16px solid var(--COLOR_PANEL_BRD);
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 h1{
   display: block;
   font-size: 28px;
@@ -66,10 +90,8 @@ a:active {
   height: 100px;
   width: 100px;;
 }
-.nav-min{
-  display: flex;
-  float: right;
-}
+
+
 .nav-min button{
   background-color:  var(--COLOR_BODY);
   margin-right: 7px;
@@ -112,9 +134,7 @@ a:active {
   height: 200px;
   overflow: auto;
 }
-.console-max {
-  display: flex;
-}
+
 .console-min {
   width: 525px;
   margin-bottom: 5px;
@@ -213,19 +233,11 @@ list-style-type: none;
 
 }
 
-
-
-
-
 @keyframes cursor-blink {
   0% {
     opacity: 0;
   }
 }
-
-
-
-
 
 .label{
   color: var(--COLOR_TEXT);
@@ -234,31 +246,251 @@ list-style-type: none;
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-
+  .console-max {
+    display: block;
+  }
+  #console > div.cmd_type_radio{
+    display: flex;
+    width: 25%;
+    padding: 7px;
+    margin: auto;
+  }
+  .nav-min{
+    display: flex;
+    float: right;
+    width: 300px;
+  }
+  .profile{
+    display: block;
+  }
+  .profile .card{
+    padding-left: 20px;
+  }
+  .profile .settings{
+   width: 100%;
+  }
+  .profile .personal{
+    width: 100%;
+  }
+  .profile ul{
+    display: block;
+    padding-left: 0px;
+  }
+  
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
 
+  .console-max {
+    display: block;
+  }
+  #console > div.cmd_type_radio{
+    display: flex;
+    padding: 7px;
+  }
+  .console-max {
+    display: block;
+  }
+  .nav-min{
+    display: flex;
+    float: right;
+    width: 30%;
+  }
+  .profile{
+    display: block;
+  }
+  .profile .card{
+    padding-left: 20px;
+  }
+  .profile .settings{
+   width: 100%;
+  }
+  .profile .personal{
+    width: 100%;
+  }
+  .profile ul{
+    display: block;
+    padding-left: 0px;
+  }
+ 
 }
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
+  .cmd_type_radio{
+    display: block;
+    padding: 7px;
+    margin-left: auto;
+    margin-right: 0;
+  }
+  .console-max {
+    display: flex;
+  }
+  .nav-min{
+    display: flex;
+    float: right;
+  }
+  .profile{
+    display: block;
+  }
+  .profile .card{
+    padding-left: 20px;
+  }
+  .profile .settings{
+   width: 100%;
+  }
+  .profile .personal{
+    width: 100%;
+  }
+  .profile ul{
+    display: block;
+    padding-left: 0px;
+  }
 
 }
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
+  .cmd_type_radio{
+    display: block;
+    width: 90px;
+    padding: 7px;
+    margin-left: auto;
+    margin-right: 0;
+  }
+  .console-max {
+    display: flex;
+  }
+  .nav-min{
+    display: flex;
+    float: right;
+  }
+  .profile{
+    display: flex;
+  }
+
+  .profile .card{
+    padding-left: 100px;
+  }
+  .profile .settings{
+   width: 30%;
+  }
+  .profile .personal{
+    width: 70%;
+  }
+  .profile ul{
+    display: flex;
+    padding-left: 0px;
+  }
 
 }
 /* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {}
+@media only screen and (min-width: 1200px) {
+  .console-max {
+    display: flex;
+  }
+  #console > div.cmd_type_radio{
+    display: block;
+    padding: 7px;
+    margin-left: auto;
+  }
+  .nav-min{
+    display: flex;
+    float: right;
+    width: 600px;
+  }
+  .profile{
+    display: flex;
+  }
+
+  .profile .card{
+    padding-left: 100px;
+  }
+  .profile .settings{
+   width: 30%;
+  }
+  .profile .personal{
+    width: 70%;
+  }
+  .profile ul{
+    display: flex;
+    padding-left: 0px;
+  }
+
+}
 
   .p-chrome{
-    display: block;
+    display: flex;
+    align-items: center;
     padding: 10px;
     height: 25px;
     background-color: var(--COLOR_PANEL_CHROME_BG);
     margin-bottom: 20px;
     height: 45px;
   }
+
+  .p-chrome.chrome-btn-profile > img.img-btn.save{
+    margin-left: auto;
+  }
+
+ 
+  .w-chrome {
+    padding: 5px 0px 10px 20px;
+    display: flex;
+    height: 25px;
+    background-color: var(--COLOR_PANEL_CHROME_BG);
+    margin-bottom: 3px;
+    cursor: pointer;
+    height: 45px;
+  }
+  .w-chrome button {
+    position: relative;
+    background: transparent;
+    border: 0px;
+    float: right;
+    height: 30px;
+  }
+  .w-chrome button:hover {
+    background: transparent;
+  }
+
+  .w-chrome .buttons {
+    display: flex;
+    padding: 0 10px;
+    margin-left: auto;
+  }
+  .w-chrome .buttons .delete{
+    margin-left: auto;
+  }
+
+  .buttons img{
+    cursor: pointer;
+  }
+
+  .p-chrome .add{
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+  }
+  .p-chrome button{
+    display: block;
+    align-self: left;
+  }
+  
+  .p-chrome .gear{
+    display: block;
+    width: 35px;
+    float: left;
+    margin-right: 5px;
+  }
+  .p-chrome .title{
+    display: block;
+    font-size: 20px;
+    color: var(--COLOR_TEXT);
+    float: left;
+    margin-right: 5px;
+  }
+
+
   .w-container{
     display: block;
     overflow: hidden;
@@ -301,28 +533,14 @@ list-style-type: none;
   flex-wrap: wrap;
 }
 
-.p-title{
-  display: block;
-  align-items: center;
-  color: var(--COLOR_TEXT);
-  float: left;
-  margin-right: 5px;
+
+
+
+
+
+.img-btn{
+  cursor: pointer;
 }
-
-
-
-.p-chrome button{
-  display: block;
-  align-self: left;
-}
-
-.p-chrome .gear{
-  display: block;
-  width: 25px;
-  float: left;
-  margin-right: 5px;
-}
-
 
 
 .min{
@@ -335,25 +553,6 @@ list-style-type: none;
   height: 98%;
 }
 
-.w-chrome {
-  padding: 5px 0px 10px 20px;
-  display: flex;
-  height: 25px;
-  background-color: var(--COLOR_PANEL_CHROME_BG);
-  margin-bottom: 3px;
-  cursor: pointer;
-  height: 45px;
-}
-.w-chrome button {
-  position: relative;
-  background: transparent;
-  border: 0px;
-  float: right;
-  height: 30px;
-}
-.w-chrome button:hover {
-  background: transparent;
-}
 
 .w-title{
   display: block;
@@ -554,13 +753,7 @@ div.mce-content-body {
   min-height: 200px;
 }
 
-#cmd_type_radio{
-  display: block;
-  width: 90px;
-  padding: 7px;
-  margin-left: auto;
-  margin-right: 0;
-}
+
 
 div[data-panel=RESULTS] {
   display: flex;
@@ -592,27 +785,14 @@ div[data-panel=RESULTS] {
   padding-left: 10px;
  }
 
-.profile{
-  display: flex;
-}
-.profile .card{
-  padding-left: 100px;
-}
-.profile .settings{
- width: 30%;
-}
-.profile .personal{
-  width: 70%;
-}
-.profile ul{
+ 
 
-  display: flex;
-  padding-left: 0px;
-}
+
 .profile ul li{
 display: inherit;
 list-style-type: none;
 margin-right: 10px;
+margin-bottom: 10px;
 border-radius: 25px;
 background: var(--COLOR_WIDGET_BG);
 padding: 20px;
@@ -672,4 +852,25 @@ select > option{
 
 .error{
   color: red;;
+}
+
+button {
+  border-style: none;
+}
+button:hover {
+  cursor: pointer;
+}
+button figure figcaption span{
+color: var(--COLOR_LINK);
+}
+button figure figcaption{
+color: var(--COLOR_LINK);
+}
+
+span.w_copyable.filterable {
+display: inline-block;
+}
+
+.w-input-txt{
+cursor: pointer;
 }

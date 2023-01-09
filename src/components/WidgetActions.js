@@ -6,7 +6,6 @@ import btn_save from "../img/btn_save.png";
 import btn_maximize from "../img/btn_maximize.png";
 import btn_minimize from "../img/btn_minimize.png";
 import btn_delete from "../img/btn_delete.png";
-import '../css/buttons.css';
 import { log } from '../Utilities'
 
 import $ from "jquery";
@@ -106,10 +105,10 @@ export default function Widget(props)
                 onChange={e => handleTitleChange(e.target.value, props.widget)}
             />
         </Editable>
-        <div className='chrome-btn-bar'>
+        <div className='buttons'>
             <img 
               id={`save-btn-${props.widget.id}`}
-              className='img-btn-save' 
+              className='img-btn save' 
               ref={saveBtnRef}
               onClick={async ()=> {
                   console.log('save button clicked', props.widget);

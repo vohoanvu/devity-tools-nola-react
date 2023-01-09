@@ -244,11 +244,11 @@ export default function DevityPanels(props)
       {
         Object.entries(wObject).map( ([key,value], index) => {
           return (
-            <div key={index} className="p-panel" data-panel={key}>
+            <div key={index} className="p-panel" data-panel={key} style={{display:'none'}}>
               <div className='p-chrome'>
                 <img src={btn_image_config} className="gear" alt="devity gear"/>
-                <span className="p-title">{key}</span>
-                <img className='add-btn' src={btn_add} onClick={()=>w_add(key, value)} alt="create widget"/>
+                <span className="title">{key}</span>
+                <img className='add' src={btn_add} onClick={()=>w_add(key, value)} alt="create widget"/>
               </div>
               <DragDropContext onDragEnd={(result)=>onDragEnd(result, key)}>
                 <Droppable droppableId="droppable" direction="horizontal">

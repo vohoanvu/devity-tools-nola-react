@@ -10,6 +10,7 @@ import $ from "jquery";
 import btn_save from "../img/btn_save.png";
 
 const devity_api = configData.DEVITY_API;
+const jira_token_uri = "https://id.atlassian.com/manage-profile/security/api-tokens";
 
 export default function Profile(props)
 {
@@ -151,7 +152,7 @@ export default function Profile(props)
         {
           isEditMode && (
             <img 
-              className='img-btn-save' 
+              className='img-btn save' 
               onClick={saveUserInterestsInDb} 
               src={btn_save} alt="save widget"/>
           )
@@ -192,6 +193,7 @@ export default function Profile(props)
           </div>
           <div>
             <h3>Atlassian API Token (Jira &amp; Confluence)</h3>
+            <p>You can create a token in Atlassian Cloud <a href={jira_token_uri} target="_blank">here</a></p>
             <JiraToken />
           </div>
 

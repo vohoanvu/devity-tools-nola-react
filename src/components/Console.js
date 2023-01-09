@@ -175,7 +175,7 @@ const Console = (props) =>
   return (
     <div id="console" className="console-max">
       <script src="https://apis.google.com/js/api.js"></script>
-      <div id='cmd_type_radio'>
+      <div className='cmd_type_radio'>
         <RadionButtonFilter /><label htmlFor="opt_search">Filter</label><br />
         <RadionButtonSearch /><label htmlFor="opt_filter">Search</label>
       </div>

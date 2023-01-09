@@ -1,15 +1,15 @@
 /* eslint-disable react/jsx-pascal-case */
-import React, { useEffect, useState, useRef, useContext } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState, useRef, useContext } from "react";
+import axios from "axios";
 import CONFIG from "../config.json";
-import WidgetActions from './WidgetActions';
+import WidgetActions from "./WidgetActions";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import btn_add from "../img/btn_add.png";
 import $ from "jquery";
-import { log } from '../Utilities';
-import W_Note from './WidgetNotes';
-import W_Link from './WidgetLinks';
-import W_Clipboard from './WidgetClipboard';
+import { log } from "../Utilities";
+import W_Note from "./WidgetNotes";
+import W_Link from "./WidgetLinks";
+import W_Clipboard from "./WidgetClipboard";
 import { UserContext } from "../api-integration/UserContext";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 const sso_url = CONFIG.SSO_URL;
@@ -28,16 +28,16 @@ export default function DevityPanels(props)
 
   useEffect(() => {
     async function fetchData() {
-      await axios.get(devity_api + '/api/widgets').then((res) => {
-            if (res.status === 401) window.location.replace(sso_url);
+      await axios.get(devity_api + "/api/widgets").then((res) => {
+        if (res.status === 401) window.location.replace(sso_url);
 
-            console.log("Get panels data");
-            console.log(res.data);
-            setWObject(res.data);
-        })
+        console.log("Get panels data");
+        console.log(res.data);
+        setWObject(res.data);
+      })
         .then(result => props.signalAllPanelRendered(true))
         .catch((err) => console.log(err));
-    };
+    }
 
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -49,13 +49,13 @@ export default function DevityPanels(props)
     let jsonContentObject = init_w_content(widgetType);
 
     const newWidget = {
-        key: widgetList.length+1,
-        w_content: JSON.stringify(jsonContentObject),
-        name: widgetType + " Widget",
-        order: widgetList.length+1,
-        w_type: widgetType,
-        height : 300,
-        width: 300
+      key: widgetList.length+1,
+      w_content: JSON.stringify(jsonContentObject),
+      name: widgetType + " Widget",
+      order: widgetList.length+1,
+      w_type: widgetType,
+      height : 300,
+      width: 300
     }
 
     w_create(newWidget, widgetType);
@@ -65,53 +65,53 @@ export default function DevityPanels(props)
     let jsonObject = {};
 
     switch (type) {
-      case "CLIPBOARD": //format: "{ CLIPBOARD: [ "string1", "string2" ] }"
-        jsonObject["CLIPBOARD"] = [];
-        return jsonObject;
-      case "NOTES":
-        jsonObject["NOTES"] = "<p></p>"; //format: "{ NOTES: "<p>html-encoded-string-from-TINY-editor</p>" }"
-        return jsonObject;
-      case "LINKS":
-        let jsonObjList = [];
-        jsonObject["hyperLink"] = "";
-        jsonObject["displayName"] = ""; //format: "[{ "hyperLink": "noladigital.net", "displayName": "NOLA" }]"
-        jsonObjList.push(jsonObject);
-        return jsonObjList;
-      default:
-        break;
+    case "CLIPBOARD": //format: "{ CLIPBOARD: [ "string1", "string2" ] }"
+      jsonObject["CLIPBOARD"] = [];
+      return jsonObject;
+    case "NOTES":
+      jsonObject["NOTES"] = "<p></p>"; //format: "{ NOTES: "<p>html-encoded-string-from-TINY-editor</p>" }"
+      return jsonObject;
+    case "LINKS":
+      var jsonObjList = [];
+      jsonObject["hyperLink"] = "";
+      jsonObject["displayName"] = ""; //format: "[{ "hyperLink": "noladigital.net", "displayName": "NOLA" }]"
+      jsonObjList.push(jsonObject);
+      return jsonObjList;
+    default:
+      break;
     }
   }
 
   async function w_create(postBody, type) {
     delete postBody["key"];
-    $('div[data-panel=' + type + '] .gear').addClass('rotate');
+    $("div[data-panel=" + type + "] .gear").addClass("rotate");
     await axios.post(devity_api + "/api/widgets/", { ...postBody })
-          .then(response => {
-            return response.data
-          })
-          .then(result => {
-              postBody["id"] = result.id;
-              wObject[type].splice(0, 0, postBody);
-              setWObject({...wObject});
-              $('div[data-panel=' + type + '] .gear').removeClass('rotate');
-              log("Created " + type + " widget.")
-          })
-          .catch(err => console.log(err));
+      .then(response => {
+        return response.data
+      })
+      .then(result => {
+        postBody["id"] = result.id;
+        wObject[type].splice(0, 0, postBody);
+        setWObject({...wObject});
+        $("div[data-panel=" + type + "] .gear").removeClass("rotate");
+        log("Created " + type + " widget.")
+      })
+      .catch(err => console.log(err));
   }
 
   async function w_update(putBody, type) {
     delete putBody["key"];
-    $('div[data-panel=' + type + '] .gear').addClass('rotate');
+    $("div[data-panel=" + type + "] .gear").addClass("rotate");
     const result = await axios.put(devity_api + "/api/widgets", { ...putBody })
-          .then(response => {
-            console.log(response.status, '...on update');
-            return response.data;
-          })
-          .then(result => {
-              $('div[data-panel=' + type + '] .gear').removeClass('rotate');
-              return result;
-          })
-          .catch(err => console.log(err));
+      .then(response => {
+        console.log(response.status, "...on update");
+        return response.data;
+      })
+      .then(result => {
+        $("div[data-panel=" + type + "] .gear").removeClass("rotate");
+        return result;
+      })
+      .catch(err => console.log(err));
 
     return result;
   }
@@ -121,25 +121,25 @@ export default function DevityPanels(props)
     
     switch (widget.w_type)
     {
-      case "CLIPBOARD":
-        putBody = widget;
-        break;
+    case "CLIPBOARD":
+      putBody = widget;
+      break;
 
-      case "LINKS":
-        putBody = widget;
-        break;
+    case "LINKS":
+      putBody = widget;
+      break;
 
-      case "NOTES":
-        const jsonObj = {};
-        jsonObj[widget.w_type] = currentContent;
-        putBody = {
-          ...widget,
-          w_content: JSON.stringify(jsonObj)
-        };
+    case "NOTES":
+      var jsonObj = {};
+      jsonObj[widget.w_type] = currentContent;
+      putBody = {
+        ...widget,
+        w_content: JSON.stringify(jsonObj)
+      };
 
-        break;
-      default:
-        break;
+      break;
+    default:
+      break;
     }
 
     setIsReadyToSave({
@@ -154,26 +154,26 @@ export default function DevityPanels(props)
     const widgetType = userContext.activePanel;
     switch (widget.w_type)
     {
-      case "CLIPBOARD":
-        return <W_Clipboard 
-          widget={widget} 
-          sendContentToParent={sendPUTContentToParent}
-          activePanel={widgetType}/>;
+    case "CLIPBOARD":
+      return <W_Clipboard 
+        widget={widget} 
+        sendContentToParent={sendPUTContentToParent}
+        activePanel={widgetType}/>;
   
-      case "LINKS":
-        return <W_Link 
-          widget={widget} 
-          sendContentToParent={sendPUTContentToParent}
-          activePanel={widgetType}/>;
+    case "LINKS":
+      return <W_Link 
+        widget={widget} 
+        sendContentToParent={sendPUTContentToParent}
+        activePanel={widgetType}/>;
   
-      case "NOTES":
-        return <W_Note 
-          widget={widget} 
-          sendContentToParent={sendPUTContentToParent} 
-          activePanel={widgetType}/>;
+    case "NOTES":
+      return <W_Note 
+        widget={widget} 
+        sendContentToParent={sendPUTContentToParent} 
+        activePanel={widgetType}/>;
   
-      default:
-        return <div className="w-container">LOADING...</div>;
+    default:
+      return <div className="w-container">LOADING...</div>;
     }
 
   }
@@ -205,7 +205,7 @@ export default function DevityPanels(props)
     });
 
     if (widgetType === "NOTES") {
-      console.log('TINY MCE:', $('.mce-content-body'));
+      console.log("TINY MCE:", $(".mce-content-body"));
       //$('.mce-content-body').activeEditor.setContent(newItems[result.destination.index].w_content);
     }
 
@@ -213,16 +213,16 @@ export default function DevityPanels(props)
   };
 
   async function onDragEndSaveInDb(orderedWidgetList, type) {
-    console.log('new order: ', orderedWidgetList);
+    console.log("new order: ", orderedWidgetList);
     let postBody = {};
     orderedWidgetList.forEach((item, index) => {
       postBody[item.id] = index;
     });
-    $('div[data-panel=' + type + '] .gear').addClass('rotate');
+    $("div[data-panel=" + type + "] .gear").addClass("rotate");
     return await axios.post(devity_api + "/api/widgets/order", { ...postBody })
-          .then(response => console.log('On Order POST Response: ', response.status))
-          .then(result => $('div[data-panel=' + type + '] .gear').removeClass('rotate'))
-          .catch(err => console.log(err));
+      .then(response => console.log("On Order POST Response: ", response.status))
+      .then(result => $("div[data-panel=" + type + "] .gear").removeClass("rotate"))
+      .catch(err => console.log(err));
   }
 
   const getItemStyle = (isDragging, draggableStyle) => ({
@@ -233,7 +233,7 @@ export default function DevityPanels(props)
   });
 
   const getListStyle = (isDraggingOver) => ({
-    background: isDraggingOver ? "lightblue" : "none",
+    background: isDraggingOver ? "transparent" : "none",
     display: "flex",
     overflow: "auto"
   });
@@ -243,11 +243,11 @@ export default function DevityPanels(props)
       {
         Object.entries(wObject).map( ([key,value], index) => {
           return (
-            <div key={index} className="p-panel" data-panel={key} style={{display:'none'}}>
+            <div key={index} className="p-panel" data-panel={key} style={{display:"none"}}>
               <div className='p-chrome'>
                 <img src={btn_image_config} className="gear" alt="devity gear"/>
                 <span className="title">{key}</span>
-                <img className='add' src={btn_add} onClick={()=>w_add(key, value)} alt="create widget"/>
+                <img className='add' src={btn_add} onClick={()=>w_add(key, value)} alt="create widget" aria-hidden="true"/>
               </div>
               <DragDropContext onDragEnd={(result)=>onDragEnd(result, key)}>
                 <Droppable droppableId="droppable" direction="horizontal">
@@ -259,40 +259,40 @@ export default function DevityPanels(props)
                         style={getListStyle(snapshot.isDraggingOver)}
                         {...provided.droppableProps}
                       >
-                          {
-                            value.map((w, index) => {
-                              return (
-                                  <Draggable index={index} key={w.id} draggableId={w.id}>
-                                    {
-                                      (provided, snapshot) => (
-                                        <div 
-                                          data-w_id={w.id}
-                                          className="w-container min"
-                                          ref={provided.innerRef}
-                                          {...provided.draggableProps}
-                                          style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
-                                        >
-                                          <div 
-                                            className='w-chrome'
-                                            {...provided.dragHandleProps}
-                                          >
-                                            <WidgetActions
-                                              widget={w}
-                                              setWidgetObjState={setWObject}
-                                              widgetObjState={wObject}
-                                              inputRef={inputRef}
-                                              callPUTRequest={w_update}
-                                              isReadyToSave={isReadyToSave}
-                                            />
-                                          </div>
-                                          { w_render(w) }
-                                        </div>
-                                      )
-                                    }
-                                  </Draggable>
-                              );
-                            })
-                          }
+                        {
+                          value.map((w, index) => {
+                            return (
+                              <Draggable index={index} key={w.id} draggableId={w.id}>
+                                {
+                                  (provided, snapshot) => (
+                                    <div 
+                                      data-w_id={w.id}
+                                      className="w-container min"
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
+                                    >
+                                      <div 
+                                        className='w-chrome'
+                                        {...provided.dragHandleProps}
+                                      >
+                                        <WidgetActions
+                                          widget={w}
+                                          setWidgetObjState={setWObject}
+                                          widgetObjState={wObject}
+                                          inputRef={inputRef}
+                                          callPUTRequest={w_update}
+                                          isReadyToSave={isReadyToSave}
+                                        />
+                                      </div>
+                                      { w_render(w) }
+                                    </div>
+                                  )
+                                }
+                              </Draggable>
+                            );
+                          })
+                        }
                         {provided.placeholder}
                       </div>
                     )

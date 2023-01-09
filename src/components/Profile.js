@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
-import ViewModeSelection from './ViewModeSelection';
-import JiraToken from './JiraToken';
+import ViewModeSelection from "./ViewModeSelection";
+import JiraToken from "./JiraToken";
 import { UserContext } from "../api-integration/UserContext";
-import Editable from './Editable';
-import axios from 'axios';
+import Editable from "./Editable";
+import axios from "axios";
 import configData from "../config.json";
 import $ from "jquery";
 import btn_save from "../img/btn_save.png";
@@ -19,8 +19,8 @@ export default function Profile(props)
   const [userProfile, setUserProfile] = React.useState({});
   const [isEditMode, setIsEditMode] = React.useState(false);
   const [searchResultSelect, setSearchResultSelect] = React.useState({
-    search_res_google: JSON.parse(localStorage.getItem('search_res_google')) ?? true,
-    search_res_youtube: JSON.parse(localStorage.getItem('search_res_youtube')) ?? true
+    search_res_google: JSON.parse(localStorage.getItem("search_res_google")) ?? true,
+    search_res_youtube: JSON.parse(localStorage.getItem("search_res_youtube")) ?? true
   });
 
   useEffect(() => {
@@ -55,53 +55,53 @@ export default function Profile(props)
   function updateUserProfileOnBlur(evenTarget) {
 
     switch (evenTarget.name) {
-      case 'userName':
-        setUserProfile({
-          ...userProfile,
-          name: evenTarget.value
-        });
-        break;
-      case 'userProfession':
-        setUserProfile({
-          ...userProfile,
-          profession: evenTarget.value
-        });
-        break;
-      default:
-        <div id="header_container">…</div>
-        break;
+    case "userName":
+      setUserProfile({
+        ...userProfile,
+        name: evenTarget.value
+      });
+      break;
+    case "userProfession":
+      setUserProfile({
+        ...userProfile,
+        profession: evenTarget.value
+      });
+      break;
+    default:
+      <div id="header_container">…</div>
+      break;
     }
     setIsEditMode(false);
     updateProfileInDb(userProfile);
   }
 
   async function updateProfileInDb(putBody) {
-    $('div[data-panel=PROFILE] .gear').addClass('rotate');
-    return await axios.put(devity_api + '/api/profile', {...putBody})
-          .then((response) => {
-            console.log('updateProfileInDb status: ', response.status);
-            return response.data;
-          }).then((result) => {
-            $('div[data-panel=PROFILE] .gear').removeClass('rotate');
-            return result;
-          })
-          .catch((error) => console.log(error));
+    $("div[data-panel=PROFILE] .gear").addClass("rotate");
+    return await axios.put(devity_api + "/api/profile", {...putBody})
+      .then((response) => {
+        console.log("updateProfileInDb status: ", response.status);
+        return response.data;
+      }).then((result) => {
+        $("div[data-panel=PROFILE] .gear").removeClass("rotate");
+        return result;
+      })
+      .catch((error) => console.log(error));
   }
 
   async function saveUserInterestsInDb() {
     const selectedInterests = userProfile.user_interests.filter(i => i.IsUserSelected).map(i => i.Id);
     console.log("userSeletecd Interest Ids...", selectedInterests);
-    $('div[data-panel=PROFILE] .gear').addClass('rotate');
+    $("div[data-panel=PROFILE] .gear").addClass("rotate");
 
-    await axios.post(devity_api + '/api/userinterests', [ ...selectedInterests ])
-          .then((response) => {
-            console.log('saveUserInterestsInDb status: ', response.status);
-            if (response.status === 200) {
-              setIsEditMode(false);
-              $('div[data-panel=PROFILE] .gear').removeClass('rotate');
-            }
-          })
-          .catch((error) => console.log(error));
+    await axios.post(devity_api + "/api/userinterests", [ ...selectedInterests ])
+      .then((response) => {
+        console.log("saveUserInterestsInDb status: ", response.status);
+        if (response.status === 200) {
+          setIsEditMode(false);
+          $("div[data-panel=PROFILE] .gear").removeClass("rotate");
+        }
+      })
+      .catch((error) => console.log(error));
   }
 
   function handleInterestsOnChange(e) {
@@ -119,8 +119,8 @@ export default function Profile(props)
   }
 
   function handleSearchResultSelectOnChange(e) {
-    localStorage.setItem('search_res_google', $('#google-results').prop('checked'));
-    localStorage.setItem('search_res_youtube', $('#youtube-results').prop('checked'));
+    localStorage.setItem("search_res_google", $("#google-results").prop("checked"));
+    localStorage.setItem("search_res_youtube", $("#youtube-results").prop("checked"));
 
     setSearchResultSelect({
       ...searchResultSelect,
@@ -137,7 +137,7 @@ export default function Profile(props)
   }
 
   return (
-    <div className="p-panel" style={{display:'none'}} data-panel="PROFILE">
+    <div className="p-panel" style={{display:"none"}} data-panel="PROFILE">
       <div className='p-chrome chrome-btn-profile'>
         <img src={btn_image_config} className="gear" alt="devity gear" />
         <span className="p-title">Profile</span>
@@ -146,7 +146,8 @@ export default function Profile(props)
             <img 
               className='img-btn save' 
               onClick={saveUserInterestsInDb} 
-              src={btn_save} alt="save widget"/>
+              src={btn_save} alt="save widget"
+              aria-hidden="true"/>
           )
         }
         
@@ -162,8 +163,9 @@ export default function Profile(props)
             <p>Select results types for search command.</p>
             <form>
               <ul>
-                <li onClick={() =>  document.getElementById("google-results").click()}>
+                <li>
                   <input 
+                    onClick={() => document.getElementById("google-results").click()}
                     type="checkbox" 
                     id="google-results" 
                     name="search_res_google"
@@ -171,8 +173,9 @@ export default function Profile(props)
                     onChange={handleSearchResultSelectOnChange}/>
                   <label htmlFor="google-results">Google Search Results</label>
                 </li>
-                <li onClick={() =>  document.getElementById("youtube-results").click()}>
+                <li>
                   <input 
+                    onClick={() => document.getElementById("youtube-results").click()}
                     type="checkbox" 
                     id="youtube-results" 
                     name="search_res_youtube"
@@ -196,21 +199,21 @@ export default function Profile(props)
         <div className='personal card'>
           <h1>Techical Profile</h1>
           <p>Help the Technocore AIs help you by filling out your technical profile.</p>
-          <h2>{ userProfile.paid ? 'Premium Account' : 'Free Account' }</h2>
+          <h2>{ userProfile.paid ? "Premium Account" : "Free Account" }</h2>
           <button type="submit" hidden onClick={upgradeProfileMembership}>Upgrade</button>
 
-        <Editable 
+          <Editable 
             displayText={<h1>{userProfile.name}</h1>}
             inputType="input" 
             childInputRef={inputRef}
             passFromChildToParent={updateUserProfileOnBlur}>
             <input
-                ref={inputRef}
-                type="text"
-                name="userName"
-                placeholder="Enter new username"
-                value={userProfile.name}
-                onChange={e => handleUsernameOnChange(e.target.value)}
+              ref={inputRef}
+              type="text"
+              name="userName"
+              placeholder="Enter new username"
+              value={userProfile.name}
+              onChange={e => handleUsernameOnChange(e.target.value)}
             />
           </Editable><br />
           <Editable 
@@ -223,9 +226,9 @@ export default function Profile(props)
               name='userProfession' 
               value={userProfile.profession} 
               onChange={e=>handleUserProfessionOnChange(e.target.value)}>
-                <option value="Software Engineer">Software Engineer</option>
-                <option value="Infrastructure Engineer">Infrastructure Engineer</option>
-                <option value="UX Engineer">UX Engineer</option>
+              <option value="Software Engineer">Software Engineer</option>
+              <option value="Infrastructure Engineer">Infrastructure Engineer</option>
+              <option value="UX Engineer">UX Engineer</option>
             </select>
           </Editable><br />
 
@@ -234,17 +237,21 @@ export default function Profile(props)
             {
               userProfile.user_interests?.map((i, index) => {
                 return (
-                  <li key={index}
-                      onClick={() =>  document.getElementById(i.Id).click()}>
+                  <li 
+                    key={index}
+                    onClick={() => document.getElementById(i.Id).click()}
+                    aria-hidden="true">
                     <input 
-                        type="checkbox" 
-                        onClick={() =>  document.getElementById(i.Id).click()}
-                        id={i.Id}
-                        name={i.Title} 
-                        value={i.Id} 
-                        checked={i.IsUserSelected} 
-                        onChange={handleInterestsOnChange}/>
-                    <label onClick={() =>  document.getElementById(i.Id).click()} htmlFor={i.Id}>{i.Title}</label>
+                      type="checkbox" 
+                      onClick={() => document.getElementById(i.Id).click()}
+                      id={i.Id}
+                      name={i.Title} 
+                      value={i.Id} 
+                      checked={i.IsUserSelected} 
+                      onChange={handleInterestsOnChange}/>
+                    <label 
+                      onClick={() => document.getElementById(i.Id).click()} htmlFor={i.Id} 
+                      aria-hidden="true">{i.Title}</label>
                   </li>
                 );
               })

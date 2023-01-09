@@ -44,22 +44,22 @@ export default function Profile(props)
     setIsEditMode(true);
   }
 
-  function handleUserEmailOnChange(newEmail) {
-    setUserProfile({
-      ...userProfile,
-      email: newEmail
-    });
-    setIsEditMode(true);
-  }
+  // function handleUserEmailOnChange(newEmail) {
+  //   setUserProfile({
+  //     ...userProfile,
+  //     email: newEmail
+  //   });
+  //   setIsEditMode(true);
+  // }
 
-  async function tag_click(id){
-    var el = document.getElementById(id);
-    el.trigger('click');
-  }
+  // async function tag_click(id){
+  //   var el = document.getElementById(id);
+  //   el.trigger('click');
+  // }
 
-  function handleJiraTokenOnBlur(evenTarget) {
+  // function handleJiraTokenOnBlur(evenTarget) {
 
-  }
+  // }
 
   function updateUserProfileOnBlur(evenTarget) {
 
@@ -77,7 +77,8 @@ export default function Profile(props)
         });
         break;
       default:
-        break;<div id="header_container">…</div>
+        <div id="header_container">…</div>
+        break;
     }
     setIsEditMode(false);
     updateProfileInDb(userProfile);
@@ -193,7 +194,10 @@ export default function Profile(props)
           </div>
           <div>
             <h3>Atlassian API Token (Jira &amp; Confluence)</h3>
-            <p>You can create a token in Atlassian Cloud <a href={jira_token_uri} target="_blank">here</a></p>
+            <p>
+              You can create a token in Atlassian Cloud 
+              <a href={jira_token_uri} target="_blank" rel="noreferrer">here</a>
+            </p>
             <JiraToken />
           </div>
 

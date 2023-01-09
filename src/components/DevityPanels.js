@@ -45,14 +45,13 @@ export default function DevityPanels(props)
 
 
   async function w_add(widgetType, widgetList) {
-    let newName = (widgetList.length+1).toString();
 
     let jsonContentObject = init_w_content(widgetType);
 
     const newWidget = {
         key: widgetList.length+1,
         w_content: JSON.stringify(jsonContentObject),
-        name: "TEST Widget " + newName,
+        name: widgetType + " Widget",
         order: widgetList.length+1,
         w_type: widgetType,
         height : 300,
@@ -238,7 +237,7 @@ export default function DevityPanels(props)
     display: "flex",
     overflow: "auto"
   });
-  //style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
+
   return (
     <React.Fragment>
       {

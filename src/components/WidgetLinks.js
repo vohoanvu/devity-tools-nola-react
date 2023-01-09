@@ -42,7 +42,7 @@ export default function Links(props)
         };
 
         fetchWidgetContent();
-        
+        $(`#save-btn-${props.widget.id}`).hide();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.widgetm, props.activePanel]);
 
@@ -110,6 +110,7 @@ export default function Links(props)
             ...links,
             [evt.target.name]: value
         });
+        $(`#save-btn-${props.widget.id}`).show();
     }
 
     function openEditForm() {
@@ -122,6 +123,7 @@ export default function Links(props)
         setLinks({
             ...links
         });
+        $(`#save-btn-${props.widget.id}`).show();
         sendLinkContentToParentTobeSaved();
     }
     

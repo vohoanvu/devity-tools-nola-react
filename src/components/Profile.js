@@ -52,15 +52,6 @@ export default function Profile(props)
   //   setIsEditMode(true);
   // }
 
-  // async function tag_click(id){
-  //   var el = document.getElementById(id);
-  //   el.trigger('click');
-  // }
-
-  // function handleJiraTokenOnBlur(evenTarget) {
-
-  // }
-
   function updateUserProfileOnBlur(evenTarget) {
 
     switch (evenTarget.name) {

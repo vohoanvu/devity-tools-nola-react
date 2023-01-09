@@ -417,6 +417,10 @@ list-style-type: none;
 
 }
 
+div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
+{
+  display: block;
+}
   .p-chrome{
     display: flex;
     align-items: center;

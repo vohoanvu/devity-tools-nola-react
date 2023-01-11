@@ -21,7 +21,7 @@ export default function Header(props)
       onNavigate(curr_view);
     }
     else{
-      onNavigate("ALL");
+      onNavigate("DEVITY");
     }
   },[userContext]) 
 
@@ -57,7 +57,7 @@ export default function Header(props)
   return (<div id="navigation" className="nav nav-max">
 
     <div id="logo">
-      <button id="nav_all" onClick={()=>onNavigateClicked("ALL")}>
+      <button id="nav_all" onClick={()=>onNavigateClicked("DEVITY")}>
         <img src={logo} className="logo" alt="logo" />
       </button>
     </div>

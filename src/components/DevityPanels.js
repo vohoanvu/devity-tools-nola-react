@@ -10,6 +10,7 @@ import { log } from "../Utilities";
 import W_Note from "./WidgetNotes";
 import W_Link from "./WidgetLinks";
 import W_Clipboard from "./WidgetClipboard";
+import RssDevity from "./Widgets/RSS";
 import { UserContext } from "../api-integration/UserContext";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 const sso_url = CONFIG.SSO_URL;
@@ -136,7 +137,10 @@ export default function DevityPanels(props)
         ...widget,
         w_content: JSON.stringify(jsonObj)
       };
-
+      break;
+    
+    case "DEVITY":
+      putBody = widget;
       break;
     default:
       break;
@@ -171,6 +175,12 @@ export default function DevityPanels(props)
         widget={widget} 
         sendContentToParent={sendPUTContentToParent} 
         activePanel={widgetType}/>;
+
+    case "DEVITY":
+      return <RssDevity
+        widget={widget} 
+        sendContentToParent={sendPUTContentToParent} 
+        activePanel={widgetType}/>
   
     default:
       return <div className="w-container">LOADING...</div>;

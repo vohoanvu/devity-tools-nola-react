@@ -20,74 +20,74 @@ const cookies = new Cookies();
 
 export default function App() 
 {
-  const search = useLocation().search;
-  const token = new URLSearchParams(search).get("token");
-  let bearer = cookies.get(COOKIE_NAME);
-  const [searchResult, setSearchResult] = useState([]);
-  const [videoResult, setvideoResult] = useState([]);
-  const [isAllPanelRendered, setIsAllPanelRendered] = useState(false);
+    const search = useLocation().search;
+    const token = new URLSearchParams(search).get("token");
+    let bearer = cookies.get(COOKIE_NAME);
+    const [searchResult, setSearchResult] = useState([]);
+    const [videoResult, setvideoResult] = useState([]);
+    const [isAllPanelRendered, setIsAllPanelRendered] = useState(false);
 
-  if (token) {
-    (async () => {
-      try{
-        const tk = { token: token };
-        let response = await axios.post(API_URL + "/api/sessions", tk);
-        if(response.status !== 200){
-          window.location.replace(SSO_URL);
-        }
-        let bearer = "Devity " + response.data.id;
-        let expires = "expires="+ response.data.expires;
+    if (token) {
+        (async () => {
+            try{
+                const tk = { token: token };
+                let response = await axios.post(API_URL + "/api/sessions", tk);
+                if(response.status !== 200){
+                    window.location.replace(SSO_URL);
+                }
+                let bearer = "Devity " + response.data.id;
+                let expires = "expires="+ response.data.expires;
+                axios.defaults.headers.common["Authorization"] = bearer;
+                cookies.set(COOKIE_NAME, bearer, expires, { path: "/" });
+
+                window.location.replace(DEVITY_URL);
+            }
+            catch(error){
+                console.log(Object.keys(error), error.message);
+                window.location.replace(SSO_URL);
+            }
+        })();
+    } else if(bearer){
         axios.defaults.headers.common["Authorization"] = bearer;
-        cookies.set(COOKIE_NAME, bearer, expires, { path: "/" });
-
-        window.location.replace(DEVITY_URL);
-      }
-      catch(error){
-        console.log(Object.keys(error), error.message);
+    }
+    else
+    {
         window.location.replace(SSO_URL);
-      }
-    })();
-  } else if(bearer){
-    axios.defaults.headers.common["Authorization"] = bearer;
-  }
-  else
-  {
-    window.location.replace(SSO_URL);
-  }
+    }
 
-  function renderResults(childResultData) {
-    setSearchResult(childResultData);
-  }
+    function renderResults(childResultData) {
+        setSearchResult(childResultData);
+    }
 
-  function renderVideoResults(childResultData) {
-    setvideoResult(childResultData);
-  }
+    function renderVideoResults(childResultData) {
+        setvideoResult(childResultData);
+    }
 
 
-  function renderSelectedPanels(isAllPanelRendered) {
-    setIsAllPanelRendered(isAllPanelRendered);
-  }
+    function renderSelectedPanels(isAllPanelRendered) {
+        setIsAllPanelRendered(isAllPanelRendered);
+    }
 
 
-  return (
+    return (
 
-    <div className="App">
-      <UserProvider>
-        <div id="header_container">
-          <Header isPanelsRendered={isAllPanelRendered}></Header>
-          <Console 
-            passGoogleResultFromChildToParent={renderResults}
-            passvideoResultFromChildToParent={renderVideoResults}
-          />
+        <div className="App">
+            <UserProvider>
+                <div id="header_container">
+                    <Header isPanelsRendered={isAllPanelRendered}></Header>
+                    <Console 
+                        passGoogleResultFromChildToParent={renderResults}
+                        passvideoResultFromChildToParent={renderVideoResults}
+                    />
+                </div>
+                <DevityPanels signalAllPanelRendered={renderSelectedPanels}></DevityPanels>
+                <Profile COOKIE_NAME={COOKIE_NAME}></Profile>
+                <Libraries></Libraries>
+                <SearchResults
+                    searchData={searchResult}
+                    videoData={videoResult}/>
+            </UserProvider>
         </div>
-        <DevityPanels signalAllPanelRendered={renderSelectedPanels}></DevityPanels>
-        <Profile COOKIE_NAME={COOKIE_NAME}></Profile>
-        <Libraries></Libraries>
-        <SearchResults
-          searchData={searchResult}
-          videoData={videoResult}/>
-      </UserProvider>
-    </div>
     
-  );
+    );
 }

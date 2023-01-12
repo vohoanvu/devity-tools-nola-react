@@ -865,16 +865,21 @@ button:hover {
   cursor: pointer;
 }
 button figure figcaption span{
-color: var(--COLOR_LINK);
+  color: var(--COLOR_LINK);
 }
 button figure figcaption{
-color: var(--COLOR_LINK);
+  color: var(--COLOR_LINK);
 }
 
 span.w_copyable.filterable {
-display: inline-block;
+  display: inline-block;
 }
 
-.w-input-txt{
-cursor: pointer;
+.w-input-txt {
+  cursor: pointer;
 }
+
+.add-subtype {
+  cursor: pointer;
+}
+

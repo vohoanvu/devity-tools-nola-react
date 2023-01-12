@@ -13,145 +13,145 @@ const devity_api = CONFIG.DEVITY_API;
 
 export default function Clipboard(props)
 {
-  const [clipboardContent, setClipboardContent] = useState({
-    currentText: "",
-    content: null,
-    widget: {}
-  });
-  const inputRef = useRef();
+    const [clipboardContent, setClipboardContent] = useState({
+        currentText: "",
+        content: null,
+        widget: {}
+    });
+    const inputRef = useRef();
 
-  useEffect(() => {
-    const curr_view = props.activePanel;
-    const getWidgetContent = async () => {
-      if ((curr_view && curr_view !== "CLIPBOARD" && curr_view !== "ALL") || 
+    useEffect(() => {
+        const curr_view = props.activePanel;
+        const getWidgetContent = async () => {
+            if ((curr_view && curr_view !== "CLIPBOARD" && curr_view !== "ALL") || 
             (curr_view === "CLIPBOARD" && clipboardContent.widget.w_content)) return;
 
-      const widget = await getWidgetContentById(props.widget.id);
-      let contentArray = [];
-      if (Object.keys(JSON.parse(widget.w_content)).length !== 0) {
-        contentArray = JSON.parse(widget.w_content)["CLIPBOARD"];
-      }
+            const widget = await getWidgetContentById(props.widget.id);
+            let contentArray = [];
+            if (Object.keys(JSON.parse(widget.w_content)).length !== 0) {
+                contentArray = JSON.parse(widget.w_content)["CLIPBOARD"];
+            }
 
-      setClipboardContent({
-        ...clipboardContent,
-        content: contentArray,
-        widget: widget
-      });
-    }
+            setClipboardContent({
+                ...clipboardContent,
+                content: contentArray,
+                widget: widget
+            });
+        }
 
-    getWidgetContent();
-    $(`#save-btn-${props.widget.id}`).hide();
+        getWidgetContent();
+        $(`#save-btn-${props.widget.id}`).hide();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.widget.id, props.activePanel]);
+    }, [props.widget.id, props.activePanel]);
 
-  async function getWidgetContentById(w_id) {
-    return await axios.get(devity_api + "/api/widgets/"+ w_id)
-      .then((res) => {
-        if (res.status === 401) window.location.replace(sso_url);
+    async function getWidgetContentById(w_id) {
+        return await axios.get(devity_api + "/api/widgets/"+ w_id)
+            .then((res) => {
+                if (res.status === 401) window.location.replace(sso_url);
 
-        //console.log("Get CLIPBOARD widget");
-        //console.log(res.data);
-        return res.data;
-      }).then(result => result)
-      .catch((err) => console.log(err));
-  }
-
-  async function updateWidgetContent(currentContentArray, type) {
-    let jsonObject = JSON.parse(clipboardContent.widget.w_content);
-    jsonObject["CLIPBOARD"] = currentContentArray;
-
-    const putBody = {
-      ...clipboardContent.widget,
-      w_content: JSON.stringify(jsonObject)
+                //console.log("Get CLIPBOARD widget");
+                //console.log(res.data);
+                return res.data;
+            }).then(result => result)
+            .catch((err) => console.log(err));
     }
 
-    await props.sendContentToParent(putBody, null, null);
-  }
+    async function updateWidgetContent(currentContentArray, type) {
+        let jsonObject = JSON.parse(clipboardContent.widget.w_content);
+        jsonObject["CLIPBOARD"] = currentContentArray;
 
-  function handleContentOnChange(e) {
-    setClipboardContent({
-      ...clipboardContent,
-      currentText: e.target.value
-    });
-    $(`#save-btn-${props.widget.id}`).show();
-  }
+        const putBody = {
+            ...clipboardContent.widget,
+            w_content: JSON.stringify(jsonObject)
+        }
 
-  function onBlurClipboardContent(eventTarget) {
-    if (eventTarget.value.length === 0) return;
+        await props.sendContentToParent(putBody, null, null);
+    }
+
+    function handleContentOnChange(e) {
+        setClipboardContent({
+            ...clipboardContent,
+            currentText: e.target.value
+        });
+        $(`#save-btn-${props.widget.id}`).show();
+    }
+
+    function onBlurClipboardContent(eventTarget) {
+        if (eventTarget.value.length === 0) return;
 
 
-    clipboardContent.content.splice(0, 0, eventTarget.value);
-    setClipboardContent({
-      ...clipboardContent,
-      currentText: ""
-    });
-    updateWidgetContent(clipboardContent.content, clipboardContent.widget.w_type);
-  }
+        clipboardContent.content.splice(0, 0, eventTarget.value);
+        setClipboardContent({
+            ...clipboardContent,
+            currentText: ""
+        });
+        updateWidgetContent(clipboardContent.content, clipboardContent.widget.w_type);
+    }
 
-  const handleItemClick = event => {
-    var text = $(event.currentTarget).data("copy");
+    const handleItemClick = event => {
+        var text = $(event.currentTarget).data("copy");
     
-    $(event.currentTarget).animate({ opacity: "0.1" }, "fast");
-    $(event.currentTarget).animate({ opacity: "1" }, "fast");
+        $(event.currentTarget).animate({ opacity: "0.1" }, "fast");
+        $(event.currentTarget).animate({ opacity: "1" }, "fast");
         
     
-    navigator.clipboard.writeText(text).then(function() {
-      console.log(text);
-    }, function(err) {
-      console.error("Async: Could not copy text: ", err);
-    });
+        navigator.clipboard.writeText(text).then(function() {
+            console.log(text);
+        }, function(err) {
+            console.error("Async: Could not copy text: ", err);
+        });
     
-  };
+    };
 
-  function handleRemoveClipboard(event) {
-    const index = $(event.currentTarget).parent().index();
-    clipboardContent.content.splice(index, 1);
-    setClipboardContent({
-      ...clipboardContent
-    });
-    $(`#save-btn-${props.widget.id}`).show();
-    updateWidgetContent(clipboardContent.content, "CLIPBOARD");
-  }
+    function handleRemoveClipboard(event) {
+        const index = $(event.currentTarget).parent().index();
+        clipboardContent.content.splice(index, 1);
+        setClipboardContent({
+            ...clipboardContent
+        });
+        $(`#save-btn-${props.widget.id}`).show();
+        updateWidgetContent(clipboardContent.content, "CLIPBOARD");
+    }
 
-  return (
-    <div className='widget clipboard'>
-      <div>
-        <form id="contentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
-          <img style={{ width: "10px", height: "10px"}} className='add-btn' src={btn_add} alt="create widget"/>
-          <Editable 
-            displayText={<span>{clipboardContent.currentText || "add"}</span>}
-            inputType="input" 
-            childInputRef={inputRef}
-            passFromChildToParent={onBlurClipboardContent}>
-            <input
-              ref={inputRef}
-              type="text"
-              name="clipboardContent"
-              placeholder=""
-              value={clipboardContent.currentText}
-              onChange={handleContentOnChange}
-            />
-          </Editable>
-        </form>
-      </div>
-      <div className='w_overflowable'>
-        <ul>
-          {
-            !clipboardContent.content ? (
-              <div style={{ display: "flex", justifyContent: "center"}}>
-                <div className="loader"></div>
-              </div>
-            ) : (
-              clipboardContent.content.map( (data, index) => 
-                <li key={index}>
-                  <span className='w_copyable filterable truncated' title={currate_title(data)} data-copy={data} onClick={handleItemClick} aria-hidden="true">{abbriviate(data)}</span>
-                  <span className='w_copyable filterable non-truncated' style={{display:"none"}}  data-copy={data} onClick={handleItemClick} aria-hidden="true">{data}</span>
-                  <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveClipboard} aria-hidden="true"/>
-                </li>)
-            )
-          }
-        </ul>
-      </div>
-    </div>
-  );
+    return (
+        <div className='widget clipboard'>
+            <div>
+                <form id="contentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
+                    <img style={{ width: "10px", height: "10px"}} className='add-btn' src={btn_add} alt="create widget"/>
+                    <Editable 
+                        displayText={<span>{clipboardContent.currentText || "add"}</span>}
+                        inputType="input" 
+                        childInputRef={inputRef}
+                        passFromChildToParent={onBlurClipboardContent}>
+                        <input
+                            ref={inputRef}
+                            type="text"
+                            name="clipboardContent"
+                            placeholder=""
+                            value={clipboardContent.currentText}
+                            onChange={handleContentOnChange}
+                        />
+                    </Editable>
+                </form>
+            </div>
+            <div className='w_overflowable'>
+                <ul>
+                    {
+                        !clipboardContent.content ? (
+                            <div style={{ display: "flex", justifyContent: "center"}}>
+                                <div className="loader"></div>
+                            </div>
+                        ) : (
+                            clipboardContent.content.map( (data, index) => 
+                                <li key={index}>
+                                    <span className='w_copyable filterable truncated' title={currate_title(data)} data-copy={data} onClick={handleItemClick} aria-hidden="true">{abbriviate(data)}</span>
+                                    <span className='w_copyable filterable non-truncated' style={{display:"none"}}  data-copy={data} onClick={handleItemClick} aria-hidden="true">{data}</span>
+                                    <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveClipboard} aria-hidden="true"/>
+                                </li>)
+                        )
+                    }
+                </ul>
+            </div>
+        </div>
+    );
 }

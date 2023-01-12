@@ -12,100 +12,100 @@ import { UserContext } from "../api-integration/UserContext";
 
 export default function Header(props) 
 {
-  const userContext = useContext(UserContext);
+    const userContext = useContext(UserContext);
 
-  useEffect(()=>{
-    const curr_view = userContext.activePanel;
-    $(".p-panel").hide();
-    if(curr_view){
-      onNavigate(curr_view);
-    }
-    else{
-      onNavigate("ALL");
-    }
-  },[userContext]) 
+    useEffect(()=>{
+        const curr_view = userContext.activePanel;
+        $(".p-panel").hide();
+        if(curr_view){
+            onNavigate(curr_view);
+        }
+        else{
+            onNavigate("DEVITY");
+        }
+    },[userContext]) 
 
-  function onNavigate(target) {
+    function onNavigate(target) {
 
-    if (target === "CONSOLE") {
-      $("#console_log").toggleClass("hide");
-      $("#navigation").toggleClass("nav-max");
-      $("#navigation").toggleClass("nav-min");
-      $("#console").toggleClass("console-max");
-      $("#console").toggleClass("console-min");
-      $(".cmd_type_radio").toggle();
-      // $('#header_container').toggleClass('display-flex');
-    } else {
-      $(".p-panel").hide();
+        if (target === "CONSOLE") {
+            $("#console_log").toggleClass("hide");
+            $("#navigation").toggleClass("nav-max");
+            $("#navigation").toggleClass("nav-min");
+            $("#console").toggleClass("console-max");
+            $("#console").toggleClass("console-min");
+            $(".cmd_type_radio").toggle();
+            // $('#header_container').toggleClass('display-flex');
+        } else {
+            $(".p-panel").hide();
     
-      if (target === "ALL") {
-        $(".p-panel").show();
-      } else {
-        $("div[data-panel=" + target + "]").show();
-        $("#search_input").val("");
-      }
+            if (target === "ALL") {
+                $(".p-panel").show();
+            } else {
+                $("div[data-panel=" + target + "]").show();
+                $("#search_input").val("");
+            }
+        }
     }
-  }
 
-  function onNavigateClicked(target) {
-    localStorage.setItem("curr_view", target);
-    if (target !== "CONSOLE") userContext.setActivePanel(target);
-    onNavigate(target);
-  }
+    function onNavigateClicked(target) {
+        localStorage.setItem("curr_view", target);
+        if (target !== "CONSOLE") userContext.setActivePanel(target);
+        onNavigate(target);
+    }
 
 
-  return (<div id="navigation" className="nav nav-max">
+    return (<div id="navigation" className="nav nav-max">
 
-    <div id="logo">
-      <button id="nav_all" onClick={()=>onNavigateClicked("ALL")}>
-        <img src={logo} className="logo" alt="logo" />
-      </button>
-    </div>
+        <div id="logo">
+            <button id="nav_all" onClick={()=>onNavigateClicked("DEVITY")}>
+                <img src={logo} className="logo" alt="logo" />
+            </button>
+        </div>
       
-    <header id="ribbon" className="ribbon-cntrls" >
-      <button id='nav_links' onClick={()=>onNavigateClicked("LINKS")}>
-        <img src={btn_image_links} alt="Links" /><br />
-        <span>Links</span>
-      </button>
+        <header id="ribbon" className="ribbon-cntrls" >
+            <button id='nav_links' onClick={()=>onNavigateClicked("LINKS")}>
+                <img src={btn_image_links} alt="Links" /><br />
+                <span>Links</span>
+            </button>
 
-      <button id="nav_clipboard" onClick={()=>onNavigateClicked("CLIPBOARD")}>
-        <img  src={btn_image_clipboard} className="" alt="Clipboard" /><br />
-        <span>Clipboard</span>
-      </button>
+            <button id="nav_clipboard" onClick={()=>onNavigateClicked("CLIPBOARD")}>
+                <img  src={btn_image_clipboard} className="" alt="Clipboard" /><br />
+                <span>Clipboard</span>
+            </button>
 
-      <button id='nav_notes' onClick={()=>onNavigateClicked("NOTES")}>
-        <img  src={btn_image_notes} className="" alt="Notes" /><br />
-        <span>Notes</span>
-      </button>
+            <button id='nav_notes' onClick={()=>onNavigateClicked("NOTES")}>
+                <img  src={btn_image_notes} className="" alt="Notes" /><br />
+                <span>Notes</span>
+            </button>
 
-      <button id='nav_libraries' onClick={()=>onNavigateClicked("LIBRARIES")}>
-        <img  src={btn_image_lib} className="" alt="Libraries" /><br />
-        <span>Libraries</span>
-      </button>
+            <button id='nav_libraries' onClick={()=>onNavigateClicked("LIBRARIES")}>
+                <img  src={btn_image_lib} className="" alt="Libraries" /><br />
+                <span>Libraries</span>
+            </button>
 
-      <button id="nav_console" onClick={()=>onNavigateClicked("CONSOLE")}>
-        <img  src={btn_image_code} className="" alt="Console" /><br />
-        <span>Console</span>
-      </button>
+            <button id="nav_console" onClick={()=>onNavigateClicked("CONSOLE")}>
+                <img  src={btn_image_code} className="" alt="Console" /><br />
+                <span>Console</span>
+            </button>
 
 
-      <button id='nav_profile' onClick={()=>onNavigateClicked("PROFILE")}>
-        <img  src={btn_image_avitar} className="App-avitar" alt="{user.name}" /><br />
-        <Username />
-      </button>
-    </header>
+            <button id='nav_profile' onClick={()=>onNavigateClicked("PROFILE")}>
+                <img  src={btn_image_avitar} className="App-avitar" alt="{user.name}" /><br />
+                <Username />
+            </button>
+        </header>
 
-  </div>);
+    </div>);
 }
 
 
 //another component
 function Username() {
-  const userContext = React.useContext(UserContext);
+    const userContext = React.useContext(UserContext);
 
-  return (
-    <span>
-      {userContext.userProfile.name}
-    </span>
-  );
+    return (
+        <span>
+            {userContext.userProfile.name}
+        </span>
+    );
 }

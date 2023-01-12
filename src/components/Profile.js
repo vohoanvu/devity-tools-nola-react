@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import ViewModeSelection from "./ViewModeSelection";
-import JiraToken from "./JiraToken";
+import JiraCredentials from "./JiraCredentials";
 import { UserContext } from "../api-integration/UserContext";
 import Editable from "./Editable";
 import axios from "axios";
@@ -187,12 +187,12 @@ export default function Profile(props)
                         </form>
                     </div>
                     <div>
-                        <h3>Atlassian API Token (Jira &amp; Confluence)</h3>
+                        <h3>Atlassian API Credentials (Jira &amp; Confluence)</h3>
                         <p>
-              You can create a token in Atlassian Cloud 
+                            You can create a token in Atlassian Cloud 
                             <a href={jira_token_uri} target="_blank" rel="noreferrer">here</a>
                         </p>
-                        <JiraToken />
+                        <JiraCredentials />
                     </div>
 
                 </div>

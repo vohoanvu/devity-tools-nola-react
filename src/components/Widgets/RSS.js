@@ -51,7 +51,7 @@ export default function Rss(props)
                 return itemsArray;
             })
             .then(result => {
-                console.log("after PROMISE, the items Array is: ",result);
+                console.log("RSS item array: ",result);
                 setRssFeed(result);
             })
             .catch((err) => console.log(err));

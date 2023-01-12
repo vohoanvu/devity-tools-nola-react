@@ -15,7 +15,7 @@ export default function Note(props)
     useEffect(() => {
         const curr_view = props.activePanel;
         (async () => {
-            console.log("beginging useEffect in WidgetNotes.js");
+            //console.log("beginging useEffect in WidgetNotes.js");
             if ((curr_view && curr_view !== "NOTES" && curr_view !== "ALL") || 
             (curr_view === "NOTES" && note["w_content"])) return;
 

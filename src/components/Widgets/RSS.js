@@ -19,41 +19,43 @@ export default function Rss(props)
             if ((curr_view && curr_view !== "DEVITY" && curr_view !== "ALL") || 
                 (curr_view === "DEVITY" && rssWidget.w_content)) return;
 
-            getWidgetContentById(props.widget.id).then((widget) => {
-                setRssWidget({
-                    ...widget,
-                    w_content: JSON.parse(widget.w_content)["feedUri"]
-                });
+            await getWidgetContentById(props.widget.id).then(widget => {
+                setRssWidget(widget);
+                fetchFeed(widget.w_content);
             });
         }
 
-        async function fetchFeed(rssUri) {
-            return await axios.get(rssUri)
-                .then((res) => {
-                    console.log("RSS feed", res.data);
-                    const xmlDoc = domParser.parseFromString(res.data, "text/xml");
-                    const root = xmlDoc.getElementsByTagName("root")[0];
-                    const data = {};
-                    const children = root.children;
-                    for (let i = 0; i < children.length; i++) {
-                        const child = children[i];
-                        data[child.nodeName] = child.textContent;
-                    }
-                    debugger;
-                    setRssFeed(data);
-                })
-                .then(result => console.log("after PROMISE: ",result))
-                .catch((err) => console.log(err));
-        }
 
-        getWidgetContent().then(() => {
-            if (rssWidget.w_content) {
-                fetchFeed(rssWidget.w_content);
-            }
-        });
+        getWidgetContent();
+
         $(`#save-btn-${props.widget.id}`).hide();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
+
+    async function fetchFeed(rssUri) {
+        if (rssUri.length === 0) return;
+
+        await axios.get(rssUri)
+            .then(res => {
+                const xmlDoc = domParser.parseFromString(res.data, "application/xml");
+                const items = xmlDoc.getElementsByTagName("item");
+                const itemsArray = Array.prototype.map.call(items, item => {
+                    const itemData = {};
+                    Array.prototype.forEach.call(item.childNodes, child => {
+                        if(child.nodeName !== "#text") {
+                            itemData[child.nodeName] = child.textContent;
+                        }
+                    });
+                    return itemData;
+                });
+                return itemsArray;
+            })
+            .then(result => {
+                console.log("after PROMISE, the items Array is: ",result);
+                setRssFeed(result);
+            })
+            .catch((err) => console.log(err));
+    }
 
     async function getWidgetContentById(w_id) {
         return await axios.get(devity_api + "/api/widgets/"+ w_id)
@@ -63,7 +65,16 @@ export default function Rss(props)
                 //console.log("Get RSS widget");
                 //console.log(res.data);
                 return res.data;
-            }).then(result => result)
+            }).then(result => {
+                //transform RSS widget content to feedUri string
+                let feedUri = JSON.parse(result.w_content)["feedUri"];
+                let widget = {
+                    ...result,
+                    w_content: feedUri
+                };
+                setRssWidget(widget);
+                return widget;
+            })
             .catch((err) => console.log(err));
     }
 
@@ -72,16 +83,16 @@ export default function Rss(props)
             ...rssWidget,
             w_content: event.target.value
         });
+        $(`#save-btn-${props.widget.id}`).show();
     }
 
-    function saveRssUri() {
+    function sendUriToParentForSaving() {
         const putBody = {
-            ...rssWidget
+            ...rssWidget,
+            w_content: JSON.stringify({
+                feedUri: rssWidget.w_content
+            })
         }
-        saveRssContentUriInDb(putBody);
-    }
-
-    async function saveRssContentUriInDb(putBody) {
         props.sendContentToParent(putBody, null, null);
     }
 
@@ -96,7 +107,7 @@ export default function Rss(props)
                             placeholder=""
                             value={rssWidget.w_content ?? ""}
                             onChange={handleURIOnChange}
-                            onBlur={saveRssUri}
+                            onBlur={sendUriToParentForSaving}
                             style={{width: "100%"}}
                         />
                     )
@@ -105,12 +116,12 @@ export default function Rss(props)
                     rssFeed && (
                         <div className="rss-item">
                             {
-                                rssFeed.channel.map((channel, index) => {
+                                rssFeed.map((item, index) => {
                                     return (
                                         <div key={index}>
-                                            <a href={rssFeed.link}>{rssFeed.title}</a>
-                                            <p>{rssFeed.description}</p>
-                                            <span>{rssFeed.pubDate}</span>
+                                            <a href={item.link}>{item.title}</a>
+                                            <p>{item.description}</p>
+                                            <span>{item.pubDate}</span>
                                         </div>
                                     );
                                 })

@@ -26,6 +26,7 @@ export default function DevityPanels(props)
         type: ""
     });
     const userContext = useContext(UserContext);
+    const [isDevitySubTypeAddOpen, setIsDevitySubTypeAddOpen] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -45,7 +46,7 @@ export default function DevityPanels(props)
     }, []);
 
 
-    async function w_add(widgetType, widgetList) {
+    async function w_add(widgetType, widgetList, devitySubType = null) {
 
         let jsonContentObject = init_w_content(widgetType);
 
@@ -56,7 +57,8 @@ export default function DevityPanels(props)
             order: widgetList.length+1,
             w_type: widgetType,
             height : 300,
-            width: 300
+            width: 300,
+            w_type_sub: devitySubType
         }
 
         w_create(newWidget, widgetType);
@@ -79,7 +81,7 @@ export default function DevityPanels(props)
             jsonObjList.push(jsonObject);
             return jsonObjList;
         case "DEVITY":
-            jsonObject["feedUri"] = "https://rss.nytimes.com/services/xml/rss/nyt/US.xml"; //format: "{ feedUri: "https://www.nola.com/rss.xml" }"
+            jsonObject["feedUri"] = ""; //format: "{ feedUri: "https://rss.nytimes.com/services/xml/rss/nyt/US.xml" }"
             return jsonObject;
         default:
             break;
@@ -143,6 +145,7 @@ export default function DevityPanels(props)
             break;
     
         case "DEVITY":
+            console.log("DEVITY widget updated", widget);
             putBody = widget;
             break;
         default:
@@ -260,8 +263,28 @@ export default function DevityPanels(props)
                             <div className='p-chrome'>
                                 <img src={btn_image_config} className="gear" alt="devity gear"/>
                                 <span className="title">{key}</span>
-                                <img className='add' src={btn_add} onClick={()=>w_add(key, value)} alt="create widget" aria-hidden="true"/>
+                                {
+                                    key === "DEVITY" ? (
+                                        <img className='add' src={btn_add} onClick={() => setIsDevitySubTypeAddOpen(true)} alt="create devity" aria-hidden="true"/>
+                                    ) : (
+                                        <img className='add' src={btn_add} onClick={()=>w_add(key, value)} alt="create widget" aria-hidden="true"/>
+                                    )
+                                }
                             </div>
+                            {
+                                isDevitySubTypeAddOpen && (
+                                    <div className="w-add-devity" style={{display:"block"}}>
+                                        <div>
+                                            <span>RSS</span>
+                                            <img className='add-subtype' src={btn_add} onClick={()=>w_add(key, value, "RSS")} alt="create devity subtype" aria-hidden="true"/>
+                                        </div>
+                                        <div>
+                                            <span>JIRA</span>
+                                            <img className='add-subtype' src={btn_add} onClick={()=>w_add(key, value, "JIRA")} alt="create devity subtype" aria-hidden="true"/>
+                                        </div>
+                                    </div>
+                                )
+                            }
                             <DragDropContext onDragEnd={(result)=>onDragEnd(result, key)}>
                                 <Droppable droppableId="droppable" direction="horizontal">
                                     {

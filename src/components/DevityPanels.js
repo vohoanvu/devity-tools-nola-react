@@ -27,6 +27,7 @@ export default function DevityPanels(props)
     });
     const userContext = useContext(UserContext);
     const [isDevitySubTypeAddOpen, setIsDevitySubTypeAddOpen] = useState(false);
+    const [isRssUriChanged, setIsRssUriChanged] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -119,6 +120,9 @@ export default function DevityPanels(props)
             })
             .catch(err => console.log(err));
 
+        if (type === "DEVITY") {
+            setIsRssUriChanged(!isRssUriChanged);
+        }
         return result;
     }
 
@@ -186,7 +190,8 @@ export default function DevityPanels(props)
             return <RssDevity
                 widget={widget} 
                 sendContentToParent={sendPUTContentToParent} 
-                activePanel={widgetType}/>
+                activePanel={widgetType}
+                isUriChanged={isRssUriChanged}/>
   
         default:
             return <div className="w-container">LOADING...</div>;

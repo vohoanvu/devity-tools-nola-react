@@ -17,7 +17,7 @@ export default function Rss(props)
         const curr_view = props.activePanel;
         const getWidgetContent = async () => {
             if ((curr_view && curr_view !== "DEVITY" && curr_view !== "ALL") || 
-                (curr_view === "DEVITY" && rssWidget.w_content)) return;
+                (curr_view === "DEVITY" && rssFeed)) return;
 
             await getWidgetContentById(props.widget.id).then(widget => {
                 setRssWidget(widget);
@@ -30,7 +30,7 @@ export default function Rss(props)
 
         $(`#save-btn-${props.widget.id}`).hide();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[]);
+    },[props.isUriChanged, props.activePanel]);
 
     async function fetchFeed(rssUri) {
         if (rssUri.length === 0) return;

@@ -70,7 +70,7 @@ export default function Rss(props)
                 let feedUri = JSON.parse(result.w_content)["feedUri"];
                 let widget = {
                     ...result,
-                    w_content: feedUri
+                    w_content: feedUri ?? ""
                 };
                 setRssWidget(widget);
                 return widget;

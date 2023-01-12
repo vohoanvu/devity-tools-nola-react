@@ -149,7 +149,6 @@ export default function DevityPanels(props)
             break;
     
         case "DEVITY":
-            console.log("DEVITY widget updated", widget);
             putBody = widget;
             break;
         default:

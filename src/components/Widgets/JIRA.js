@@ -29,7 +29,6 @@ const JiraTicket = ({ apiToken, domain, email, widgetId}) => {
         
         const jqlParams = initializeJQLquery(encodedEmail);
 
-        console.log("JIRA params: ", jqlParams);
         await axios.get(`https://${jiraUrl}/rest/api/3/search`, { headers, params: jqlParams })
             .then(response => {
                 console.log("JIRA response: ", response.data.issues);

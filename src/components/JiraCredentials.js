@@ -10,8 +10,11 @@ export default class JiraCredentials extends React.Component
         this.state = {
             jira_token: localStorage.getItem(LOCAL_STORAGE_KEY) ?? "",
             jiraDomain: localStorage.getItem(LOCAL_STORAGE_DOMAIN_KEY) ?? "",
-            jiraUserId: localStorage.getItem(LOCAL_STORAGE_USERID_KEY) ?? ""
+            jiraUserId: localStorage.getItem(LOCAL_STORAGE_USERID_KEY) ?? "",
+            domainError: ""
         };
+
+        this.jiraDomainRegex = /^([a-zA-Z0-9-]+).atlassian.(net|com)$/;
     }
 
     componentDidMount() {
@@ -23,9 +26,22 @@ export default class JiraCredentials extends React.Component
     }
 
     handleBlur = (event) => {
-        if (event.target.name === "jiraDomain") localStorage.setItem(LOCAL_STORAGE_DOMAIN_KEY, event.target.value);
-        if (event.target.name === "jiraUserId") localStorage.setItem(LOCAL_STORAGE_USERID_KEY, event.target.value);
-        if (event.target.name === "jira_token") localStorage.setItem(LOCAL_STORAGE_KEY, event.target.value);
+        if (event.target.name === "jiraDomain") {
+            localStorage.setItem(LOCAL_STORAGE_DOMAIN_KEY, event.target.value);
+            if (!this.jiraDomainRegex.test(event.target.value)) {
+                this.setState({
+                    domainError: "Invalid Jira Domain URL"
+                });
+            }
+        }
+
+        if (event.target.name === "jiraUserId") {
+            localStorage.setItem(LOCAL_STORAGE_USERID_KEY, event.target.value);
+        } 
+
+        if (event.target.name === "jira_token") {
+            localStorage.setItem(LOCAL_STORAGE_KEY, event.target.value);
+        }
     };
 
     handleOnChange = (event) => {
@@ -48,6 +64,7 @@ export default class JiraCredentials extends React.Component
                             value={this.state.jiraDomain} 
                             onBlur={this.handleBlur.bind(this)} 
                             onChange={this.handleOnChange.bind(this)}/>
+                        { this.state.domainError && <p style={{ color: "red" }}>{this.state.domainError}</p> }
                     </label>
                     <br/>
                     <label htmlFor="jiraUserId">

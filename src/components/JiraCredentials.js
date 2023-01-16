@@ -49,6 +49,7 @@ export default class JiraCredentials extends React.Component
                             onBlur={this.handleBlur.bind(this)} 
                             onChange={this.handleOnChange.bind(this)}/>
                     </label>
+                    <br/>
                     <label htmlFor="jiraUserId">
                         Jira User ID
                         <input 
@@ -58,6 +59,7 @@ export default class JiraCredentials extends React.Component
                             onBlur={this.handleBlur.bind(this)} 
                             onChange={this.handleOnChange.bind(this)}/>
                     </label>
+                    <br/>
                     <label htmlFor="jira_token">
                         Jira Token
                         <input 

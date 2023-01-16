@@ -24,7 +24,6 @@ const JiraTicket = ({ apiToken, domain, email, widgetId}) => {
     }, [apiToken, domain, email, assignedOrMentioned, ticketTypes, ticketStatuses, priorities]);
 
     async function fetchJiraTickets() {
-        console.log("Fetching JIRA tickets...", ticketTypes);
         const encodedEmail = email.replace("@", "\\u0040")
         const jiraUrl = domain ?? "devity-tools.atlassian.net";
         

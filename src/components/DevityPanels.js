@@ -11,10 +11,14 @@ import W_Note from "./WidgetNotes";
 import W_Link from "./WidgetLinks";
 import W_Clipboard from "./WidgetClipboard";
 import RssDevity from "./Widgets/RSS";
+import Jira from "./Widgets/JIRA";
 import { UserContext } from "../api-integration/UserContext";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 const sso_url = CONFIG.SSO_URL;
 const devity_api = CONFIG.DEVITY_API;
+const vuJiraToken = "a4EHm80xhC4csD0FXMS4051D";
+const jiraDomain = "devity-tools.atlassian.net";
+const jiraUserEmail = "vu@noladigital.net";
 
 export default function DevityPanels(props) 
 {
@@ -48,13 +52,20 @@ export default function DevityPanels(props)
 
 
     async function w_add(widgetType, widgetList, devitySubType = null) {
-
-        let jsonContentObject = init_w_content(widgetType);
+        let jsonContentObject = init_w_content(widgetType, devitySubType);
+        let widgetName = "";
+        if (widgetType === "DEVITY" && devitySubType && devitySubType === "RSS") {
+            widgetName = "RSS Reader";
+        } else if (widgetType === "DEVITY" && devitySubType && devitySubType === "JIRA") {
+            widgetName = "JIRA Tickets"
+        } else {
+            widgetName = widgetType + " Widget";
+        }
 
         const newWidget = {
             key: widgetList.length+1,
             w_content: JSON.stringify(jsonContentObject),
-            name: widgetType === "DEVITY" ? "RSS Reader" : widgetType + " Widget",
+            name: widgetName,
             order: widgetList.length+1,
             w_type: widgetType,
             height : 300,
@@ -165,8 +176,8 @@ export default function DevityPanels(props)
     function w_render(widget) 
     {
         const widgetType = userContext.activePanel;
-        switch (widget.w_type)
-        {
+
+        switch (widget.w_type) {
         case "CLIPBOARD":
             return <W_Clipboard 
                 widget={widget} 
@@ -186,12 +197,19 @@ export default function DevityPanels(props)
                 activePanel={widgetType}/>;
 
         case "DEVITY":
-            return <RssDevity
-                widget={widget} 
-                sendContentToParent={sendPUTContentToParent} 
-                activePanel={widgetType}
-                isUriChanged={isRssUriChanged}/>
-  
+            if (widget.w_type_sub === "RSS")
+                return <RssDevity
+                    widget={widget} 
+                    sendContentToParent={sendPUTContentToParent} 
+                    activePanel={widgetType}
+                    isUriChanged={isRssUriChanged}/>
+
+            if (widget.w_type_sub === "JIRA")
+                return <Jira
+                    apiToken={vuJiraToken}
+                    domain={jiraDomain}
+                    email={jiraUserEmail}/>
+            break;
         default:
             return <div className="w-container">LOADING...</div>;
         }

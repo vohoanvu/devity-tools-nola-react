@@ -11,11 +11,11 @@ const JiraTicket = ({ apiToken, domain, email}) => {
     useEffect(() => {
         const encodedEmail = email.replace("@", "\\u0040");
         const jqlParams = {
-            jql: `assignee=${encodedEmail}`,
+            jql: `assignee=${encodedEmail} or text ~ ${encodedEmail}`,
         };
         axios.get(`https://${domain}/rest/api/3/search`, { headers, params: jqlParams })
             .then(response => {
-                console.log("response: ", response.data.issues);
+                console.log("JIRA response: ", response.data.issues);
                 setTickets(response.data.issues);
             })
             .catch(error => {

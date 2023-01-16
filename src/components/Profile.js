@@ -25,6 +25,7 @@ export default function Profile(props)
 
     useEffect(() => {
         setUserProfile(userContext.userProfile);
+        console.log("userContext.userProfile: ", userContext.userProfile);
     },[userContext.userProfile])
 
 
@@ -257,7 +258,11 @@ export default function Profile(props)
                             })
                         }
                     </ul>
-
+                    <br />
+                    <h3>Data Analysis</h3>
+                    <label> Widget Count : {userProfile.widget_count} </label>
+                    <br/>
+                    <label> Data Size in DB : {userProfile.datasize} </label>
                 </div>
             </div>
         </div>

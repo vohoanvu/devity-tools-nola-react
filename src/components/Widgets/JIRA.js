@@ -9,11 +9,12 @@ const JiraTicket = ({ apiToken, domain, email}) => {
     };
 
     useEffect(() => {
-        const encodedEmail = email.replace("@", "\\u0040");
+        const encodedEmail = email ? email.replace("@", "\\u0040") : "";
+        const jiraUrl = domain ?? "devity-tools.atlassian.net";
         const jqlParams = {
             jql: `assignee=${encodedEmail} or text ~ ${encodedEmail}`,
         };
-        axios.get(`https://${domain}/rest/api/3/search`, { headers, params: jqlParams })
+        axios.get(`https://${jiraUrl}/rest/api/3/search`, { headers, params: jqlParams })
             .then(response => {
                 console.log("JIRA response: ", response.data.issues);
                 setTickets(response.data.issues);
@@ -28,7 +29,7 @@ const JiraTicket = ({ apiToken, domain, email}) => {
     return (
         <div className="w_overflowable">
             {
-                tickets.map(issue => (
+                tickets.length !== 0 ? tickets.map(issue => (
                     <div key={issue.id}>
                         <h3>
                             <a href={`https://${domain}/browse/${issue.key}`} target="_blank" rel="noopener noreferrer">
@@ -39,7 +40,11 @@ const JiraTicket = ({ apiToken, domain, email}) => {
                             <p>{issue.fields.summary}</p>
                         </h4>
                     </div>
-                ))
+                )) : (
+                    <div> 
+                        <h3>No tickets found! Please fill out JIRA credentials in Profile</h3>
+                    </div>
+                )
             }
         </div>
     );

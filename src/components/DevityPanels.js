@@ -16,9 +16,6 @@ import { UserContext } from "../api-integration/UserContext";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 const sso_url = CONFIG.SSO_URL;
 const devity_api = CONFIG.DEVITY_API;
-const vuJiraToken = "a4EHm80xhC4csD0FXMS4051D";
-const jiraDomain = "devity-tools.atlassian.net";
-const jiraUserEmail = "vu@noladigital.net";
 
 export default function DevityPanels(props) 
 {
@@ -206,9 +203,9 @@ export default function DevityPanels(props)
 
             if (widget.w_type_sub === "JIRA")
                 return <Jira
-                    apiToken={vuJiraToken}
-                    domain={jiraDomain}
-                    email={jiraUserEmail}/>
+                    apiToken={userContext.userProfile.jira_token}
+                    domain={userContext.userProfile.jira_domain}
+                    email={userContext.userProfile.jira_user_id}/>
             break;
         default:
             return <div className="w-container">LOADING...</div>;

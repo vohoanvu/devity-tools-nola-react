@@ -25,7 +25,6 @@ export default function Profile(props)
 
     useEffect(() => {
         setUserProfile(userContext.userProfile);
-        console.log("userContext.userProfile: ", userContext.userProfile);
     },[userContext.userProfile])
 
 
@@ -129,12 +128,14 @@ export default function Profile(props)
         });
     }
 
-  
-
     async function upgradeProfileMembership() {
         if (window.confirm("Are you sure you want to upgrade to a PAID membership?")) {
             await updateProfileInDb({...userProfile, paid: true});
         }
+    }
+
+    function getUTCDateTime(dateTimeString) {
+        return new Date(dateTimeString).toUTCString();
     }
 
     return (
@@ -263,6 +264,12 @@ export default function Profile(props)
                     <label> Widget Count : {userProfile.widget_count} </label>
                     <br/>
                     <label> Data Size in DB : {userProfile.datasize} </label>
+                    <br/>
+                    <br/>
+                    <h1>Session Info</h1>
+                    <label> Token Expiration Date (UTC) : {getUTCDateTime(userProfile.session_info?.expire_date)} </label>
+                    <br/>
+                    <label> Bearer Token : Devity {userProfile.session_info?.session_id} </label>
                 </div>
             </div>
         </div>

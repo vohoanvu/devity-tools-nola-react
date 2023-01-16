@@ -887,3 +887,14 @@ span.w_copyable.filterable {
   border: 1px solid var(--COLOR_LINK_VISITED);
 }
 
+.ticket-statuses input[type="checkbox"] {
+  border: 1px solid var(--COLOR_LINK_VISITED);
+}
+
+.ticket-priorities input[type="checkbox"] {
+  border: 1px solid var(--COLOR_LINK_VISITED);
+}
+
+.issue-horizontal {
+  display: flexbox;
+}

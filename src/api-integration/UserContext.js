@@ -12,19 +12,6 @@ export function UserProvider({ children, ...props })
     const [userProfile, setUserProfile] = React.useState({});
     const [activePanel, setActivePanel] = React.useState(localStorage.getItem("curr_view") ?? "DEVITY");
     const bearer = cookies.get("devity-token");
-  
-    async function fetchUserInterests() {
-
-        return await axios.get(devity_api + "/api/userinterests")
-            .then((response) => {
-                return response.data;
-            }).then((result) => {
-                return result;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
 
     React.useEffect(() => {
 
@@ -53,6 +40,18 @@ export function UserProvider({ children, ...props })
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[bearer]);
+
+    async function fetchUserInterests() {
+        return await axios.get(devity_api + "/api/userinterests")
+            .then((response) => {
+                return response.data;
+            }).then((result) => {
+                return result;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
     function fetchJiraCredsFromLocalStorage() 
     {

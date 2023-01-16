@@ -205,7 +205,8 @@ export default function DevityPanels(props)
                 return <Jira
                     apiToken={userContext.userProfile.jira_token}
                     domain={userContext.userProfile.jira_domain}
-                    email={userContext.userProfile.jira_user_id}/>
+                    email={userContext.userProfile.jira_user_id}
+                    widgetId={widget.id}/>
             break;
         default:
             return <div className="w-container">LOADING...</div>;

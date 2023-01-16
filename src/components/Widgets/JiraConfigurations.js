@@ -6,7 +6,7 @@ export default function JiraConfigurations(props)
 
     }, []);
 
-    async function handleTicketTypeChange(changeEvent) {
+    function handleTicketTypeChange(changeEvent) {
         let options = [...props.ticketTypes];
         if (changeEvent.target.checked) {
             options.push(changeEvent.target.value);
@@ -14,14 +14,32 @@ export default function JiraConfigurations(props)
             options = options.filter(o => o !== changeEvent.target.value);
         }
         props.setTicketTypes(options);
+    }
 
-        await props.fetchJiraTickets();
+    function handleStatusChange(changeEvent) {
+        let options = [...props.ticketStatuses];
+        if(changeEvent.target.checked) {
+            options.push(changeEvent.target.value);
+        } else {
+            options = options.filter(o => o !== changeEvent.target.value);
+        }
+        props.setTicketStatuses(options);
+    }
+
+    function handlePriorityChange(changeEvent) {
+        let options = [...props.priorities];
+        if(changeEvent.target.checked) {
+            options.push(changeEvent.target.value);
+        } else {
+            options = options.filter(o => o !== changeEvent.target.value);
+        }
+        props.setPriorities(options);
     }
 
 
     return (
         <form>
-            <div className="mentioned-Assigned">
+            <div className="mentioned-assigned">
                 <label>
                     <input 
                         type="radio" 
@@ -41,6 +59,7 @@ export default function JiraConfigurations(props)
                     Your Mentioned Tickets
                 </label>
             </div>
+            <h4>Jira Ticket Type</h4>
             <div className="jira-ticket-type">
                 <label>
                     <input 
@@ -80,6 +99,100 @@ export default function JiraConfigurations(props)
                         onChange={handleTicketTypeChange}
                     />
                     Epic
+                </label>
+            </div>
+            <h4>Ticket Status</h4>
+            <div className="ticket-statuses">
+                <label>
+                    <input 
+                        type="checkbox" 
+                        value="Backlog" 
+                        checked={props.ticketStatuses.includes("Backlog")}
+                        onChange={handleStatusChange}
+                    />
+                    Backlog
+                </label>
+                <br />
+                <label>
+                    <input 
+                        type="checkbox" 
+                        value="Selected for Development" 
+                        checked={props.ticketStatuses.includes("Selected for Development")}
+                        onChange={handleStatusChange}
+                    />
+                    Selected For Development
+                </label>
+                <br />
+                <label>
+                    <input 
+                        type="checkbox" 
+                        value="In Progress" 
+                        checked={props.ticketStatuses.includes("In Progress")}
+                        onChange={handleStatusChange}
+                    />
+                    In Progress
+                </label>
+                <br />
+                <label>
+                    <input 
+                        type="checkbox" 
+                        value="Done" 
+                        checked={props.ticketStatuses.includes("Done")}
+                        onChange={handleStatusChange}
+                    />
+                    Done
+                </label>
+            </div>
+            <h4>Ticket priorities</h4>
+            <div className="ticket-priorities">
+                <label>
+                    <input 
+                        type="checkbox" 
+                        value="Highest" 
+                        checked={props.priorities.includes("Highest")}
+                        onChange={handlePriorityChange}
+                    />
+                    Highest
+                </label>
+                <br />
+                <label>
+                    <input 
+                        type="checkbox" 
+                        value="High" 
+                        checked={props.priorities.includes("High")}
+                        onChange={handlePriorityChange}
+                    />
+                    High
+                </label>
+                <br />
+                <label>
+                    <input 
+                        type="checkbox" 
+                        value="Medium" 
+                        checked={props.priorities.includes("Medium")}
+                        onChange={handlePriorityChange}
+                    />
+                    Medium
+                </label>
+                <br />
+                <label>
+                    <input 
+                        type="checkbox" 
+                        value="Low" 
+                        checked={props.priorities.includes("Low")}
+                        onChange={handlePriorityChange}
+                    />
+                    Low
+                </label>
+                <br />
+                <label>
+                    <input 
+                        type="checkbox" 
+                        value="Lowest" 
+                        checked={props.priorities.includes("Lowest")}
+                        onChange={handlePriorityChange}
+                    />
+                    Lowest
                 </label>
             </div>
         </form>

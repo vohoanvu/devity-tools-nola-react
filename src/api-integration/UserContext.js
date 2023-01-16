@@ -10,7 +10,7 @@ export const UserContext = React.createContext();
 export function UserProvider({ children, ...props })
 {
     const [userProfile, setUserProfile] = React.useState({});
-    const [activePanel, setActivePanel] = React.useState(localStorage.getItem("curr_view"));
+    const [activePanel, setActivePanel] = React.useState(localStorage.getItem("curr_view") ?? "DEVITY");
     const bearer = cookies.get("devity-token");
   
     async function fetchUserInterests() {

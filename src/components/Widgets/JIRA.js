@@ -24,12 +24,11 @@ const JiraTicket = ({ apiToken, domain, email, widgetId}) => {
     }, [apiToken, domain, email, assignedOrMentioned, ticketTypes, ticketStatuses, priorities]);
 
     async function fetchJiraTickets() {
-        const encodedEmail = email.replace("@", "\\u0040")
-        const jiraUrl = domain ?? "devity-tools.atlassian.net";
+        const encodedEmail = email.replace("@", "\\u0040");
         
         const jqlParams = initializeJQLquery(encodedEmail);
 
-        await axios.get(`https://${jiraUrl}/rest/api/3/search`, { headers, params: jqlParams })
+        await axios.get(`https://${domain}/rest/api/3/search`, { headers, params: jqlParams })
             .then(response => {
                 console.log("JIRA response: ", response.data.issues);
                 setTickets(response.data.issues);

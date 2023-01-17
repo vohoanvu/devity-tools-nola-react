@@ -16,7 +16,6 @@ export function UserProvider({ children, ...props })
     React.useEffect(() => {
 
         async function fetchUser(bearer) {
-
             return await axios.get(devity_api + "/api/profile")
                 .then((response) => {
                     return response.data;
@@ -39,7 +38,7 @@ export function UserProvider({ children, ...props })
             });
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[bearer]);
+    },[bearer, localStorage.getItem("jira_token"), localStorage.getItem("jira_domain"), localStorage.getItem("jira_user_id")]);
 
     async function fetchUserInterests() {
         return await axios.get(devity_api + "/api/userinterests")

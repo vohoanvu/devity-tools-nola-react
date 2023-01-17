@@ -7,7 +7,10 @@ export default function JiraIssuesTable({ issues, jiraDomain })
 
     function formatDate(jsonDateTime) {
         const date = new Date(jsonDateTime);
-        return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+        const month = date.toLocaleString("en-US", { month: "short" });
+        const day = date.getDate();
+        const year = date.getFullYear();
+        return `${month}-${day}-${year}`;
     }
 
     return (
@@ -41,7 +44,7 @@ export default function JiraIssuesTable({ issues, jiraDomain })
                             <td>{issue.fields.resolution ? issue.fields.resolution.name : "Unresolved"}</td>
                             <td>{formatDate(issue.fields.created)}</td>
                             <td>{formatDate(issue.fields.updated)}</td>
-                            <td>{issue.fields.duedate ? formatDate(issue.fields.duedate) : "No Due"}</td>
+                            <td>{issue.fields.duedate ? formatDate(issue.fields.duedate) : ""}</td>
                         </tr>
                     ))
                 }

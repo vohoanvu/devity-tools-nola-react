@@ -38,81 +38,83 @@ const JiraTicket = ({ apiToken, domain, email, widgetId}) => {
             });
     }
 
-    function initializeJQLquery(encodedEmail) {
-        var jqlParams = {
-            jql: `assignee=${encodedEmail}`
-        };
-        const ticketTypesString = ticketTypes.join("\",\"");
-        const ticketStatusesString = ticketStatuses.join("\",\"");
-        const ticketPrioritiesString = priorities.join("\",\"");
-        //Assigned Only Tickets
-        if (assignedOrMentioned === "assigned" && ticketTypesString.length > 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length > 0) {
-            jqlParams.jql += `and issuetype in (${ticketTypesString}) and status in ("${ticketStatusesString}") and priority in ("${ticketPrioritiesString}")`;
-        }
+    // function initializeJQLquery(encodedEmail) {
+    //     var jqlParams = {
+    //         jql: `assignee=${encodedEmail}`
+    //     };
+    //     const ticketTypesString = ticketTypes.join("\",\"");
+    //     const ticketStatusesString = ticketStatuses.join("\",\"");
+    //     const ticketPrioritiesString = priorities.join("\",\"");
+    //     //Assigned Only Tickets
+    //     if (assignedOrMentioned === "assigned" && ticketTypesString.length > 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length > 0) {
+    //         jqlParams.jql += `and issuetype in (${ticketTypesString}) and status in ("${ticketStatusesString}") and priority in ("${ticketPrioritiesString}")`;
+    //     }
 
-        if (assignedOrMentioned === "assigned" && ticketTypesString.length > 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length === 0) {
-            jqlParams.jql += ` and issuetype in ("${ticketTypesString}") and status in ("${ticketStatusesString}")`;
-        }
+    //     if (assignedOrMentioned === "assigned" && ticketTypesString.length > 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length === 0) {
+    //         jqlParams.jql += ` and issuetype in ("${ticketTypesString}") and status in ("${ticketStatusesString}")`;
+    //     }
 
-        if (assignedOrMentioned === "assigned" && ticketTypesString.length > 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length > 0) {
-            jqlParams.jql += ` and issuetype in ("${ticketTypesString}") and priority in ("${ticketPrioritiesString}")`;
-        }
+    //     if (assignedOrMentioned === "assigned" && ticketTypesString.length > 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length > 0) {
+    //         jqlParams.jql += ` and issuetype in ("${ticketTypesString}") and priority in ("${ticketPrioritiesString}")`;
+    //     }
 
-        if (assignedOrMentioned === "assigned" && ticketTypesString.length === 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length > 0) {
-            jqlParams.jql += ` and status in ("${ticketStatusesString}") and priority in ("${ticketPrioritiesString}")`;
-        }
+    //     if (assignedOrMentioned === "assigned" && ticketTypesString.length === 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length > 0) {
+    //         jqlParams.jql += ` and status in ("${ticketStatusesString}") and priority in ("${ticketPrioritiesString}")`;
+    //     }
 
-        if (assignedOrMentioned === "assigned" && ticketTypesString.length > 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length === 0) {
-            jqlParams.jql += ` and issuetype in ("${ticketTypesString}")`;
-        }
+    //     if (assignedOrMentioned === "assigned" && ticketTypesString.length > 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length === 0) {
+    //         jqlParams.jql += ` and issuetype in ("${ticketTypesString}")`;
+    //     }
 
-        if (assignedOrMentioned === "assigned" && ticketTypesString.length === 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length === 0) {
-            jqlParams.jql += ` and status in ("${ticketStatusesString}")`;
-        }
+    //     if (assignedOrMentioned === "assigned" && ticketTypesString.length === 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length === 0) {
+    //         jqlParams.jql += ` and status in ("${ticketStatusesString}")`;
+    //     }
 
-        if (assignedOrMentioned === "assigned" && ticketTypesString.length === 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length > 0) {
-            jqlParams.jql += ` and priority in ("${ticketPrioritiesString}")`;
-        }
+    //     if (assignedOrMentioned === "assigned" && ticketTypesString.length === 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length > 0) {
+    //         jqlParams.jql += ` and priority in ("${ticketPrioritiesString}")`;
+    //     }
 
 
-        //Mentioned Only Tickets
-        if (assignedOrMentioned === "mentioned" && ticketTypesString.length > 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length > 0) {
-            jqlParams.jql = `text ~ ${encodedEmail} and issuetype in (${ticketTypesString}) and status in ("${ticketStatusesString}") and priority in ("${ticketPrioritiesString}")`;
-        }
+    //     //Mentioned Only Tickets
+    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length > 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length > 0) {
+    //         jqlParams.jql = `text ~ ${encodedEmail} and issuetype in (${ticketTypesString}) and status in ("${ticketStatusesString}") and priority in ("${ticketPrioritiesString}")`;
+    //     }
 
-        if (assignedOrMentioned === "mentioned" && ticketTypesString.length > 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length === 0) {
-            jqlParams.jql = `text ~ ${encodedEmail} and issuetype in ("${ticketTypesString}") and status in ("${ticketStatusesString}")`;
-        }
+    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length > 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length === 0) {
+    //         jqlParams.jql = `text ~ ${encodedEmail} and issuetype in ("${ticketTypesString}") and status in ("${ticketStatusesString}")`;
+    //     }
 
-        if (assignedOrMentioned === "mentioned" && ticketTypesString.length > 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length > 0) {
-            jqlParams.jql = `text ~ ${encodedEmail} and issuetype in ("${ticketTypesString}") and priority in ("${ticketPrioritiesString}")`;
-        }
+    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length > 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length > 0) {
+    //         jqlParams.jql = `text ~ ${encodedEmail} and issuetype in ("${ticketTypesString}") and priority in ("${ticketPrioritiesString}")`;
+    //     }
 
-        if (assignedOrMentioned === "mentioned" && ticketTypesString.length === 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length > 0) {
-            jqlParams.jql = `text ~ ${encodedEmail} and status in ("${ticketStatusesString}") and priority in ("${ticketPrioritiesString}")`;
-        }
+    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length === 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length > 0) {
+    //         jqlParams.jql = `text ~ ${encodedEmail} and status in ("${ticketStatusesString}") and priority in ("${ticketPrioritiesString}")`;
+    //     }
 
-        if (assignedOrMentioned === "mentioned" && ticketTypesString.length > 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length === 0) {
-            jqlParams.jql = `text ~ ${encodedEmail} and issuetype in (${ticketTypesString})`;
-        } 
+    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length > 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length === 0) {
+    //         jqlParams.jql = `text ~ ${encodedEmail} and issuetype in (${ticketTypesString})`;
+    //     } 
 
-        if (assignedOrMentioned === "mentioned" && ticketTypesString.length === 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length === 0) {
-            jqlParams.jql = `text ~ ${encodedEmail} and status in ("${ticketStatusesString}")`;
-        }
+    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length === 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length === 0) {
+    //         jqlParams.jql = `text ~ ${encodedEmail} and status in ("${ticketStatusesString}")`;
+    //     }
 
-        if (assignedOrMentioned === "mentioned" && ticketTypesString.length === 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length > 0) {
-            jqlParams.jql = `text ~ ${encodedEmail} and priority in ("${ticketPrioritiesString}")`;
-        }
+    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length === 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length > 0) {
+    //         jqlParams.jql = `text ~ ${encodedEmail} and priority in ("${ticketPrioritiesString}")`;
+    //     }
 
-        if (assignedOrMentioned === "mentioned" && ticketTypesString.length === 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length === 0) {
-            jqlParams.jql = `text ~ ${encodedEmail}`;
-        }
+    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length === 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length === 0) {
+    //         jqlParams.jql = `text ~ ${encodedEmail}`;
+    //     }
 
-        return jqlParams;
-    }
+    //     return jqlParams;
+    // }
+
+
 
     // Below is a cleaner way to do the above initializeJQLquery() method, but its not yet tested
-    /*function initializeJQLquery(encodedEmail) {
+    function initializeJQLquery(encodedEmail) {
         let jqlQuery = assignedOrMentioned === "assigned" ? `assignee=${encodedEmail}` : `text ~ ${encodedEmail}`;
 
         const params = [
@@ -128,7 +130,7 @@ const JiraTicket = ({ apiToken, domain, email, widgetId}) => {
         });
 
         return {jql: jqlQuery};
-    }*/
+    }
 
     return (
         <div className="w_overflowable">

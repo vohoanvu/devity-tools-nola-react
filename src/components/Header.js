@@ -8,6 +8,13 @@ import btn_image_clipboard from "../img/d_btn_ctrl_clipboard.png";
 import btn_image_code from "../img/d_btn_ctrl_code.png";
 import btn_image_lib from "../img/d_btn_ctrl_lib.png";
 import { UserContext } from "../api-integration/UserContext";
+import axios from "axios";
+import CONFIG from "../config.json";
+import Cookies from "universal-cookie";
+const SSO_URL = CONFIG.SSO_URL;
+const COOKIE_NAME = "devity-token";
+const API_URL = CONFIG.API_URL;
+const cookies = new Cookies();
 
 
 export default function Header(props) 
@@ -53,6 +60,18 @@ export default function Header(props)
         onNavigate(target);
     }
 
+    async function logOutRequest() {
+        await axios.delete(API_URL + "/api/sessions")
+            .then(response => {
+                if (response.status === 200) {
+                    console.log("Successfully deleted SESSION", response.status);
+                    cookies.remove(COOKIE_NAME, { path: "/" });
+                    window.location.replace(SSO_URL);
+                }
+            })
+            .catch(err => console.log(err));
+    }
+
 
     return (<div id="navigation" className="nav nav-max">
 
@@ -92,6 +111,11 @@ export default function Header(props)
             <button id='nav_profile' onClick={()=>onNavigateClicked("PROFILE")}>
                 <img  src={btn_image_avitar} className="App-avitar" alt="{user.name}" /><br />
                 <Username />
+            </button>
+
+            <button id='nav_profile' onClick={logOutRequest}>
+                <img  src={btn_image_avitar} className="App-avitar" alt="{user.name}" /><br />
+                <span>LOG OUT</span>
             </button>
         </header>
 

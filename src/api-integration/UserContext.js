@@ -28,13 +28,9 @@ export function UserProvider({ children, ...props })
 
         fetchUser(bearer).then(async (result) => { 
             let userInterests = await fetchUserInterests();
-            let jiraCreds = fetchJiraCredsFromLocalStorage();
             setUserProfile({
                 ...result,
-                user_interests: userInterests,
-                jira_token: jiraCreds.jiraToken,
-                jira_domain: jiraCreds.jiraDomain,
-                jira_user_id: jiraCreds.jiraUserId
+                user_interests: userInterests
             });
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,16 +48,16 @@ export function UserProvider({ children, ...props })
             });
     }
 
-    function fetchJiraCredsFromLocalStorage() 
-    {
-        const jiraCreds = {
-            jiraToken : localStorage.getItem("jira_token") ?? "", //"a4EHm80xhC4csD0FXMS4051D";
-            jiraDomain : localStorage.getItem("jira_domain") ?? "", //"devity-tools.atlassian.net";
-            jiraUserId : localStorage.getItem("jira_user_id") ?? "" //"vu@noladigital.net";
-        };
+    // function fetchJiraCredsFromLocalStorage() 
+    // {
+    //     const jiraCreds = {
+    //         jiraToken : localStorage.getItem("jira_token") ?? "", //"a4EHm80xhC4csD0FXMS4051D";
+    //         jiraDomain : localStorage.getItem("jira_domain") ?? "", //"devity-tools.atlassian.net";
+    //         jiraUserId : localStorage.getItem("jira_user_id") ?? "" //"vu@noladigital.net";
+    //     };
 
-        return jiraCreds;
-    }
+    //     return jiraCreds;
+    // }
 
 
     return (

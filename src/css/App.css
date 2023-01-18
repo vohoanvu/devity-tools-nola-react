@@ -898,3 +898,13 @@ span.w_copyable.filterable {
 .issue-horizontal {
   display: flexbox;
 }
+
+.link-button {
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  display: inline;
+  margin: 0;
+  padding: 0;
+  color: blue;
+}

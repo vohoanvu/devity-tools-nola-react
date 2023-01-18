@@ -28,7 +28,10 @@ export default function DevityPanels(props)
     });
     const userContext = useContext(UserContext);
     const [isDevitySubTypeAddOpen, setIsDevitySubTypeAddOpen] = useState(false);
-    const [isRssUriChanged, setIsRssUriChanged] = useState(false);
+    const [isDevitySubTypeChanged, setIsDevitySubTypeChanged] = useState({
+        isRssUriChanged: false,
+        isJiraConfigsChanged: false
+    });
 
     useEffect(() => {
         async function fetchData() {
@@ -73,7 +76,7 @@ export default function DevityPanels(props)
         w_create(newWidget, widgetType);
     }
 
-    function init_w_content(type) {
+    function init_w_content(type, devitySubType) {
         let jsonObject = {};
 
         switch (type) {
@@ -90,7 +93,15 @@ export default function DevityPanels(props)
             jsonObjList.push(jsonObject);
             return jsonObjList;
         case "DEVITY":
-            jsonObject["feedUri"] = ""; //format: "{ feedUri: "https://rss.nytimes.com/services/xml/rss/nyt/US.xml" }"
+            if (devitySubType && devitySubType === "RSS") {
+                jsonObject["feedUri"] = ""; //format: "{ feedUri: "https://rss.nytimes.com/services/xml/rss/nyt/US.xml" }"
+            }
+            if (devitySubType && devitySubType === "JIRA") {
+                jsonObject["duty"] = ""; //format: "{ duty: "assigned" }" or "{ duty: "mentioned" }"
+                jsonObject["issueTypes"] = []; //format: "{ issueTypes: ["Bug", "Story"] }"
+                jsonObject["statuses"] = []; //format: "{ status: ["Open", "In Progress"] }"
+                jsonObject["priorities"] = []; //format: "{ priority: ["High", "Medium"] }"
+            }
             return jsonObject;
         default:
             break;
@@ -128,9 +139,20 @@ export default function DevityPanels(props)
             })
             .catch(err => console.log(err));
 
-        if (type === "DEVITY") {
-            setIsRssUriChanged(!isRssUriChanged);
+        if (type === "DEVITY" && putBody.w_type_sub === "RSS") {
+            setIsDevitySubTypeChanged({
+                ...isDevitySubTypeChanged,
+                isRssUriChanged: !isDevitySubTypeChanged.isRssUriChanged
+            });
         }
+        if (type === "DEVITY" && putBody.w_type_sub === "JIRA") {
+            setIsDevitySubTypeChanged({
+                ...isDevitySubTypeChanged,
+                isJiraConfigsChanged: !isDevitySubTypeChanged.isJiraConfigsChanged
+            });
+        }
+
+
         return result;
     }
 
@@ -199,14 +221,14 @@ export default function DevityPanels(props)
                     widget={widget} 
                     sendContentToParent={sendPUTContentToParent} 
                     activePanel={widgetType}
-                    isUriChanged={isRssUriChanged}/>
+                    isUriChanged={isDevitySubTypeChanged.isRssUriChanged}/>
 
             if (widget.w_type_sub === "JIRA")
                 return <Jira
-                    apiToken={userContext.userProfile.jira_token}
-                    domain={userContext.userProfile.jira_domain}
-                    email={userContext.userProfile.jira_user_id}
-                    widgetId={widget.id}/>
+                    activePanel={widgetType}
+                    widget={widget} 
+                    sendContentToParent={sendPUTContentToParent}
+                    isConfigsChanged={isDevitySubTypeChanged.isJiraConfigsChanged}/>
             break;
         default:
             return <div className="w-container">LOADING...</div>;

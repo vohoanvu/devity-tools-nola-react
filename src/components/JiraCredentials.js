@@ -27,12 +27,20 @@ export default class JiraCredentials extends React.Component
 
     handleBlur = (event) => {
         if (event.target.name === "jiraDomain") {
-            localStorage.setItem(LOCAL_STORAGE_DOMAIN_KEY, event.target.value);
+            let validDomain = "";
             if (!this.jiraDomainRegex.test(event.target.value)) {
                 this.setState({
                     domainError: "Invalid Jira Domain URL"
                 });
+                //removing the invalid characters such as "http://", "https://" or '/' at the end from the domain
+                validDomain = event.target.value.replace(/(^\w+:|^)\/\//, "").replace(/\/$/, "");
+            } else {
+                this.setState({
+                    domainError: ""
+                });
+                validDomain = event.target.value;
             }
+            localStorage.setItem(LOCAL_STORAGE_DOMAIN_KEY, validDomain);
         }
 
         if (event.target.name === "jiraUserId") {
@@ -64,7 +72,7 @@ export default class JiraCredentials extends React.Component
                             value={this.state.jiraDomain} 
                             onBlur={this.handleBlur.bind(this)} 
                             onChange={this.handleOnChange.bind(this)}/>
-                        { this.state.domainError && <p style={{ color: "red" }}>{this.state.domainError}</p> }
+                        {/* { this.state.domainError && <p style={{ color: "red" }}>{this.state.domainError}</p> } */}
                     </label>
                     <br/>
                     <label htmlFor="jiraUserId">

@@ -29,6 +29,12 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
         
             if (apiToken && domain && email) {
                 fetchJiraTickets(apiToken, domain, email, configs["duty"], configs["issueTypes"], configs["statuses"], configs["priorities"]);
+            } else {
+                setJiraRequestError({
+                    code: 401,
+                    errMessages: ["Missing JIRA credentials. Please fill out Jira credentials in Profile"]
+                });
+                setTickets([]);
             }
         });
         
@@ -47,6 +53,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
         await axios.get(`https://${domain}/rest/api/3/search`, { headers, params: jqlParams })
             .then(response => {
                 console.log("JIRA response: ", response.data.issues);
+                if (response.status === 200) setJiraRequestError({code: response.status});
                 return response.data.issues;
             }).then(issues => {
                 setTickets(issues);
@@ -72,10 +79,11 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             }).then(result => {
                 //transform JIRA widget content
                 let configsContent = JSON.parse(result.w_content);
+                console.log("JIRA widget content: ", configsContent);
                 //configurations are empty
                 if (!configsContent["duty"] && configsContent["issueTypes"].length === 0 && configsContent["statuses"].length === 0 && configsContent["priorities"].length === 0) {
                     setShowConfigurations(true);
-                    return;
+                    return configsContent;
                 } else {
                     setShowConfigurations(false);
                     setAssignedOrMentioned(configsContent["duty"]);
@@ -174,8 +182,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             console.log("JQL duty is: MENTIONED");
             jqlQuery = `text ~ ${encodedEmail}`;
         } else {
-            console.log("Error: JQL duty is not assigned nor mentioned...");
-            jqlQuery = `assignee=${encodedEmail} or text ~ ${encodedEmail}`;
+            console.log("Fetching ALL issues: JQL duty is not assigned nor mentioned...");
         }
 
         const params = [
@@ -219,7 +226,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                 tickets.length !== 0 ? <JiraIssuesTable issues={tickets} jiraDomain={localStorage.getItem("jira_domain")}/> : 
                     (
                         <div> 
-                            <h3>No tickets found! Please fill out JIRA credentials in Profile OR Jira Configurations above</h3>
+                            <h3>No tickets found!</h3>
                         </div>
                     )
             }
@@ -227,9 +234,9 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                 jiraRequestError.code !== 200 && 
                 (
                     <div>
-                        <h4 style={{ color: "red" }}>Request failed with Status: {jiraRequestError.code}</h4>
+                        <h4 style={{ color: "red" }}>JIRA request failed with Status: {jiraRequestError.code}</h4>
                         <ul>
-                            { 
+                            {
                                 jiraRequestError.errMessages?.map((message, index) => <li key={index}>{message}</li>) 
                             }
                         </ul>

@@ -97,7 +97,7 @@ export default function DevityPanels(props)
                 jsonObject["feedUri"] = ""; //format: "{ feedUri: "https://rss.nytimes.com/services/xml/rss/nyt/US.xml" }"
             }
             if (devitySubType && devitySubType === "JIRA") {
-                jsonObject["duty"] = ""; //format: "{ duty: "assigned" }" or "{ duty: "mentioned" }"
+                jsonObject["duty"] = "assigned"; //format: "{ duty: "assigned" }" or "{ duty: "mentioned" }"
                 jsonObject["issueTypes"] = []; //format: "{ issueTypes: ["Bug", "Story"] }"
                 jsonObject["statuses"] = []; //format: "{ status: ["Open", "In Progress"] }"
                 jsonObject["priorities"] = []; //format: "{ priority: ["High", "Medium"] }"

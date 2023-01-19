@@ -182,7 +182,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             console.log("JQL duty is: MENTIONED");
             jqlQuery = `text ~ ${encodedEmail}`;
         } else {
-            console.log("Fetching ALL issues: JQL duty is not assigned nor mentioned...");
+            console.log("ERROR: JQL duty is neither assigned nor mentioned...");
         }
 
         const params = [
@@ -259,10 +259,33 @@ function JiraConfigurations(props)
         priorities: []
     });
     const [jiraWidget, setJiraWidget] = useState({});
+    const [priorityOptions, setPriorityOptions] = useState([]);
 
     useEffect(() => {
+        async function fetchPriorities() {
+            const apiToken = localStorage.getItem("jira_token");
+            const domain = localStorage.getItem("jira_domain");
+            const email = localStorage.getItem("jira_user_id");
+            const headers = {
+                "Content-Type": "application/json",
+                "Authorization": `Basic ${btoa(`${email}:${apiToken}`)}`
+            };
+            await axios.get(`https://${domain}/rest/api/3/priority/search`, { headers })
+                .then(response => {
+                    if (response.status === 200) {
+                        let priorityOptions = response.data.values.map(prio => {
+                            return { id: prio.id, name: prio.name };
+                        });
+                        setPriorityOptions(priorityOptions);
+                    }
+                })
+                .catch(error => console.log(error));
+        }
+
         setJiraWidget(props.widget);
+        fetchPriorities();
     }, [props.widget]);
+    
 
     function handleDutyChange(changeEvent) {
         $(`#save-btn-${props.widget.id}`).show();
@@ -447,7 +470,7 @@ function JiraConfigurations(props)
                 </div>
                 <h4>Ticket priorities</h4>
                 <div className="ticket-priorities">
-                    <label>
+                    {/* <label>
                         <input 
                             type="checkbox" 
                             value="Highest" 
@@ -495,7 +518,23 @@ function JiraConfigurations(props)
                             onChange={handlePriorityChange}
                         />
                         Lowest
-                    </label>
+                    </label> */}
+                    {
+                        priorityOptions.length !== 0 && priorityOptions && priorityOptions.map(option => (
+                            <div key={option.id}>
+                                <label>
+                                    <input 
+                                        type="checkbox" 
+                                        value={option.name} 
+                                        checked={props.priorities.includes(option.name)}
+                                        onChange={handlePriorityChange}
+                                    />
+                                    {option.name}
+                                </label>
+                                <br />
+                            </div>
+                        ))
+                    }
                 </div>
             </form>
         </div>

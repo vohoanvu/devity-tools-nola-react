@@ -13,6 +13,10 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
     const [ticketStatuses, setTicketStatuses] = useState([]);
     const [priorities, setPriorities] = useState([]);
     const [showConfigurations, setShowConfigurations] = useState(true);
+    const [jiraRequestError, setJiraRequestError] = useState({
+        code: 0,
+        errMessages: []
+    });
 
     useEffect(() => {
         if (activePanel && activePanel !== "DEVITY") return;
@@ -49,6 +53,12 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             })
             .catch(error => {
                 console.log(error);
+                const msgList = error.response.data.errorMessages ?? [error.response.data];
+                error.response.data.warningMessages.length !== 0 && msgList.push(error.response.data.warningMessages);
+                setJiraRequestError({
+                    code: error.response.status,
+                    errMessages: msgList
+                });
             });
     }
 
@@ -65,7 +75,6 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                 //configurations are empty
                 if (!configsContent["duty"] && configsContent["issueTypes"].length === 0 && configsContent["statuses"].length === 0 && configsContent["priorities"].length === 0) {
                     setShowConfigurations(true);
-                    console.log("Are we here... ", configsContent);
                     return;
                 } else {
                     setShowConfigurations(false);
@@ -213,6 +222,19 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                             <h3>No tickets found! Please fill out JIRA credentials in Profile OR Jira Configurations above</h3>
                         </div>
                     )
+            }
+            { 
+                jiraRequestError.code !== 200 && 
+                (
+                    <div>
+                        <h4 style={{ color: "red" }}>Request failed with Status: {jiraRequestError.code}</h4>
+                        <ul>
+                            { 
+                                jiraRequestError.errMessages?.map((message, index) => <li key={index}>{message}</li>) 
+                            }
+                        </ul>
+                    </div>
+                )
             }
         </div>
     );

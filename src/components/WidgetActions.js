@@ -115,7 +115,7 @@ export default function Widget(props)
                         if (props.isReadyToSave.isReadyToSave) {
                             await props.callPUTRequest(props.isReadyToSave.putBody, props.isReadyToSave.type)
                                 .then(result => {
-                                    if (props.widget.w_type !== "DEVITY") $(`#save-btn-${props.widget.id}`).hide();
+                                    $(`#save-btn-${props.widget.id}`).hide();
                                 });
                         } else {
                             alert("not yet ready to save! Please click Save button again after a few seconds.");

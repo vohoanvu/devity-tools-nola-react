@@ -141,13 +141,11 @@ export default function DevityPanels(props)
 
         if (type === "DEVITY" && putBody.w_type_sub === "RSS") {
             setIsDevitySubTypeChanged({
-                ...isDevitySubTypeChanged,
                 isRssUriChanged: !isDevitySubTypeChanged.isRssUriChanged
             });
         }
         if (type === "DEVITY" && putBody.w_type_sub === "JIRA") {
             setIsDevitySubTypeChanged({
-                ...isDevitySubTypeChanged,
                 isJiraConfigsChanged: !isDevitySubTypeChanged.isJiraConfigsChanged
             });
         }

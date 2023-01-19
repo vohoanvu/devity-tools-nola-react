@@ -182,7 +182,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             console.log("JQL duty is: MENTIONED");
             jqlQuery = `text ~ ${encodedEmail}`;
         } else {
-            console.log("Fetching ALL issues: JQL duty is not assigned nor mentioned...");
+            console.log("ERROR: JQL duty is neither assigned nor mentioned...");
         }
 
         const params = [

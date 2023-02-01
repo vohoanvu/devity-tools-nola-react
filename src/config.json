@@ -1,15 +1,15 @@
 {
-  "API_URL": "https://localhost:7294",  
+  "API_URL": "https://devity-tool-api.azurewebsites.net",  
   "SSO_URL": "https://noladigital.net",
-    "DEVITY_API" : "https://localhost:7294",
-    "DEVITY" : "http://localhost:3000",
-    "GOOGLE_API_KEY" : "AIzaSyAzgX2yArFJrRogwd5GCdkjmQaUwGUWMqs",
-    "GOOGLE_SEARCH_ENGINE" : "b2801acca79e24323",
-    "GOOGLE_SEARCH_ENGINE_URL" : "https://www.googleapis.com/customsearch/v1",
-    "YOUTUBE_API_URL": "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=",
-    "YOUTUBE_API_KEY" : "AIzaSyCbhOplocxL1BSRHPNc5hPhbTnAQfJOQe4",
-    "THEME_COLORS": {
-      "PRIMARY": "#007bff",
-      "SECONDARY": "#fc3"
-    }
+  "DEVITY_API" : "https://devity-tool-api.azurewebsites.net",
+  "DEVITY" : "http://localhost:3000",
+  "GOOGLE_API_KEY" : "AIzaSyAzgX2yArFJrRogwd5GCdkjmQaUwGUWMqs",
+  "GOOGLE_SEARCH_ENGINE" : "b2801acca79e24323",
+  "GOOGLE_SEARCH_ENGINE_URL" : "https://www.googleapis.com/customsearch/v1",
+  "YOUTUBE_API_URL": "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=",
+  "YOUTUBE_API_KEY" : "AIzaSyCbhOplocxL1BSRHPNc5hPhbTnAQfJOQe4",
+  "THEME_COLORS": {
+    "PRIMARY": "#007bff",
+    "SECONDARY": "#fc3"
   }
+}

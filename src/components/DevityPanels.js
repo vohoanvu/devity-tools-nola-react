@@ -80,11 +80,11 @@ export default function DevityPanels(props)
         let jsonObject = {};
 
         switch (type) {
-        case "CLIPBOARD": //format: "{ CLIPBOARD: [ "string1", "string2" ] }"
+        case "CLIPBOARD": //format: "{ "CLIPBOARD": [ "devitysqladmin", "Y$BH4bB96JkLY*7FVQvzfmVqHcozGTf#8" ] }"
             jsonObject["CLIPBOARD"] = [];
             return jsonObject;
         case "NOTES":
-            jsonObject["NOTES"] = "<p></p>"; //format: "{ NOTES: "<p>html-encoded-string-from-TINY-editor</p>" }"
+            jsonObject["NOTES"] = "<p></p>"; //format: "{ "NOTES": "<p>html-encoded-string-from-TINY-editor</p>" }"
             return jsonObject;
         case "LINKS":
             var jsonObjList = [];
@@ -94,7 +94,7 @@ export default function DevityPanels(props)
             return jsonObjList;
         case "DEVITY":
             if (devitySubType && devitySubType === "RSS") {
-                jsonObject["feedUri"] = ""; //format: "{ feedUri: "https://rss.nytimes.com/services/xml/rss/nyt/US.xml" }"
+                jsonObject["feedUri"] = ""; //format: "{ "feedUri": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml" }"
             }
             if (devitySubType && devitySubType === "JIRA") {
                 jsonObject["duty"] = "assigned"; //format: "{ duty: "assigned" }" or "{ duty: "mentioned" }"

@@ -28,7 +28,6 @@ jobs:
           working-directory: ${{ env.GITHUB_WORKSPACE }}
           shell: bash
           run-command: |
-            npm install 
             npm run build
 
       - name: Deploy

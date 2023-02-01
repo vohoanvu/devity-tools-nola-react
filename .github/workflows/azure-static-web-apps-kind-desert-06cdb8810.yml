@@ -25,7 +25,6 @@ jobs:
         id: build
         uses: actions/checkout@v2
         with:
-          targetType: 'inline'
           repository: ${{ env.GITHUB_REPOSITORY }}
           run-command: | 
             npm install 
@@ -38,8 +37,7 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_KIND_DESERT_06CDB8810 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "/"
-          api_location: ""
+          app_location: "build"
           output_location: "build"
           skip_app_build: true
 

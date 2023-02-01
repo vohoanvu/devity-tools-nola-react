@@ -27,7 +27,7 @@ jobs:
         with:
           targetType: 'inline'
           repository: ${{ env.GITHUB_REPOSITORY }}
-          run: | 
+          run-command: | 
             npm install 
             npm run build
 
@@ -41,7 +41,7 @@ jobs:
           app_location: "/"
           api_location: ""
           output_location: "build"
-          skip_app_build: false
+          skip_app_build: true
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

@@ -23,7 +23,7 @@ jobs:
 
       - name: Build
         id: build
-        uses: actions/runner@v2
+        uses: actions/checkout@v2
         with:
           working-directory: ${{ env.GITHUB_WORKSPACE }}
           shell: bash

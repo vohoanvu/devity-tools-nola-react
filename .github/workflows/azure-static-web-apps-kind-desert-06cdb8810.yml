@@ -25,10 +25,9 @@ jobs:
         id: build
         uses: actions/checkout@v2
         with:
-          working-directory: ${{ env.GITHUB_WORKSPACE }}
-          shell: bash
-          run-command: |
-            npm run build
+          targetType: 'inline'
+          repository: ${{ env.GITHUB_REPOSITORY }}
+          run-command: npm run build
 
       - name: Deploy
         id: deploy

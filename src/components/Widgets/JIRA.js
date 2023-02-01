@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import CONFIG from "../../config";
+import CONFIG from "../../config.json";
 import "../../css/App.css";
 import $ from "jquery";
 const sso_url = CONFIG.SSO_URL;

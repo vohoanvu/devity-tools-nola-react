@@ -5,7 +5,7 @@ import Libraries  from "../components/Libraries";
 import Profile  from "../components/Profile";
 import Console from "../components/Console";
 import Header  from "../components/Header";
-import CONFIG from "../config";
+import CONFIG from "../config.json";
 import axios from "axios";
 import "../css/App.css";
 import SearchResults from "../components/SearchResults";

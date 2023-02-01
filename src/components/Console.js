@@ -3,7 +3,7 @@ import $ from "jquery";
 import axios from "axios";
 import { useState, useContext } from "react";
 import { log } from "../Utilities"
-import CONFIG from "../config";
+import CONFIG from "../config.json";
 import { UserContext } from "../api-integration/UserContext";
 
 const GOOGLE_SEARCH_API = CONFIG.GOOGLE_SEARCH_ENGINE_URL + "?key=" + CONFIG.GOOGLE_API_KEY + "&cx=" + CONFIG.GOOGLE_SEARCH_ENGINE;

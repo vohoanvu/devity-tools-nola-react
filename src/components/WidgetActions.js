@@ -1,5 +1,5 @@
 import * as React from "react";
-import configData from "../config";
+import configData from "../config.json";
 import axios from "axios";
 import Editable from "./Editable";
 import btn_save from "../img/btn_save.png";

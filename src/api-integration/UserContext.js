@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as React from "react";
-import configData from "../config";
+import configData from "../config.json";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 const devity_api = configData.DEVITY_API;

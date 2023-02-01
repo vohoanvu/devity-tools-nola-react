@@ -9,7 +9,7 @@ import btn_image_code from "../img/d_btn_ctrl_code.png";
 import btn_image_lib from "../img/d_btn_ctrl_lib.png";
 import { UserContext } from "../api-integration/UserContext";
 import axios from "axios";
-import CONFIG from "../config";
+import CONFIG from "../config.json";
 import Cookies from "universal-cookie";
 const SSO_URL = CONFIG.SSO_URL;
 const COOKIE_NAME = "devity-token";

@@ -5,7 +5,7 @@ import JiraCredentials from "./JiraCredentials";
 import { UserContext } from "../api-integration/UserContext";
 import Editable from "./Editable";
 import axios from "axios";
-import configData from "../config";
+import configData from "../config.json";
 import $ from "jquery";
 import btn_save from "../img/btn_save.png";
 

@@ -27,7 +27,7 @@ jobs:
         with:
           targetType: 'inline'
           repository: ${{ env.GITHUB_REPOSITORY }}
-          run-command: | 
+          run: | 
             npm install 
             npm run build
 

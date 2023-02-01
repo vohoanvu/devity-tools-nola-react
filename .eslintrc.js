@@ -31,7 +31,7 @@ module.exports = {
     rules: {
         "react/prop-types": 0,
         "indent": 1,
-        "linebreak-style": [1, process.env.NODE_ENV === "prod" ? "unix" : "windows"],
+        "linebreak-style": ["error", (require("os").EOL === "\r\n" ? "windows" : "unix")],
         "quotes": [1, "double"],
         "no-debugger": 0
     },

@@ -15,11 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
-      - checkout: self
-        displayName: Checkout code
-      # - uses: actions/checkout@v2
-      #   with:
-      #     submodules: true
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
 
       - task: Bash@3
         displayName: Build

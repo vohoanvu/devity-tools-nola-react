@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import configData from "../config.json";
+import configData from "../config";
 import { Editor } from "@tinymce/tinymce-react";
 import { log } from "../Utilities";
 import $ from "jquery";

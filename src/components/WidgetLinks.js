@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import configData from "../config.json";
+import configData from "../config";
 import { format_link, abbriviate, currate_title } from "../Utilities";
 import Editable from "./Editable";
 import btn_add from "../img/btn_add.png";

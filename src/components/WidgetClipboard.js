@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import $ from "jquery";
-import CONFIG from "../config.json";
+import CONFIG from "../config";
 import "../css/App.css";
 import Editable from "./Editable";
 import btn_add from "../img/btn_add.png";

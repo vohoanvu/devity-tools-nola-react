@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import $ from "jquery";
-import CONFIG from "../../config.json";
+import CONFIG from "../../config";
 import "../../css/App.css";
 const sso_url = CONFIG.SSO_URL;
 const devity_api = CONFIG.DEVITY_API;

@@ -20,9 +20,10 @@ export default function Editable({
 
     const handleKeyDown = (event, type) => {
         const { key } = event;
-        const keys = ["Escape", "Tab"]; // use this array to check for <textarea/> inputType
-        const enterKey = "Enter";
-        const allKeys = [...keys, enterKey];
+        const allKeys = ["Escape", "Tab", "Enter"];
+        if (key === "Tab") {
+            event.preventDefault();
+        }
 
         if (type !== "textarea" && allKeys.indexOf(key) > -1) {
             setEditing(false);
@@ -36,14 +37,14 @@ export default function Editable({
     }
 
     return (
-        <div style={{ display: 'inline-block' }} {...props}>
+        <div className="w-input-txt" style={{ display: "inline-block" }} {...props}>
             {
                 isEditing ? (
-                    <div onBlur={(e)=> handleInputOnBlur(e)} onKeyDown={(e)=>handleKeyDown(e, inputType)}>
+                    <div onBlur={(e)=> handleInputOnBlur(e)} onKeyDown={(e)=>handleKeyDown(e, inputType)} role="button" aria-hidden>
                         {children}
                     </div>
                 ) : (
-                    <div onClick={()=>setEditing(true)}>
+                    <div onClick={()=>setEditing(true)} role="button" aria-hidden>
                         { displayText }
                     </div>
                 )

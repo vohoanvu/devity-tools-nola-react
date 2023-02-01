@@ -8,104 +8,128 @@ import btn_image_clipboard from "../img/d_btn_ctrl_clipboard.png";
 import btn_image_code from "../img/d_btn_ctrl_code.png";
 import btn_image_lib from "../img/d_btn_ctrl_lib.png";
 import { UserContext } from "../api-integration/UserContext";
+import axios from "axios";
+import CONFIG from "../config.json";
+import Cookies from "universal-cookie";
+const SSO_URL = CONFIG.SSO_URL;
+const COOKIE_NAME = "devity-token";
+const API_URL = CONFIG.API_URL;
+const cookies = new Cookies();
 
 
 export default function Header(props) 
 {
-  const userContext = useContext(UserContext);
+    const userContext = useContext(UserContext);
 
-  useEffect(()=>{
-    const mostRecentView = userContext.activePanel;
-    $('.p-panel').hide();
-    if(mostRecentView){
-      onNavigate(mostRecentView);
-    }
-    else{
-      onNavigate("ALL");
-    }
-  },[userContext]) 
-
-  function onNavigate(target) {
-
-      if (target === "CONSOLE") {
-        $('#console_log').toggleClass('hide');
-        $('#navigation').toggleClass('nav-max');
-        $('#navigation').toggleClass('nav-min');
-        $('#console').toggleClass('console-max');
-        $('#console').toggleClass('console-min');
-        $('#cmd_type_radio').toggle();
-        // $('#header_container').toggleClass('display-flex');
-      } else {
-        $('.p-panel').hide();
-    
-        if (target === 'ALL') {
-          $('.p-panel').show();
-        } else {
-          $('div[data-panel=' + target + ']').show();
-          $("#search_input").val('');
+    useEffect(()=>{
+        const curr_view = userContext.activePanel;
+        $(".p-panel").hide();
+        if(curr_view){
+            onNavigate(curr_view);
         }
-      }
+        else{
+            onNavigate("DEVITY");
+        }
+    },[userContext]) 
+
+    function onNavigate(target) {
+
+        if (target === "CONSOLE") {
+            $("#console_log").toggleClass("hide");
+            $("#navigation").toggleClass("nav-max");
+            $("#navigation").toggleClass("nav-min");
+            $("#console").toggleClass("console-max");
+            $("#console").toggleClass("console-min");
+            $(".cmd_type_radio").toggle();
+            // $('#header_container').toggleClass('display-flex');
+        } else {
+            $(".p-panel").hide();
+    
+            if (target === "ALL") {
+                $(".p-panel").show();
+            } else {
+                $("div[data-panel=" + target + "]").show();
+                $("#search_input").val("");
+            }
+        }
     }
 
     function onNavigateClicked(target) {
-      localStorage.setItem('mostRecentView', target);
-      userContext.setActivePanel(target);
-      onNavigate(target);
+        localStorage.setItem("curr_view", target);
+        if (target !== "CONSOLE") userContext.setActivePanel(target);
+        onNavigate(target);
+    }
+
+    async function logOutRequest() {
+        await axios.delete(API_URL + "/api/sessions")
+            .then(response => {
+                if (response.status === 200) {
+                    console.log("Successfully deleted SESSION", response.status);
+                    cookies.remove(COOKIE_NAME, { path: "/" });
+                    window.location.replace(SSO_URL);
+                }
+            })
+            .catch(err => console.log(err));
     }
 
 
-  return (<div id="navigation" className="nav-max">
+    return (<div id="navigation" className="nav nav-max">
 
-      <div id="logo">
-        <button id="nav_all" onClick={()=>onNavigateClicked('ALL')}>
-          <img src={logo} className="logo" alt="logo" />
-        </button>
-      </div>
+        <div id="logo">
+            <button id="nav_all" onClick={()=>onNavigateClicked("DEVITY")}>
+                <img src={logo} className="logo" alt="logo" />
+            </button>
+        </div>
       
-      <header id="ribbon" className="ribbon-cntrls" >
-        <button id='nav_links' onClick={()=>onNavigateClicked('LINKS')}>
-          <img src={btn_image_links} alt="Links" /><br />
-          <span>Links</span>
-        </button>
+        <header id="ribbon" className="ribbon-cntrls" >
+            <button id='nav_links' onClick={()=>onNavigateClicked("LINKS")}>
+                <img src={btn_image_links} alt="Links" /><br />
+                <span>Links</span>
+            </button>
 
-        <button id="nav_clipboard" onClick={()=>onNavigateClicked('CLIPBOARD')}>
-          <img  src={btn_image_clipboard} className="" alt="Clipboard" /><br />
-          <span>Clipboard</span>
-        </button>
+            <button id="nav_clipboard" onClick={()=>onNavigateClicked("CLIPBOARD")}>
+                <img  src={btn_image_clipboard} className="" alt="Clipboard" /><br />
+                <span>Clipboard</span>
+            </button>
 
-        <button id='nav_notes' onClick={()=>onNavigateClicked('NOTES')}>
-          <img  src={btn_image_notes} className="" alt="Notes" /><br />
-          <span>Notes</span>
-        </button>
+            <button id='nav_notes' onClick={()=>onNavigateClicked("NOTES")}>
+                <img  src={btn_image_notes} className="" alt="Notes" /><br />
+                <span>Notes</span>
+            </button>
 
-        <button id='nav_libraries' onClick={()=>onNavigate('LIBRARIES')}>
-          <img  src={btn_image_lib} className="" alt="Libraries" /><br />
-          <span>Libraries</span>
-        </button>
+            <button id='nav_libraries' onClick={()=>onNavigateClicked("LIBRARIES")}>
+                <img  src={btn_image_lib} className="" alt="Libraries" /><br />
+                <span>Libraries</span>
+            </button>
 
-        <button id="nav_console" onClick={()=>onNavigate('CONSOLE')}>
-          <img  src={btn_image_code} className="" alt="Console" /><br />
-          <span>Console</span>
-        </button>
+            <button id="nav_console" onClick={()=>onNavigateClicked("CONSOLE")}>
+                <img  src={btn_image_code} className="" alt="Console" /><br />
+                <span>Console</span>
+            </button>
 
 
-        <button id='nav_profile' onClick={()=>onNavigate('PROFILE')}>
-          <img  src={btn_image_avitar} className="App-avitar" alt="{user.name}" /><br />
-          <Username />
-        </button>
-      </header>
+            <button id='nav_profile' onClick={()=>onNavigateClicked("PROFILE")}>
+                <img  src={btn_image_avitar} className="App-avitar" alt="{user.name}" /><br />
+                <Username />
+            </button>
 
-      </div>);
+            <button id='nav_profile' onClick={logOutRequest}>
+                <img  src={btn_image_avitar} className="App-avitar" alt="{user.name}" /><br />
+                <span>LOG OUT</span>
+            </button>
+        </header>
+
+    </div>);
 }
 
 
 //another component
 function Username() {
-  const userContext = React.useContext(UserContext);
+    const userContext = React.useContext(UserContext);
 
-  return (
-    <span>
-      {userContext.userProfile.name}
-    </span>
-  );
+    return (
+        <span>
+            {userContext.userProfile.name}
+        </span>
+    );
 }

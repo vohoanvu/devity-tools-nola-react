@@ -1,7 +1,71 @@
-.App {
- 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
+body {
+  margin: 0;
+  font-family: Consolas, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--COLOR_BODY);
+  color: var(--COLOR_TEXT);
+  padding: 10px;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.loader {
+  border: 16px solid var(--COLOR_PANEL_BG);
+  border-top: 16px solid var(--COLOR_PANEL_BRD);
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+h1{
+  display: block;
+  font-size: 28px;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+h2{margin-bottom: 0;}
+h3{margin-bottom: 0;}
+p{margin-top: 0;}
+span{color: var(--COLOR_TEXT);}
+
+/* unvisited link */
+a:link {
+  color: var(--COLOR_LINK);
+}
+
+/* visited link */
+a:visited {
+  color: var(--COLOR_LINK_VISITED);
+}
+
+/* mouse over link */
+a:hover {
+  color: var(--COLOR_LINK_HOVER);
+}
+
+/* selected link */
+a:active {
+  color: var(--COLOR_LINK_ACTIVE);
+}
 
 .logo{
   pointer-events: none;
@@ -14,7 +78,7 @@
 
 .nav-max .ribbon-cntrls{
   margin:auto;
-  width: 820px;
+  width: 870px;
   margin-bottom: 5px;
 }
 
@@ -26,10 +90,8 @@
   height: 100px;
   width: 100px;;
 }
-.nav-min{
-  display: flex;
-  float: right;
-}
+
+
 .nav-min button{
   background-color:  var(--COLOR_BODY);
   margin-right: 7px;
@@ -72,9 +134,7 @@
   height: 200px;
   overflow: auto;
 }
-.console-max {
-  display: flex;
-}
+
 .console-min {
   width: 525px;
   margin-bottom: 5px;
@@ -113,11 +173,17 @@ list-style-type: none;
   border: none;
 }
 #prompt_container input:focus{
-  caret-color: red;
+  caret-color: var(--COLOR_CARET);
   outline: none;
   top: -5px;
 }
 
+.widget input[type="text"]:focus{
+  caret-color: var(--COLOR_CARET);
+  background-color: var(--COLOR_WIDGET_INPUT_BG);
+  outline: none;
+  top: -5px;
+}
 
 @media (max-width: 780px) {
 
@@ -167,105 +233,330 @@ list-style-type: none;
 
 }
 
-
-
-
-
 @keyframes cursor-blink {
   0% {
     opacity: 0;
   }
 }
 
-
-
-
-
 .label{
   color: var(--COLOR_TEXT);
 }
-.p-panel{
-display: block;
-margin: 10px;
-width: 98%;
-min-height: 250px;
-border: 1px;
-border-style: solid;
-border-radius: 15px;
-border-color: var(--COLOR_PANEL_BRD);
-overflow: auto;
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .console-max {
+    display: block;
+  }
+  #console > div.cmd_type_radio{
+    display: flex;
+    width: 25%;
+    padding: 7px;
+    margin: auto;
+  }
+  .nav-min{
+    display: flex;
+    float: right;
+    width: 300px;
+  }
+  .profile{
+    display: block;
+  }
+  .profile .card{
+    padding-left: 20px;
+  }
+  .profile .settings{
+   width: 100%;
+  }
+  .profile .personal{
+    width: 100%;
+  }
+  .profile ul{
+    display: block;
+    padding-left: 0px;
+  }
+  
 }
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+  .console-max {
+    display: block;
+  }
+  #console > div.cmd_type_radio{
+    display: flex;
+    padding: 7px;
+  }
+  .console-max {
+    display: block;
+  }
+  .nav-min{
+    display: flex;
+    float: right;
+    width: 30%;
+  }
+  .profile{
+    display: block;
+  }
+  .profile .card{
+    padding-left: 20px;
+  }
+  .profile .settings{
+   width: 100%;
+  }
+  .profile .personal{
+    width: 100%;
+  }
+  .profile ul{
+    display: block;
+    padding-left: 0px;
+  }
+ 
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .cmd_type_radio{
+    display: block;
+    padding: 7px;
+    margin-left: auto;
+    margin-right: 0;
+  }
+  .console-max {
+    display: flex;
+  }
+  .nav-min{
+    display: flex;
+    float: right;
+  }
+  .profile{
+    display: block;
+  }
+  .profile .card{
+    padding-left: 20px;
+  }
+  .profile .settings{
+   width: 100%;
+  }
+  .profile .personal{
+    width: 100%;
+  }
+  .profile ul{
+    display: block;
+    padding-left: 0px;
+  }
+
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .cmd_type_radio{
+    display: block;
+    width: 90px;
+    padding: 7px;
+    margin-left: auto;
+    margin-right: 0;
+  }
+  .console-max {
+    display: flex;
+  }
+  .nav-min{
+    display: flex;
+    float: right;
+  }
+  .profile{
+    display: flex;
+  }
+
+  .profile .card{
+    padding-left: 100px;
+  }
+  .profile .settings{
+   width: 30%;
+  }
+  .profile .personal{
+    width: 70%;
+  }
+  .profile ul{
+    display: flex;
+    padding-left: 0px;
+  }
+
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .console-max {
+    display: flex;
+  }
+  #console > div.cmd_type_radio{
+    display: block;
+    padding: 7px;
+    margin-left: auto;
+  }
+  .nav-min{
+    display: flex;
+    float: right;
+    width: 600px;
+  }
+  .profile{
+    display: flex;
+  }
+
+  .profile .card{
+    padding-left: 100px;
+  }
+  .profile .settings{
+   width: 30%;
+  }
+  .profile .personal{
+    width: 70%;
+  }
+  .profile ul{
+    display: flex;
+    padding-left: 0px;
+  }
+
+}
+
+div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
+{
+  display: block;
+}
+  .p-chrome{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    height: 25px;
+    background-color: var(--COLOR_PANEL_CHROME_BG);
+    margin-bottom: 20px;
+    height: 45px;
+  }
+
+  .p-chrome.chrome-btn-profile > img.img-btn.save{
+    margin-left: auto;
+  }
+
+ 
+  .w-chrome {
+    padding: 5px 0px 10px 20px;
+    display: flex;
+    height: 25px;
+    background-color: var(--COLOR_PANEL_CHROME_BG);
+    margin-bottom: 3px;
+    cursor: pointer;
+    height: 45px;
+  }
+  .w-chrome button {
+    position: relative;
+    background: transparent;
+    border: 0px;
+    float: right;
+    height: 30px;
+  }
+  .w-chrome button:hover {
+    background: transparent;
+  }
+
+  .w-chrome .buttons {
+    display: flex;
+    padding: 0 10px;
+    margin-left: auto;
+  }
+  .w-chrome .buttons .delete{
+    margin-left: auto;
+  }
+
+  .buttons img{
+    cursor: pointer;
+  }
+
+  .p-chrome .add{
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+  }
+  .p-chrome button{
+    display: block;
+    align-self: left;
+  }
+  
+  .p-chrome .gear{
+    display: block;
+    width: 35px;
+    float: left;
+    margin-right: 5px;
+  }
+  .p-chrome .title{
+    display: block;
+    font-size: 20px;
+    color: var(--COLOR_TEXT);
+    float: left;
+    margin-right: 5px;
+  }
+
+
+  .w-container{
+    display: block;
+    overflow: hidden;
+    float: left;
+    border: 2px;
+    border-style: solid;
+    border-radius: 5px;
+    margin: 10px;
+    border-color: var(--COLOR_WIDGET_BRD);
+    background-color: var(--COLOR_WIDGET_BG);
+    position: relative;
+  }
+  .p-panel{
+    display: block;
+    margin: 10px;
+    width: 98%;
+    min-height: 600px;
+    border: 1px;
+    border-style: solid;
+    border-radius: 15px;
+    border-color: var(--COLOR_PANEL_BRD);
+    overflow: auto;
+    }
+    
+  .w_container{
+    background-color: var(--COLOR_WIDGET_BG);
+    border-radius: 5%;
+    border: 1px;
+    border-style: solid;
+    border-color: var(--COLOR_WIDGET_BRD);
+    min-width: 300px;
+    min-height: 300px;
+    margin: 10px;
+    padding-left: 0px !important;
+    float: left;
+  }
 
 .p-contents{
   padding: 10px;
+  flex-wrap: wrap;
 }
 
-.p-title{
-  display: block;
-  align-items: center;
-  color: var(--COLOR_TEXT);
-  float: left;
-  margin-right: 5px;
-}
 
-.p-chrome{
-  display: block;
-  padding: 10px;
-  height: 25px;
-  background-color: var(--COLOR_PANEL_CHROME_BG);
-  margin-bottom: 20px;
-}
 
-.p-chrome button{
-  display: block;
-  align-self: left;
-}
 
-.p-chrome .gear{
-  display: block;
-  width: 25px;
-  float: left;
-  margin-right: 5px;
-}
 
-.add-btn{
+
+.img-btn{
   cursor: pointer;
-  width: 12px;
-  margin-right: 5px;
 }
 
-.w-container{
-  display: block;
-  float: left;
+
+.min{
   width: 300px;
   height: 300px;
-  border: 2px;
-  border-style: solid;
-  border-radius: 5px;
-  margin: 10px;
-  border-color: var(--COLOR_WIDGET_BRD);
-  background-color: var(--COLOR_WIDGET_BG);
-  position: relative;
 }
 
-.w-chrome {
-  padding: 5px 0px 10px 20px;
-  display: flex;
-  height: 25px;
-  background-color: var(--COLOR_PANEL_CHROME_BG);
-  margin-bottom: 3px;
-  cursor: pointer;
+.max{
+  width: 98%;
+  height: 98%;
 }
-.w-chrome button {
-  position: relative;
-  background: transparent;
-  border: 0px;
-  float: right;
-  height: 30px;
-}
-.w-chrome button:hover {
-  background: transparent;
-}
+
 
 .w-title{
   display: block;
@@ -301,39 +592,7 @@ overflow: auto;
   }
 }
 
-body{
-  background-color: var(--COLOR_BODY);
-  padding: 10px;
-}
-h1{
-  color: var(--COLOR_TEXT);
-  display: block;
-  font-size: 1.5em;
-  margin-block-start: 0.67em;
-  margin-block-end: 0.67em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  font-weight: bold;
-}
-h2{
-  color: var(--COLOR_TEXT);
-}
-h3{
-  color: var(--COLOR_TEXT);
-}
-p{
-  color: var(--COLOR_TEXT);
-}
-span{
-  color: var(--COLOR_TEXT);
-}
-label{
-  color:  var(--COLOR_TEXT);
-}
 
-li{
-  color:  var(--COLOR_TEXT);
-}
 
 
 /* width */
@@ -360,39 +619,13 @@ li{
 
 
 
-.w_ctrl_add{
+.w-ctrl-add{
 
 
 }
-.w_ctrl_add figcaption {
+.w-ctrl-add figcaption {
   color: var(--COLOR_LINK);
 }
-
-/* unvisited link */
-a:link {
-  color: var(--COLOR_LINK);
-}
-
-/* visited link */
-a:visited {
-  color: var(--COLOR_LINK_VISITED);
-}
-
-/* mouse over link */
-a:hover {
-  color: var(--COLOR_LINK_HOVER);
-}
-
-/* selected link */
-a:active {
-  color: var(--COLOR_LINK_ACTIVE);
-}
-
-.hidden{display: none;}
-/* Cannot set a style like this as it effects all elements UL/LI everywhere. Have to be more specific,
-like .my-container ul li {something}
-ul { list-style-type: none; margin: 0; padding: 0;  }
-li { margin: 5px; padding: 5px; width: 150px; } */
 
 .results ul { 
   list-style-type: none; 
@@ -406,30 +639,22 @@ li { margin: 5px; padding: 5px; width: 150px; } */
   margin-bottom: 20px;
 }
 
-.panel{
-  background-color: var(--COLOR_PANEL_BG);
-  min-height: 500;
-  border-color: var(--COLOR_PANEL_BRD);
-  border-style: solid;
-  border-width: 2;
-  overflow: auto;
-}
-
-.w_container{
-  background-color: var(--COLOR_WIDGET_BG);
-  border-radius: 5%;
-  border: 1px;
-  border-style: solid;
-  border-color: var(--COLOR_WIDGET_BRD);
-  min-width: 300px;
-  min-height: 300px;
-  margin: 10px;
-  padding-left: 0px !important;
-  float: left;
-}
 .widget{
-
+  padding: 7px;
+  height: 100%;
+  word-wrap: break-word;
+  background-color: var(--COLOR_WIDGET_BG);
 }
+
+.widget ul>li:nth-child(odd){
+  background-color: var(--COLOR_ALT_ROW_BG);
+}
+.widget ul li{
+  display: flex;
+  align-items: center;
+  padding: 3px;
+}​
+
 
 .w-links{
 padding: 10px;
@@ -441,11 +666,14 @@ padding-left: 0px;
 list-style-type: none;
 margin-bottom: 5px;
 }
-.w-links a{
+.w-links ul li a{
   text-decoration: none;
+  word-wrap: break-word;
+  display: block;
+  width: 98%;
 }
 .w-links a:hover{
-  color: red;
+  color: var(--COLOR_AFFECT);
 }
 
 
@@ -475,12 +703,10 @@ margin-bottom: 5px;
 
 .lib-tbl{
   width: 100%;
+  color: var(--COLOR_TEXT);
 }
 .lib-tbl tr:nth-child(odd) td{
-  background-color: var(--COLOR_LIBRARY_TABLE_ROW_BG);
-}
-.lib-tbl tr:nth-child(even) td{
-  background-color: var(--COLOR_LIBRARY_TABLE_ROW_BG_ALT);
+  background-color: var(--COLOR_ALT_ROW_BG);
 }
 
 .lib-tbl tr th{
@@ -488,10 +714,10 @@ color: var(--COLOR_TEXT);
 }
 
 .lib-tbl tr:nth-child(even):hover td{
-  background-color: var(--COLOR_LIBRARY_TABLE_ROW_HOVER);
+  background-color: var(--COLOR_ROW_HOVER);
 }
 .lib-tbl tr:nth-child(odd):hover td{
-  background-color: var(--COLOR_LIBRARY_TABLE_ROW_HOVER);
+  background-color: var(--COLOR_ROW_HOVER);
 }
 
 
@@ -513,9 +739,12 @@ color: var(--COLOR_TEXT);
 }
 .clipboard ul li span{
   display: block;
+  word-wrap: break-word;
+  width: 98%;
 }
-.clipboard ul li span:hover{
-  color: var(--COLOR_LINK_HOVER);
+.widget ul li:hover{
+  /* color: var(--COLOR_LINK_HOVER); */
+  background-color: var(--COLOR_ROW_HOVER);
 }
 
 .tiny-editor-box {
@@ -528,13 +757,7 @@ div.mce-content-body {
   min-height: 200px;
 }
 
-#cmd_type_radio{
-  display: block;
-  width: 80px;
-  padding: 3px;
-  margin-left: auto;
-  margin-right: 0;
-}
+
 
 div[data-panel=RESULTS] {
   display: flex;
@@ -548,5 +771,140 @@ div[data-panel=RESULTS] {
   float: right;
 }
 
+.settings{
+  
+}
+
+.library table tr td{
+  padding: 10px;
+}
+
+#library-hd{
+ display: flex;
+ width: 400px;
+ margin: auto;
+}
+.library-hd span{
+  display: inline-flex;
+  padding-left: 10px;
+ }
+
+ 
 
 
+.profile ul li{
+display: inherit;
+list-style-type: none;
+margin-right: 10px;
+margin-bottom: 10px;
+border-radius: 25px;
+background: var(--COLOR_WIDGET_BG);
+padding: 20px;
+height: 75px;
+}
+
+.profile ul li label{
+  line-height: 25px;
+}
+
+
+.profile .user-card {
+  box-shadow: 0 5px 15px 5px var(--COLOR_PANEL_BRD);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+}
+
+.profile .interests-card {
+  box-shadow: 0 5px 15px 5px var(--COLOR_PANEL_BRD);
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}
+
+input[type='checkbox']:checked {
+  text-align: center;
+}
+input[type='checkbox']:checked:after {
+  text-align: center;
+  content: '\2713';
+  color:var(--COLOR_AFFECT);
+}
+
+input[type='checkbox']{
+  text-align: center;
+  width: 20px !important;
+  height: 20px !important;
+  appearance:none;
+  border-radius:10%;
+  border: 0px solid var(--COLOR_WIDGET_BG);
+  box-shadow: none;
+  font-size: 1em;
+}
+
+select{
+  background-color: var(--COLOR_WIDGET_BRD);
+  color:var(--COLOR_TEXT);
+  padding: 10px;
+  font-size: 16px;
+}
+
+select > option{
+  padding: 10px;
+  font-size: 16px;
+}
+
+.error{
+  color: red;;
+}
+
+button {
+  border-style: none;
+}
+button:hover {
+  cursor: pointer;
+}
+button figure figcaption span{
+  color: var(--COLOR_LINK);
+}
+button figure figcaption{
+  color: var(--COLOR_LINK);
+}
+
+span.w_copyable.filterable {
+  display: inline-block;
+}
+
+.w-input-txt {
+  cursor: pointer;
+}
+
+.add-subtype {
+  cursor: pointer;
+}
+
+.jira-ticket-type input[type="checkbox"] {
+  border: 1px solid var(--COLOR_LINK_VISITED);
+}
+
+.ticket-statuses input[type="checkbox"] {
+  border: 1px solid var(--COLOR_LINK_VISITED);
+}
+
+.ticket-priorities input[type="checkbox"] {
+  border: 1px solid var(--COLOR_LINK_VISITED);
+}
+
+.issue-horizontal {
+  display: flexbox;
+}
+
+.link-button {
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  display: inline;
+  margin: 0;
+  padding: 0;
+  color: blue;
+}

@@ -1,8 +1,8 @@
 {
-    "API_URL": "https://devity-tool-api.azurewebsites.net",  
+    "API_URL": "https://api.devity-tools.com",  
     "SSO_URL": "https://noladigital.net",
-    "DEVITY_API" : "https://devity-tool-api.azurewebsites.net",
-    "DEVITY" : "https://kind-desert-06cdb8810.2.azurestaticapps.net",
+    "DEVITY_API" : "https://api.devity-tools.com",
+    "DEVITY" : "https://devity-tools.com",
     "GOOGLE_API_KEY" : "AIzaSyAzgX2yArFJrRogwd5GCdkjmQaUwGUWMqs",
     "GOOGLE_SEARCH_ENGINE" : "b2801acca79e24323",
     "GOOGLE_SEARCH_ENGINE_URL" : "https://www.googleapis.com/customsearch/v1",

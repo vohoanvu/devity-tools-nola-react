@@ -16,7 +16,7 @@ export default function Links(props)
     const [links, setLinks] = useState({
         inputLink: "",
         inputTitle: "",
-        displayList: null, // [{hyperLink: "https://www.google.com", displayName: "Google"}]
+        displayList: [], // [{hyperLink: "https://www.google.com", displayName: "Google"}]
         link: props.widget,
         w_type: props.widget.w_type
     });
@@ -29,7 +29,7 @@ export default function Links(props)
         async function fetchWidgetContent() {
             if ((curr_view && curr_view !== "LINKS" && curr_view !== "ALL") || 
             (curr_view === "LINKS" && links.link["w_content"] != null)) return;
-
+            
             const widget = await getWidgetContentById(props.widget.id);
             
             const contentArray = JSON.parse(widget.w_content)
@@ -37,14 +37,14 @@ export default function Links(props)
 
             setLinks({
                 ...links,
-                displayList: contentArray,
+                displayList: contentArray
             });
         }
 
         fetchWidgetContent();
         $(`#save-btn-${props.widget.id}`).hide();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.widgetm, props.activePanel]);
+    }, [props.widget, props.activePanel]);
 
     async function getWidgetContentById(w_id) {
         return await axios.get(devity_api + "/api/widgets/"+ w_id)
@@ -135,7 +135,7 @@ export default function Links(props)
                         !isEdit && (
                             <div onClick={openEditForm} role="button" aria-hidden>
                                 <img style={{ width: "10px", height: "10px"}} className='add-btn' src={btn_add} alt="create widget"/>
-                Add
+                                Add
                             </div>
                         )
                     }

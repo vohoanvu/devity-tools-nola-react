@@ -67,7 +67,7 @@ export default function Rss(props)
                 return res.data;
             }).then(result => {
                 //transform RSS widget content to feedUri string
-                let feedUri = JSON.parse(result.w_content)["feedUri"];
+                let feedUri = JSON.parse(result.w_content)["FEEDURI"];
                 let widget = {
                     ...result,
                     w_content: feedUri ?? ""
@@ -90,7 +90,7 @@ export default function Rss(props)
         const putBody = {
             ...rssWidget,
             w_content: JSON.stringify({
-                feedUri: rssWidget.w_content
+                FEEDURI: rssWidget.w_content
             })
         }
         props.sendContentToParent(putBody, null, null);

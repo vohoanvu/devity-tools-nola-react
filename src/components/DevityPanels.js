@@ -88,19 +88,19 @@ export default function DevityPanels(props)
             return jsonObject;
         case "LINKS":
             var jsonObjList = [];
-            jsonObject["hyperLink"] = "";
-            jsonObject["displayName"] = ""; //format: "[{ "hyperLink": "noladigital.net", "displayName": "NOLA" }]"
+            jsonObject["HYPERLINK"] = "";
+            jsonObject["DISPLAYNAME"] = ""; //format: "[{ "HYPERLINK": "noladigital.net", "DISPLAYNAME": "NOLA" }]"
             jsonObjList.push(jsonObject);
             return jsonObjList;
         case "DEVITY":
             if (devitySubType && devitySubType === "RSS") {
-                jsonObject["feedUri"] = ""; //format: "{ "feedUri": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml" }"
+                jsonObject["FEEDURI"] = ""; //format: "{ "FEEDURI": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml" }"
             }
             if (devitySubType && devitySubType === "JIRA") {
-                jsonObject["duty"] = "assigned"; //format: "{ duty: "assigned" }" or "{ duty: "mentioned" }"
-                jsonObject["issueTypes"] = []; //format: "{ issueTypes: ["Bug", "Story"] }"
-                jsonObject["statuses"] = []; //format: "{ status: ["Open", "In Progress"] }"
-                jsonObject["priorities"] = []; //format: "{ priority: ["High", "Medium"] }"
+                jsonObject["DUTY"] = "assigned"; //format: "{ DUTY: "assigned" }" or "{ DUTY: "mentioned" }"
+                jsonObject["ISSUETYPES"] = []; //format: "{ ISSUETYPES: ["Bug", "Story"] }"
+                jsonObject["STATUSES"] = []; //format: "{ STATUSES: ["Open", "In Progress"] }"
+                jsonObject["PRIORITIES"] = []; //format: "{ PRIORITIES: ["High", "Medium"] }"
             }
             return jsonObject;
         default:

@@ -28,7 +28,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             const email = localStorage.getItem("jira_user_id");
         
             if (apiToken && domain && email) {
-                fetchJiraTickets(apiToken, domain, email, configs["duty"], configs["issueTypes"], configs["statuses"], configs["priorities"]);
+                fetchJiraTickets(apiToken, domain, email, configs["DUTY"], configs["ISSUETYPES"], configs["STATUSES"], configs["PRIORITIES"]);
             } else {
                 setJiraRequestError({
                     code: 401,
@@ -81,15 +81,15 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                 let configsContent = JSON.parse(result.w_content);
                 console.log("JIRA widget content: ", configsContent);
                 //configurations are empty
-                if (!configsContent["duty"] && configsContent["issueTypes"].length === 0 && configsContent["statuses"].length === 0 && configsContent["priorities"].length === 0) {
+                if (!configsContent["DUTY"] && configsContent["ISSUETYPES"].length === 0 && configsContent["STATUSES"].length === 0 && configsContent["PRIORITIES"].length === 0) {
                     setShowConfigurations(true);
                     return configsContent;
                 } else {
                     setShowConfigurations(false);
-                    setAssignedOrMentioned(configsContent["duty"]);
-                    setTicketTypes(configsContent["issueTypes"]);
-                    setTicketStatuses(configsContent["statuses"]);
-                    setPriorities(configsContent["priorities"]);
+                    setAssignedOrMentioned(configsContent["DUTY"]);
+                    setTicketTypes(configsContent["ISSUETYPES"]);
+                    setTicketStatuses(configsContent["STATUSES"]);
+                    setPriorities(configsContent["PRIORITIES"]);
                 }
                 return configsContent;
             })
@@ -253,10 +253,10 @@ export default JiraTicket;
 function JiraConfigurations(props) 
 {
     const [configsContentObj, setConfigsContentObj] = useState({
-        duty: "",
-        issueTypes: [],
-        statuses: [],
-        priorities: []
+        DUTY: "",
+        ISSUETYPES: [],
+        STATUSES: [],
+        PRIORITIES: []
     });
     const [jiraWidget, setJiraWidget] = useState({});
     const [priorityOptions, setPriorityOptions] = useState([]);
@@ -290,11 +290,11 @@ function JiraConfigurations(props)
     function handleDutyChange(changeEvent) {
         $(`#save-btn-${props.widget.id}`).show();
         props.setAssignedOrMentioned(changeEvent.target.value);
-        configsContentObj.duty = changeEvent.target.value;
+        configsContentObj.DUTY = changeEvent.target.value;
 
-        configsContentObj.issueTypes = props.ticketTypes;
-        configsContentObj.statuses = props.ticketStatuses;
-        configsContentObj.priorities = props.priorities;
+        configsContentObj.ISSUETYPES = props.ticketTypes;
+        configsContentObj.STATUSES = props.ticketStatuses;
+        configsContentObj.PRIORITIES = props.priorities;
         setConfigsContentObj(configsContentObj);
         sendContentToParent();
     }
@@ -308,11 +308,11 @@ function JiraConfigurations(props)
             options = options.filter(o => o !== changeEvent.target.value);
         }
         props.setTicketTypes(options);
-        configsContentObj.issueTypes = options;
+        configsContentObj.ISSUETYPES = options;
 
-        configsContentObj.duty = props.assignedOrMentioned;
-        configsContentObj.statuses = props.ticketStatuses;
-        configsContentObj.priorities = props.priorities;
+        configsContentObj.DUTY = props.assignedOrMentioned;
+        configsContentObj.STATUSES = props.ticketStatuses;
+        configsContentObj.PRIORITIES = props.priorities;
         setConfigsContentObj(configsContentObj);
         sendContentToParent();
     }
@@ -326,11 +326,11 @@ function JiraConfigurations(props)
             options = options.filter(o => o !== changeEvent.target.value);
         }
         props.setTicketStatuses(options);
-        configsContentObj.statuses = options;
+        configsContentObj.STATUSES = options;
 
-        configsContentObj.duty = props.assignedOrMentioned;
-        configsContentObj.issueTypes = props.ticketTypes;
-        configsContentObj.priorities = props.priorities;
+        configsContentObj.DUTY = props.assignedOrMentioned;
+        configsContentObj.ISSUETYPES = props.ticketTypes;
+        configsContentObj.PRIORITIES = props.priorities;
         setConfigsContentObj(configsContentObj);
         sendContentToParent();
     }
@@ -344,11 +344,11 @@ function JiraConfigurations(props)
             options = options.filter(o => o !== changeEvent.target.value);
         }
         props.setPriorities(options);
-        configsContentObj.priorities = options;
+        configsContentObj.PRIORITIES = options;
 
-        configsContentObj.duty = props.assignedOrMentioned;
-        configsContentObj.issueTypes = props.ticketTypes;
-        configsContentObj.statuses = props.ticketStatuses;
+        configsContentObj.DUTY = props.assignedOrMentioned;
+        configsContentObj.ISSUETYPES = props.ticketTypes;
+        configsContentObj.STATUSES = props.ticketStatuses;
         setConfigsContentObj(configsContentObj);
         sendContentToParent();
     }

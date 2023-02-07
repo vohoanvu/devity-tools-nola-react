@@ -15,13 +15,13 @@ export default function Links(props)
 {
     const [links, setLinks] = useState({
         inputLink: "",
-        inputTitle: "",
-        displayList: [], // [{hyperLink: "https://www.google.com", displayName: "Google"}]
+        //inputTitle: "",
+        displayList: [], // [{HYPERLINK: "https://www.google.com", DISPLAYNAME: "Google"}]
         link: props.widget,
         w_type: props.widget.w_type
     });
     const inputLinkRef = useRef(null);
-    const inputTitleRef = useRef(null);
+    //const inputTitleRef = useRef(null);
     const [isEdit, setIsEdit] = useState(false);
 
     useEffect(() => {
@@ -33,7 +33,7 @@ export default function Links(props)
             const widget = await getWidgetContentById(props.widget.id);
             
             const contentArray = JSON.parse(widget.w_content)
-                .filter(item => item.hyperLink.length !== 0 && item.displayName.length !== 0);
+                .filter(item => item.HYPERLINK.length !== 0 && item.DISPLAYNAME.length !== 0);
 
             setLinks({
                 ...links,
@@ -67,33 +67,46 @@ export default function Links(props)
             return;
         }
         if (links.inputLink.length !== 0) {
-            const inputTitleNode = $("div span#inputTitle").parent()[0];
-            inputTitleNode.click();
+            //const inputTitleNode = $("div span#inputTitle").parent()[0];
+            //inputTitleNode.click();
+            let inputList = links.inputLink.split(",");
+            const newLink = {
+                HYPERLINK: format_link(inputList[0]),
+                DISPLAYNAME: inputList[1].replace(/\s/g, "").length === 0 ? format_link(inputList[0]) : inputList[1]
+            }
+            links.displayList.splice(0, 0, newLink);
+            setLinks({
+                ...links,
+                displayList: links.displayList,
+                inputLink: ""
+            });
+            setIsEdit(false);
+            sendLinkContentToParentTobeSaved();
         }
     }
 
-    function onBlurNewTitleHandler() {
-        let displayTextForLink = "";
-        if (links.inputTitle.length === 0) {
-            displayTextForLink = format_link(links.inputLink);
-        } else {
-            displayTextForLink = links.inputTitle;
-        }
+    // function onBlurNewTitleHandler() {
+    //     let displayTextForLink = "";
+    //     if (links.inputTitle.length === 0) {
+    //         displayTextForLink = format_link(links.inputLink);
+    //     } else {
+    //         displayTextForLink = links.inputTitle;
+    //     }
 
-        const newLink = {
-            hyperLink: links.inputLink,
-            displayName: displayTextForLink
-        }
-        links.displayList.splice(0, 0, newLink);
-        setLinks({
-            ...links,
-            displayList: links.displayList,
-            inputLink: "",
-            inputTitle: ""
-        });
-        setIsEdit(false);
-        sendLinkContentToParentTobeSaved();
-    }
+    //     const newLink = {
+    //         hyperLink: links.inputLink,
+    //         displayName: displayTextForLink
+    //     }
+    //     links.displayList.splice(0, 0, newLink);
+    //     setLinks({
+    //         ...links,
+    //         displayList: links.displayList,
+    //         inputLink: "",
+    //         inputTitle: ""
+    //     });
+    //     setIsEdit(false);
+    //     sendLinkContentToParentTobeSaved();
+    // }
 
     async function sendLinkContentToParentTobeSaved() {
         const putBody = {
@@ -156,7 +169,7 @@ export default function Links(props)
                                         onChange={handleLinkChange}
                                     />
                                 </Editable>
-                                <br></br>
+                                {/* <br></br>
                                 <Editable 
                                     displayText={<span id='inputTitle'>{links.inputTitle || "Title"}</span>}
                                     inputType="input" 
@@ -170,7 +183,7 @@ export default function Links(props)
                                         value={links.inputTitle}
                                         onChange={handleLinkChange}
                                     />
-                                </Editable>
+                                </Editable> */}
                             </form>
                         ) : null
                     }
@@ -184,8 +197,8 @@ export default function Links(props)
                                 links.displayList.map((item, index) => {
                                     return (
                                         <li key={index}>
-                                            <a className='filterable truncated' target="_blank" href={format_link(item.hyperLink)} title={currate_title(item.displayName)} rel="noreferrer">{abbriviate(item.displayName)}</a>
-                                            <a className='filterable non-truncated' style={{display:"none"}} target="_blank" href={format_link(item.hyperLink)} rel="noreferrer">{item.displayName}</a>
+                                            <a className='filterable truncated' target="_blank" href={format_link(item.HYPERLINK)} title={currate_title(item.DISPLAYNAME)} rel="noreferrer">{abbriviate(item.DISPLAYNAME)}</a>
+                                            <a className='filterable non-truncated' style={{display:"none"}} target="_blank" href={format_link(item.HYPERLINK)} rel="noreferrer">{item.DISPLAYNAME}</a>
                                             <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveLink} aria-hidden="true"/>
                                         </li>
                                     )

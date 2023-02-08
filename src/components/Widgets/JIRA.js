@@ -42,31 +42,55 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
     }, [isConfigsChanged, activePanel, widget.id]);
 
     async function fetchJiraTickets(apiToken, domain, email, duty, types, statuses, priorities) {
-        const headers = {
-            "Content-Type": "application/json",
-            "Authorization": `Basic ${btoa(`${email}:${apiToken}`)}`
-        };
+        // const headers = {
+        //     "Content-Type": "application/json",
+        //     "Authorization": `Basic ${btoa(`${email}:${apiToken}`)}`
+        // };
         const encodedEmail = email.replace("@", "\\u0040");
         
         const jqlParams = initializeJQLquery(encodedEmail, duty, types, statuses, priorities);
-
-        await axios.get(`https://${domain}/rest/api/3/search`, { headers, params: jqlParams })
+        const postBody = {
+            uri: `${domain}/rest/api/3/search`,
+            email: email,
+            api_token: apiToken,
+            jql_querystring: jqlParams
+        }
+        await axios.post(devity_api + "/api/proxy/jira", postBody)
             .then(response => {
-                console.log("JIRA response: ", response.data.issues);
+                console.log("JIRA tickets response: ", response.data.data.issues);
                 if (response.status === 200) setJiraRequestError({code: response.status});
-                return response.data.issues;
-            }).then(issues => {
+                return response.data.data.issues;
+            })
+            .then(issues => {
                 setTickets(issues);
             })
             .catch(error => {
                 console.log(error);
                 const msgList = error.response.data.errorMessages ?? [error.response.data];
-                error.response.data.warningMessages.length !== 0 && msgList.push(error.response.data.warningMessages);
+                error.response.data.length !== 0 && msgList.push(error.response.data);
                 setJiraRequestError({
                     code: error.response.status,
                     errMessages: msgList
                 });
             });
+
+        // await axios.get(`https://${domain}/rest/api/3/search`, { headers, params: jqlParams })
+        //     .then(response => {
+        //         console.log("JIRA response: ", response.data.issues);
+        //         if (response.status === 200) setJiraRequestError({code: response.status});
+        //         return response.data.issues;
+        //     }).then(issues => {
+        //         setTickets(issues);
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //         const msgList = error.response.data.errorMessages ?? [error.response.data];
+        //         error.response.data.warningMessages.length !== 0 && msgList.push(error.response.data.warningMessages);
+        //         setJiraRequestError({
+        //             code: error.response.status,
+        //             errMessages: msgList
+        //         });
+        //     });
     }
 
     async function getJiraConfigurationsContent(w_id) {
@@ -266,14 +290,30 @@ function JiraConfigurations(props)
             const apiToken = localStorage.getItem("jira_token");
             const domain = localStorage.getItem("jira_domain");
             const email = localStorage.getItem("jira_user_id");
-            const headers = {
-                "Content-Type": "application/json",
-                "Authorization": `Basic ${btoa(`${email}:${apiToken}`)}`
-            };
-            await axios.get(`https://${domain}/rest/api/3/priority/search`, { headers })
+            // const headers = {
+            //     "Content-Type": "application/json",
+            //     "Authorization": `Basic ${btoa(`${email}:${apiToken}`)}`
+            // };
+            // await axios.get(`https://${domain}/rest/api/3/priority/search`, { headers })
+            //     .then(response => {
+            //         if (response.status === 200) {
+            //             let priorityOptions = response.data.values.map(prio => {
+            //                 return { id: prio.id, name: prio.name };
+            //             });
+            //             setPriorityOptions(priorityOptions);
+            //         }
+            //     })
+            //     .catch(error => console.log(error));
+            const postBody = {
+                uri: `${domain}/rest/api/3/priority/search`,
+                email: email,
+                api_token: apiToken
+            }
+            await axios.post(devity_api + "/api/proxy/jira", postBody)
                 .then(response => {
+                    console.log("Jira Prirorities: ", response);
                     if (response.status === 200) {
-                        let priorityOptions = response.data.values.map(prio => {
+                        let priorityOptions = response.data.data.values.map(prio => {
                             return { id: prio.id, name: prio.name };
                         });
                         setPriorityOptions(priorityOptions);

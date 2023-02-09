@@ -5,7 +5,7 @@ import CONFIG from "../../config.json";
 import "../../css/App.css";
 const sso_url = CONFIG.SSO_URL;
 const devity_api = CONFIG.DEVITY_API;
-//const domParser = new DOMParser();
+const domParser = new DOMParser();
 
 
 export default function Rss(props)
@@ -35,22 +35,39 @@ export default function Rss(props)
     async function fetchFeed(rssUri) {
         if (rssUri.length === 0) return;
 
-        await axios.post(devity_api + "/api/proxy/rss", { feedUri: rssUri })
-            .then(res => {
-                const itemsArray = Array.prototype.map.call(res.data, item => {
-                    const itemData = {};
-                    itemData["title"] = item.title.text;
-                    itemData["link"] = item.id;
-                    itemData["description"] = item.summary.text;
-                    itemData["pubDate"] = item.publishDate;
+        // await axios.post(devity_api + "/api/proxy/rss", { feedUri: rssUri })
+        //     .then(res => {
+        //         const itemsArray = Array.prototype.map.call(res.data, item => {
+        //             const itemData = {};
+        //             itemData["title"] = item.title.text;
+        //             itemData["link"] = item.id;
+        //             itemData["description"] = item.summary.text;
+        //             itemData["pubDate"] = item.publishDate;
 
+        //             return itemData;
+        //         });
+        //         return itemsArray;
+        //     })
+        //     .then(result => {
+        //         setRssFeed(result);
+        //     })
+        //     .catch((err) => console.log(err));
+        await axios.get(rssUri)
+            .then(res => {
+                const xmlDoc = domParser.parseFromString(res.data, "application/xml");
+                const items = xmlDoc.getElementsByTagName("item");
+                const itemsArray = Array.prototype.map.call(items, item => {
+                    const itemData = {};
+                    Array.prototype.forEach.call(item.childNodes, child => {
+                        if(child.nodeName !== "#text") {
+                            itemData[child.nodeName] = child.textContent;
+                        }
+                    });
                     return itemData;
                 });
                 return itemsArray;
             })
-            .then(result => {
-                setRssFeed(result);
-            })
+            .then(result => setRssFeed(result))
             .catch((err) => console.log(err));
     }
 

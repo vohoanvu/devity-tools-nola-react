@@ -8,9 +8,13 @@ import axios from "axios";
 import configData from "../config.json";
 import $ from "jquery";
 import btn_save from "../img/btn_save.png";
-
+import Cookies from "universal-cookie";
 const devity_api = configData.DEVITY_API;
 const jira_token_uri = "https://id.atlassian.com/manage-profile/security/api-tokens";
+const SSO_URL = configData.SSO_URL;
+const COOKIE_NAME = "devity-token";
+const API_URL = configData.API_URL;
+const cookies = new Cookies();
 
 export default function Profile(props)
 {
@@ -136,6 +140,18 @@ export default function Profile(props)
 
     function getUTCDateTime(dateTimeString) {
         return new Date(dateTimeString).toUTCString();
+    }
+
+    async function logOutRequest() {
+        await axios.delete(API_URL + "/api/sessions")
+            .then(response => {
+                if (response.status === 200) {
+                    console.log("Successfully deleted SESSION", response.status);
+                    cookies.remove(COOKIE_NAME, { path: "/" });
+                    window.location.replace(SSO_URL);
+                }
+            })
+            .catch(err => console.log(err));
     }
 
     return (
@@ -268,6 +284,10 @@ export default function Profile(props)
                     <br/>
                     <h1>Session Info</h1>
                     <label> Token Expiration Date (UTC) : {getUTCDateTime(userProfile.session_info?.expire_date)} </label>
+                    <br/>
+                    <button onClick={logOutRequest} className="logout-btn">
+                        LOG OUT
+                    </button>
                     <br/>
                     <label> Bearer Token : Devity {userProfile.session_info?.session_id} </label>
                 </div>

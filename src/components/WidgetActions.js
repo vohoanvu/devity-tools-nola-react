@@ -95,7 +95,8 @@ export default function Widget(props)
                 displayText={<span>{props.widget.name || "Enter a name for widget" }</span>}
                 inputType="input" 
                 childInputRef={props.inputRef}
-                passFromChildToParent={saveWidgetTitleOnBlur}>
+                passFromChildToParent={saveWidgetTitleOnBlur}
+                styling={{ display: "inline-block" }}>
                 <input
                     ref={props.inputRef}
                     type="text"

@@ -7,6 +7,7 @@ export default function Editable({
     children,
     childInputRef,
     passFromChildToParent,
+    styling,
     ...props
 })
 {
@@ -37,7 +38,7 @@ export default function Editable({
     }
 
     return (
-        <div className="w-input-txt" style={{ display: "inline-block" }} {...props}>
+        <div className="w-input-txt" style={styling} {...props}>
             {
                 isEditing ? (
                     <div onBlur={(e)=> handleInputOnBlur(e)} onKeyDown={(e)=>handleKeyDown(e, inputType)} role="button" aria-hidden>

@@ -15,14 +15,11 @@ export default function Links(props)
 {
     const [links, setLinks] = useState({
         inputLink: "",
-        //inputTitle: "",
         displayList: [], // [{HYPERLINK: "https://www.google.com", DISPLAYNAME: "Google"}]
         link: props.widget,
         w_type: props.widget.w_type
     });
     const inputLinkRef = useRef(null);
-    //const inputTitleRef = useRef(null);
-    const [isEdit, setIsEdit] = useState(false);
 
     useEffect(() => {
         const curr_view = props.activePanel;
@@ -63,12 +60,9 @@ export default function Links(props)
 
     function onBlurNewLinkHandler() {
         if (links.inputLink.length === 0) {
-            setIsEdit(false);
             return;
         }
         if (links.inputLink.length !== 0) {
-            //const inputTitleNode = $("div span#inputTitle").parent()[0];
-            //inputTitleNode.click();
             let inputList = links.inputLink.split(",");
             const newLink = {
                 HYPERLINK: format_link(inputList[0]),
@@ -80,7 +74,6 @@ export default function Links(props)
                 displayList: links.displayList,
                 inputLink: ""
             });
-            setIsEdit(false);
             sendLinkContentToParentTobeSaved();
         }
     }
@@ -126,10 +119,6 @@ export default function Links(props)
         $(`#save-btn-${props.widget.id}`).show();
     }
 
-    function openEditForm() {
-        setIsEdit(true);
-    }
-
     function handleRemoveLink(event) {
         const index = $(event.currentTarget).parent().index();
         links.displayList.splice(index, 1);
@@ -141,52 +130,28 @@ export default function Links(props)
     }
     
     return (
-        <React.Fragment>
-            <div className='w_overflowable'>
-                <div className='widget w-links'>
-                    {
-                        !isEdit && (
-                            <div onClick={openEditForm} role="button" aria-hidden>
-                                <img style={{ width: "10px", height: "10px"}} className='add-btn' src={btn_add} alt="create widget"/>
-                                Add
-                            </div>
-                        )
-                    }
-                    {
-                        isEdit ? (
-                            <form id="linkContentForm" autoComplete="off">
-                                <Editable 
-                                    displayText={<span>{links.inputLink || "Url"}</span>}
-                                    inputType="input" 
-                                    childInputRef={inputLinkRef}
-                                    passFromChildToParent={onBlurNewLinkHandler}>
-                                    <input
-                                        ref={inputLinkRef}
-                                        type="text"
-                                        name="inputLink"
-                                        placeholder=""
-                                        value={links.inputLink}
-                                        onChange={handleLinkChange}
-                                    />
-                                </Editable>
-                                {/* <br></br>
-                                <Editable 
-                                    displayText={<span id='inputTitle'>{links.inputTitle || "Title"}</span>}
-                                    inputType="input" 
-                                    childInputRef={inputTitleRef}
-                                    passFromChildToParent={onBlurNewTitleHandler}>
-                                    <input
-                                        ref={inputTitleRef}
-                                        type="text"
-                                        name="inputTitle"
-                                        placeholder=""
-                                        value={links.inputTitle}
-                                        onChange={handleLinkChange}
-                                    />
-                                </Editable> */}
-                            </form>
-                        ) : null
-                    }
+        <div className='w_overflowable'>
+            <div className='widget w-links'>
+                <form id="linkContentForm" autoComplete="off">
+                    <img style={{ width: "10px", height: "10px"}} className='add-btn' src={btn_add} alt="create widget"/>
+                    <Editable 
+                        displayText={<span>{links.inputLink || "Add"}</span>}
+                        inputType="input" 
+                        childInputRef={inputLinkRef}
+                        passFromChildToParent={onBlurNewLinkHandler}
+                        styling={{ display: "inline-block", width: "95%" }}>
+                        <input
+                            ref={inputLinkRef}
+                            type="text"
+                            name="inputLink"
+                            placeholder="www.google.com, Google"
+                            value={links.inputLink}
+                            onChange={handleLinkChange}
+                            style={{ width: "100%" }}
+                        />
+                    </Editable>
+                </form>
+                <div className='w_overflowable'>
                     <ul>
                         {
                             !links.displayList ? (
@@ -208,6 +173,6 @@ export default function Links(props)
                     </ul>
                 </div>
             </div>
-        </React.Fragment>        
+        </div>     
     );
 }

@@ -114,15 +114,16 @@ export default function Clipboard(props)
     }
 
     return (
-        <div className='widget clipboard'>
-            <div>
-                <form id="contentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
+        <div className='w_overflowable'>
+            <div className='widget clipboard'>
+                <form id="clipboardContentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
                     <img style={{ width: "10px", height: "10px"}} className='add-btn' src={btn_add} alt="create widget"/>
                     <Editable 
-                        displayText={<span>{clipboardContent.currentText || "add"}</span>}
+                        displayText={<span>{clipboardContent.currentText || "Add"}</span>}
                         inputType="input" 
                         childInputRef={inputRef}
-                        passFromChildToParent={onBlurClipboardContent}>
+                        passFromChildToParent={onBlurClipboardContent}
+                        styling={{ display: "inline-block", width: "95%" }}>
                         <input
                             ref={inputRef}
                             type="text"
@@ -130,27 +131,28 @@ export default function Clipboard(props)
                             placeholder=""
                             value={clipboardContent.currentText}
                             onChange={handleContentOnChange}
+                            style={{ width: "100%" }}
                         />
                     </Editable>
                 </form>
-            </div>
-            <div className='w_overflowable'>
-                <ul>
-                    {
-                        !clipboardContent.content ? (
-                            <div style={{ display: "flex", justifyContent: "center"}}>
-                                <div className="loader"></div>
-                            </div>
-                        ) : (
-                            clipboardContent.content.map( (data, index) => 
-                                <li key={index}>
-                                    <span className='w_copyable filterable truncated' title={currate_title(data)} data-copy={data} onClick={handleItemClick} aria-hidden="true">{abbriviate(data)}</span>
-                                    <span className='w_copyable filterable non-truncated' style={{display:"none"}}  data-copy={data} onClick={handleItemClick} aria-hidden="true">{data}</span>
-                                    <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveClipboard} aria-hidden="true"/>
-                                </li>)
-                        )
-                    }
-                </ul>
+                <div className='w_overflowable'>
+                    <ul>
+                        {
+                            !clipboardContent.content ? (
+                                <div style={{ display: "flex", justifyContent: "center"}}>
+                                    <div className="loader"></div>
+                                </div>
+                            ) : (
+                                clipboardContent.content.map( (data, index) => 
+                                    <li key={index}>
+                                        <span className='w_copyable filterable truncated' title={currate_title(data)} data-copy={data} onClick={handleItemClick} aria-hidden="true">{abbriviate(data)}</span>
+                                        <span className='w_copyable filterable non-truncated' style={{display:"none"}}  data-copy={data} onClick={handleItemClick} aria-hidden="true">{data}</span>
+                                        <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveClipboard} aria-hidden="true"/>
+                                    </li>)
+                            )
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
     );

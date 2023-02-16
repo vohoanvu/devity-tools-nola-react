@@ -53,19 +53,11 @@ export default function DevityPanels(props)
 
     async function w_add(widgetType, widgetList, devitySubType = null) {
         let jsonContentObject = init_w_content(widgetType, devitySubType);
-        let widgetName = "";
-        if (widgetType === "DEVITY" && devitySubType && devitySubType === "RSS") {
-            widgetName = "RSS Reader";
-        } else if (widgetType === "DEVITY" && devitySubType && devitySubType === "JIRA") {
-            widgetName = "JIRA Tickets"
-        } else {
-            widgetName = widgetType + " Widget";
-        }
 
         const newWidget = {
             key: widgetList.length+1,
             w_content: JSON.stringify(jsonContentObject),
-            name: widgetName,
+            name: "Title",
             order: widgetList.length+1,
             w_type: widgetType,
             height : 300,

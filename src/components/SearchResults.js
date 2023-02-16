@@ -28,7 +28,7 @@ export default function SearchResults(props)
 
     function renderVideoFigure(videoId, descriptionText, width, height) {
         return (
-            <figure>
+            <figure style={{ "margin-left": "auto"}}>
                 <iframe
                     width={width}
                     height={height}
@@ -48,7 +48,7 @@ export default function SearchResults(props)
             <div id='youtubeSearchResults'>
                 <div className='p-chrome'>
                     <img src={btn_image_config} className='gear' alt="devity gear"/>
-                    <span className='p-title'>Youtube Search (Please up-vote useful results!)</span>
+                    <span className='p-title'>Youtube Search</span>
                 </div>
                 <ul>
                     {
@@ -59,7 +59,7 @@ export default function SearchResults(props)
                             return (
                                 <li key={key} data-cacheid={value.cacheId}>
                                     <div className='result-container filterable'>
-                                        <div className='up-vote-btn' data-result-id={value.cacheId}>
+                                        <div className='up-vote-btn' data-result-id={value.cacheId} hidden>
                                             <span>0</span>
                                         </div>
                                         <div>
@@ -85,7 +85,7 @@ export default function SearchResults(props)
             <div id='googleSearchResult'>
                 <div className='p-chrome'>
                     <img src={btn_image_config} className='gear' alt="devity gear"/>
-                    <span className='p-title'>Dev-Search (Please up-vote useful results!)</span>
+                    <span className='p-title'>Dev-Search</span>
                 </div>
                 <ul>
                     {
@@ -93,7 +93,7 @@ export default function SearchResults(props)
                             return (
                                 <li key={key} data-cacheid={value.cacheId}>
                                     <div className='result-container filterable'>
-                                        <div className='up-vote-btn' data-result-id={value.cacheId}>
+                                        <div className='up-vote-btn' data-result-id={value.cacheId} hidden>
                                             <span>0</span>
                                         </div>
                                         <div>

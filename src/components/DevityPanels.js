@@ -146,38 +146,14 @@ export default function DevityPanels(props)
         return result;
     }
 
-    async function sendPUTContentToParent(widget, setWidgetState, currentContent) {  
-        let putBody = {};
-    
-        switch (widget.w_type)
-        {
-        case "CLIPBOARD":
-            putBody = widget;
-            break;
-
-        case "LINKS":
-            putBody = widget;
-            break;
-
-        case "NOTES":
-            var jsonObj = {};
-            jsonObj[widget.w_type] = currentContent;
-            putBody = {
-                ...widget,
-                w_content: JSON.stringify(jsonObj)
-            };
-            break;
-    
-        case "DEVITY":
-            putBody = widget;
-            break;
-        default:
-            break;
-        }
-
+    async function sendPUTContentToParent(widget, setWidgetState, currentContent) 
+    {  
         setIsReadyToSave({
             isReadyToSave: true,
-            putBody: putBody,
+            putBody: {
+                ...widget,
+                w_content: widget.w_type === "NOTES" ? JSON.stringify(widget.w_content) : widget.w_content
+            },
             type: widget.w_type
         });
     }
@@ -202,7 +178,7 @@ export default function DevityPanels(props)
         case "NOTES":
             return <W_Note 
                 widget={widget} 
-                sendContentToParent={sendPUTContentToParent} 
+                sendContentToParent={sendPUTContentToParent}
                 activePanel={widgetType}/>;
 
         case "DEVITY":
@@ -235,7 +211,7 @@ export default function DevityPanels(props)
     };
 
     const onDragEnd = (result, widgetType) => {
-    // dropped outside the list
+        // dropped outside the list
         if (!result.destination) {
             return;
         }
@@ -251,11 +227,6 @@ export default function DevityPanels(props)
             ...wObject,
             [widgetType]: newItems
         });
-
-        if (widgetType === "NOTES") {
-            console.log("TINY MCE:", $(".mce-content-body"));
-            //$('.mce-content-body').activeEditor.setContent(newItems[result.destination.index].w_content);
-        }
 
         onDragEndSaveInDb(newItems, widgetType);
     };
@@ -318,7 +289,7 @@ export default function DevityPanels(props)
                                 )
                             }
                             <DragDropContext onDragEnd={(result)=>onDragEnd(result, key)}>
-                                <Droppable droppableId="droppable" direction="horizontal">
+                                <Droppable droppableId="droppable" direction="horizontal" style={{transform: "none"}}>
                                     {
                                         (provided, snapshot) => (
                                             <div 

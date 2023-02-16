@@ -103,7 +103,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             }).then(result => {
                 //transform JIRA widget content
                 let configsContent = JSON.parse(result.w_content);
-                console.log("JIRA widget content: ", configsContent);
+                //console.log("JIRA saved configs: ", configsContent);
                 //configurations are empty
                 if (!configsContent["DUTY"] && configsContent["ISSUETYPES"].length === 0 && configsContent["STATUSES"].length === 0 && configsContent["PRIORITIES"].length === 0) {
                     setShowConfigurations(true);

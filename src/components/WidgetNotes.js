@@ -10,6 +10,7 @@ const devity_api = configData.DEVITY_API;
 export default function Note(props)
 {
     const [note, setNote] = useState({});
+    const [noteContent, setNoteContent] = useState(null);
     const editorRef = useRef(null);
 
     useEffect(() => {
@@ -20,11 +21,11 @@ export default function Note(props)
             (curr_view === "NOTES" && note["w_content"])) return;
 
             const content = await getWidgetContentById(props.widget.id);
-            const noteText = JSON.parse(content)["NOTES"];
-
+            const jsonContent = JSON.parse(content);
+            setNoteContent(jsonContent.NOTES);
             const currentWidget = {
                 ...props.widget,
-                w_content: noteText
+                w_content: jsonContent
             }
             setNote(currentWidget);
         })();
@@ -45,27 +46,6 @@ export default function Note(props)
             .catch((err) => log(err));
     }
 
-    // const saveNoteEditor = () => {
-    //     if (editorRef.current) {
-    //         const noteContentText = editorRef.current.getContent();
-    //         setDirty(false);
-    //         editorRef.current.setDirty(false);
-
-    //         updateNoteContentinDb(noteContentText);
-    //     }
-    // };
-
-    // async function updateNoteContentinDb(noteContentText) {
-    //     const jsonObj = {};
-    //     jsonObj["NOTES"] = noteContentText;
-    //     const putBody = {
-    //         ...note,
-    //         w_content: JSON.stringify(jsonObj)
-    //     }
-
-    //     await props.callPUTRequest(putBody, note.w_type);
-    // }
-
     return (
         <div className='widget notes filterable'>
             <div className='tiny-editor-box'>
@@ -76,23 +56,31 @@ export default function Note(props)
                         </div>
                     ) : (
                         <Editor
+                            id={props.widget.id}
                             apiKey='c706reknirqudytbeuz7vvwxpc7qdscxg9j4jixwm0zhqbo4'
                             onInit={(evt, editor) => editorRef.current = editor}
-                            initialValue={note.w_content}
-                            onDirty={() => {
+                            value={ noteContent }
+                            onEditorChange={(newContent) => {
+                                setNoteContent(newContent);
                                 $(`#save-btn-${props.widget.id}`).show();
-                            }}
-                            onBlur={() => {
-                                props.sendContentToParent(note, null, editorRef.current.getContent());
-                                $(`#save-btn-${props.widget.id}`).show();
+                                note.w_content = {
+                                    NOTES: newContent
+                                };
+                                props.sendContentToParent(note, null, null);
                             }}
                             init={{
                                 height: 250,
                                 menubar: false,
                                 plugins: ["anchor","autolink","charmap", "codesample","link","lists", "searchreplace","table", "autosave"],
-                                toolbar: "bold italic underline strikethrough | link table | align lineheight | numlist bullist indent outdent | removeformat | code | autosave",
+                                toolbar: "bold italic underline strikethrough | link table | align lineheight | numlist bullist indent outdent | removeformat | code | autosave | restoredraft",
                                 content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                                skin_url: "./css/CUSTOM/skins/ui/CUSTOM"
+                                skin_url: "./css/CUSTOM/skins/ui/CUSTOM",
+                                autosave_interval: "2s", //how often TinyMCE auto-saves a snapshot of content into local storage
+                                autosave_retention: "1m", //how often TinyMCE keeps saved content in local storage before deleting it
+                                autosave_ask_before_unload: false,
+                                autosave_save: (editor, draft) => {
+                                    console.log("Saving into local storage...");
+                                }
                             }}
                         />
                     )
@@ -104,3 +92,7 @@ export default function Note(props)
     
 }
 
+// onBlur={() => {
+//     props.sendContentToParent(note, null, editorRef.current.getContent());
+//     $(`#save-btn-${props.widget.id}`).show();
+// }}

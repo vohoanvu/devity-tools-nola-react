@@ -63,9 +63,12 @@ export default function Links(props)
         }
         if (links.inputLink.length !== 0) {
             let inputList = links.inputLink.split(",");
+            const displayName = inputList.length === 1 ? 
+                format_link(inputList[0]) : (inputList[1].replace(/\s/g, "").length === 0) ? 
+                    format_link(inputList[0]) : inputList[1]
             const newLink = {
                 HYPERLINK: format_link(inputList[0]),
-                DISPLAYNAME: inputList[1].replace(/\s/g, "").length === 0 ? format_link(inputList[0]) : inputList[1]
+                DISPLAYNAME: displayName
             }
             links.displayList.splice(0, 0, newLink);
             setLinks({

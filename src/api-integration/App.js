@@ -32,6 +32,7 @@ export default function App()
                 const tk = { token: token };
                 let response = await axios.post(API_URL + "/api/sessions", tk);
                 if(response.status !== 200){
+                    console.log("POST session failed with status: ", response.status);
                     window.location.replace(SSO_URL);
                 }
                 let bearer = "Devity " + response.data.id;

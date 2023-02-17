@@ -9,7 +9,6 @@ import configData from "../config.json";
 import $ from "jquery";
 import btn_save from "../img/btn_save.png";
 import Cookies from "universal-cookie";
-const devity_api = configData.DEVITY_API;
 const jira_token_uri = "https://id.atlassian.com/manage-profile/security/api-tokens";
 const SSO_URL = configData.SSO_URL;
 const COOKIE_NAME = "devity-token";
@@ -81,7 +80,7 @@ export default function Profile(props)
 
     async function updateProfileInDb(putBody) {
         $("div[data-panel=PROFILE] .gear").addClass("rotate");
-        return await axios.put(devity_api + "/api/profile", {...putBody})
+        return await axios.put(API_URL + "/api/profile", {...putBody})
             .then((response) => {
                 console.log("updateProfileInDb status: ", response.status);
                 return response.data;
@@ -97,7 +96,7 @@ export default function Profile(props)
         console.log("userSeletecd Interest Ids...", selectedInterests);
         $("div[data-panel=PROFILE] .gear").addClass("rotate");
 
-        await axios.post(devity_api + "/api/userinterests", [ ...selectedInterests ])
+        await axios.post(API_URL + "/api/userinterests", [ ...selectedInterests ])
             .then((response) => {
                 console.log("saveUserInterestsInDb status: ", response.status);
                 if (response.status === 200) {

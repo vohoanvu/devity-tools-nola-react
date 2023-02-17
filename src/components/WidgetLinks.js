@@ -7,8 +7,7 @@ import btn_add from "../img/btn_add.png";
 import btn_delete_sm from "../img/btn_delete_sm.png";
 import $ from "jquery";
 const sso_url = configData.SSO_URL;
-const devity_api = configData.DEVITY_API;
-
+const devity_api = configData.API_URL;
 
 
 export default function Links(props)

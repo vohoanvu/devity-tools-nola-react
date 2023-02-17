@@ -8,7 +8,7 @@ import btn_add from "../img/btn_add.png";
 import btn_delete_sm from "../img/btn_delete_sm.png";
 import { abbriviate, currate_title } from "../Utilities";
 const sso_url = CONFIG.SSO_URL;
-const devity_api = CONFIG.DEVITY_API;
+const devity_api = CONFIG.API_URL;
 
 
 export default function Clipboard(props)

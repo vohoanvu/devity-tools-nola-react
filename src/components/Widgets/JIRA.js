@@ -4,7 +4,7 @@ import CONFIG from "../../config.json";
 import "../../css/App.css";
 import $ from "jquery";
 const sso_url = CONFIG.SSO_URL;
-const devity_api = CONFIG.DEVITY_API;
+const devity_api = CONFIG.API_URL;
 
 const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged }) => {
     const [tickets, setTickets] = useState([]);

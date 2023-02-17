@@ -5,7 +5,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { log } from "../Utilities";
 import $ from "jquery";
 const sso_url = configData.SSO_URL;
-const devity_api = configData.DEVITY_API;
+const devity_api = configData.API_URL;
 
 export default function Note(props)
 {

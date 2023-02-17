@@ -3,7 +3,7 @@ import * as React from "react";
 import configData from "../config.json";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
-const devity_api = configData.DEVITY_API;
+const devity_api = configData.API_URL;
 export const UserContext = React.createContext();
 
 
@@ -21,8 +21,11 @@ export function UserProvider({ children, ...props })
                     return response.data;
                 })
                 .catch((error) => {
-                    if (error.response.status === 401) axios.defaults.headers.common["Authorization"] = bearer;
                     console.log(error);
+                    if (error.response.status === 401) {
+                        axios.defaults.headers.common["Authorization"] = bearer;
+                    } 
+                    window.location.replace(configData.SSO_URL);
                 });
         }
 
@@ -45,6 +48,10 @@ export function UserProvider({ children, ...props })
             })
             .catch((error) => {
                 console.log(error);
+                if (error.response.status === 401) {
+                    axios.defaults.headers.common["Authorization"] = bearer;
+                }
+                window.location.replace(configData.SSO_URL);
             });
     }
 

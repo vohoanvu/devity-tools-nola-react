@@ -11,7 +11,6 @@ import "../css/App.css";
 import SearchResults from "../components/SearchResults";
 import {useLocation} from "react-router-dom";
 import Cookies from "universal-cookie";
-
 const SSO_URL = CONFIG.SSO_URL;
 const DEVITY_URL = CONFIG.DEVITY;
 const COOKIE_NAME = "devity-token";

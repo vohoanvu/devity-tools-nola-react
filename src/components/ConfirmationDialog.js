@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 ReactModal.setAppElement("#root"); // Set the root element for accessibility
 
-const ConfirmationDialog = ({ title, message }) => 
+const ConfirmationDialog = ({ title, message, isDialogOpen }) => 
 {
     const [isModalOpen, setIsModalOpen] = useState(false);
   
     useEffect(() => {
-
-    }, []);
+        setIsModalOpen(isDialogOpen);
+    }, [isDialogOpen]);
 
     function handleDialogClose() {
         setIsModalOpen(false);

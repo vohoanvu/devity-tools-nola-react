@@ -26,15 +26,14 @@ export default function App()
     const [videoResult, setvideoResult] = useState([]);
     const [isAllPanelRendered, setIsAllPanelRendered] = useState(false);
 
-    if (token) {
+    if (bearer){
+        axios.defaults.headers.common["Authorization"] = bearer;
+    } else if (token) {
         (async () => {
             try{
                 const tk = { token: token };
                 let response = await axios.post(API_URL + "/api/sessions", tk);
-                if(response.status !== 200){
-                    console.log("POST session failed with status: ", response.status);
-                    window.location.replace(SSO_URL);
-                }
+
                 let bearer = "Devity " + response.data.id;
                 let expires = "expires="+ response.data.expires;
                 axios.defaults.headers.common["Authorization"] = bearer;
@@ -47,11 +46,7 @@ export default function App()
                 window.location.replace(SSO_URL);
             }
         })();
-    } else if(bearer){
-        axios.defaults.headers.common["Authorization"] = bearer;
-    }
-    else
-    {
+    } else {
         window.location.replace(SSO_URL);
     }
 

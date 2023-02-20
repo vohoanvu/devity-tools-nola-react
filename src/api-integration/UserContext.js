@@ -15,11 +15,15 @@ export function UserProvider({ children, axios })
         async function fetchUser(bearer) {
             return await axios.get("/api/profile")
                 .then((response) => {
+                    if (response.status === 401) {
+                        axios.defaults.headers.common["Authorization"] = bearer;
+                        return;
+                    }
                     return response.data;
                 })
                 .catch((error) => {
                     console.log(error);
-                    if (error.response.status === 401) window.location.replace(configData.SSO_URL);
+                    window.location.replace(configData.SSO_URL);
                 });
         }
 
@@ -36,13 +40,16 @@ export function UserProvider({ children, axios })
     async function fetchUserInterests() {
         return await axios.get("/api/userinterests")
             .then((response) => {
+                if (response.status === 401) {
+                    axios.defaults.headers.common["Authorization"] = cookies.get("devity-token");
+                    return;
+                }
                 return response.data;
             }).then((result) => {
                 return result;
             })
             .catch((error) => {
                 console.log(error);
-                if (error.response.status === 401) window.location.replace(configData.SSO_URL);
             });
     }
 

@@ -13,6 +13,9 @@ import RssDevity from "./Widgets/RSS";
 import Jira from "./Widgets/JIRA";
 import { UserContext } from "../api-integration/UserContext";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+const devity_api = CONFIG.API_URL;
 
 export default function DevityPanels({ signalAllPanelRendered, axios }) 
 {
@@ -39,11 +42,12 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
                 setWObject(res.data);
             })
                 .then(result => {
+                    {
                     signalAllPanelRendered(true);
+                };
                 })
                 .catch((err) => {
                     console.log(err);
-                    if (err.response.status === 401) window.location.replace(CONFIG.SSO_URL);
                 });
         }
 

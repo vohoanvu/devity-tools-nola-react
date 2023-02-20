@@ -33,6 +33,9 @@ export default function App()
             try{
                 const tk = { token: token };
                 let response = await axios.post(API_URL + "/api/sessions", tk);
+                if (response.status !== 200) {
+                    window.location.replace(SSO_URL);
+                }
 
                 let bearer = "Devity " + response.data.id;
                 let expires = "expires="+ response.data.expires;
@@ -69,7 +72,7 @@ export default function App()
         <div className="App">
             <UserProvider>
                 <div id="header_container">
-                <Console 
+                    <Console 
                         passGoogleResultFromChildToParent={renderResults}
                         passvideoResultFromChildToParent={renderVideoResults}
                     />
@@ -84,6 +87,5 @@ export default function App()
                     videoData={videoResult}/>
             </UserProvider>
         </div>
-    
     );
 }

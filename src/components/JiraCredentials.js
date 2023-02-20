@@ -81,24 +81,24 @@ export default class JiraCredentials extends React.Component
                             </tr>
                             <tr>
                                 <td>
-                                <label htmlFor="jiraUserId">Jira User ID:</label>
+                                    <label htmlFor="jiraUserId">Jira User ID:</label>
                                 </td>
                                 <td><input 
-                                        type="text" 
-                                        name="jiraUserId"
-                                        value={this.state.jiraUserId} 
-                                        onBlur={this.handleBlur.bind(this)} 
-                                        onChange={this.handleOnChange.bind(this)}/>
+                                    type="text" 
+                                    name="jiraUserId"
+                                    value={this.state.jiraUserId} 
+                                    onBlur={this.handleBlur.bind(this)} 
+                                    onChange={this.handleOnChange.bind(this)}/>
                                 </td>
                             </tr>
                             <tr>
                                 <td><label htmlFor="jira_token">Jira Token:</label></td>
                                 <td><input 
-                                        type="text" 
-                                        name="jira_token"
-                                        value={this.state.jira_token} 
-                                        onBlur={this.handleBlur.bind(this)} 
-                                        onChange={this.handleOnChange.bind(this)}/>
+                                    type="text" 
+                                    name="jira_token"
+                                    value={this.state.jira_token} 
+                                    onBlur={this.handleBlur.bind(this)} 
+                                    onChange={this.handleOnChange.bind(this)}/>
                                 </td>
                             </tr>
                         </tbody>

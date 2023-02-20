@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 ReactModal.setAppElement("#root"); // Set the root element for accessibility
 
-const ConfirmationDialog = ({ title, message, isDialogOpen }) => 
+const ConfirmationDialog = ({ title, message, isDialogOpen, modelType }) => 
 {
     const [isModalOpen, setIsModalOpen] = useState(false);
   
@@ -16,7 +16,7 @@ const ConfirmationDialog = ({ title, message, isDialogOpen }) =>
 
     return (
         <div>
-            <button onClick={()=> setIsModalOpen(true)} className="logout-btn">
+            <button onClick={()=> setIsModalOpen(true)} className="logout-btn" hidden={!isDialogOpen}>
                 Open Modal
             </button>
             <ReactModal 
@@ -31,7 +31,18 @@ const ConfirmationDialog = ({ title, message, isDialogOpen }) =>
                 }}>
                 <h2>{title}</h2>
                 <p>{message}</p>
-                <button onClick={handleDialogClose}>Close Modal</button>
+                {
+                    (() => {
+                        switch (modelType) {
+                        case "RATE_LIMIT":
+                            return null;
+                        case "FREE_ACCOUNT_LIMIT":
+                            return <button onClick={handleDialogClose}>Close Modal</button>;
+                        default:
+                            return <button onClick={handleDialogClose}>Close Modal</button>;
+                        }
+                    })()
+                }
             </ReactModal>
         </div>
     );

@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
 import configData from "../config.json";
 import { format_link, abbriviate, currate_title } from "../Utilities";
 import Editable from "./Editable";
@@ -7,7 +6,6 @@ import btn_add from "../img/btn_add.png";
 import btn_delete_sm from "../img/btn_delete_sm.png";
 import $ from "jquery";
 const sso_url = configData.SSO_URL;
-const devity_api = configData.API_URL;
 
 
 export default function Links(props)
@@ -19,6 +17,7 @@ export default function Links(props)
         w_type: props.widget.w_type
     });
     const inputLinkRef = useRef(null);
+    const axios = props.axios;
 
     useEffect(() => {
         const curr_view = props.activePanel;
@@ -43,7 +42,7 @@ export default function Links(props)
     }, [props.widget, props.activePanel]);
 
     async function getWidgetContentById(w_id) {
-        return await axios.get(devity_api + "/api/widgets/"+ w_id)
+        return await axios.get("/api/widgets/"+ w_id)
             .then((res) => {
                 if (res.status === 401) window.location.replace(sso_url);
 

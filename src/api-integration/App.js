@@ -26,32 +26,17 @@ export default function App()
     const [videoResult, setvideoResult] = useState([]);
     const [isAllPanelRendered, setIsAllPanelRendered] = useState(false);
 
-    if (bearer){
+    if (bearer && !token) {
         axios.defaults.headers.common["Authorization"] = bearer;
-    } else if (token) {
-        (async () => {
-            try{
-                const tk = { token: token };
-                let response = await axios.post(API_URL + "/api/sessions", tk);
-                if (response.status !== 200) {
-                    window.location.replace(SSO_URL);
-                }
-
-                let bearer = "Devity " + response.data.id;
-                let expires = "expires="+ response.data.expires;
-                axios.defaults.headers.common["Authorization"] = bearer;
-                cookies.set(COOKIE_NAME, bearer, expires, { path: "/" });
-
-                window.location.replace(DEVITY_URL);
-            }
-            catch(error){
-                console.log(Object.keys(error), error.message);
-                window.location.replace(SSO_URL);
-            }
-        })();
-    } else {
+    }
+    if (token) {
+        bearer !== null && bearer !== undefined && cookies.remove(COOKIE_NAME, { path: "/" });
+        AuthenticateUser(token);
+    }
+    if (!token && !bearer) {
         window.location.replace(SSO_URL);
     }
+
 
     function renderResults(childResultData) {
         setSearchResult(childResultData);
@@ -61,11 +46,32 @@ export default function App()
         setvideoResult(childResultData);
     }
 
-
     function renderSelectedPanels(isAllPanelRendered) {
         setIsAllPanelRendered(isAllPanelRendered);
     }
 
+    async function AuthenticateUser(inputToken)
+    {
+        try {
+            const tk = { token: inputToken };
+            let response = await axios.post(API_URL + "/api/sessions", tk);
+            if (response.status !== 200) {
+                console.log("POST session failed: ", response);
+                window.location.replace(SSO_URL);
+            }
+
+            let bearer = "Devity " + response.data.id;
+            let expires = "expires="+ response.data.expires;
+            axios.defaults.headers.common["Authorization"] = bearer;
+            cookies.set(COOKIE_NAME, bearer, expires, { path: "/" });
+
+            window.location.replace(DEVITY_URL);
+        }
+        catch(error) {
+            console.log(Object.keys(error), error.message);
+            //window.location.replace(SSO_URL);
+        }
+    }
 
     return (
 

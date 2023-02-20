@@ -16,7 +16,6 @@ import { UserContext } from "../api-integration/UserContext";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
-const sso_url = CONFIG.SSO_URL;
 const devity_api = CONFIG.API_URL;
 
 export default function DevityPanels(props) 
@@ -38,19 +37,20 @@ export default function DevityPanels(props)
     useEffect(() => {
         async function fetchData() {
             await axios.get(devity_api + "/api/widgets").then((res) => {
-                if (res.status === 401) window.location.replace(sso_url);
+                if (res.status === 401) {
+                    axios.defaults.headers.common["Authorization"] = cookies.get("devity-token");
+                    return;
+                }
 
                 console.log("Get panels data");
                 console.log(res.data);
                 setWObject(res.data);
             })
-                .then(result => props.signalAllPanelRendered(true))
+                .then(result => {
+                    props.signalAllPanelRendered(true);
+                })
                 .catch((err) => {
                     console.log(err);
-                    if (err.response.status === 401) {
-                        axios.defaults.headers.common["Authorization"] = cookies.get("devity-token");
-                    }
-                    window.location.replace(CONFIG.SSO_URL);
                 });
         }
 

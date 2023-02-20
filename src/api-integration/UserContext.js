@@ -14,17 +14,17 @@ export function UserProvider({ children, ...props })
     const bearer = cookies.get("devity-token");
 
     React.useEffect(() => {
-
         async function fetchUser(bearer) {
             return await axios.get(devity_api + "/api/profile")
                 .then((response) => {
+                    if (response.status === 401) {
+                        axios.defaults.headers.common["Authorization"] = bearer;
+                        return;
+                    }
                     return response.data;
                 })
                 .catch((error) => {
                     console.log(error);
-                    if (error.response.status === 401) {
-                        axios.defaults.headers.common["Authorization"] = bearer;
-                    } 
                     window.location.replace(configData.SSO_URL);
                 });
         }
@@ -42,29 +42,18 @@ export function UserProvider({ children, ...props })
     async function fetchUserInterests() {
         return await axios.get(devity_api + "/api/userinterests")
             .then((response) => {
+                if (response.status === 401) {
+                    axios.defaults.headers.common["Authorization"] = cookies.get("devity-token");
+                    return;
+                }
                 return response.data;
             }).then((result) => {
                 return result;
             })
             .catch((error) => {
                 console.log(error);
-                if (error.response.status === 401) {
-                    axios.defaults.headers.common["Authorization"] = bearer;
-                }
-                window.location.replace(configData.SSO_URL);
             });
     }
-
-    // function fetchJiraCredsFromLocalStorage() 
-    // {
-    //     const jiraCreds = {
-    //         jiraToken : localStorage.getItem("jira_token") ?? "", //"a4EHm80xhC4csD0FXMS4051D";
-    //         jiraDomain : localStorage.getItem("jira_domain") ?? "", //"devity-tools.atlassian.net";
-    //         jiraUserId : localStorage.getItem("jira_user_id") ?? "" //"vu@noladigital.net";
-    //     };
-
-    //     return jiraCreds;
-    // }
 
 
     return (

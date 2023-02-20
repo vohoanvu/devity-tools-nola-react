@@ -74,11 +74,12 @@ export default function App()
         <div className="App">
             <UserProvider>
                 <div id="header_container">
-                    <Header isPanelsRendered={isAllPanelRendered}></Header>
-                    <Console 
+                <Console 
                         passGoogleResultFromChildToParent={renderResults}
                         passvideoResultFromChildToParent={renderVideoResults}
                     />
+                    <Header isPanelsRendered={isAllPanelRendered}></Header>
+                    
                 </div>
                 <DevityPanels signalAllPanelRendered={renderSelectedPanels}></DevityPanels>
                 <Profile COOKIE_NAME={COOKIE_NAME}></Profile>

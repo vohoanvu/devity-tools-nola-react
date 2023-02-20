@@ -4,6 +4,8 @@
   box-sizing: border-box;
 }
 
+
+
 body {
   margin: 0;
   font-family: Consolas, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -14,6 +16,13 @@ body {
   background-color: var(--COLOR_BODY);
   color: var(--COLOR_TEXT);
   padding: 10px;
+}
+
+.border {
+    border: 1px;
+    border-style: solid;
+    border-radius: 7.5px;
+    border-color: var(--COLOR_PANEL_BRD);
 }
 
 code {
@@ -36,21 +45,26 @@ code {
 }
 
 h1{
+  color: var(--COLOR_TEXT_HD);
   display: block;
   font-size: 28px;
   margin-top: 0;
   margin-bottom: 0;
   font-weight: bold;
 }
-h2{margin-bottom: 0;}
-h3{margin-bottom: 0;}
+h2{
+  margin-bottom: 0;
+  color: var(--COLOR_TEXT_HD);
+}
+h3{
+  color: var(--COLOR_TEXT_HD);
+  margin-bottom: 0;
+}
 p{margin-top: 0;}
 span{color: var(--COLOR_TEXT);}
 
 /* unvisited link */
-a:link {
-  color: var(--COLOR_LINK);
-}
+a:link {}
 
 /* visited link */
 a:visited {
@@ -59,53 +73,16 @@ a:visited {
 
 /* mouse over link */
 a:hover {
-  color: var(--COLOR_LINK_HOVER);
+  text-decoration: underline;
 }
 
 /* selected link */
-a:active {
-  color: var(--COLOR_LINK_ACTIVE);
-}
+a:active {}
 
-.logo{
-  pointer-events: none;
-}
 
-.nav-max{
+.nav .ribbon-cntrls{
   width: 100%;
-  display: flex;
-}
-
-.nav-max .ribbon-cntrls{
-  margin:auto;
-  width: 870px;
-  margin-bottom: 5px;
-}
-
-.nav-max button{
-  background-color:  var(--COLOR_BODY);
-  margin-right: 10px;
-}
-.nav-max button img{
-  height: 100px;
-  width: 100px;;
-}
-
-
-.nav-min button{
-  background-color:  var(--COLOR_BODY);
-  margin-right: 7px;
-}
-.nav-min button img{
-  height: 50px;
-  width: 50px;
-}
-.nav-min span{
-  font-size: 11px;
-}
-
-.nav-min .ribbon-cntrls{
-
+  margin: 5px;
 }
 
 .display-flex{
@@ -135,11 +112,6 @@ a:active {
   overflow: auto;
 }
 
-.console-min {
-  width: 525px;
-  margin-bottom: 5px;
-}
-
 #console_log ul{
   display: inline-block;
   align-self: flex-end;
@@ -149,13 +121,8 @@ list-style-type: none;
 }
 
 #prompt_container{
-  margin-right: auto;
   margin-left: 0;
-  width: 500px;
   padding: 8px;
-  border: 2px;
-  border-style: solid;
-  border-color: var(--COLOR_PANEL_BRD);
   background-color: #000;
 }
 #prompt_cmd{
@@ -173,64 +140,19 @@ list-style-type: none;
   border: none;
 }
 #prompt_container input:focus{
-  caret-color: var(--COLOR_CARET);
+  caret-color: var(--COLOR_AFFECT);
   outline: none;
   top: -5px;
 }
 
-.widget input[type="text"]:focus{
-  caret-color: var(--COLOR_CARET);
+input[type="text"]{
+  border: 0px;
+  padding: 3px;
+  width: 100%;
+  caret-color: var(--COLOR_AFFECT);
   background-color: var(--COLOR_WIDGET_INPUT_BG);
   outline: none;
   top: -5px;
-}
-
-@media (max-width: 780px) {
-
-  #nav_console{
-    display: none;
-  }
-  .ribbon-cntrls{
-    margin:auto;
-    margin-bottom: 5px;
-  }
-  
-  .nav-max button{
-    background-color:  var(--COLOR_BODY);
-    margin-right: 7px;
-  }
-  .nav-max button img{
-    height: 50px;
-    width: 50px;;
-  }
-
-  #prompt_container{
-    display: block;
-    position: relative;
-    left: 8px;
-    margin: auto;
-    width: 95%;
-    padding: 5px;
-    border: 1px;
-    border-style: solid;
-    border-radius: 15px;
-    border-color: var(--COLOR_PANEL_BRD);
-  }
-  #prompt_cmd{
-    font-size: 15px;
-    font-family: "Consolas";
-  }
-  #prompt_container input[type="text"]{
-    width: 60%;
-    height: 15px;
-    background-color : var(--COLOR_prompt_input_BG); 
-    color: var(--COLOR_TEXT);
-    font-family: "Consolas";
-    font-size: 16px;
-    padding: 2px;
-    border: none;
-  }
-
 }
 
 @keyframes cursor-blink {
@@ -239,183 +161,27 @@ list-style-type: none;
   }
 }
 
+@keyframes blink {
+  0% {
+      opacity: 1;
+  }
+  49% {
+      opacity: 1;
+  }
+  50% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 0;
+  }
+}
+
 .label{
   color: var(--COLOR_TEXT);
 }
 
 
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-  .console-max {
-    display: block;
-  }
-  #console > div.cmd_type_radio{
-    display: flex;
-    width: 25%;
-    padding: 7px;
-    margin: auto;
-  }
-  .nav-min{
-    display: flex;
-    float: right;
-    width: 300px;
-  }
-  .profile{
-    display: block;
-  }
-  .profile .card{
-    padding-left: 20px;
-  }
-  .profile .settings{
-   width: 100%;
-  }
-  .profile .personal{
-    width: 100%;
-  }
-  .profile ul{
-    display: block;
-    padding-left: 0px;
-  }
-  
-}
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
 
-  .console-max {
-    display: block;
-  }
-  #console > div.cmd_type_radio{
-    display: flex;
-    padding: 7px;
-  }
-  .console-max {
-    display: block;
-  }
-  .nav-min{
-    display: flex;
-    float: right;
-    width: 30%;
-  }
-  .profile{
-    display: block;
-  }
-  .profile .card{
-    padding-left: 20px;
-  }
-  .profile .settings{
-   width: 100%;
-  }
-  .profile .personal{
-    width: 100%;
-  }
-  .profile ul{
-    display: block;
-    padding-left: 0px;
-  }
- 
-}
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-  .cmd_type_radio{
-    display: block;
-    padding: 7px;
-    margin-left: auto;
-    margin-right: 0;
-  }
-  .console-max {
-    display: flex;
-  }
-  .nav-min{
-    display: flex;
-    float: right;
-  }
-  .profile{
-    display: block;
-  }
-  .profile .card{
-    padding-left: 20px;
-  }
-  .profile .settings{
-   width: 100%;
-  }
-  .profile .personal{
-    width: 100%;
-  }
-  .profile ul{
-    display: block;
-    padding-left: 0px;
-  }
-
-}
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-  .cmd_type_radio{
-    display: block;
-    width: 90px;
-    padding: 7px;
-    margin-left: auto;
-    margin-right: 0;
-  }
-  .console-max {
-    display: flex;
-  }
-  .nav-min{
-    display: flex;
-    float: right;
-  }
-  .profile{
-    display: flex;
-  }
-
-  .profile .card{
-    padding-left: 100px;
-  }
-  .profile .settings{
-   width: 30%;
-  }
-  .profile .personal{
-    width: 70%;
-  }
-  .profile ul{
-    display: flex;
-    padding-left: 0px;
-  }
-
-}
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
-  .console-max {
-    display: flex;
-  }
-  #console > div.cmd_type_radio{
-    display: block;
-    padding: 7px;
-    margin-left: auto;
-  }
-  .nav-min{
-    display: flex;
-    float: right;
-    width: 600px;
-  }
-  .profile{
-    display: flex;
-  }
-
-  .profile .card{
-    padding-left: 100px;
-  }
-  .profile .settings{
-   width: 30%;
-  }
-  .profile .personal{
-    width: 70%;
-  }
-  .profile ul{
-    display: flex;
-    padding-left: 0px;
-  }
-
-}
 
 div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
 {
@@ -431,19 +197,25 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
     height: 45px;
   }
 
-  .p-chrome.chrome-btn-profile > img.img-btn.save{
+  img.img-btn.save{
     margin-left: auto;
+    animation: blink .75s;
+    animation-iteration-count: infinite;
   }
 
  
   .w-chrome {
-    padding: 5px 0px 10px 20px;
+    padding: 7px 0px 10px 20px;
     display: flex;
     height: 25px;
     background-color: var(--COLOR_PANEL_CHROME_BG);
     margin-bottom: 3px;
     cursor: pointer;
     height: 45px;
+  }
+  .w-chrome .title{
+    margin-top: 15px;
+    font-size: 20px;
   }
   .w-chrome button {
     position: relative;
@@ -499,11 +271,7 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
     display: block;
     overflow: hidden;
     float: left;
-    border: 2px;
-    border-style: solid;
-    border-radius: 5px;
     margin: 10px;
-    border-color: var(--COLOR_WIDGET_BRD);
     background-color: var(--COLOR_WIDGET_BG);
     position: relative;
   }
@@ -511,20 +279,11 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
     display: block;
     margin: 10px;
     width: 98%;
-    min-height: 600px;
-    border: 1px;
-    border-style: solid;
-    border-radius: 15px;
-    border-color: var(--COLOR_PANEL_BRD);
     overflow: auto;
     }
     
   .w_container{
     background-color: var(--COLOR_WIDGET_BG);
-    border-radius: 5%;
-    border: 1px;
-    border-style: solid;
-    border-color: var(--COLOR_WIDGET_BRD);
     min-width: 300px;
     min-height: 300px;
     margin: 10px;
@@ -554,7 +313,7 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
 
 .max{
   width: 98%;
-  height: 98%;
+  min-height: 500px;
 }
 
 
@@ -579,21 +338,6 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
     transform: rotate(359deg);
   }
 }
-
-
-  
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
-
 
 /* width */
 ::-webkit-scrollbar {
@@ -647,7 +391,7 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
 }
 
 .widget ul>li:nth-child(odd){
-  background-color: var(--COLOR_ALT_ROW_BG);
+  background-color: var(--COLOR_PANEL_CHROME_BG);
 }
 .widget ul li{
   display: flex;
@@ -673,7 +417,7 @@ margin-bottom: 5px;
   width: 98%;
 }
 .w-links a:hover{
-  color: var(--COLOR_AFFECT);
+  text-decoration: underline;
 }
 
 
@@ -706,7 +450,7 @@ margin-bottom: 5px;
   color: var(--COLOR_TEXT);
 }
 .lib-tbl tr:nth-child(odd) td{
-  background-color: var(--COLOR_ALT_ROW_BG);
+  background-color: var(--COLOR_PANEL_CHROME_BG);
 }
 
 .lib-tbl tr th{
@@ -714,10 +458,10 @@ color: var(--COLOR_TEXT);
 }
 
 .lib-tbl tr:nth-child(even):hover td{
-  background-color: var(--COLOR_ROW_HOVER);
+  background-color: var(--COLOR_AFFECT_HOVER);
 }
 .lib-tbl tr:nth-child(odd):hover td{
-  background-color: var(--COLOR_ROW_HOVER);
+  background-color: var(--COLOR_AFFECT_HOVER);
 }
 
 
@@ -743,8 +487,7 @@ color: var(--COLOR_TEXT);
   width: 98%;
 }
 .widget ul li:hover{
-  /* color: var(--COLOR_LINK_HOVER); */
-  background-color: var(--COLOR_ROW_HOVER);
+  background-color: var(--COLOR_AFFECT_HOVER);
 }
 
 .tiny-editor-box {
@@ -797,7 +540,6 @@ display: inherit;
 list-style-type: none;
 margin-right: 10px;
 margin-bottom: 10px;
-border-radius: 25px;
 background: var(--COLOR_WIDGET_BG);
 padding: 20px;
 height: 75px;
@@ -855,7 +597,7 @@ select > option{
 }
 
 .error{
-  color: red;;
+  color: var(--COLOR_AFFECT);
 }
 
 button {
@@ -902,4 +644,225 @@ span.w_copyable.filterable {
 }
 #linkContentForm, #clipboardContentForm {
   width: 100%;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .console-max {
+    display: block;
+  }
+  .nav{
+    width: 100%;
+    display: flex;
+  }
+  .nav button{
+    width: 15%;
+    background-color:  var(--COLOR_BODY);
+  }
+  .nav button img{
+    height: 50%;
+    width: 50%;;
+  }
+  #console > div.cmd_type_radio{
+    display: flex;
+    width: 25%;
+    padding: 7px;
+    margin: auto;
+  }
+  .nav-min{
+    display: flex;
+    float: right;
+    width: 300px;
+  }
+  .profile{
+    display: block;
+  }
+  .profile .card{
+    padding-left: 20px;
+  }
+  .profile .settings{
+   width: 100%;
+  }
+  .profile .personal{
+    width: 100%;
+  }
+  .profile ul{
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0px;
+    max-width: 100%;
+  }
+  
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .nav{
+    width: 100%;
+    display: flex;
+  }
+  .nav button{
+    width: 15%;
+    background-color:  var(--COLOR_BODY);
+  }
+  .nav button img{
+    height: 50%;
+    width: 50%;;
+  }
+  #header_container{
+    display: block;
+  }
+
+  #console > div.cmd_type_radio{
+    display: flex;
+    padding: 7px;
+  }
+  .nav-min{
+    display: flex;
+    float: right;
+    width: 30%;
+  }
+  .profile{
+    display: block;
+  }
+  .profile .card{
+    padding-left: 20px;
+  }
+  .profile .settings{
+   width: 100%;
+  }
+  .profile .personal{
+    width: 100%;
+  }
+  .profile ul{
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0px;
+    max-width: 100%;
+  }
+ 
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  #header_container{
+    display: flex;
+  }
+  .console{
+    width: 50%;
+  }
+  .nav{
+    width: 50%;
+    display: flex;
+  }
+  .nav button{
+    width: 15%;
+    background-color:  var(--COLOR_BODY);
+  }
+  .nav button img{
+    height: 50%;
+    width: 50%;;
+  }
+  .cmd_type_radio{
+    display: block;
+    padding: 7px;
+    margin-left: auto;
+    margin-right: 0;
+  }
+  .profile{
+    display: block;
+  }
+  .profile .card{
+    padding-left: 20px;
+  }
+  .profile .settings{
+   width: 100%;
+  }
+  .profile .personal{
+    width: 100%;
+  }
+  .profile ul{
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0px;
+    max-width: 100%;
+  }
+
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  #header_container{
+    display: flex;
+  }
+  .console{
+    width: 50%;
+  }
+  .nav{
+    width: 50%;
+    display: flex;
+  }
+  .nav button{
+    width: 15%;
+    background-color:  var(--COLOR_BODY);
+  }
+  .nav button img{
+    height: 50%;
+    width: 50%;;
+  }
+  .profile{
+    display: flex;
+  }
+
+  .profile .card{
+    padding-left: 100px;
+  }
+  .profile .settings{
+   width: 30%;
+  }
+  .profile .personal{
+    width: 70%;
+  }
+  .profile ul{
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0px;
+    max-width: 100%;
+  }
+
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  #header_container{
+    display: flex;
+  }
+  .nav{
+    width: 50%;
+    display: flex;
+  }
+  .nav button{
+    width: 15%;
+    background-color:  var(--COLOR_BODY);
+  }
+  .nav button img{
+    height: 50%;
+    width: 50%;;
+  }
+  .profile{
+    display: flex;
+  }
+
+  .profile .card{
+    padding-left: 100px;
+  }
+  .profile .settings{
+   width: 30%;
+  }
+  .profile .personal{
+    width: 70%;
+  }
+  .profile ul{
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0px;
+    max-width: 100%;
+  }
+
 }

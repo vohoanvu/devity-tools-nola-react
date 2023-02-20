@@ -92,7 +92,7 @@ export default function Widget(props)
     return (
         <React.Fragment>
             <Editable 
-                displayText={<span>{props.widget.name || "Enter a name for widget" }</span>}
+                displayText={<span className="title">{props.widget.name || "Enter a name for widget" }</span>}
                 inputType="input" 
                 childInputRef={props.inputRef}
                 passFromChildToParent={saveWidgetTitleOnBlur}

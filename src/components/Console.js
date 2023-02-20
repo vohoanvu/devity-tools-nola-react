@@ -175,13 +175,13 @@ const Console = (props) =>
     }
 
     return (
-        <div id="console" className="console-max">
+        <div id="console" className="console">
             <script src="https://apis.google.com/js/api.js"></script>
             <div className='cmd_type_radio'>
                 <RadionButtonFilter /><label htmlFor="opt_search">Filter</label><br />
                 <RadionButtonSearch /><label htmlFor="opt_filter">Search</label>
             </div>
-            <div id="prompt_container">
+            <div id="prompt_container" className="border">
                 <div id="console_log" className="hide">
                     <ul id="console_output" className="console">
                         <li>Welcome to devity!</li>

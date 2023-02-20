@@ -197,7 +197,7 @@ export default function DevityPanels(props)
                     isConfigsChanged={isDevitySubTypeChanged.isJiraConfigsChanged}/>
             break;
         default:
-            return <div className="w-container">LOADING...</div>;
+            return <div className="w-container border">LOADING...</div>;
         }
 
     }
@@ -262,7 +262,7 @@ export default function DevityPanels(props)
             {
                 Object.entries(wObject).map( ([key,value], index) => {
                     return (
-                        <div key={index} className="p-panel" data-panel={key} style={{display:"none"}}>
+                        <div key={index} className="p-panel border" data-panel={key} style={{display:"none"}}>
                             <div className='p-chrome'>
                                 <img src={btn_image_config} className="gear" alt="devity gear"/>
                                 <span className="title">{key}</span>
@@ -306,7 +306,7 @@ export default function DevityPanels(props)
                                                                     (provided, snapshot) => (
                                                                         <div 
                                                                             data-w_id={w.id}
-                                                                            className="w-container min"
+                                                                            className="w-container min border"
                                                                             ref={provided.innerRef}
                                                                             {...provided.draggableProps}
                                                                             style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}

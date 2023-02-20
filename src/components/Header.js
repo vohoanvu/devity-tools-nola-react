@@ -5,7 +5,7 @@ import btn_image_avitar from "../img/d_btn_ctrl_user.png";
 import btn_image_links from "../img/d_btn_ctrl_links.png";
 import btn_image_notes from "../img/d_btn_ctrl_notes.png";
 import btn_image_clipboard from "../img/d_btn_ctrl_clipboard.png";
-import btn_image_code from "../img/d_btn_ctrl_code.png";
+//import btn_image_code from "../img/d_btn_ctrl_code.png";
 import btn_image_lib from "../img/d_btn_ctrl_lib.png";
 import { UserContext } from "../api-integration/UserContext";
 
@@ -29,10 +29,10 @@ export default function Header(props)
 
         if (target === "CONSOLE") {
             $("#console_log").toggleClass("hide");
-            $("#navigation").toggleClass("nav-max");
-            $("#navigation").toggleClass("nav-min");
-            $("#console").toggleClass("console-max");
-            $("#console").toggleClass("console-min");
+            // $("#navigation").toggleClass("nav-max");
+            // $("#navigation").toggleClass("nav-min");
+            // $("#console").toggleClass("console-max");
+            // $("#console").toggleClass("console-min");
             $(".cmd_type_radio").toggle();
             // $('#header_container').toggleClass('display-flex');
         } else {
@@ -54,15 +54,14 @@ export default function Header(props)
     }
 
 
-    return (<div id="navigation" className="nav nav-max">
+    return (<div id="navigation" className="nav">
 
-        <div id="logo">
-            <button id="nav_all" onClick={()=>onNavigateClicked("DEVITY")}>
-                <img src={logo} className="logo" alt="logo" />
-            </button>
-        </div>
-      
         <header id="ribbon" className="ribbon-cntrls" >
+            <button id="nav_all" onClick={()=>onNavigateClicked("DEVITY")}>
+                <img src={logo}  alt="logo" /><br />
+                <span>Devity</span>
+            </button>
+            
             <button id='nav_links' onClick={()=>onNavigateClicked("LINKS")}>
                 <img src={btn_image_links} alt="Links" /><br />
                 <span>Links</span>
@@ -83,10 +82,10 @@ export default function Header(props)
                 <span>Libraries</span>
             </button>
 
-            <button id="nav_console" onClick={()=>onNavigateClicked("CONSOLE")}>
+            {/* <button id="nav_console" onClick={()=>onNavigateClicked("CONSOLE")}>
                 <img  src={btn_image_code} className="" alt="Console" /><br />
                 <span>Console</span>
-            </button>
+            </button> */}
 
 
             <button id='nav_profile' onClick={()=>onNavigateClicked("PROFILE")}>

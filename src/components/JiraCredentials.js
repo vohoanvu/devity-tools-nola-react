@@ -64,36 +64,45 @@ export default class JiraCredentials extends React.Component
         return (
             <div>
                 <form>
-                    <label htmlFor="jiraDomain">
-                        Jira Domain
-                        <input 
-                            type="text" 
-                            name="jiraDomain"
-                            value={this.state.jiraDomain} 
-                            onBlur={this.handleBlur.bind(this)} 
-                            onChange={this.handleOnChange.bind(this)}/>
-                        {/* { this.state.domainError && <p style={{ color: "red" }}>{this.state.domainError}</p> } */}
-                    </label>
-                    <br/>
-                    <label htmlFor="jiraUserId">
-                        Jira User ID
-                        <input 
-                            type="text" 
-                            name="jiraUserId"
-                            value={this.state.jiraUserId} 
-                            onBlur={this.handleBlur.bind(this)} 
-                            onChange={this.handleOnChange.bind(this)}/>
-                    </label>
-                    <br/>
-                    <label htmlFor="jira_token">
-                        Jira Token
-                        <input 
-                            type="text" 
-                            name="jira_token"
-                            value={this.state.jira_token} 
-                            onBlur={this.handleBlur.bind(this)} 
-                            onChange={this.handleOnChange.bind(this)}/>
-                    </label>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label htmlFor="jiraDomain">Jira Domain:</label>
+                                </td>
+                                <td>
+                                    <input 
+                                        type="text" 
+                                        name="jiraDomain"
+                                        value={this.state.jiraDomain} 
+                                        onBlur={this.handleBlur.bind(this)} 
+                                        onChange={this.handleOnChange.bind(this)}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                <label htmlFor="jiraUserId">Jira User ID:</label>
+                                </td>
+                                <td><input 
+                                        type="text" 
+                                        name="jiraUserId"
+                                        value={this.state.jiraUserId} 
+                                        onBlur={this.handleBlur.bind(this)} 
+                                        onChange={this.handleOnChange.bind(this)}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label htmlFor="jira_token">Jira Token:</label></td>
+                                <td><input 
+                                        type="text" 
+                                        name="jira_token"
+                                        value={this.state.jira_token} 
+                                        onBlur={this.handleBlur.bind(this)} 
+                                        onChange={this.handleOnChange.bind(this)}/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </form>
             </div>
         )

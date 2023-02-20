@@ -48,14 +48,6 @@ export default function Profile(props)
         setIsEditMode(true);
     }
 
-    // function handleUserEmailOnChange(newEmail) {
-    //   setUserProfile({
-    //     ...userProfile,
-    //     email: newEmail
-    //   });
-    //   setIsEditMode(true);
-    // }
-
     function updateUserProfileOnBlur(evenTarget) {
 
         switch (evenTarget.name) {
@@ -155,7 +147,7 @@ export default function Profile(props)
     }
 
     return (
-        <div className="p-panel" style={{display:"none"}} data-panel="PROFILE">
+        <div className="p-panel border" style={{display:"none"}} data-panel="PROFILE">
             <div className='p-chrome chrome-btn-profile'>
                 <img src={btn_image_config} className="gear" alt="devity gear" />
                 <span className="p-title">Profile</span>
@@ -172,8 +164,8 @@ export default function Profile(props)
             </div>
             <div className='p-contents profile'>
                 <div className='settings card'>
-                    <h1>Settings</h1>
-                    <p>Local storage settings</p>
+                    <h1>Local Settings</h1>
+                    <p>Local storage settings in this column are used for security and performance. If you clear your cache they will be erased.</p>
                     <h3>Theme</h3>
                     <ViewModeSelection devityCookie={props.COOKIE_NAME}/>
                     <div className='select-results-card'>
@@ -181,7 +173,7 @@ export default function Profile(props)
                         <p>Select results types for search command.</p>
                         <form>
                             <ul>
-                                <li>
+                                <li className="border">
                                     <input 
                                         onClick={() => document.getElementById("google-results").click()}
                                         type="checkbox" 
@@ -191,7 +183,7 @@ export default function Profile(props)
                                         onChange={handleSearchResultSelectOnChange}/>
                                     <label htmlFor="google-results">Google Search Results</label>
                                 </li>
-                                <li>
+                                <li className="border">
                                     <input 
                                         onClick={() => document.getElementById("youtube-results").click()}
                                         type="checkbox" 
@@ -215,13 +207,21 @@ export default function Profile(props)
 
                 </div>
                 <div className='personal card'>
-                    <h1>Techical Profile</h1>
-                    <p>Help the Technocore AIs help you by filling out your technical profile.</p>
+                    <h1>Profile Settings</h1>
+                    <p>Help the Technocore AIs help you by filling out your technical profile! Profile settings in this column are persisted on api.devity-tools.com.</p>
                     <h2>{ userProfile.paid ? "Premium Account" : "Free Account" }</h2>
+                    <p>{ userProfile.paid ? "Thanks for your support!" : "Paid accounts have higher data and rate-limits. If you enjoy the tool consider supporting it by upgrading to a paid account." }</p>
+                    <label> Data: {userProfile.datasize} used of 10MB</label>
+                    <br/>
+                    <label> Widgets: {userProfile.widget_count} </label>
+                    <br/>
+
                     <button type="submit" hidden onClick={upgradeProfileMembership}>Upgrade</button>
 
+                    <h2>User Name:</h2>
+                    <p>Click on your user name or profession to update.</p>
                     <Editable 
-                        displayText={<h1>{userProfile.name}</h1>}
+                        displayText={<label>{userProfile.name}</label>}
                         inputType="input" 
                         childInputRef={inputRef}
                         passFromChildToParent={updateUserProfileOnBlur}>
@@ -233,9 +233,9 @@ export default function Profile(props)
                             value={userProfile.name}
                             onChange={e => handleUsernameOnChange(e.target.value)}
                         />
-                    </Editable><br />
+                    </Editable>
                     <Editable 
-                        displayText={<p className="title"> {userProfile.profession} </p>}
+                        displayText={<label className="title"> {userProfile.profession} </label>}
                         inputType="input" 
                         childInputRef={inputRef}
                         passFromChildToParent={updateUserProfileOnBlur}>
@@ -255,7 +255,7 @@ export default function Profile(props)
                         {
                             userProfile.user_interests?.map((i, index) => {
                                 return (
-                                    <li 
+                                    <li className="border"
                                         key={index}
                                         onClick={() => document.getElementById(i.Id).click()}
                                         aria-hidden="true">
@@ -276,20 +276,18 @@ export default function Profile(props)
                         }
                     </ul>
                     <br />
-                    <h3>Data Analysis</h3>
-                    <label> Widget Count : {userProfile.widget_count} </label>
-                    <br/>
-                    <label> Data Size in DB : {userProfile.datasize} </label>
-                    <br/>
-                    <br/>
-                    <h1>Session Info</h1>
-                    <label> Token Expiration Date (UTC) : {getUTCDateTime(userProfile.session_info?.expire_date)} </label>
-                    <br/>
-                    <button onClick={logOutRequest} className="logout-btn">
-                        LOG OUT
-                    </button>
-                    <br/>
-                    <label> Bearer Token : Devity {userProfile.session_info?.session_id} </label>
+                    
+                    <div id="session_summary">
+                        <h1>Session Info (<a href="https://api.devity-tools.com/">api.devity-tools.com</a>)</h1>
+                        <label> Bearer Token : Devity {userProfile.session_info?.session_id} </label>
+                        <br/>
+                        <label> Token Expiration Date (UTC) : {getUTCDateTime(userProfile.session_info?.expire_date)} </label>
+                        <br/>
+                        <button onClick={logOutRequest} className="logout-btn">
+                            LOG OUT & EXPIRE TOKEN
+                        </button>
+                    </div>
+                    
                 </div>
             </div>
         </div>

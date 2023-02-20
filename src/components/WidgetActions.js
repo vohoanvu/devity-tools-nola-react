@@ -7,9 +7,9 @@ import btn_maximize from "../img/btn_maximize.png";
 import btn_minimize from "../img/btn_minimize.png";
 import btn_delete from "../img/btn_delete.png";
 import { log } from "../Utilities"
-
 import $ from "jquery";
-const devity_api = configData.DEVITY_API;
+const devity_api = configData.API_URL;
+
 
 export default function Widget(props) 
 {

@@ -7,8 +7,7 @@ import btn_add from "../img/btn_add.png";
 import btn_delete_sm from "../img/btn_delete_sm.png";
 import $ from "jquery";
 const sso_url = configData.SSO_URL;
-const devity_api = configData.DEVITY_API;
-
+const devity_api = configData.API_URL;
 
 
 export default function Links(props)
@@ -64,9 +63,12 @@ export default function Links(props)
         }
         if (links.inputLink.length !== 0) {
             let inputList = links.inputLink.split(",");
+            const displayName = inputList.length === 1 ? 
+                format_link(inputList[0]) : (inputList[1].replace(/\s/g, "").length === 0) ? 
+                    format_link(inputList[0]) : inputList[1]
             const newLink = {
                 HYPERLINK: format_link(inputList[0]),
-                DISPLAYNAME: inputList[1].replace(/\s/g, "").length === 0 ? format_link(inputList[0]) : inputList[1]
+                DISPLAYNAME: displayName
             }
             links.displayList.splice(0, 0, newLink);
             setLinks({

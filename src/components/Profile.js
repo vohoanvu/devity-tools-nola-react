@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import ViewModeSelection from "./ViewModeSelection";
 import JiraCredentials from "./JiraCredentials";
@@ -9,7 +9,6 @@ import configData from "../config.json";
 import $ from "jquery";
 import btn_save from "../img/btn_save.png";
 import Cookies from "universal-cookie";
-const devity_api = configData.DEVITY_API;
 const jira_token_uri = "https://id.atlassian.com/manage-profile/security/api-tokens";
 const SSO_URL = configData.SSO_URL;
 const COOKIE_NAME = "devity-token";
@@ -20,8 +19,8 @@ export default function Profile(props)
 {
     const userContext = React.useContext(UserContext);
     const inputRef = useRef();
-    const [userProfile, setUserProfile] = React.useState({});
-    const [isEditMode, setIsEditMode] = React.useState(false);
+    const [userProfile, setUserProfile] = useState({});
+    const [isEditMode, setIsEditMode] = useState(false);
     const [searchResultSelect, setSearchResultSelect] = React.useState({
         search_res_google: JSON.parse(localStorage.getItem("search_res_google")) ?? true,
         search_res_youtube: JSON.parse(localStorage.getItem("search_res_youtube")) ?? true
@@ -73,7 +72,7 @@ export default function Profile(props)
 
     async function updateProfileInDb(putBody) {
         $("div[data-panel=PROFILE] .gear").addClass("rotate");
-        return await axios.put(devity_api + "/api/profile", {...putBody})
+        return await axios.put(API_URL + "/api/profile", {...putBody})
             .then((response) => {
                 console.log("updateProfileInDb status: ", response.status);
                 return response.data;
@@ -89,7 +88,7 @@ export default function Profile(props)
         console.log("userSeletecd Interest Ids...", selectedInterests);
         $("div[data-panel=PROFILE] .gear").addClass("rotate");
 
-        await axios.post(devity_api + "/api/userinterests", [ ...selectedInterests ])
+        await axios.post(API_URL + "/api/userinterests", [ ...selectedInterests ])
             .then((response) => {
                 console.log("saveUserInterestsInDb status: ", response.status);
                 if (response.status === 200) {

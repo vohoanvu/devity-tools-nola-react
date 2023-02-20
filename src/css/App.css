@@ -741,7 +741,7 @@ span.w_copyable.filterable {
   }
  
 }
-/* Medium devices (landscape tablets, 768px and up) */
+/* Medium devices (landscape tablets, 768px and up) */ 
 @media only screen and (min-width: 768px) {
   #header_container{
     display: flex;

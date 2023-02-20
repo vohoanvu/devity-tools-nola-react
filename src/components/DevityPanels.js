@@ -4,6 +4,7 @@ import WidgetActions from "./WidgetActions";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import btn_add from "../img/btn_add.png";
 import CONFIG from "../config.json";
+import CONFIG from "../config.json";
 import $ from "jquery";
 import { log } from "../Utilities";
 import W_Note from "./WidgetNotes";
@@ -13,10 +14,8 @@ import RssDevity from "./Widgets/RSS";
 import Jira from "./Widgets/JIRA";
 import { UserContext } from "../api-integration/UserContext";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
-const devity_api = CONFIG.API_URL;
 
+export default function DevityPanels({ signalAllPanelRendered, axios }) 
 export default function DevityPanels({ signalAllPanelRendered, axios }) 
 {
     const [wObject, setWObject] = useState({});
@@ -42,12 +41,11 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
                 setWObject(res.data);
             })
                 .then(result => {
-                    {
                     signalAllPanelRendered(true);
-                };
                 })
                 .catch((err) => {
                     console.log(err);
+                    if (err.response.status === 401) window.location.replace(CONFIG.SSO_URL);
                 });
         }
 

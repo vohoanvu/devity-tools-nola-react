@@ -30,12 +30,11 @@ export default function App()
 
     if (bearer && !token) {
         axios.defaults.headers.common["Authorization"] = bearer;
-    }
-    if (token) {
+    } else if (token) {
         bearer !== null && bearer !== undefined && cookies.remove(COOKIE_NAME, { path: "/" });
         AuthenticateUser(token);
-    }
-    if (!token && !bearer) {
+    } else if (!token && !bearer) {
+        debugger;
         window.location.replace(SSO_URL);
     }
 
@@ -56,17 +55,16 @@ export default function App()
     {
         try {
             const tk = { token: inputToken };
-            let response = await axios.post(API_URL + "/api/sessions", tk);
+            let response = await axios.post("/api/sessions", tk);
             if (response.status !== 200) {
                 console.log("POST session failed: ", response);
-                window.location.replace(SSO_URL);
             }
 
             let bearer = "Devity " + response.data.id;
             let expires = "expires="+ response.data.expires;
             axios.defaults.headers.common["Authorization"] = bearer;
             cookies.set(COOKIE_NAME, bearer, expires, { path: "/" });
-
+            debugger;
             window.location.replace(DEVITY_URL);
         }
         catch(error) {

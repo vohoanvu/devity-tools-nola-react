@@ -1,6 +1,4 @@
 import * as React from "react";
-import configData from "../config.json";
-import axios from "axios";
 import Editable from "./Editable";
 import btn_save from "../img/btn_save.png";
 import btn_maximize from "../img/btn_maximize.png";
@@ -8,12 +6,12 @@ import btn_minimize from "../img/btn_minimize.png";
 import btn_delete from "../img/btn_delete.png";
 import { log } from "../Utilities"
 import $ from "jquery";
-const devity_api = configData.API_URL;
 
 
 export default function Widget(props) 
 {
     const saveBtnRef = React.useRef(null);
+    const axios = props.axios;
 
     React.useEffect(() => {
     }, []);
@@ -31,7 +29,7 @@ export default function Widget(props)
             [props.widget.w_type]:  newArray
         });
         $("div[data-panel=" + props.widget.w_type + "] .gear").addClass("rotate");
-        await axios.delete(devity_api + "/api/widgets/" + id)
+        await axios.delete("/api/widgets/" + id)
             .then(res => {
                 log("Succesfully deleted " + props.widget.w_type + " widget " + props.widget.name);
                 $("div[data-panel=" + props.widget.w_type + "] .gear").removeClass("rotate");

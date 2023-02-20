@@ -4,18 +4,15 @@ import ViewModeSelection from "./ViewModeSelection";
 import JiraCredentials from "./JiraCredentials";
 import { UserContext } from "../api-integration/UserContext";
 import Editable from "./Editable";
-import axios from "axios";
 import configData from "../config.json";
 import $ from "jquery";
 import btn_save from "../img/btn_save.png";
 import Cookies from "universal-cookie";
 const jira_token_uri = "https://id.atlassian.com/manage-profile/security/api-tokens";
 const SSO_URL = configData.SSO_URL;
-const COOKIE_NAME = "devity-token";
-const API_URL = configData.API_URL;
 const cookies = new Cookies();
 
-export default function Profile(props)
+export default function Profile({ COOKIE_NAME, axios })
 {
     const userContext = React.useContext(UserContext);
     const inputRef = useRef();
@@ -72,7 +69,7 @@ export default function Profile(props)
 
     async function updateProfileInDb(putBody) {
         $("div[data-panel=PROFILE] .gear").addClass("rotate");
-        return await axios.put(API_URL + "/api/profile", {...putBody})
+        return await axios.put("/api/profile", {...putBody})
             .then((response) => {
                 console.log("updateProfileInDb status: ", response.status);
                 return response.data;
@@ -88,7 +85,7 @@ export default function Profile(props)
         console.log("userSeletecd Interest Ids...", selectedInterests);
         $("div[data-panel=PROFILE] .gear").addClass("rotate");
 
-        await axios.post(API_URL + "/api/userinterests", [ ...selectedInterests ])
+        await axios.post("/api/userinterests", [ ...selectedInterests ])
             .then((response) => {
                 console.log("saveUserInterestsInDb status: ", response.status);
                 if (response.status === 200) {
@@ -134,7 +131,7 @@ export default function Profile(props)
     }
 
     async function logOutRequest() {
-        await axios.delete(API_URL + "/api/sessions")
+        await axios.delete("/api/sessions")
             .then(response => {
                 if (response.status === 200) {
                     console.log("Successfully deleted SESSION", response.status);
@@ -166,7 +163,7 @@ export default function Profile(props)
                     <h1>Local Settings</h1>
                     <p>Local storage settings in this column are used for security and performance. If you clear your cache they will be erased.</p>
                     <h3>Theme</h3>
-                    <ViewModeSelection devityCookie={props.COOKIE_NAME}/>
+                    <ViewModeSelection devityCookie={COOKIE_NAME}/>
                     <div className='select-results-card'>
                         <h3>Search result types</h3>
                         <p>Select results types for search command.</p>

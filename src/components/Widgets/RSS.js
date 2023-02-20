@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import $ from "jquery";
 import CONFIG from "../../config.json";
 import "../../css/App.css";
 const sso_url = CONFIG.SSO_URL;
-const devity_api = CONFIG.API_URL;
 
 export default function Rss(props)
 {
     const [rssWidget, setRssWidget] = useState({});
     const [rssFeed, setRssFeed] = useState(null);
+    const axios = props.axios;
 
     useEffect(() => {
         const curr_view = props.activePanel;
@@ -33,7 +32,7 @@ export default function Rss(props)
     async function fetchFeed(rssUri) {
         if (rssUri.length === 0) return;
 
-        await axios.post(devity_api + "/api/proxy/rss", { feedUri: rssUri })
+        await axios.post("/api/proxy/rss", { feedUri: rssUri })
             .then(res => {
                 const itemsArray = Array.prototype.map.call(res.data, item => {
                     const itemData = {};
@@ -72,7 +71,7 @@ export default function Rss(props)
     }
 
     async function getWidgetContentById(w_id) {
-        return await axios.get(devity_api + "/api/widgets/"+ w_id)
+        return await axios.get("/api/widgets/"+ w_id)
             .then((res) => {
                 if (res.status === 401) window.location.replace(sso_url);
 

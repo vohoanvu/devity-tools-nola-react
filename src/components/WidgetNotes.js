@@ -67,16 +67,10 @@ export default function Note(props)
                             init={{
                                 height: 250,
                                 menubar: false,
-                                plugins: ["anchor","autolink","charmap", "codesample","link","lists", "searchreplace","table", "autosave"],
-                                toolbar: "bold italic underline strikethrough | link table | align lineheight | numlist bullist indent outdent | removeformat | code | autosave | restoredraft",
+                                plugins: ["anchor","autolink","charmap", "codesample","link","lists", "searchreplace","table"],
+                                toolbar: "bold italic underline strikethrough | link table | align lineheight | numlist bullist indent outdent | removeformat | code",
                                 content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                                skin_url: "./css/CUSTOM/skins/ui/CUSTOM",
-                                autosave_interval: "2s", //how often TinyMCE auto-saves a snapshot of content into local storage
-                                autosave_retention: "1m", //how often TinyMCE keeps saved content in local storage before deleting it
-                                autosave_ask_before_unload: false,
-                                autosave_save: (editor, draft) => {
-                                    console.log("Saving into local storage...");
-                                }
+                                skin_url: "./css/CUSTOM/skins/ui/CUSTOM"
                             }}
                         />
                     )

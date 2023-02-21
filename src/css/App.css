@@ -22,7 +22,7 @@ body {
     border: 1px;
     border-style: solid;
     border-radius: 7.5px;
-    border-color: var(--COLOR_PANEL_BRD);
+    border-color: var(--COLOR_BRD);
 }
 
 code {
@@ -32,7 +32,7 @@ code {
 
 .loader {
   border: 16px solid var(--COLOR_PANEL_BG);
-  border-top: 16px solid var(--COLOR_PANEL_BRD);
+  border-top: 16px solid var(--COLOR_BRD);
   border-radius: 50%;
   width: 150px;
   height: 150px;
@@ -125,7 +125,7 @@ list-style-type: none;
 #prompt_container{
   margin-left: 0;
   padding: 8px;
-  background-color: #000;
+  background-color: var(--COLOR_BODY);
 }
 #prompt_cmd{
   font-size: 20px;
@@ -134,7 +134,7 @@ list-style-type: none;
 #prompt_container input[type="text"]{
   width: 60%;
   height: 15px;
-  background-color : var(--COLOR_prompt_input_BG); 
+  background-color : var(--COLOR_BODY); 
   color: var(--COLOR_TEXT);
   font-family: "Consolas";
   font-size: 20px;
@@ -194,7 +194,7 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
     align-items: center;
     padding: 10px;
     height: 25px;
-    background-color: var(--COLOR_PANEL_CHROME_BG);
+    background-color: var(--COLOR_CHROME_BG);
     margin-bottom: 20px;
     height: 45px;
   }
@@ -210,7 +210,7 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
     padding: 7px 0px 10px 20px;
     display: flex;
     height: 25px;
-    background-color: var(--COLOR_PANEL_CHROME_BG);
+    background-color: var(--COLOR_CHROME_BG);
     margin-bottom: 3px;
     cursor: pointer;
     height: 45px;
@@ -273,7 +273,7 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
     overflow: hidden;
     float: left;
     margin: 10px;
-    background-color: var(--COLOR_WIDGET_BG);
+    background-color: var(--COLOR_BODY);
     position: relative;
   }
   .p-panel{
@@ -283,7 +283,7 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
     }
     
   .w_container{
-    background-color: var(--COLOR_WIDGET_BG);
+    background-color: var(--COLOR_BODY);
     min-width: 300px;
     min-height: 300px;
     margin: 10px;
@@ -353,13 +353,13 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--COLOR_PANEL_BRD);
+  background: var(--COLOR_BRD);
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--COLOR_PANEL_BRD);
+  background: var(--COLOR_BRD);
 }
 
 
@@ -388,11 +388,11 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
   padding: 7px;
   height: 100%;
   word-wrap: break-word;
-  background-color: var(--COLOR_WIDGET_BG);
+  background-color: var(--COLOR_BODY);
 }
 
 .widget ul>li:nth-child(odd){
-  background-color: var(--COLOR_PANEL_CHROME_BG);
+  background-color: var(--COLOR_CHROME_BG);
 }
 .widget ul li{
   display: flex;
@@ -451,7 +451,7 @@ margin-bottom: 5px;
   color: var(--COLOR_TEXT);
 }
 .lib-tbl tr:nth-child(odd) td{
-  background-color: var(--COLOR_PANEL_CHROME_BG);
+  background-color: var(--COLOR_CHROME_BG);
 }
 
 .lib-tbl tr th{
@@ -541,7 +541,7 @@ display: inherit;
 list-style-type: none;
 margin-right: 10px;
 margin-bottom: 10px;
-background: var(--COLOR_WIDGET_BG);
+background: var(--COLOR_BODY);
 padding: 20px;
 height: 75px;
 }
@@ -552,14 +552,14 @@ height: 75px;
 
 
 .profile .user-card {
-  box-shadow: 0 5px 15px 5px var(--COLOR_PANEL_BRD);
+  box-shadow: 0 5px 15px 5px var(--COLOR_BRD);
   max-width: 300px;
   margin: auto;
   text-align: center;
 }
 
 .profile .interests-card {
-  box-shadow: 0 5px 15px 5px var(--COLOR_PANEL_BRD);
+  box-shadow: 0 5px 15px 5px var(--COLOR_BRD);
   max-width: 600px;
   margin: auto;
   text-align: center;
@@ -580,13 +580,13 @@ input[type='checkbox']{
   height: 20px !important;
   appearance:none;
   border-radius:10%;
-  border: 0px solid var(--COLOR_WIDGET_BG);
+  border: 0px solid var(--COLOR_BODY);
   box-shadow: none;
   font-size: 1em;
 }
 
 select{
-  background-color: var(--COLOR_WIDGET_BRD);
+  background-color: var(--COLOR_CHROME_BG);
   color:var(--COLOR_TEXT);
   padding: 10px;
   font-size: 16px;
@@ -601,9 +601,20 @@ select > option{
   color: var(--COLOR_AFFECT);
 }
 
-button {
-  border-style: none;
+.nav button{
+  border-width: 0px;
 }
+#session_summary > button {
+  border-style: double;
+  border-width: 2px;
+  border-color: var(--COLOR_BRD);
+  background-color: var(--COLOR_WIDGET_INPUT_BG);
+}
+
+#session_summary  a{
+  color: var(--COLOR_LINK);
+}
+
 button:hover {
   cursor: pointer;
 }

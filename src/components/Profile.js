@@ -231,7 +231,7 @@ export default function Profile({ COOKIE_NAME, axios })
                         />
                     </Editable>
                     <Editable 
-                        displayText={<label className="title"> {userProfile.profession} </label>}
+                        displayText={<label className="title"> {userProfile.profession || "Select Profession"} </label>}
                         inputType="input" 
                         childInputRef={inputRef}
                         passFromChildToParent={updateUserProfileOnBlur}>

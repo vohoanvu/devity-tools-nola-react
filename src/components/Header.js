@@ -42,7 +42,8 @@ export default function Header(props)
                 $(".p-panel").show();
             } else {
                 $("div[data-panel=" + target + "]").show();
-                $("#search_input").val("");
+                $("#prompt_input").val("");
+                $("#prompt_input").focus();
             }
         }
     }

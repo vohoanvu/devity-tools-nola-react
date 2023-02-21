@@ -34,7 +34,6 @@ export default function App()
         bearer !== null && bearer !== undefined && cookies.remove(COOKIE_NAME, { path: "/" });
         AuthenticateUser(token);
     } else if (!token && !bearer) {
-        debugger;
         window.location.replace(SSO_URL);
     }
 

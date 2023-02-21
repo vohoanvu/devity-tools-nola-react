@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import configData from "../config.json";
 import { Editor } from "@tinymce/tinymce-react";
 import { log } from "../Utilities";
 import $ from "jquery";
-const sso_url = configData.SSO_URL;
 
 export default function Note(props)
 {
@@ -36,7 +34,6 @@ export default function Note(props)
     async function getWidgetContentById(w_id) {
         return await axios.get("/api/widgets/"+ w_id)
             .then((res) => {
-                if (res.status === 401) window.location.replace(sso_url);
 
                 //console.log("Get NOTES widget");
                 //console.log(res.data);

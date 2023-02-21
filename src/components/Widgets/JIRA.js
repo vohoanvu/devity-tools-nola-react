@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import CONFIG from "../../config.json";
 import "../../css/App.css";
 import $ from "jquery";
-const sso_url = CONFIG.SSO_URL;
-const devity_api = CONFIG.API_URL;
 
-const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged }) => {
+const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged, axios }) => {
     const [tickets, setTickets] = useState([]);
     const [assignedOrMentioned, setAssignedOrMentioned] = useState("");
     const [ticketTypes, setTicketTypes] = useState([]);
@@ -42,10 +38,6 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
     }, [isConfigsChanged, activePanel, widget.id]);
 
     async function fetchJiraTickets(apiToken, domain, email, duty, types, statuses, priorities) {
-        // const headers = {
-        //     "Content-Type": "application/json",
-        //     "Authorization": `Basic ${btoa(`${email}:${apiToken}`)}`
-        // };
         const encodedEmail = email.replace("@", "\\u0040");
         
         const jqlParams = initializeJQLquery(encodedEmail, duty, types, statuses, priorities);
@@ -55,7 +47,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             api_token: apiToken,
             jql_querystring: jqlParams
         }
-        await axios.post(devity_api + "/api/proxy/jira", postBody)
+        await axios.post("/api/proxy/jira", postBody)
             .then(response => {
                 console.log("JIRA tickets response: ", response.data.data.issues);
                 if (response.status === 200) setJiraRequestError({code: response.status});
@@ -94,9 +86,8 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
     }
 
     async function getJiraConfigurationsContent(w_id) {
-        return await axios.get(devity_api + "/api/widgets/"+ w_id)
+        return await axios.get("/api/widgets/"+ w_id)
             .then((res) => {
-                if (res.status === 401) window.location.replace(sso_url);
                 //console.log("Get JIRA widget");
                 //console.log(res.data);
                 return res.data;
@@ -243,7 +234,8 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                         ticketStatuses={ticketStatuses}
                         setTicketStatuses={setTicketStatuses}
                         priorities={priorities}
-                        setPriorities={setPriorities}/>
+                        setPriorities={setPriorities}
+                        axios={axios}/>
                 )
             }
             {
@@ -284,6 +276,7 @@ function JiraConfigurations(props)
     });
     const [jiraWidget, setJiraWidget] = useState({});
     const [priorityOptions, setPriorityOptions] = useState([]);
+    const axios = props.axios;
 
     useEffect(() => {
         async function fetchPriorities() {
@@ -309,7 +302,7 @@ function JiraConfigurations(props)
                 email: email,
                 api_token: apiToken
             }
-            await axios.post(devity_api + "/api/proxy/jira", postBody)
+            await axios.post("/api/proxy/jira", postBody)
                 .then(response => {
                     console.log("Jira Prirorities: ", response);
                     if (response.status === 200) {
@@ -324,7 +317,7 @@ function JiraConfigurations(props)
 
         setJiraWidget(props.widget);
         fetchPriorities();
-    }, [props.widget]);
+    }, [axios, props.widget]);
     
 
     function handleDutyChange(changeEvent) {

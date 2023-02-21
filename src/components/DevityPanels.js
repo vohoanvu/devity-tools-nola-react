@@ -1,10 +1,9 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { useEffect, useState, useRef, useContext } from "react";
-import axios from "axios";
-import CONFIG from "../config.json";
 import WidgetActions from "./WidgetActions";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import btn_add from "../img/btn_add.png";
+import CONFIG from "../config.json";
 import $ from "jquery";
 import { log } from "../Utilities";
 import W_Note from "./WidgetNotes";
@@ -14,12 +13,8 @@ import RssDevity from "./Widgets/RSS";
 import Jira from "./Widgets/JIRA";
 import { UserContext } from "../api-integration/UserContext";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
-const sso_url = CONFIG.SSO_URL;
-const devity_api = CONFIG.API_URL;
 
-export default function DevityPanels(props) 
+export default function DevityPanels({ signalAllPanelRendered, axios }) 
 {
     const [wObject, setWObject] = useState({});
     const inputRef = useRef();
@@ -37,20 +32,18 @@ export default function DevityPanels(props)
 
     useEffect(() => {
         async function fetchData() {
-            await axios.get(devity_api + "/api/widgets").then((res) => {
-                if (res.status === 401) window.location.replace(sso_url);
+            await axios.get("/api/widgets").then((res) => {
 
                 console.log("Get panels data");
                 console.log(res.data);
                 setWObject(res.data);
             })
-                .then(result => props.signalAllPanelRendered(true))
+                .then(result => {
+                    signalAllPanelRendered(true);
+                })
                 .catch((err) => {
                     console.log(err);
-                    if (err.response.status === 401) {
-                        axios.defaults.headers.common["Authorization"] = cookies.get("devity-token");
-                    }
-                    window.location.replace(CONFIG.SSO_URL);
+                    if (err.response.status === 401) window.location.replace(CONFIG.SSO_URL);
                 });
         }
 
@@ -111,7 +104,7 @@ export default function DevityPanels(props)
     async function w_create(postBody, type) {
         delete postBody["key"];
         $("div[data-panel=" + type + "] .gear").addClass("rotate");
-        await axios.post(devity_api + "/api/widgets/", { ...postBody })
+        await axios.post("/api/widgets/", { ...postBody })
             .then(response => {
                 return response.data
             })
@@ -128,7 +121,7 @@ export default function DevityPanels(props)
     async function w_update(putBody, type) {
         delete putBody["key"];
         $("div[data-panel=" + type + "] .gear").addClass("rotate");
-        const result = await axios.put(devity_api + "/api/widgets", { ...putBody })
+        const result = await axios.put("/api/widgets", { ...putBody })
             .then(response => {
                 console.log(response.status, "...on update");
                 return response.data;
@@ -175,19 +168,22 @@ export default function DevityPanels(props)
             return <W_Clipboard 
                 widget={widget} 
                 sendContentToParent={sendPUTContentToParent}
-                activePanel={widgetType}/>;
+                activePanel={widgetType}
+                axios={axios}/>;
   
         case "LINKS":
             return <W_Link 
                 widget={widget} 
                 sendContentToParent={sendPUTContentToParent}
-                activePanel={widgetType}/>;
+                activePanel={widgetType}
+                axios={axios}/>;
   
         case "NOTES":
             return <W_Note 
                 widget={widget} 
                 sendContentToParent={sendPUTContentToParent}
-                activePanel={widgetType}/>;
+                activePanel={widgetType}
+                axios={axios}/>;
 
         case "DEVITY":
             if (widget.w_type_sub === "RSS")
@@ -195,14 +191,16 @@ export default function DevityPanels(props)
                     widget={widget} 
                     sendContentToParent={sendPUTContentToParent} 
                     activePanel={widgetType}
-                    isUriChanged={isDevitySubTypeChanged.isRssUriChanged}/>
+                    isUriChanged={isDevitySubTypeChanged.isRssUriChanged}
+                    axios={axios}/>
 
             if (widget.w_type_sub === "JIRA")
                 return <Jira
                     activePanel={widgetType}
                     widget={widget} 
                     sendContentToParent={sendPUTContentToParent}
-                    isConfigsChanged={isDevitySubTypeChanged.isJiraConfigsChanged}/>
+                    isConfigsChanged={isDevitySubTypeChanged.isJiraConfigsChanged}
+                    axios={axios}/>
             break;
         default:
             return <div className="w-container border">LOADING...</div>;
@@ -246,7 +244,7 @@ export default function DevityPanels(props)
             postBody[item.id] = index;
         });
         $("div[data-panel=" + type + "] .gear").addClass("rotate");
-        return await axios.post(devity_api + "/api/widgets/order", { ...postBody })
+        return await axios.post("/api/widgets/order", { ...postBody })
             .then(response => console.log("On Order POST Response: ", response.status))
             .then(result => $("div[data-panel=" + type + "] .gear").removeClass("rotate"))
             .catch(err => console.log(err));
@@ -330,6 +328,7 @@ export default function DevityPanels(props)
                                                                                     inputRef={inputRef}
                                                                                     callPUTRequest={w_update}
                                                                                     isReadyToSave={isReadyToSave}
+                                                                                    axios={axios}
                                                                                 />
                                                                             </div>
                                                                             { w_render(w) }

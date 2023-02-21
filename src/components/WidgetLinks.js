@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import configData from "../config.json";
 import { format_link, abbriviate, currate_title } from "../Utilities";
 import Editable from "./Editable";
 import btn_add from "../img/btn_add.png";
 import btn_delete_sm from "../img/btn_delete_sm.png";
 import $ from "jquery";
-const sso_url = configData.SSO_URL;
 
 
 export default function Links(props)
@@ -44,8 +42,6 @@ export default function Links(props)
     async function getWidgetContentById(w_id) {
         return await axios.get("/api/widgets/"+ w_id)
             .then((res) => {
-                if (res.status === 401) window.location.replace(sso_url);
-
                 //console.log("Get LINKS widget");
                 //console.log(res.data);
                 return res.data;

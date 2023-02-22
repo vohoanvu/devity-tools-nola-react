@@ -1,4 +1,5 @@
 import * as React from "react";
+import $ from "jquery";
 const LOCAL_STORAGE_KEY = "jira_token";
 const LOCAL_STORAGE_DOMAIN_KEY = "jira_domain";
 const LOCAL_STORAGE_USERID_KEY = "jira_user_id";
@@ -50,6 +51,9 @@ export default class JiraCredentials extends React.Component
         if (event.target.name === "jira_token") {
             localStorage.setItem(LOCAL_STORAGE_KEY, event.target.value);
         }
+
+        this.props.sendContentToDevityPanels();
+        $(`#save-btn-${this.props.widgetId}`).show();
     };
 
     handleOnChange = (event) => {

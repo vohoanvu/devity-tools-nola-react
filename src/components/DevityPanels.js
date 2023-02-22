@@ -13,6 +13,7 @@ import Jira from "./Widgets/JIRA";
 import { UserContext } from "../api-integration/UserContext";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Cookies from "universal-cookie";
+import ConfirmationDialog from "../components/ConfirmationDialog";
 
 export default function DevityPanels({ signalAllPanelRendered, axios }) 
 export default function DevityPanels({ signalAllPanelRendered, axios }) 
@@ -30,6 +31,7 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
         isRssUriChanged: false,
         isJiraConfigsChanged: false
     });
+    const [isDataLimitModalOpen, setIsDataLimitModalOpen] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -119,7 +121,12 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
                 $("div[data-panel=" + type + "] .gear").removeClass("rotate");
                 log("Created " + type + " widget.")
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                if (err.response && err.response.status === 402) {
+                    setIsDataLimitModalOpen(true);
+                }
+            });
     }
 
     async function w_update(putBody, type) {
@@ -134,7 +141,12 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
                 $("div[data-panel=" + type + "] .gear").removeClass("rotate");
                 return result;
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                if (err.response && err.response.status === 402) {
+                    setIsDataLimitModalOpen(true);
+                }
+            });
 
         if (type === "DEVITY" && putBody.w_type_sub === "RSS") {
             setIsDevitySubTypeChanged({
@@ -269,6 +281,12 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
 
     return (
         <React.Fragment>
+            <ConfirmationDialog
+                title="Data Size Limit for free account reached!"
+                message="You have exceeded the maximum data size for a free account. Upgrade to paid subscription or delete some widgets."
+                isDialogOpen={isDataLimitModalOpen}
+                modalType={402}
+            />
             {
                 Object.entries(wObject).map( ([key,value], index) => {
                     return (

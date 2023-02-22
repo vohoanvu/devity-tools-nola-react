@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import $ from "jquery";
-import CONFIG from "../config.json";
 import "../css/App.css";
 import Editable from "./Editable";
 import btn_add from "../img/btn_add.png";
 import btn_delete_sm from "../img/btn_delete_sm.png";
 import { abbriviate, currate_title } from "../Utilities";
-const sso_url = CONFIG.SSO_URL;
 
 
 export default function Clipboard(props)
@@ -46,8 +44,6 @@ export default function Clipboard(props)
     async function getWidgetContentById(w_id) {
         return await axios.get("/api/widgets/"+ w_id)
             .then((res) => {
-                if (res.status === 401) window.location.replace(sso_url);
-
                 //console.log("Get CLIPBOARD widget");
                 //console.log(res.data);
                 return res.data;

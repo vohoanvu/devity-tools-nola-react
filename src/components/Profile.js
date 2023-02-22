@@ -75,6 +75,10 @@ export default function Profile({ COOKIE_NAME, axios })
                 return response.data;
             }).then((result) => {
                 $("div[data-panel=PROFILE] .gear").removeClass("rotate");
+                userContext.setUserProfile({
+                    ...userContext.userProfile,
+                    name: result.name
+                });
                 return result;
             })
             .catch((error) => console.log(error));
@@ -231,7 +235,7 @@ export default function Profile({ COOKIE_NAME, axios })
                         />
                     </Editable>
                     <Editable 
-                        displayText={<label className="title"> {userProfile.profession} </label>}
+                        displayText={<label className="title"> {userProfile.profession || "Select Profession"} </label>}
                         inputType="input" 
                         childInputRef={inputRef}
                         passFromChildToParent={updateUserProfileOnBlur}>
@@ -278,6 +282,8 @@ export default function Profile({ COOKIE_NAME, axios })
                         <label> Bearer Token : Devity {userProfile.session_info?.session_id} </label>
                         <br/>
                         <label> Token Expiration Date (UTC) : {getUTCDateTime(userProfile.session_info?.expire_date)} </label>
+                        <br/>
+                        <label>User IP address: {userProfile.Ip_Address}</label>
                         <br/>
                         <button onClick={logOutRequest} className="logout-btn">
                             LOG OUT & EXPIRE TOKEN

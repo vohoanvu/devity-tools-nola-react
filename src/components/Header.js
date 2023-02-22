@@ -42,7 +42,8 @@ export default function Header(props)
                 $(".p-panel").show();
             } else {
                 $("div[data-panel=" + target + "]").show();
-                $("#search_input").val("");
+                $("#prompt_input").val("");
+                $("#prompt_input").focus();
             }
         }
     }
@@ -90,22 +91,12 @@ export default function Header(props)
 
             <button id='nav_profile' onClick={()=>onNavigateClicked("PROFILE")}>
                 <img  src={btn_image_avitar} className="App-avitar" alt="{user.name}" /><br />
-                <Username />
+                <span>
+                    {userContext.userProfile.name}
+                </span>
             </button>
 
         </header>
 
     </div>);
-}
-
-
-//another component
-function Username() {
-    const userContext = React.useContext(UserContext);
-
-    return (
-        <span>
-            {userContext.userProfile.name}
-        </span>
-    );
 }

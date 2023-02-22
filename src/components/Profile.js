@@ -75,6 +75,10 @@ export default function Profile({ COOKIE_NAME, axios })
                 return response.data;
             }).then((result) => {
                 $("div[data-panel=PROFILE] .gear").removeClass("rotate");
+                userContext.setUserProfile({
+                    ...userContext.userProfile,
+                    name: result.name
+                });
                 return result;
             })
             .catch((error) => console.log(error));

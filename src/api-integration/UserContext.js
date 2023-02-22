@@ -86,7 +86,7 @@ export function UserProvider({ children, axios, setIs402ModalOpen })
     }
 
     return (
-        <UserContext.Provider value={{ userProfile, activePanel, setActivePanel}}>
+        <UserContext.Provider value={{ userProfile, activePanel, setActivePanel, setUserProfile }}>
             {children}
         </UserContext.Provider>
     );

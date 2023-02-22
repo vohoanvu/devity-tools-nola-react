@@ -1,14 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import ViewModeSelection from "./ViewModeSelection";
-import JiraCredentials from "./JiraCredentials";
 import { UserContext } from "../api-integration/UserContext";
 import Editable from "./Editable";
 import configData from "../config.json";
 import $ from "jquery";
 import btn_save from "../img/btn_save.png";
 import Cookies from "universal-cookie";
-const jira_token_uri = "https://id.atlassian.com/manage-profile/security/api-tokens";
 const SSO_URL = configData.SSO_URL;
 const cookies = new Cookies();
 
@@ -195,14 +193,6 @@ export default function Profile({ COOKIE_NAME, axios })
                                 </li>
                             </ul>
                         </form>
-                    </div>
-                    <div>
-                        <h3>Atlassian API Credentials (Jira &amp; Confluence)</h3>
-                        <p>
-                            You can create a token in Atlassian Cloud 
-                            <a href={jira_token_uri} target="_blank" rel="noreferrer">here</a>
-                        </p>
-                        <JiraCredentials />
                     </div>
 
                 </div>

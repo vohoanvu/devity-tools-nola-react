@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../css/App.css";
 import $ from "jquery";
+import JiraCredentials from "../JiraCredentials";
 
 const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged, axios }) => {
     const [tickets, setTickets] = useState([]);
@@ -22,7 +23,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             const apiToken = localStorage.getItem("jira_token");
             const domain = localStorage.getItem("jira_domain");
             const email = localStorage.getItem("jira_user_id");
-        
+            console.log("Saved Jira Configs...", configs);
             if (apiToken && domain && email) {
                 fetchJiraTickets(apiToken, domain, email, configs["DUTY"], configs["ISSUETYPES"], configs["STATUSES"], configs["PRIORITIES"]);
             } else {
@@ -58,11 +59,13 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             })
             .catch(error => {
                 console.log(error);
-                const msgList = error.response.data.errorMessages ?? [error.response.data];
-                error.response.data.length !== 0 && msgList.push(error.response.data);
+                const errMsgList = [ error.response.status === 400 ? "Bad Request! Please check your credentials" : error.message ];
+                if (!error.response.data.success) {
+                    errMsgList.push("Status from JIRA=>> "+error.response.data.message);
+                }
                 setJiraRequestError({
                     code: error.response.status,
-                    errMessages: msgList
+                    errMessages: errMsgList
                 });
             });
 
@@ -88,8 +91,6 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
     async function getJiraConfigurationsContent(w_id) {
         return await axios.get("/api/widgets/"+ w_id)
             .then((res) => {
-                //console.log("Get JIRA widget");
-                //console.log(res.data);
                 return res.data;
             }).then(result => {
                 //transform JIRA widget content
@@ -111,82 +112,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             .catch((err) => console.log(err));
     }
 
-    // function initializeJQLquery(encodedEmail) {
-    //     var jqlParams = {
-    //         jql: `assignee=${encodedEmail}`
-    //     };
-    //     const ticketTypesString = ticketTypes.join("\",\"");
-    //     const ticketStatusesString = ticketStatuses.join("\",\"");
-    //     const ticketPrioritiesString = priorities.join("\",\"");
-    //     //Assigned Only Tickets
-    //     if (assignedOrMentioned === "assigned" && ticketTypesString.length > 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length > 0) {
-    //         jqlParams.jql += ` and issuetype in (${ticketTypesString}) and status in ("${ticketStatusesString}") and priority in ("${ticketPrioritiesString}")`;
-    //     }
-
-    //     if (assignedOrMentioned === "assigned" && ticketTypesString.length > 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length === 0) {
-    //         jqlParams.jql += ` and issuetype in ("${ticketTypesString}") and status in ("${ticketStatusesString}")`;
-    //     }
-
-    //     if (assignedOrMentioned === "assigned" && ticketTypesString.length > 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length > 0) {
-    //         jqlParams.jql += ` and issuetype in ("${ticketTypesString}") and priority in ("${ticketPrioritiesString}")`;
-    //     }
-
-    //     if (assignedOrMentioned === "assigned" && ticketTypesString.length === 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length > 0) {
-    //         jqlParams.jql += ` and status in ("${ticketStatusesString}") and priority in ("${ticketPrioritiesString}")`;
-    //     }
-
-    //     if (assignedOrMentioned === "assigned" && ticketTypesString.length > 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length === 0) {
-    //         jqlParams.jql += ` and issuetype in ("${ticketTypesString}")`;
-    //     }
-
-    //     if (assignedOrMentioned === "assigned" && ticketTypesString.length === 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length === 0) {
-    //         jqlParams.jql += ` and status in ("${ticketStatusesString}")`;
-    //     }
-
-    //     if (assignedOrMentioned === "assigned" && ticketTypesString.length === 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length > 0) {
-    //         jqlParams.jql += ` and priority in ("${ticketPrioritiesString}")`;
-    //     }
-
-
-    //     //Mentioned Only Tickets
-    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length > 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length > 0) {
-    //         jqlParams.jql = `text ~ ${encodedEmail} and issuetype in (${ticketTypesString}) and status in ("${ticketStatusesString}") and priority in ("${ticketPrioritiesString}")`;
-    //     }
-
-    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length > 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length === 0) {
-    //         jqlParams.jql = `text ~ ${encodedEmail} and issuetype in ("${ticketTypesString}") and status in ("${ticketStatusesString}")`;
-    //     }
-
-    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length > 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length > 0) {
-    //         jqlParams.jql = `text ~ ${encodedEmail} and issuetype in ("${ticketTypesString}") and priority in ("${ticketPrioritiesString}")`;
-    //     }
-
-    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length === 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length > 0) {
-    //         jqlParams.jql = `text ~ ${encodedEmail} and status in ("${ticketStatusesString}") and priority in ("${ticketPrioritiesString}")`;
-    //     }
-
-    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length > 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length === 0) {
-    //         jqlParams.jql = `text ~ ${encodedEmail} and issuetype in (${ticketTypesString})`;
-    //     } 
-
-    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length === 0 && ticketStatusesString.length > 0 && ticketPrioritiesString.length === 0) {
-    //         jqlParams.jql = `text ~ ${encodedEmail} and status in ("${ticketStatusesString}")`;
-    //     }
-
-    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length === 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length > 0) {
-    //         jqlParams.jql = `text ~ ${encodedEmail} and priority in ("${ticketPrioritiesString}")`;
-    //     }
-
-    //     if (assignedOrMentioned === "mentioned" && ticketTypesString.length === 0 && ticketStatusesString.length === 0 && ticketPrioritiesString.length === 0) {
-    //         jqlParams.jql = `text ~ ${encodedEmail}`;
-    //     }
-
-    //     return jqlParams;
-    // }
-
-
-
-    // Below is a cleaner way to do the above initializeJQLquery() method, but its not yet tested
+    // Below is a cleaner way to do the above initializeJQLquery() method
     function initializeJQLquery(encodedEmail, duty, ticketTypes, statuses, priorities) {
         console.log("initializeJQLquery() called...", duty, ticketTypes, statuses, priorities);
         let jqlQuery = "";
@@ -235,7 +161,9 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                         setTicketStatuses={setTicketStatuses}
                         priorities={priorities}
                         setPriorities={setPriorities}
-                        axios={axios}/>
+                        axios={axios}
+                        isConfigsChanged={isConfigsChanged}
+                        setJiraRequestError={setJiraRequestError}/>
                 )
             }
             {
@@ -277,6 +205,7 @@ function JiraConfigurations(props)
     const [jiraWidget, setJiraWidget] = useState({});
     const [priorityOptions, setPriorityOptions] = useState([]);
     const axios = props.axios;
+    const jira_token_uri = "https://id.atlassian.com/manage-profile/security/api-tokens";
 
     useEffect(() => {
         async function fetchPriorities() {
@@ -312,12 +241,23 @@ function JiraConfigurations(props)
                         setPriorityOptions(priorityOptions);
                     }
                 })
-                .catch(error => console.log(error));
+                .catch(error => {
+                    console.log(error);
+                    const errMsgList = [ error.response.status === 400 ? "Bad Request! Please check your credentials" : error.message ];
+                    if (!error.response.data.success) {
+                        errMsgList.push("Status from JIRA=>> "+error.response.data.message);
+                    }
+                    props.setJiraRequestError({
+                        code: error.response.status,
+                        errMessages: errMsgList
+                    });
+                });
         }
 
         setJiraWidget(props.widget);
         fetchPriorities();
-    }, [axios, props.widget]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [axios, props.widget, props.isConfigsChanged]);
     
 
     function handleDutyChange(changeEvent) {
@@ -396,6 +336,14 @@ function JiraConfigurations(props)
 
     return (
         <div>
+            <div>
+                <h3>Atlassian API Credentials (Jira &amp; Confluence)</h3>
+                <p>
+                    You can create a token in Atlassian Cloud
+                    <a href={jira_token_uri} target="_blank" rel="noreferrer"> here</a>
+                </p>
+                <JiraCredentials sendContentToDevityPanels={sendContentToParent} widgetId={props.widget.id}/>
+            </div>
             <form>
                 <div className="duty">
                     <label>
@@ -503,55 +451,6 @@ function JiraConfigurations(props)
                 </div>
                 <h4>Ticket priorities</h4>
                 <div className="ticket-priorities">
-                    {/* <label>
-                        <input 
-                            type="checkbox" 
-                            value="Highest" 
-                            checked={props.priorities.includes("Highest")}
-                            onChange={handlePriorityChange}
-                        />
-                        Highest
-                    </label>
-                    <br />
-                    <label>
-                        <input 
-                            type="checkbox" 
-                            value="High" 
-                            checked={props.priorities.includes("High")}
-                            onChange={handlePriorityChange}
-                        />
-                        High
-                    </label>
-                    <br />
-                    <label>
-                        <input 
-                            type="checkbox" 
-                            value="Medium" 
-                            checked={props.priorities.includes("Medium")}
-                            onChange={handlePriorityChange}
-                        />
-                        Medium
-                    </label>
-                    <br />
-                    <label>
-                        <input 
-                            type="checkbox" 
-                            value="Low" 
-                            checked={props.priorities.includes("Low")}
-                            onChange={handlePriorityChange}
-                        />
-                        Low
-                    </label>
-                    <br />
-                    <label>
-                        <input 
-                            type="checkbox" 
-                            value="Lowest" 
-                            checked={props.priorities.includes("Lowest")}
-                            onChange={handlePriorityChange}
-                        />
-                        Lowest
-                    </label> */}
                     {
                         priorityOptions.length !== 0 && priorityOptions && priorityOptions.map(option => (
                             <div key={option.id}>

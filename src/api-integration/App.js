@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { UserProvider } from "./UserContext";
-import DevityPanels  from "../components/DevityPanels";
+import DevityPanels from "../components/DevityPanels.js";
 import Libraries  from "../components/Libraries";
 import Profile  from "../components/Profile";
 import Console from "../components/Console";

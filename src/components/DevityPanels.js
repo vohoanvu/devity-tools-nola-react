@@ -16,7 +16,6 @@ import Cookies from "universal-cookie";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 
 export default function DevityPanels({ signalAllPanelRendered, axios }) 
-export default function DevityPanels({ signalAllPanelRendered, axios }) 
 {
     const [wObject, setWObject] = useState({});
     const inputRef = useRef();

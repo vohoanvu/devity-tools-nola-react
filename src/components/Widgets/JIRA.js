@@ -10,7 +10,11 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
     const [ticketStatuses, setTicketStatuses] = useState([]);
     const [priorities, setPriorities] = useState([]);
     const [showConfigurations, setShowConfigurations] = useState(true);
-    const [jiraRequestError, setJiraRequestError] = useState({
+    const [jiraSearchtError, setJiraSearchError] = useState({
+        code: 0,
+        errMessages: []
+    });
+    const [jiraPriorityErrors, setJiraPriorityErrors] = useState({
         code: 0,
         errMessages: []
     });
@@ -18,8 +22,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
     useEffect(() => {
         if (activePanel && activePanel !== "DEVITY") return;
 
-        getJiraConfigurationsContent(widget.id).then(configs => {
-
+        const reloadJiraContent = () => getJiraConfigurationsContent(widget.id).then(configs => {
             const apiToken = localStorage.getItem("jira_token");
             const domain = localStorage.getItem("jira_domain");
             const email = localStorage.getItem("jira_user_id");
@@ -27,16 +30,48 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             if (apiToken && domain && email) {
                 fetchJiraTickets(apiToken, domain, email, configs["DUTY"], configs["ISSUETYPES"], configs["STATUSES"], configs["PRIORITIES"]);
             } else {
-                setJiraRequestError({
+                setJiraSearchError({
                     code: 401,
                     errMessages: ["Missing JIRA credentials. Please fill out Jira credentials in Profile"]
                 });
                 setTickets([]);
             }
         });
-        
+
+        reloadJiraContent();
+        const jiraInterval = setInterval(() => {
+            reloadJiraContent();
+        }, 5 * 60 * 1000);
+
+        return () => {
+            localStorage.removeItem("jira_token");
+            localStorage.removeItem("jira_domain");
+            localStorage.removeItem("jira_user_id");
+            clearInterval(jiraInterval);
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isConfigsChanged, activePanel, widget.id]);
+
+    async function getJiraConfigurationsContent(w_id) {
+        return await axios.get("/api/widgets/"+ w_id)
+            .then((res) => {
+                //transform JIRA widget content
+                let configsContent = JSON.parse(res.data.w_content);
+                //configurations are empty
+                if (!configsContent["DUTY"] && configsContent["ISSUETYPES"].length === 0 && configsContent["STATUSES"].length === 0 && configsContent["PRIORITIES"].length === 0) {
+                    setShowConfigurations(true);
+                    return configsContent;
+                } else {
+                    setShowConfigurations(false);
+                    setAssignedOrMentioned(configsContent["DUTY"]);
+                    setTicketTypes(configsContent["ISSUETYPES"]);
+                    setTicketStatuses(configsContent["STATUSES"]);
+                    setPriorities(configsContent["PRIORITIES"]);
+                }
+                return configsContent;
+            })
+            .catch((err) => console.log(err));
+    }
 
     async function fetchJiraTickets(apiToken, domain, email, duty, types, statuses, priorities) {
         const encodedEmail = email.replace("@", "\\u0040");
@@ -47,11 +82,14 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             email: email,
             api_token: apiToken,
             jql_querystring: jqlParams
-        }
+        };
         await axios.post("/api/proxy/jira", postBody)
             .then(response => {
-                console.log("JIRA tickets response: ", response.data.data.issues);
-                if (response.status === 200) setJiraRequestError({code: response.status});
+                console.log("JIRA tickets res list: ", response.data.data.issues);
+                console.log("JIRA ticket res status: ", response.status);
+                if (response.status === 200) {
+                    setJiraSearchError({code: 200})
+                }
                 return response.data.data.issues;
             })
             .then(issues => {
@@ -63,7 +101,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                 if (!error.response.data.success) {
                     errMsgList.push("Status from JIRA=>> "+error.response.data.message);
                 }
-                setJiraRequestError({
+                setJiraSearchError({
                     code: error.response.status,
                     errMessages: errMsgList
                 });
@@ -88,30 +126,6 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
         //     });
     }
 
-    async function getJiraConfigurationsContent(w_id) {
-        return await axios.get("/api/widgets/"+ w_id)
-            .then((res) => {
-                return res.data;
-            }).then(result => {
-                //transform JIRA widget content
-                let configsContent = JSON.parse(result.w_content);
-                //console.log("JIRA saved configs: ", configsContent);
-                //configurations are empty
-                if (!configsContent["DUTY"] && configsContent["ISSUETYPES"].length === 0 && configsContent["STATUSES"].length === 0 && configsContent["PRIORITIES"].length === 0) {
-                    setShowConfigurations(true);
-                    return configsContent;
-                } else {
-                    setShowConfigurations(false);
-                    setAssignedOrMentioned(configsContent["DUTY"]);
-                    setTicketTypes(configsContent["ISSUETYPES"]);
-                    setTicketStatuses(configsContent["STATUSES"]);
-                    setPriorities(configsContent["PRIORITIES"]);
-                }
-                return configsContent;
-            })
-            .catch((err) => console.log(err));
-    }
-
     // Below is a cleaner way to do the above initializeJQLquery() method
     function initializeJQLquery(encodedEmail, duty, ticketTypes, statuses, priorities) {
         console.log("initializeJQLquery() called...", duty, ticketTypes, statuses, priorities);
@@ -123,7 +137,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             console.log("JQL duty is: MENTIONED");
             jqlQuery = `text ~ ${encodedEmail}`;
         } else {
-            console.log("ERROR: JQL duty is neither assigned nor mentioned...");
+            console.log("fetching all tickets from Jira...");
         }
 
         const params = [
@@ -163,7 +177,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                         setPriorities={setPriorities}
                         axios={axios}
                         isConfigsChanged={isConfigsChanged}
-                        setJiraRequestError={setJiraRequestError}/>
+                        setJiraPriorityErrors={setJiraPriorityErrors}/>
                 )
             }
             {
@@ -175,13 +189,26 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                     )
             }
             { 
-                jiraRequestError.code !== 200 && 
+                jiraSearchtError.code !== 200 && 
                 (
                     <div>
-                        <h4 style={{ color: "red" }}>JIRA request failed with Status: {jiraRequestError.code}</h4>
+                        <h4 style={{ color: "red" }}>JIRA Search request failed with Status: {jiraSearchtError.code}</h4>
                         <ul>
                             {
-                                jiraRequestError.errMessages?.map((message, index) => <li key={index}>{message}</li>) 
+                                jiraSearchtError.errMessages?.map((message, index) => <li key={index}>{message}</li>) 
+                            }
+                        </ul>
+                    </div>
+                )
+            }
+            {
+                jiraPriorityErrors.code !== 200 && 
+                (
+                    <div>
+                        <h4 style={{ color: "red" }}>JIRA Priority request failed with Status: {jiraPriorityErrors.code}</h4>
+                        <ul>
+                            {
+                                jiraPriorityErrors.errMessages?.map((message, index) => <li key={index}>{message}</li>) 
                             }
                         </ul>
                     </div>
@@ -239,6 +266,7 @@ function JiraConfigurations(props)
                             return { id: prio.id, name: prio.name };
                         });
                         setPriorityOptions(priorityOptions);
+                        props.setJiraPriorityErrors({ code: 200 });
                     }
                 })
                 .catch(error => {
@@ -247,7 +275,7 @@ function JiraConfigurations(props)
                     if (!error.response.data.success) {
                         errMsgList.push("Status from JIRA=>> "+error.response.data.message);
                     }
-                    props.setJiraRequestError({
+                    props.setJiraPriorityErrors({
                         code: error.response.status,
                         errMessages: errMsgList
                     });
@@ -342,7 +370,9 @@ function JiraConfigurations(props)
                     You can create a token in Atlassian Cloud
                     <a href={jira_token_uri} target="_blank" rel="noreferrer"> here</a>
                 </p>
-                <JiraCredentials sendContentToDevityPanels={sendContentToParent} widgetId={props.widget.id}/>
+                <JiraCredentials 
+                    sendContentToDevityPanels={sendContentToParent} 
+                    widgetId={props.widget.id}/>
             </div>
             <form>
                 <div className="duty">

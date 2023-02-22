@@ -138,6 +138,9 @@ export default function Profile({ COOKIE_NAME, axios })
                 if (response.status === 200) {
                     console.log("Successfully deleted SESSION", response.status);
                     cookies.remove(COOKIE_NAME, { path: "/" });
+                    localStorage.removeItem("jira_token");
+                    localStorage.removeItem("jira_domain");
+                    localStorage.removeItem("jira_user_id");
                     window.location.replace(SSO_URL);
                 }
             })

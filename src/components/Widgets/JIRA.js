@@ -44,9 +44,6 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
         }, 5 * 60 * 1000);
 
         return () => {
-            localStorage.removeItem("jira_token");
-            localStorage.removeItem("jira_domain");
-            localStorage.removeItem("jira_user_id");
             clearInterval(jiraInterval);
         };
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -279,6 +279,8 @@ export default function Profile({ COOKIE_NAME, axios })
                         <br/>
                         <label> Token Expiration Date (UTC) : {getUTCDateTime(userProfile.session_info?.expire_date)} </label>
                         <br/>
+                        <label>User IP address: {userProfile.Ip_Address}</label>
+                        <br/>
                         <button onClick={logOutRequest} className="logout-btn">
                             LOG OUT & EXPIRE TOKEN
                         </button>

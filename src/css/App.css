@@ -133,7 +133,7 @@ list-style-type: none;
 }
 #prompt_container input[type="text"]{
   width: 60%;
-  height: 15px;
+  height: 20px;
   background-color : var(--COLOR_BODY); 
   color: var(--COLOR_TEXT);
   font-family: "Consolas";
@@ -877,4 +877,26 @@ span.w_copyable.filterable {
     max-width: 100%;
   }
 
+}
+
+.copy-container {
+  display: flex;
+  align-items: center;
+}
+.copy-text-session, .copy-text-ip {
+  margin-right: 10px;
+}
+
+.filter-tag {
+  display: inline-block;
+  background-color: var(--COLOR_BRD);
+  border-radius: 15px;
+  padding: 5px 10px;
+  margin-right: 10px;
+}
+.filter-tag span {
+  margin-right: 5px;
+}
+.filter-tag img {
+  cursor: pointer;
 }

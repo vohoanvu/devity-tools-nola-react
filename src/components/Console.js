@@ -5,7 +5,7 @@ import { useState, useContext } from "react";
 import { log } from "../Utilities"
 import CONFIG from "../config.json";
 import { UserContext } from "../api-integration/UserContext";
-
+import btn_delete_sm from "../img/btn_delete_sm.png";
 const GOOGLE_SEARCH_API = CONFIG.GOOGLE_SEARCH_ENGINE_URL + "?key=" + CONFIG.GOOGLE_API_KEY + "&cx=" + CONFIG.GOOGLE_SEARCH_ENGINE;
 
 
@@ -17,6 +17,7 @@ const Console = (props) =>
     const keys_ignore = ["Shift", "Capslock", "Alt", "Control", "Alt", "Delete", "End", "PageDown", "PageUp", "Meta", "ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft", "NumLock", "Pause", "ScrollLock", "Home", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10","F11","F12"];
     const command_ignore = ["Tab", "Escape"];
     const userContext = useContext(UserContext);
+    const [filterTerm, setFilterTerm] = useState("");
 
     const runCommand = async () => {
 
@@ -87,7 +88,7 @@ const Console = (props) =>
     };
 
     function handleKeyDown(e) {
-
+        console.log("Actual Keydown event: ", e);
         var key = e.key;
     
         if (keys_ignore.includes(key)) {
@@ -195,8 +196,14 @@ const Console = (props) =>
                 <input 
                     onKeyDown={(e) => handleKeyDown(e)}
                     onKeyUp={(e) => handleKeyUp(e)}
-                    id='prompt_input'
-                    maxLength="2048" 
+                    onChange={(e) => {
+                        setFilterTerm(e.target.value);
+                        $(".filterable").filter(function() {
+                            return $(this).parent().toggle($(this).text().toLowerCase().indexOf(params) > -1);
+                        });
+                    }}
+                    id="prompt_input"
+                    maxLength="2048"
                     type="text" 
                     aria-autocomplete="both" 
                     aria-haspopup="false" 
@@ -210,12 +217,29 @@ const Console = (props) =>
                     aria-expanded="true"
                     spellCheck="false" 
                     title="Search" 
-                    aria-label="Search">
+                    aria-label="Search"
+                    value={filterTerm}>
                 </input>
                 <div id="search_results"></div>
             </div>
-      
-
+            {
+                cmd === "#filter" && (
+                    <div className="filter-tag">
+                        <span>{ filterTerm }</span>
+                        <img 
+                            className='img-btn delete-item' 
+                            onClick={() => {
+                                setFilterTerm("");
+                                runCommand(); //simulating onEnter keydown event
+                                return;
+                            }}
+                            src={btn_delete_sm} 
+                            title='clear' 
+                            alt="remove text" 
+                            aria-hidden="true"/>
+                    </div>
+                )
+            }
         </div>
     );
    

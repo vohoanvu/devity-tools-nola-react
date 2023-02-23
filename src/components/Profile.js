@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
+import btn_copy from "../img/btn_copy.png";
 import ViewModeSelection from "./ViewModeSelection";
 import { UserContext } from "../api-integration/UserContext";
 import Editable from "./Editable";
@@ -138,13 +139,32 @@ export default function Profile({ COOKIE_NAME, axios })
                 if (response.status === 200) {
                     console.log("Successfully deleted SESSION", response.status);
                     cookies.remove(COOKIE_NAME, { path: "/" });
-                    localStorage.removeItem("jira_token");
-                    localStorage.removeItem("jira_domain");
-                    localStorage.removeItem("jira_user_id");
+                    localStorage.clear();
                     window.location.replace(SSO_URL);
                 }
             })
             .catch(err => console.log(err));
+    }
+
+    function handleCopyClick(evt) 
+    {
+        let copyData = "";
+        if (evt.target.name === "session-token") {
+            $("span.copy-text-session").animate({ opacity: "0.1" }, "fast");
+            $("span.copy-text-session").animate({ opacity: "1" }, "fast");
+            copyData = "Devity " + userProfile.session_info?.session_id;
+        } 
+        if (evt.target.name === "ip-address") {
+            $("span.copy-text-ip").animate({ opacity: "0.1" }, "fast");
+            $("span.copy-text-ip").animate({ opacity: "1" }, "fast");
+            copyData = userProfile.Ip_Address;
+        }
+
+        navigator.clipboard.writeText(copyData).then(function() {
+            console.log(copyData);
+        }, function(err) {
+            console.error("Async: Could not copy text: ", err);
+        });
     }
 
     return (
@@ -272,11 +292,19 @@ export default function Profile({ COOKIE_NAME, axios })
                     
                     <div id="session_summary">
                         <h1>Session Info (<a href="https://api.devity-tools.com/">api.devity-tools.com</a>)</h1>
-                        <label> Bearer Token : Devity {userProfile.session_info?.session_id} </label>
+                        <div className="copy-container">
+                            <label> Bearer Token : <span className="copy-text-session">Devity {userProfile.session_info?.session_id}</span></label>
+                            <button onClick={handleCopyClick} title="Copy to clipboard"><img name="session-token" src={btn_copy} alt="copy to clipboard"/></button>
+                        </div>
+                        
                         <br/>
                         <label> Token Expiration Date (UTC) : {getUTCDateTime(userProfile.session_info?.expire_date)} </label>
                         <br/>
-                        <label>User IP address: {userProfile.Ip_Address}</label>
+                        <br/>
+                        <div className="copy-container">
+                            <label >User IP address: <span className="copy-text-ip">{userProfile.Ip_Address}</span></label>
+                            <button onClick={handleCopyClick} title="Copy to clipboard"><img name="ip-address" src={btn_copy} alt="copy to clipboard"/></button>
+                        </div>
                         <br/>
                         <button onClick={logOutRequest} className="logout-btn">
                             LOG OUT & EXPIRE TOKEN

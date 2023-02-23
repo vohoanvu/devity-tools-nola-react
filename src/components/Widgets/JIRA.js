@@ -32,7 +32,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             } else {
                 setJiraSearchError({
                     code: 401,
-                    errMessages: ["Missing JIRA credentials. Please fill out Jira credentials in Profile"]
+                    errMessages: ["Missing JIRA credentials. Please fill out Jira credentials in the Configs form above!"]
                 });
                 setTickets([]);
             }

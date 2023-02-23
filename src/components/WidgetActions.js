@@ -4,7 +4,7 @@ import btn_save from "../img/btn_save.png";
 import btn_maximize from "../img/btn_maximize.png";
 import btn_minimize from "../img/btn_minimize.png";
 import btn_delete from "../img/btn_delete.png";
-import { log } from "../Utilities"
+import { log } from "../Utilities";
 import $ from "jquery";
 
 

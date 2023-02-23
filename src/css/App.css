@@ -878,3 +878,12 @@ span.w_copyable.filterable {
   }
 
 }
+
+.copy-container {
+  display: flex;
+  align-items: center;
+}
+
+.copy-text-session, .copy-text-ip {
+  margin-right: 10px;
+}

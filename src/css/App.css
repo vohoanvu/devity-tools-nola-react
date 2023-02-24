@@ -64,20 +64,25 @@ p{margin-top: 0;}
 span{color: var(--COLOR_TEXT);}
 
 /* unvisited link */
-a:link {}
+a:link {
+  color: var(--COLOR_LINK);
+}
 
 /* visited link */
 a:visited {
-  color: var(--COLOR_LINK_VISITED);
+  color: var(--COLOR_LINK);
 }
 
 /* mouse over link */
 a:hover {
   text-decoration: underline;
+  color: var(--COLOR_LINK);
 }
 
 /* selected link */
-a:active {}
+a:active {
+  color: var(--COLOR_LINK);
+}
 
 
 .nav .ribbon-cntrls{

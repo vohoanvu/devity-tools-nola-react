@@ -151,7 +151,7 @@ export default function Links(props)
                 <div className='w_overflowable'>
                     <ul>
                         {
-                            !links.displayList ? (
+                            links.displayList.length === 0 ? (
                                 <div style={{ display: "flex", justifyContent: "center"}}>
                                     <div className="loader"></div>
                                 </div>

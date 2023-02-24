@@ -213,7 +213,8 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
     background-color: var(--COLOR_CHROME_BG);
     margin-bottom: 3px;
     cursor: pointer;
-    height: 45px;
+    height: auto;
+    overflow: hidden;
   }
   .w-chrome .title{
     margin-top: 15px;
@@ -235,8 +236,9 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
     padding: 0 10px;
     margin-left: auto;
   }
-  .w-chrome .buttons .delete{
+  .w-chrome .buttons{
     margin-left: auto;
+    height: 35px;
   }
 
   .buttons img{
@@ -342,12 +344,13 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
+ 
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey; 
+  box-shadow: inset 0px 0px 0px #000; 
   border-radius: 10px;
 }
  
@@ -385,7 +388,7 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
 }
 
 .widget{
-  padding: 7px;
+  padding: 5px;
   height: 100%;
   word-wrap: break-word;
   background-color: var(--COLOR_BODY);
@@ -400,7 +403,9 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
   padding: 3px;
 }​
 
-
+.w_overflowable ul{
+  max-width: 100%;
+}
 .w-links{
 padding: 10px;
 }
@@ -416,6 +421,7 @@ margin-bottom: 5px;
   word-wrap: break-word;
   display: block;
   width: 98%;
+  font-size: 14px;
 }
 .w-links a:hover{
   text-decoration: underline;
@@ -437,7 +443,7 @@ margin-bottom: 5px;
 }
 .w_overflowable{
   overflow:auto;
-  height: 90%;
+  height: 85%;
 }
 /* .hide-controls div{
   display: none;
@@ -466,6 +472,7 @@ color: var(--COLOR_TEXT);
 }
 
 
+
 .hide{
   display: none !important;
 }
@@ -486,7 +493,9 @@ color: var(--COLOR_TEXT);
   display: block;
   word-wrap: break-word;
   width: 98%;
+  font-size: 14px;
 }
+
 .widget ul li:hover{
   background-color: var(--COLOR_AFFECT_HOVER);
 }
@@ -657,6 +666,8 @@ span.w_copyable.filterable {
 #linkContentForm, #clipboardContentForm {
   width: 100%;
 }
+
+
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
@@ -890,13 +901,14 @@ span.w_copyable.filterable {
 .filter-tag {
   display: inline-block;
   background-color: var(--COLOR_BRD);
-  border-radius: 15px;
+  border-radius: 5px;
   padding: 5px 10px;
-  margin-right: 10px;
+  margin-top: 7px;
 }
 .filter-tag span {
   margin-right: 5px;
 }
 .filter-tag img {
   cursor: pointer;
+  width: 12px;
 }

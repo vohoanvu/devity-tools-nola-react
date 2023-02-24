@@ -223,15 +223,16 @@ const Console = (props) =>
                 <div id="search_results"></div>
             </div>
             {
-                cmd === "#filter" && (
+                cmd === "#filter" && filterTerm.length !== 0 && (
                     <div className="filter-tag">
                         <span>{ filterTerm }</span>
                         <img 
                             className='img-btn delete-item' 
                             onClick={() => {
                                 setFilterTerm("");
-                                runCommand(); //simulating onEnter keydown event
-                                return;
+                                $(".filterable").filter(function() {
+                                    return $(this).parent().show();
+                                });
                             }}
                             src={btn_delete_sm} 
                             title='clear' 

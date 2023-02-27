@@ -133,7 +133,7 @@ export default function Clipboard(props)
                 <div className='w_overflowable'>
                     <ul>
                         {
-                            !clipboardContent.content ? (
+                            clipboardContent.content === null ? (
                                 <div style={{ display: "flex", justifyContent: "center"}}>
                                     <div className="loader"></div>
                                 </div>

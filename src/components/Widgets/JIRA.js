@@ -34,7 +34,6 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                     code: 401,
                     errMessages: ["Missing JIRA credentials. Please fill out Jira credentials in the Configs form above!"]
                 });
-                setTickets([]);
             }
         });
 
@@ -128,10 +127,10 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
         console.log("initializeJQLquery() called...", duty, ticketTypes, statuses, priorities);
         let jqlQuery = "";
         if (duty === "assigned") {
-            console.log("JQL duty is: ASSIGNED");
+            //console.log("JQL duty is: ASSIGNED");
             jqlQuery = `assignee=${encodedEmail}`;
         } else if (duty === "mentioned") {
-            console.log("JQL duty is: MENTIONED");
+            //console.log("JQL duty is: MENTIONED");
             jqlQuery = `text ~ ${encodedEmail}`;
         } else {
             console.log("fetching all tickets from Jira...");
@@ -178,15 +177,21 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                 )
             }
             {
-                tickets.length !== 0 ? <JiraIssuesTable issues={tickets} jiraDomain={localStorage.getItem("jira_domain")}/> : 
-                    (
-                        <div> 
-                            <h3>No tickets found!</h3>
-                        </div>
-                    )
+                tickets.length !== 0 ? <JiraIssuesTable issues={tickets} jiraDomain={localStorage.getItem("jira_domain")}/> : (
+                    <div>
+                        <h3>NO TICKETS FOUND!</h3>
+                    </div>
+                )
+            }
+            {
+                (jiraSearchtError.code === 0 || jiraPriorityErrors.code === 0) && (
+                    <div style={{ display: "flex", justifyContent: "center"}}>
+                        <div className="loader"></div>
+                    </div>
+                )
             }
             { 
-                jiraSearchtError.code !== 200 && 
+                jiraSearchtError.code !== 200 && jiraSearchtError.code !== 0 &&
                 (
                     <div>
                         <h4 style={{ color: "red" }}>JIRA Search request failed with Status: {jiraSearchtError.code}</h4>
@@ -199,7 +204,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                 )
             }
             {
-                jiraPriorityErrors.code !== 200 && 
+                jiraPriorityErrors.code !== 200 && jiraPriorityErrors.code !== 0 &&
                 (
                     <div>
                         <h4 style={{ color: "red" }}>JIRA Priority request failed with Status: {jiraPriorityErrors.code}</h4>
@@ -221,10 +226,10 @@ export default JiraTicket;
 function JiraConfigurations(props) 
 {
     const [configsContentObj, setConfigsContentObj] = useState({
-        DUTY: "",
-        ISSUETYPES: [],
-        STATUSES: [],
-        PRIORITIES: []
+        DUTY: props.assignedOrMentioned,
+        ISSUETYPES: props.ticketTypes,
+        STATUSES: props.ticketStatuses,
+        PRIORITIES: props.priorities
     });
     const [jiraWidget, setJiraWidget] = useState({});
     const [priorityOptions, setPriorityOptions] = useState([]);
@@ -281,6 +286,7 @@ function JiraConfigurations(props)
 
         setJiraWidget(props.widget);
         fetchPriorities();
+        $(`#save-btn-${props.widget.id}`).hide();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [axios, props.widget, props.isConfigsChanged]);
     

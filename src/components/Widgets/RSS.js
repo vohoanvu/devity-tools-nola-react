@@ -34,12 +34,14 @@ export default function Rss(props)
 
         await axios.post("/api/proxy/rss", { feedUri: rssUri })
             .then(res => {
+                //console.log("RSS items...", res.data);
                 const itemsArray = Array.prototype.map.call(res.data, item => {
                     const itemData = {};
-                    itemData["title"] = item.title.text;
-                    itemData["link"] = item.id;
-                    itemData["description"] = item.summary.text;
-                    itemData["pubDate"] = item.publishDate;
+                    itemData["title"] = item.title;
+                    itemData["link"] = item.link;
+                    itemData["description"] = item.description;
+                    itemData["publishDate"] = item.publishDate;
+                    itemData["mediaUrl"] = item.mediaUrl;
 
                     return itemData;
                 });
@@ -109,6 +111,14 @@ export default function Rss(props)
         props.sendContentToParent(putBody, null, null);
     }
 
+    function formatRssDate(input) {
+        return new Date(input).toLocaleDateString("en-US", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }).toUpperCase().replace(/ /g, "-").replace(/,/g, "");
+    }
+
     return (
         <div className="w_overflowable">
             <div className="widget rss">
@@ -132,9 +142,25 @@ export default function Rss(props)
                                 rssFeed.map((item, index) => {
                                     return (
                                         <div key={index}>
-                                            <a href={item.link}>{item.title}</a>
-                                            <p>{item.description}</p>
-                                            <span>{item.pubDate}</span>
+                                            <div>
+                                                <a href={item.link}>{item.title}</a>
+                                                <p>{item.description}</p>
+                                            </div>
+                                            {
+                                                item.mediaUrl != null && (
+                                                    <div>
+                                                        <figure>
+                                                            <img 
+                                                                src={item.mediaUrl}
+                                                                alt={item.description}
+                                                                style={{
+                                                                    width:"50%"
+                                                                }}/>
+                                                            <figcaption><span>{formatRssDate(item.publishDate)}</span></figcaption>
+                                                        </figure>
+                                                    </div>
+                                                )
+                                            }
                                         </div>
                                     );
                                 })

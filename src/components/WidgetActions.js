@@ -117,7 +117,7 @@ export default function Widget(props)
                                     $(`#save-btn-${props.widget.id}`).hide();
                                 });
                         } else {
-                            alert("not yet ready to save! Please click Save button again after a few seconds.");
+                            alert("not yet ready to save! Please change something and then blur mouse pointer anywhere before saving again!");
                         }
                     }}
                     src={btn_save} 

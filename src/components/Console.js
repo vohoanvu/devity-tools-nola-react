@@ -98,6 +98,7 @@ const Console = (props) =>
         if(key === "Escape"){
             setCmd("#devity");
             setParams("");
+            $(".filterable").show();
             $(".filterable").parent().show();
             $("#prompt_input").val("");
             return;

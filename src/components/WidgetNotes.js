@@ -46,7 +46,7 @@ export default function Note(props)
         <div className='widget notes filterable'>
             <div className='tiny-editor-box'>
                 {
-                    (note.w_content === undefined) ? (
+                    (note.w_content === null) ? (
                         <div style={{ display: "flex", justifyContent: "center"}}>
                             <div className="loader"></div>
                         </div>

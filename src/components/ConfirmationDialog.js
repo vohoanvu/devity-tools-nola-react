@@ -16,9 +16,6 @@ const ConfirmationDialog = ({ title, message, isDialogOpen, modalType }) =>
 
     return (
         <div>
-            <button onClick={()=> setIsModalOpen(true)} className="logout-btn" hidden={!isDialogOpen}>
-                Open Modal
-            </button>
             <ReactModal 
                 isOpen={isModalOpen}
                 onRequestClose={() => console.log("some custom logic on Closing...")}

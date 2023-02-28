@@ -66,6 +66,7 @@ export function UserProvider({ children, axios, setIs402ModalOpen })
         console.log("GET api/profile is called...Current bearer: ", bearer);
         return await axios.get("/api/profile")
             .then((response) => {
+                //console.log("UserProfile... ", response.data);
                 return response.data;
             })
             .catch((error) => {

@@ -32,7 +32,6 @@ export default function Profile({ COOKIE_NAME, axios })
             ...userProfile,
             name: newName
         });
-        setIsEditMode(true);
     }
 
     function handleUserProfessionOnChange(newProfession) {
@@ -40,7 +39,6 @@ export default function Profile({ COOKIE_NAME, axios })
             ...userProfile,
             profession: newProfession
         });
-        setIsEditMode(true);
     }
 
     function updateUserProfileOnBlur(evenTarget) {
@@ -62,7 +60,7 @@ export default function Profile({ COOKIE_NAME, axios })
             <div id="header_container">…</div>
             break;
         }
-        setIsEditMode(false);
+
         updateProfileInDb(userProfile);
     }
 
@@ -74,9 +72,12 @@ export default function Profile({ COOKIE_NAME, axios })
                 return response.data;
             }).then((result) => {
                 $("div[data-panel=PROFILE] .gear").removeClass("rotate");
+                console.log("Profile Update result: ", result);
                 userContext.setUserProfile({
                     ...userContext.userProfile,
-                    name: result.name
+                    name: result.name,
+                    email: result.email,
+                    profession: result.profession
                 });
                 return result;
             })

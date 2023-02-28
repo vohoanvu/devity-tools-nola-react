@@ -261,11 +261,11 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
     // TODO: create a function to set a local storage setting. Set upsize as "max" or downsize as "min" 
 
     function Upsize() {
-        $("#up_size").hide();
+        $(".up-size").hide();
         $(".w-container").removeClass("max");
         $(".w-container").removeClass("min");
         $(".w-container").addClass("mid");
-        $("#down_size").show();
+        $(".down-size").show();
 
         $(".w-chrome > div.buttons > img.img-btn.minimize").hide();
         $(".w-chrome > div.buttons > img.img-btn.maximize").show();
@@ -276,11 +276,11 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
     }
 
     function Downsize() {
-        $("#down_size").hide();
+        $(".down-size").hide();
         $(".w-container").removeClass("max");
         $(".w-container").removeClass("mid");
         $(".w-container").addClass("min");
-        $("#up_size").show();
+        $(".up-size").show();
 
         $(".w-chrome > div.buttons > img.img-btn.minimize").hide();
         $(".w-chrome > div.buttons > img.img-btn.maximize").show();
@@ -343,7 +343,7 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
                                     <img 
                                     id="up_size"
                                         alt="upsize"
-                                        className='img-btn up' 
+                                        className='img-btn up-size' 
                                         style={{display:"block"}} 
                                         // onClick={()=>Upsize()} 
                                         onClick={()=>Upsize()} 
@@ -353,7 +353,7 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
                                     <img 
                                     id="down_size"
                                         alt="downsize"
-                                        className='img-btn down' 
+                                        className='img-btn down-size' 
                                         style={{display:"none"}} 
                                         onClick={()=>Downsize()} 
                                         src={btn_downsize} 

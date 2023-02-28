@@ -710,6 +710,14 @@ span.w_copyable.filterable {
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
+  .mid{
+    width: 100%;
+    height: 500px;
+  }
+  .min{
+    width: 100%;
+    height: 500px;
+  }
   .console-max {
     display: block;
   }
@@ -758,6 +766,12 @@ span.w_copyable.filterable {
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
+  
+  .mid{
+    width: 100%;
+    height: 500px;
+  }
+  
   .nav{
     width: 100%;
     display: flex;
@@ -805,6 +819,11 @@ span.w_copyable.filterable {
 }
 /* Medium devices (landscape tablets, 768px and up) */ 
 @media only screen and (min-width: 768px) {
+  .mid{
+    width: 100%;
+    height: 500px;
+  }
+  
   #header_container{
     display: flex;
   }
@@ -851,6 +870,10 @@ span.w_copyable.filterable {
 }
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
+  .mid{
+    width: 500px;
+    height: 500px;
+  }
   #header_container{
     display: flex;
   }
@@ -892,6 +915,10 @@ span.w_copyable.filterable {
 }
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
+  .mid{
+    width: 500px;
+    height: 500px;
+  }
   #header_container{
     display: flex;
   }

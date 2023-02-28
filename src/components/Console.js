@@ -7,12 +7,14 @@ import CONFIG from "../config.json";
 import { UserContext } from "../api-integration/UserContext";
 import btn_delete_sm from "../img/btn_delete_sm.png";
 const GOOGLE_SEARCH_API = CONFIG.GOOGLE_SEARCH_ENGINE_URL + "?key=" + CONFIG.GOOGLE_API_KEY + "&cx=" + CONFIG.GOOGLE_SEARCH_ENGINE;
+const FilterCmd = "#f";
+const SearchCmd = "#s";
 
 
 const Console = (props) => 
 {
     const [err, setErr] = useState("");
-    const [cmd, setCmd] = useState("#filter");
+    const [cmd, setCmd] = useState(FilterCmd);
     const [params, setParams] = useState(" ");
     const keys_ignore = ["Shift", "Capslock", "Alt", "Control", "Alt", "Delete", "End", "PageDown", "PageUp", "Meta", "ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft", "NumLock", "Pause", "ScrollLock", "Home", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10","F11","F12"];
     const command_ignore = ["Tab", "Escape"];
@@ -22,7 +24,7 @@ const Console = (props) =>
     const runCommand = async () => {
 
         switch(cmd) {
-        case "#search":
+        case SearchCmd:
 
             $(".p-panel").hide();
             $("div[data-panel=RESULTS]").show();
@@ -76,7 +78,7 @@ const Console = (props) =>
             if(params === "console"){$("#nav_console").trigger("click");}
             if(params === "all"){$("#nav_all").trigger("click");}
             break;
-        case "#filter":
+        case FilterCmd:
             break;
         default:
             log(cmd + " is not a recognized command");
@@ -88,7 +90,7 @@ const Console = (props) =>
     };
 
     function handleKeyDown(e) {
-        console.log("Actual Keydown event: ", e);
+
         var key = e.key;
     
         if (keys_ignore.includes(key)) {
@@ -105,14 +107,14 @@ const Console = (props) =>
         }
    
         if(key === " " || key === "Tab"){
-            if( params === "#f" || params === "#filter" ){
-                setCmd("#filter")
+            if( params === "#f" || params === FilterCmd ){
+                setCmd(FilterCmd)
                 setParams("");
                 $("#prompt_input").val("");
 
             }
-            if(params === "#s" || params === "#search"){
-                setCmd("#search")
+            if(params === "#s" || params === SearchCmd){
+                setCmd(SearchCmd)
                 setParams("");
                 $("#prompt_input").val("");
                 $(".filterable").parent().show();
@@ -150,7 +152,7 @@ const Console = (props) =>
             setParams($("#prompt_input").val().toLowerCase().trim());
         }
 
-        if(cmd === "#filter"){
+        if(cmd === FilterCmd){
 
             $(".filterable").filter(function() {
                 return $(this).parent().toggle($(this).text().toLowerCase().indexOf(params) > -1);
@@ -160,19 +162,19 @@ const Console = (props) =>
     }
 
     function RadionButtonFilter(){
-        if(cmd === "#filter"){
-            return <input onChange={handleCmdChange} type="radio" name="cmdType" checked value="filter" />;
+        if(cmd === FilterCmd){
+            return <input onChange={handleCmdChange} type="radio" name="cmdType" checked value="f" />;
         }
         else{
-            return <input onChange={handleCmdChange} type="radio" name="cmdType" value="filter" />;
+            return <input onChange={handleCmdChange} type="radio" name="cmdType" value="f" />;
         }
     }
     function RadionButtonSearch(){
-        if(cmd === "#search"){
-            return <input onChange={handleCmdChange} type="radio" name="cmdType" checked value="search" />;
+        if(cmd === SearchCmd){
+            return <input onChange={handleCmdChange} type="radio" name="cmdType" checked value="s" />;
         }
         else{
-            return <input onChange={handleCmdChange} type="radio" name="cmdType" value="search" />;
+            return <input onChange={handleCmdChange} type="radio" name="cmdType" value="s" />;
         }
     }
 
@@ -224,22 +226,23 @@ const Console = (props) =>
                 <div id="search_results"></div>
             </div>
             {
-                cmd === "#filter" && filterTerm.length !== 0 && (
-                    <div className="filter-tag">
+                cmd === FilterCmd && filterTerm.length !== 0 && (
+                    <button className="filter-tag"
+                        onClick={() => {
+                            setFilterTerm("");
+                            $(".filterable").filter(function() {
+                                $("#prompt_input").focus();
+                                return $(this).parent().show();
+                            });
+                        }}>
                         <span>{ filterTerm }</span>
                         <img 
                             className='img-btn delete-item' 
-                            onClick={() => {
-                                setFilterTerm("");
-                                $(".filterable").filter(function() {
-                                    return $(this).parent().show();
-                                });
-                            }}
                             src={btn_delete_sm} 
                             title='clear' 
                             alt="remove text" 
                             aria-hidden="true"/>
-                    </div>
+                    </button>
                 )
             }
         </div>

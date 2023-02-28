@@ -28,7 +28,7 @@ export default function SearchResults(props)
 
     function renderVideoFigure(videoId, descriptionText, width, height) {
         return (
-            <figure style={{ "margin-left": "auto"}}>
+            <figure style={{ marginLeft: "auto"}}>
                 <iframe
                     width={width}
                     height={height}

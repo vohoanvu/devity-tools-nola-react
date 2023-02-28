@@ -17,7 +17,7 @@ import ConfirmationDialog from "../components/ConfirmationDialog";
 
 export default function DevityPanels({ signalAllPanelRendered, axios }) 
 {
-    const [wObject, setWObject] = useState({});
+    const [wObject, setWObject] = useState({}); // { NOTES: [{}, {}], LINKS: [{}, {}], CLIPBOARD: [{}, {}] }
     const inputRef = useRef();
     const [isReadyToSave, setIsReadyToSave] = useState({
         isReadyToSave: false,
@@ -137,7 +137,11 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
                 return response.data;
             })
             .then(result => {
+                let wIndex = wObject[type].findIndex(element => element.id === result.id);
+                wIndex !== -1 && (wObject[type][wIndex] = result);
+                setWObject({...wObject});
                 $("div[data-panel=" + type + "] .gear").removeClass("rotate");
+                console.log("PUT widget result...", result);
                 return result;
             })
             .catch(err => {

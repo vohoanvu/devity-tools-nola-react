@@ -32,7 +32,6 @@ export default function Profile({ COOKIE_NAME, axios })
             ...userProfile,
             name: newName
         });
-        setIsEditMode(true);
     }
 
     function handleUserProfessionOnChange(newProfession) {
@@ -40,7 +39,6 @@ export default function Profile({ COOKIE_NAME, axios })
             ...userProfile,
             profession: newProfession
         });
-        setIsEditMode(true);
     }
 
     function updateUserProfileOnBlur(evenTarget) {
@@ -62,7 +60,7 @@ export default function Profile({ COOKIE_NAME, axios })
             <div id="header_container">…</div>
             break;
         }
-        setIsEditMode(false);
+
         updateProfileInDb(userProfile);
     }
 
@@ -74,9 +72,12 @@ export default function Profile({ COOKIE_NAME, axios })
                 return response.data;
             }).then((result) => {
                 $("div[data-panel=PROFILE] .gear").removeClass("rotate");
+                console.log("Profile Update result: ", result);
                 userContext.setUserProfile({
                     ...userContext.userProfile,
-                    name: result.name
+                    name: result.name,
+                    email: result.email,
+                    profession: result.profession
                 });
                 return result;
             })
@@ -146,15 +147,15 @@ export default function Profile({ COOKIE_NAME, axios })
             .catch(err => console.log(err));
     }
 
-    function handleCopyClick(evt) 
+    function handleCopyClick(btnType) 
     {
         let copyData = "";
-        if (evt.target.name === "session-token-btn") {
+        if (btnType === "session-token-btn") {
             $("span.copy-text-session").animate({ opacity: "0.1" }, "fast");
             $("span.copy-text-session").animate({ opacity: "1" }, "fast");
             copyData = "Devity " + userProfile.session_info?.session_id;
         } 
-        if (evt.target.name === "ip-address-btn") {
+        if (btnType === "ip-address-btn") {
             $("span.copy-text-ip").animate({ opacity: "0.1" }, "fast");
             $("span.copy-text-ip").animate({ opacity: "1" }, "fast");
             copyData = userProfile.Ip_Address;
@@ -295,21 +296,18 @@ export default function Profile({ COOKIE_NAME, axios })
                         <div className="copy-container">
                             <label> Bearer Token : <span className="copy-text-session">Devity {userProfile.session_info?.session_id}</span></label>
                             <button 
-                                onClick={handleCopyClick} 
+                                onClick={()=> handleCopyClick("session-token-btn")} 
                                 title="Copy to clipboard" 
-                                name="session-token-btn" 
-                                style={
-                                    { 
-                                        backgroundImage: `url(${btn_copy})`, 
-                                        backgroundRepeat: "no-repeat", 
-                                        backgroundSize: "contain", 
-                                        backgroundColor: "transparent",
-                                        width: "30px", 
-                                        height: "30px",
-                                        border: "none",
-                                        cursor: "pointer"
-                                    }
-                                }>
+                                style={{
+                                    backgroundRepeat: "no-repeat", 
+                                    backgroundSize: "contain", 
+                                    backgroundColor: "transparent",
+                                    width: "30px", 
+                                    height: "30px",
+                                    border: "none",
+                                    cursor: "pointer"
+                                }}>
+                                <img src={btn_copy} alt="Copy to clipboard"/>
                             </button>
                         </div>
                         
@@ -320,21 +318,18 @@ export default function Profile({ COOKIE_NAME, axios })
                         <div className="copy-container">
                             <label >User IP address: <span className="copy-text-ip">{userProfile.Ip_Address}</span></label>
                             <button 
-                                onClick={handleCopyClick} 
+                                onClick={()=>handleCopyClick("ip-address-btn")} 
                                 title="Copy to clipboard" 
-                                name="ip-address-btn" 
-                                style={
-                                    { 
-                                        backgroundImage: `url(${btn_copy})`, 
-                                        backgroundRepeat: "no-repeat", 
-                                        backgroundSize: "contain", 
-                                        backgroundColor: "transparent",
-                                        width: "30px", 
-                                        height: "30px",
-                                        border: "none",
-                                        cursor: "pointer"
-                                    }
-                                }>
+                                style={{ 
+                                    backgroundRepeat: "no-repeat", 
+                                    backgroundSize: "contain", 
+                                    backgroundColor: "transparent",
+                                    width: "30px", 
+                                    height: "30px",
+                                    border: "none",
+                                    cursor: "pointer"
+                                }}>
+                                <img src={btn_copy} alt="Copy to clipboard"/>
                             </button>
                         </div>
                         <br/>

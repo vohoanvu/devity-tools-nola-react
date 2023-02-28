@@ -147,15 +147,15 @@ export default function Profile({ COOKIE_NAME, axios })
             .catch(err => console.log(err));
     }
 
-    function handleCopyClick(evt) 
+    function handleCopyClick(btnType) 
     {
         let copyData = "";
-        if (evt.target.name === "session-token-btn") {
+        if (btnType === "session-token-btn") {
             $("span.copy-text-session").animate({ opacity: "0.1" }, "fast");
             $("span.copy-text-session").animate({ opacity: "1" }, "fast");
             copyData = "Devity " + userProfile.session_info?.session_id;
         } 
-        if (evt.target.name === "ip-address-btn") {
+        if (btnType === "ip-address-btn") {
             $("span.copy-text-ip").animate({ opacity: "0.1" }, "fast");
             $("span.copy-text-ip").animate({ opacity: "1" }, "fast");
             copyData = userProfile.Ip_Address;
@@ -296,21 +296,18 @@ export default function Profile({ COOKIE_NAME, axios })
                         <div className="copy-container">
                             <label> Bearer Token : <span className="copy-text-session">Devity {userProfile.session_info?.session_id}</span></label>
                             <button 
-                                onClick={handleCopyClick} 
+                                onClick={()=> handleCopyClick("session-token-btn")} 
                                 title="Copy to clipboard" 
-                                name="session-token-btn" 
-                                style={
-                                    { 
-                                        backgroundImage: `url(${btn_copy})`, 
-                                        backgroundRepeat: "no-repeat", 
-                                        backgroundSize: "contain", 
-                                        backgroundColor: "transparent",
-                                        width: "30px", 
-                                        height: "30px",
-                                        border: "none",
-                                        cursor: "pointer"
-                                    }
-                                }>
+                                style={{
+                                    backgroundRepeat: "no-repeat", 
+                                    backgroundSize: "contain", 
+                                    backgroundColor: "transparent",
+                                    width: "30px", 
+                                    height: "30px",
+                                    border: "none",
+                                    cursor: "pointer"
+                                }}>
+                                <img src={btn_copy} alt="Copy to clipboard"/>
                             </button>
                         </div>
                         
@@ -321,21 +318,18 @@ export default function Profile({ COOKIE_NAME, axios })
                         <div className="copy-container">
                             <label >User IP address: <span className="copy-text-ip">{userProfile.Ip_Address}</span></label>
                             <button 
-                                onClick={handleCopyClick} 
+                                onClick={()=>handleCopyClick("ip-address-btn")} 
                                 title="Copy to clipboard" 
-                                name="ip-address-btn" 
-                                style={
-                                    { 
-                                        backgroundImage: `url(${btn_copy})`, 
-                                        backgroundRepeat: "no-repeat", 
-                                        backgroundSize: "contain", 
-                                        backgroundColor: "transparent",
-                                        width: "30px", 
-                                        height: "30px",
-                                        border: "none",
-                                        cursor: "pointer"
-                                    }
-                                }>
+                                style={{ 
+                                    backgroundRepeat: "no-repeat", 
+                                    backgroundSize: "contain", 
+                                    backgroundColor: "transparent",
+                                    width: "30px", 
+                                    height: "30px",
+                                    border: "none",
+                                    cursor: "pointer"
+                                }}>
+                                <img src={btn_copy} alt="Copy to clipboard"/>
                             </button>
                         </div>
                         <br/>

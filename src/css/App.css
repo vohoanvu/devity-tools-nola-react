@@ -200,7 +200,7 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
     padding: 10px;
     height: 25px;
     background-color: var(--COLOR_CHROME_BG);
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     height: 45px;
   }
 
@@ -298,6 +298,32 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
     float: left;
   }
 
+
+
+  .size{
+    margin-left: auto;
+  }
+  .w-add-devity{
+    overflow-y: scroll;
+  }
+  .w-add-devity div{
+    margin-left: 5px;
+    width: 100px;
+    height: 100px;
+    padding: 25px;
+    border: 1px;
+    border-style: solid;
+    border-color: var(--COLOR_BRD);
+  }
+  .w-add-devity figure{
+    width: 25%;
+    margin: auto;
+  }
+  .w-add-devity figcaption {
+    text-align: center;
+  }
+
+
 .p-contents{
   padding: 10px;
   flex-wrap: wrap;
@@ -317,6 +343,11 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
 .min{
   width: 300px;
   height: 300px;
+}
+
+.mid{
+  width: 500px;
+  height: 500px;
 }
 
 .max{
@@ -432,6 +463,9 @@ margin-bottom: 5px;
   text-decoration: underline;
 }
 
+.img-btn .min{
+  height: 100%;
+}
 
 .w_copyable{
   cursor: copy;

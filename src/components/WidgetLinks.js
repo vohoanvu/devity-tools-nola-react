@@ -10,8 +10,8 @@ export default function Links(props)
 {
     const [links, setLinks] = useState({
         inputLink: "",
-        displayList: [], // [{HYPERLINK: "https://www.google.com", DISPLAYNAME: "Google"}]
-        link: props.widget,
+        displayList: null, // [{HYPERLINK: "https://www.google.com", DISPLAYNAME: "Google"}]
+        link: {},
         w_type: props.widget.w_type
     });
     const inputLinkRef = useRef(null);
@@ -21,7 +21,7 @@ export default function Links(props)
         const curr_view = props.activePanel;
         async function fetchWidgetContent() {
             if ((curr_view && curr_view !== "LINKS" && curr_view !== "ALL") || 
-            (curr_view === "LINKS" && links.link["w_content"] != null)) return;
+            (curr_view === "LINKS" && Object.keys(links.link).length !== 0)) return;
             
             const widget = await getWidgetContentById(props.widget.id);
             
@@ -151,7 +151,7 @@ export default function Links(props)
                 <div className='w_overflowable'>
                     <ul>
                         {
-                            links.displayList.length === 0 ? (
+                            links.displayList === null ? (
                                 <div style={{ display: "flex", justifyContent: "center"}}>
                                     <div className="loader"></div>
                                 </div>

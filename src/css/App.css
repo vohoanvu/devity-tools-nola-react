@@ -31,7 +31,6 @@ code {
 }
 
 .loader {
-  border: 16px solid var(--COLOR_PANEL_BG);
   border-top: 16px solid var(--COLOR_BRD);
   border-radius: 50%;
   width: 150px;

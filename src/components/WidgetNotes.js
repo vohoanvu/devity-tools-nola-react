@@ -60,10 +60,11 @@ export default function Note(props)
                                 if (newContent !== noteContent) {
                                     setNoteContent(newContent);
                                     $(`#save-btn-${props.widget.id}`).show();
-                                    note.w_content = {
+                                    props.widget.w_content = {
                                         NOTES: newContent
                                     };
-                                    props.sendContentToParent(note, null, null);
+                                    console.log("Note Title to be save...", props.widget);
+                                    props.sendContentToParent(props.widget, null, null);
                                 }
                             }}
                             init={{

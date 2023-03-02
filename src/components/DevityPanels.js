@@ -6,7 +6,6 @@ import btn_upsize from "../img/btn_upsize_35.png"
 import btn_downsize from "../img/btn_downsize_35.png"
 import btn_add from "../img/btn_add.png";
 import $ from "jquery";
-import { log } from "../Utilities";
 import W_Note from "./WidgetNotes";
 import W_Link from "./WidgetLinks";
 import W_Clipboard from "./WidgetClipboard";
@@ -73,7 +72,7 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
             w_type_sub: devitySubType
         }
 
-        w_create(newWidget, widgetType);
+        await w_create(newWidget, widgetType);
     }
 
     function init_w_content(type, devitySubType) {
@@ -120,7 +119,7 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
                 wObject[type].splice(0, 0, postBody);
                 setWObject({...wObject});
                 $("div[data-panel=" + type + "] .gear").removeClass("rotate");
-                log("Created " + type + " widget.")
+                console.log("Created " + type + " widget.", result);
             })
             .catch(err => {
                 console.log(err);

@@ -541,10 +541,10 @@ function JiraIssuesTable({ issues, jiraDomain })
                 {
                     issues.map((issue) => (
                         <tr key={issue.id}>
-                            <td>{issue.key}</td>
                             <td>
-                                <a href={`https://${jiraDomain}/browse/${issue.key}`} target="_blank" rel="noreferrer">{issue.fields.summary}</a>
+                                <a href={`https://${jiraDomain}/browse/${issue.key}`} target="_blank" rel="noreferrer">{issue.key}</a>
                             </td>
+                            <td>{issue.fields.summary}</td>
                             <td>{issue.fields.issuetype.name}</td>
                             <td>{issue.fields.status.name}</td>
                             <td>{issue.fields.priority.name}</td>

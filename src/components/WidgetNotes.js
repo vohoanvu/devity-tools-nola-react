@@ -57,12 +57,14 @@ export default function Note(props)
                             onInit={(evt, editor) => editorRef.current = editor}
                             value={ noteContent }
                             onEditorChange={(newContent) => {
-                                setNoteContent(newContent);
-                                $(`#save-btn-${props.widget.id}`).show();
-                                note.w_content = {
-                                    NOTES: newContent
-                                };
-                                props.sendContentToParent(note, null, null);
+                                if (newContent !== noteContent) {
+                                    setNoteContent(newContent);
+                                    $(`#save-btn-${props.widget.id}`).show();
+                                    note.w_content = {
+                                        NOTES: newContent
+                                    };
+                                    props.sendContentToParent(note, null, null);
+                                }
                             }}
                             init={{
                                 height: 250,

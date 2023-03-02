@@ -142,25 +142,22 @@ export default function Rss(props)
                                 rssFeed.map((item, index) => {
                                     return (
                                         <div key={index}>
-                                            <div>
-                                                <a href={item.link}>{item.title}</a>
-                                                <p>{item.description}</p>
-                                            </div>
                                             {
                                                 item.mediaUrl != null && (
-                                                    <div>
+                                                    <div className="rss-figure">
                                                         <figure>
                                                             <img 
                                                                 src={item.mediaUrl}
-                                                                alt={item.description}
-                                                                style={{
-                                                                    width:"50%"
-                                                                }}/>
+                                                                alt={item.description}/>
                                                             <figcaption><span>{formatRssDate(item.publishDate)}</span></figcaption>
                                                         </figure>
                                                     </div>
                                                 )
                                             }
+                                            <div className="rss-text">
+                                                <a href={item.link}>{item.title}</a>
+                                                <p>{item.description}</p>
+                                            </div>
                                         </div>
                                     );
                                 })

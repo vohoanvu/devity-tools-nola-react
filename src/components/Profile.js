@@ -225,7 +225,7 @@ export default function Profile({ COOKIE_NAME, axios })
                     <p>Help the Technocore AIs help you by filling out your technical profile! Profile settings in this column are persisted on api.devity-tools.com.</p>
                     <h2>{ userProfile.paid ? "Premium Account" : "Free Account" }</h2>
                     <p>{ userProfile.paid ? "Thanks for your support!" : "Paid accounts have higher data and rate-limits. If you enjoy the tool consider supporting it by upgrading to a paid account." }</p>
-                    <label> Data: {userProfile.datasize} used of 10MB</label>
+                    <label> Data: {userProfile.datasize} used of 20KB</label>
                     <br/>
                     <label> Widgets: {userProfile.widget_count} </label>
                     <br/>

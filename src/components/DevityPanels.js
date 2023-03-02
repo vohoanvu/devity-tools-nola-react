@@ -341,7 +341,7 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
                                 <div className="size">
                                     
                                     <img 
-                                    id="up_size"
+                                        id="up_size"
                                         alt="upsize"
                                         className='img-btn up-size' 
                                         style={{display:"block"}} 
@@ -351,7 +351,7 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
                                         aria-hidden="true"/>
 
                                     <img 
-                                    id="down_size"
+                                        id="down_size"
                                         alt="downsize"
                                         className='img-btn down-size' 
                                         style={{display:"none"}} 
@@ -366,7 +366,7 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
                                     <div className="w-add-devity" style={{display:"flex"}}>
                                         <div>
                                             <figure>
-                                            <img className='add-subtype' src={btn_add} onClick={()=>w_add(key, value, "RSS")} alt="create devity subtype" aria-hidden="true"/>
+                                                <img className='add-subtype' src={btn_add} onClick={()=>w_add(key, value, "RSS")} alt="create devity subtype" aria-hidden="true"/>
                                                 <figcaption>RSS</figcaption>
                                             </figure>
                                         </div>

@@ -978,3 +978,16 @@ span.w_copyable.filterable {
   cursor: pointer;
   width: 12px;
 }
+
+
+.rss-item {
+  display: flex;
+  flex-wrap: wrap;
+}
+.rss-figure {
+  float: left;
+  margin-right: 10px;
+}
+.rss-text {
+  text-align: justify;
+}

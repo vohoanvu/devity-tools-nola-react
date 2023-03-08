@@ -34,3 +34,11 @@ export function currate_title(value) {
     }
     return "";
 }
+
+export function abbreviate30Chars(value) {
+    
+    if(value.length > 30){
+        return value.substring(0, 30) + "...";
+    }
+    return value;
+}

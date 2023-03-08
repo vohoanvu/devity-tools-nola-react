@@ -6,6 +6,7 @@ import { log } from "../Utilities"
 import CONFIG from "../config.json";
 import { UserContext } from "../api-integration/UserContext";
 import btn_delete_sm from "../img/btn_delete_sm.png";
+import { abbreviate30Chars } from "../Utilities";
 const GOOGLE_SEARCH_API = CONFIG.GOOGLE_SEARCH_ENGINE_URL + "?key=" + CONFIG.GOOGLE_API_KEY + "&cx=" + CONFIG.GOOGLE_SEARCH_ENGINE;
 const FilterCmd = "#f";
 const SearchCmd = "#s";
@@ -189,9 +190,6 @@ const Console = (props) =>
                 <div id="console_log" className="hide">
                     <ul id="console_output" className="console">
                         <li>Welcome to devity!</li>
-                        {/* {
-              console.logs?.map((i, index) => { return (<li key={index}>{i}</li>); })
-            } */}
                     </ul>
             
                 </div>
@@ -235,7 +233,7 @@ const Console = (props) =>
                                 return $(this).parent().show();
                             });
                         }}>
-                        <span>{ filterTerm }</span>
+                        <span>{ abbreviate30Chars(filterTerm) }</span>
                         <img 
                             className='img-btn delete-item' 
                             src={btn_delete_sm} 

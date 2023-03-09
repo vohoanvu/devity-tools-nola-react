@@ -51,14 +51,29 @@ export default function Clipboard(props)
             .catch((err) => console.log(err));
     }
 
-    async function updateWidgetContent(currentContentArray, type) {
-        let jsonObject = JSON.parse(props.widget.w_content);
-        jsonObject["CLIPBOARD"] = currentContentArray;
+    async function onBlurClipboardContent(eventTarget) {
+        if (eventTarget.value.length === 0) return;
 
+        clipboardContent.content.splice(0, 0, eventTarget.value);
+        
+        setClipboardContent({
+            ...clipboardContent,
+            currentText: ""
+        });
+        console.log("New Content to be saved...", clipboardContent.content);
+        await updateWidgetContent(clipboardContent.content);
+    }
+
+    async function updateWidgetContent(currentContentArray) {
+        let jsonObject = JSON.parse(clipboardContent.widget.w_content);
+        jsonObject["CLIPBOARD"] = currentContentArray;
+        
         const putBody = {
-            ...props.widget,
+            ...clipboardContent.widget,
+            name: props.widget.name,
             w_content: JSON.stringify(jsonObject)
-        }
+        };
+        console.log("Content Object to be saved...", putBody);
 
         await props.sendContentToParent(putBody, null, null);
     }
@@ -69,18 +84,6 @@ export default function Clipboard(props)
             currentText: e.target.value
         });
         $(`#save-btn-${props.widget.id}`).show();
-    }
-
-    function onBlurClipboardContent(eventTarget) {
-        if (eventTarget.value.length === 0) return;
-
-
-        clipboardContent.content.splice(0, 0, eventTarget.value);
-        setClipboardContent({
-            ...clipboardContent,
-            currentText: ""
-        });
-        updateWidgetContent(clipboardContent.content, clipboardContent.widget.w_type);
     }
 
     const handleItemClick = event => {

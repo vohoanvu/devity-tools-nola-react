@@ -27,8 +27,7 @@ export default function Editable({
         }
 
         if (type !== "textarea" && allKeys.indexOf(key) > -1) {
-            setEditing(false);
-            passFromChildToParent(event.target);
+            handleInputOnBlur(event);
         }
     };
 

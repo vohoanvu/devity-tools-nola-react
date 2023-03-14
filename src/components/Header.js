@@ -7,6 +7,7 @@ import btn_image_notes from "../img/d_btn_ctrl_notes.png";
 import btn_image_clipboard from "../img/d_btn_ctrl_clipboard.png";
 //import btn_image_code from "../img/d_btn_ctrl_code.png";
 import btn_image_lib from "../img/d_btn_ctrl_lib.png";
+import chat_gpt_img from "../img/chatgpt-logo.png";
 import { UserContext } from "../api-integration/UserContext";
 
 
@@ -58,6 +59,11 @@ export default function Header(props)
     return (<div id="navigation" className="nav">
 
         <header id="ribbon" className="ribbon-cntrls" >
+            <button id="nav_all" onClick={()=>onNavigateClicked("CHATGPT")}>
+                <img src={chat_gpt_img}  alt="ChatGPT" /><br />
+                <span>ChatGPT</span>
+            </button>
+
             <button id="nav_all" onClick={()=>onNavigateClicked("DEVITY")}>
                 <img src={logo}  alt="logo" /><br />
                 <span>Devity</span>

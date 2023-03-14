@@ -40,7 +40,6 @@ export function UserProvider({ children, axios, setIs402ModalOpen })
             });
         } else if (!token && !bearer) {
             setIs402ModalOpen(true);
-            //window.location.replace("https://noladigital.net");
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps

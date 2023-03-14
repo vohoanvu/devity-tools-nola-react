@@ -33,7 +33,7 @@ export default function DevityBaseAxios(TooManyRequestCallback, UnauthorizedCall
                 && bearer && originalRequest.url === "/api/sessions") {
                 console.log("retry logic executed....");
                 originalRequest._retry = true;
-                cookies.remove("devity-token", { path: "/" });
+                //cookies.remove("devity-token", { path: "/" });
                 return axios(originalRequest);
             }
 

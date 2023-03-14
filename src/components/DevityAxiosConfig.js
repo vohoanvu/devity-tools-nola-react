@@ -39,7 +39,7 @@ export default function DevityBaseAxios(TooManyRequestCallback, UnauthorizedCall
 
             if (error.response && error.response.status === 401 && UnauthorizedCallback) {
                 console.log("show 401 Modal logic executed....");
-                bearer !== null && bearer !== undefined && cookies.remove("devity-token", { path: "/" });
+                //bearer !== null && bearer !== undefined && cookies.remove("devity-token", { path: "/" });
                 UnauthorizedCallback();
             }
 

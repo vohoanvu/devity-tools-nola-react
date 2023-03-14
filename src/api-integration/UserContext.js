@@ -28,7 +28,7 @@ export function UserProvider({ children, axios, setIs402ModalOpen })
             });
         } else if (token) {
             console.log("Before POST Session is called...");
-            bearer !== null && bearer !== undefined && cookies.remove("devity-token", { path: "/" });
+            //bearer !== null && bearer !== undefined && cookies.remove("devity-token", { path: "/" });
             AuthenticateUser(token).then(result => {
                 fetchUser(bearer).then(async (result) => { 
                     let userInterests = await fetchUserInterests();

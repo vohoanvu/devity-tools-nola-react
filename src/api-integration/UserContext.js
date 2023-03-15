@@ -28,7 +28,7 @@ export function UserProvider({ children, axios, setIs402ModalOpen })
             });
         } else if (token) {
             console.log("Before POST Session is called...");
-            //bearer !== null && bearer !== undefined && cookies.remove("devity-token", { path: "/" });
+            bearer !== null && bearer !== undefined && cookies.remove("devity-token", { path: "/" });
             AuthenticateUser(token).then(result => {
                 fetchUser(bearer).then(async (result) => { 
                     let userInterests = await fetchUserInterests();
@@ -52,9 +52,10 @@ export function UserProvider({ children, axios, setIs402ModalOpen })
         await axios.post("/api/sessions", tk)
             .then(response => {
                 let bearer = "Devity " + response.data.id;
-                let expires = "expires="+ response.data.expires;
+                let expiresDate = new Date(response.data.expires);
                 axios.defaults.headers.common["Authorization"] = bearer;
-                cookies.set("devity-token", bearer, expires, { path: "/" });
+                console.log("Auth User cookies Expiration: ", expiresDate);
+                cookies.set("devity-token", bearer, { path: "/", expires: expiresDate });
                 window.location.replace(CONFIG.DEVITY);
                 return response.data;
             }).then(result => result)

@@ -33,13 +33,13 @@ export default function DevityBaseAxios(TooManyRequestCallback, UnauthorizedCall
                 && bearer && originalRequest.url === "/api/sessions") {
                 console.log("retry logic executed....");
                 originalRequest._retry = true;
-                //cookies.remove("devity-token", { path: "/" });
+                cookies.remove("devity-token", { path: "/" });
                 return axios(originalRequest);
             }
 
             if (error.response && error.response.status === 401 && UnauthorizedCallback) {
                 console.log("show 401 Modal logic executed....");
-                //bearer !== null && bearer !== undefined && cookies.remove("devity-token", { path: "/" });
+                bearer !== null && bearer !== undefined && cookies.remove("devity-token", { path: "/" });
                 UnauthorizedCallback();
             }
 

@@ -73,7 +73,6 @@ export default function Clipboard(props)
             name: props.widget.name,
             w_content: JSON.stringify(jsonObject)
         };
-        console.log("Content Object to be saved...", putBody);
 
         await props.sendContentToParent(putBody, null, null);
     }
@@ -114,7 +113,7 @@ export default function Clipboard(props)
     return (
         <div className='w_overflowable'>
             <div className='widget clipboard'>
-                <form id="clipboardContentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
+                <form className="clipboardContentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
                     <img style={{ width: "10px", height: "10px"}} className='add-btn' src={btn_add} alt="create widget"/>
                     <Editable 
                         displayText={<span>{clipboardContent.currentText || "Add"}</span>}

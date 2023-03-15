@@ -79,7 +79,7 @@ export default function DevityChatGPT()
                 <form>
                     <label>
                     API Key:
-                        <input type="password" value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
+                        <input type="new-password" value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
                     </label>
                 </form>
                 {

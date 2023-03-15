@@ -11,7 +11,7 @@ const defaultData = [
     {"role": "user", "content": "<devity-input-text>"}
 ];
  
-export default function DefaultPrompt({ input })
+export default function DefaultPromptEditor({ input })
 {
     const [jsonData, setJsonData] = useState(defaultData);
 

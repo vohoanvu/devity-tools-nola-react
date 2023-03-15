@@ -110,7 +110,7 @@ export default function Widget(props)
                     className='img-btn save' 
                     ref={saveBtnRef}
                     onClick={async ()=> {
-                        console.log("save button clicked", props.isReadyToSave.putBody);
+                        console.log("save button clicked...");
                         if (props.isReadyToSave.isReadyToSave) {
                             await props.callPUTRequest(props.isReadyToSave.putBody, props.isReadyToSave.type)
                                 .then(result => {

@@ -129,7 +129,7 @@ export default function Links(props)
     return (
         <div className='w_overflowable'>
             <div className='widget w-links'>
-                <form id="linkContentForm" autoComplete="off">
+                <form className="linkContentForm" autoComplete="off">
                     <img style={{ width: "10px", height: "10px"}} className='add-btn' src={btn_add} alt="create widget"/>
                     <Editable 
                         displayText={<span>{links.inputLink || "Add"}</span>}

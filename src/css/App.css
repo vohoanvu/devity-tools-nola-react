@@ -701,7 +701,7 @@ span.w_copyable.filterable {
   padding: 0;
   color: blue;
 }
-#linkContentForm, #clipboardContentForm {
+.linkContentForm, .clipboardContentForm {
   width: 100%;
 }
 

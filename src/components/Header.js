@@ -59,9 +59,9 @@ export default function Header(props)
     return (<div id="navigation" className="nav">
 
         <header id="ribbon" className="ribbon-cntrls" >
-            <button id="nav_all" onClick={()=>onNavigateClicked("CHATGPT")}>
+            <button id="nav_chat" onClick={()=>onNavigateClicked("CHATGPT")}>
                 <img src={chat_gpt_img}  alt="ChatGPT" /><br />
-                <span>ChatGPT</span>
+                <span>AI CHAT</span>
             </button>
 
             <button id="nav_all" onClick={()=>onNavigateClicked("DEVITY")}>

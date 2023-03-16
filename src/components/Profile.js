@@ -151,15 +151,16 @@ export default function Profile({ COOKIE_NAME, axios })
     {
         let copyData = "";
         if (btnType === "session-token-btn") {
-            $("span.copy-text-session").animate({ opacity: "0.1" }, "fast");
-            $("span.copy-text-session").animate({ opacity: "1" }, "fast");
             copyData = "Devity " + userProfile.session_info?.session_id;
         } 
         if (btnType === "ip-address-btn") {
-            $("span.copy-text-ip").animate({ opacity: "0.1" }, "fast");
-            $("span.copy-text-ip").animate({ opacity: "1" }, "fast");
             copyData = userProfile.Ip_Address;
         }
+        if (btnType === "openai-key") {
+            copyData = localStorage.getItem("openai-api-key");
+        }
+        $("span.copy-text-session").animate({ opacity: "0.1" }, "fast");
+        $("span.copy-text-session").animate({ opacity: "1" }, "fast");
 
         navigator.clipboard.writeText(copyData).then(function() {
             console.log(copyData);
@@ -218,8 +219,27 @@ export default function Profile({ COOKIE_NAME, axios })
                             </ul>
                         </form>
                     </div>
-
+                    
+                    <div className="copy-container">
+                        <label> OpenAI API Key  : <span>{localStorage.getItem("openai-api-key")}</span></label>
+                        <button 
+                            onClick={()=> handleCopyClick("openai-key")} 
+                            title="Copy to clipboard" 
+                            style={{
+                                backgroundRepeat: "no-repeat", 
+                                backgroundSize: "contain", 
+                                backgroundColor: "transparent",
+                                width: "30px", 
+                                height: "30px",
+                                border: "none",
+                                cursor: "pointer"
+                            }}>
+                            <img src={btn_copy} alt="Copy to clipboard"/>
+                        </button>
+                    </div>
                 </div>
+
+
                 <div className='personal card'>
                     <h1>Profile Settings</h1>
                     <p>Help the Technocore AIs help you by filling out your technical profile! Profile settings in this column are persisted on api.devity-tools.com.</p>

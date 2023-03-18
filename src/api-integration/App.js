@@ -21,6 +21,7 @@ export default function App()
     const [isRateLimitModalOpen, setIsRateLimitModalOpen] = useState(false);
     const [is401ModalOpen, setIs401ModalOpen] = useState(false);
     const axios = DevityBaseAxios(()=> setIsRateLimitModalOpen(true), ()=> setIs401ModalOpen(true));
+    const [IsOpenAILoggedIn, setIsOpenAILoggedIn] = useState(false);
 
 
     function renderResults(childResultData) {
@@ -65,10 +66,16 @@ export default function App()
                         passGoogleResultFromChildToParent={renderResults}
                         passvideoResultFromChildToParent={renderVideoResults}
                     />
-                    <Header isPanelsRendered={isAllPanelRendered}></Header>
+                    <Header 
+                        isPanelsRendered={isAllPanelRendered}
+                        IsOpenAILoggedIn={IsOpenAILoggedIn}
+                        setIsOpenAILoggedIn={setIsOpenAILoggedIn}
+                    ></Header>
                     
                 </div>
-                <ChatGPT/>
+                <ChatGPT
+                    IsOpenAILoggedIn={IsOpenAILoggedIn}
+                    setIsOpenAILoggedIn={setIsOpenAILoggedIn}/>
                 <DevityPanels signalAllPanelRendered={renderSelectedPanels} axios={axios}></DevityPanels>
                 <Profile COOKIE_NAME={COOKIE_NAME} axios={axios}></Profile>
                 <Libraries></Libraries>

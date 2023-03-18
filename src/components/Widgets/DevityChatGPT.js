@@ -4,6 +4,7 @@ import btn_image_config from "../../img/d_btn_ctrl_config.png";
 import "../../css/chatgpt.css";
 import $ from "jquery";
 import ConfigData from "../../config.json";
+import ConfirmationDialog from "../../components/ConfirmationDialog";
 const defaultPrompt = [
     {"role": "system", "content": "You are a helpful programming assistant that have more than 20 years of software engineering experience and are an enterprise software solution architect."},
     {"role": "user", "content": "Help me fix this Docker error:\n\n```errorLogsText```"},
@@ -13,31 +14,31 @@ const defaultPrompt = [
     // {"role": "user", "content": "Generate step-by-step instructions on how to configure and build ASP.NET Core Microservice system with Docker"},
     // {"role": "assistant", "content": "Please specify what kind of software system that you want to build as microservice! But here is an example:\n 1. Install Docker"},
 ];
-// const testAnswers = [
-//     {"role": "user", "content": "Please write Hello World program in PHP."},
-//     {"role": "assistant", "content": "Sure, here are sample Hello World programs in PHP and JavaScript:\n\nPHP:\n```php\n<?php\necho \"Hello World!\";\n?>\n```\n\nJavaScript:\n```javascript\nconsole.log(\"Hello World!\");\n```\n\nNote: The PHP code needs to be saved in a file with .php extension and be run on a web server with PHP installed. The JavaScript code can be saved in a file with .js extension and be run on a web browser."},
-//     {"role": "user", "content": "Now write Hello World program in C# and JavaScript."},
-//     {"role": "assistant", "content": "Sure! Here is the 'Hello World' code in C#:\n\n```csharp\nusing System;\n\nclass Program {\n  static void Main(string[] args) {\n    Console.WriteLine(\"Hello World\");\n    Console.ReadKey();\n  }\n}\n```\n\nAnd here is the 'Hello World' code in JavaScript:\n\n```javascript\nconsole.log('Hello World');\n``` \n\nBoth of these code snippets will output \"Hello World\" to the console."},
-//     {"role": "user", "content": "Write Hello World program in Ruby."},
-//     {"role": "assistant", "content": "Here's the Hello World program in Ruby:\n\n```ruby\nputs \"Hello, world!\"\n```\n\nThis code will output \"Hello, world!\" to the console." },
-//     {"role": "user", "content": "Write Hello World program in Ruby on Rails."},
-//     {
-//         "role": "assistant",
-//         "content": "Here is the \"Hello, World!\" code in Ruby on Rails:\n\n1. First, make sure you have Ruby and Rails installed on your computer.\n2. Open a terminal or command prompt and type the following command:\n\n   ```\n   rails new hello_world\n   ```\n\n3. This will create a new Rails application with the name \"hello_world\".\n4. Navigate into the newly created directory by typing:\n\n   ```\n   cd hello_world\n   ```\n\n5. Open the file `config/routes.rb` in your favorite text editor, and enter the following code:\n\n   ```ruby\n   Rails.application.routes.draw do\n     root 'application#hello'\n   end\n   ```\n\n6. This code sets up a route that maps the root URL '/' to the `hello` action of the `application` controller.\n7. Open the file `app/controllers/application_controller.rb` in your text editor and add the following method:\n\n   ```ruby\n   class ApplicationController < ActionController::Base\n     def hello\n       render html: \"Hello, World!\"\n     end\n   end\n   ```\n\n8. This code adds an action named `hello` to the `ApplicationController` that simply renders the text \"Hello, World!\".\n9. Start the Rails server by typing:\n\n   ```\n   rails server\n   ```\n\n10. Open your web browser and navigate to `http://localhost:3000`. You should see the text \"Hello, World!\" displayed on the page.\n\nThat's it! You've written and executed your first Ruby on Rails application."
-//     },
-//     {"role": "user", "content": "Write Hello World program in Java"},
-//     {
-//         "role": "assistant",
-//         "content": "Here's the code to print \"Hello, World!\" in Java:\n\n```java\npublic class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}\n```\n\nThis code creates a Java class called `HelloWorld` with a `main` method that outputs the string \"Hello, World!\" to the console using the `System.out.println` method."
-//     }
-// ];
+const testAnswers = [
+    //{"role": "user", "content": "Please write Hello World program in PHP."},
+    //{"role": "assistant", "content": "Sure, here are sample Hello World programs in PHP and JavaScript:\n\nPHP:\n```php\n<?php\necho \"Hello World!\";\n?>\n```\n\nJavaScript:\n```javascript\nconsole.log(\"Hello World!\");\n```\n\nNote: The PHP code needs to be saved in a file with .php extension and be run on a web server with PHP installed. The JavaScript code can be saved in a file with .js extension and be run on a web browser."},
+    {"role": "user", "content": "Now write Hello World program in C# and JavaScript."},
+    {"role": "assistant", "content": "Sure! Here is the 'Hello World' code in C#:\n\n```csharp\nusing System;\n\nclass Program {\n  static void Main(string[] args) {\n    Console.WriteLine(\"Hello World\");\n    Console.ReadKey();\n  }\n}\n```\n\nAnd here is the 'Hello World' code in JavaScript:\n\n```javascript\nconsole.log('Hello World');\n``` \n\nBoth of these code snippets will output \"Hello World\" to the console."},
+    // {"role": "user", "content": "Write Hello World program in Ruby."},
+    // {"role": "assistant", "content": "Here's the Hello World program in Ruby:\n\n```ruby\nputs \"Hello, world!\"\n```\n\nThis code will output \"Hello, world!\" to the console." },
+    // {"role": "user", "content": "Write Hello World program in Ruby on Rails."},
+    // {
+    //     "role": "assistant",
+    //     "content": "Here is the \"Hello, World!\" code in Ruby on Rails:\n\n1. First, make sure you have Ruby and Rails installed on your computer.\n2. Open a terminal or command prompt and type the following command:\n\n   ```\n   rails new hello_world\n   ```\n\n3. This will create a new Rails application with the name \"hello_world\".\n4. Navigate into the newly created directory by typing:\n\n   ```\n   cd hello_world\n   ```\n\n5. Open the file `config/routes.rb` in your favorite text editor, and enter the following code:\n\n   ```ruby\n   Rails.application.routes.draw do\n     root 'application#hello'\n   end\n   ```\n\n6. This code sets up a route that maps the root URL '/' to the `hello` action of the `application` controller.\n7. Open the file `app/controllers/application_controller.rb` in your text editor and add the following method:\n\n   ```ruby\n   class ApplicationController < ActionController::Base\n     def hello\n       render html: \"Hello, World!\"\n     end\n   end\n   ```\n\n8. This code adds an action named `hello` to the `ApplicationController` that simply renders the text \"Hello, World!\".\n9. Start the Rails server by typing:\n\n   ```\n   rails server\n   ```\n\n10. Open your web browser and navigate to `http://localhost:3000`. You should see the text \"Hello, World!\" displayed on the page.\n\nThat's it! You've written and executed your first Ruby on Rails application."
+    // },
+    // {"role": "user", "content": "Write Hello World program in Java"},
+    // {
+    //     "role": "assistant",
+    //     "content": "Here's the code to print \"Hello, World!\" in Java:\n\n```java\npublic class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}\n```\n\nThis code creates a Java class called `HelloWorld` with a `main` method that outputs the string \"Hello, World!\" to the console using the `System.out.println` method."
+    // }
+];
 
 
-export default function DevityChatGPT()
+export default function DevityChatGPT(props)
 {
     const [apiKey, setApiKey] = useState("");
     const [prompt, setPrompt] = useState(defaultPrompt);
-    const [messages, setMessages] = useState([]); //[{"role": "assistant","content": "\n\nHello there, how may I assist you today?"}]
+    const [messages, setMessages] = useState(testAnswers); //[{"role": "assistant","content": "\n\nHello there, how may I assist you today?"}]
     const [inputText, setInputText] = useState("");
     const [tokenCount, setTokenCount] = useState(0);
     const [copySuccess, setCopySuccess] = useState(false);
@@ -47,14 +48,16 @@ export default function DevityChatGPT()
     });
 
     useEffect(() =>{
-        setApiKey(localStorage.getItem("openai-api-key"));
-    }, []);
+        localStorage.getItem("openai-api-key") ?? setApiKey(localStorage.getItem("openai-api-key"));
+    }, [props.isOpenAILoggedIn]);
 
     const handleInputTextChange = (event) => {
         setInputText(event.target.value);
     };
 
     const handleChatSubmit = async (event) => {
+        if (!apiKey) props.setIsOpenAILoggedIn(true);
+
         handleClearMessages();
         event.preventDefault();
         const configuration = new Configuration({
@@ -75,7 +78,7 @@ export default function DevityChatGPT()
             model: ConfigData.OPENAI_GPT_MODEL,
             messages: prompt,
         }).then(response => {
-            if (response.status === 429) console.log("Request failed: ", response.error.message);
+            console.log("Request failed: ", response);
             console.log("ChatCompletions response....", response);
             return response.data;
         }).then(result => {
@@ -87,10 +90,11 @@ export default function DevityChatGPT()
             objDiv.scrollTop(objDiv[0].scrollHeight);
             $("div[data-panel=CHATGPT] .gear").removeClass("rotate");
         }).catch(error => {
-            console.log("Request failed: ", error);
+            console.log("error.response: ",error.response);
+            console.log("error.message: ",error.message);
             setError({
-                status: error.status,
-                message: error === 429 ? "OpenAI server is currently overloaded, please wait!" : "Request failed with non-429 status"
+                status: error.response.status,
+                message: error.response.data.error.message
             });
         });
     };
@@ -146,18 +150,7 @@ export default function DevityChatGPT()
         <div className="p-panel border" style={{display:"none"}} data-panel="CHATGPT">
             <div className="p-chrome">
                 <img src={btn_image_config} className="gear" alt="devity gear" />
-                <div className="api-login">
-                    <label>
-                        OpenAI API Key:
-                        <input 
-                            type="new-password" 
-                            value={apiKey} 
-                            onChange={(e) => setApiKey(e.target.value)} 
-                            onBlur={(e) => {
-                                setApiKey(e.target.value);
-                                localStorage.setItem("openai-api-key", e.target.value);
-                            }}/>    |
-                    </label>
+                <div className="gpt-api-info">
                     <label style={{marginLeft:"10px"}}> Tokens Used: {tokenCount} |</label>
                     <label style={{marginLeft:"10px"}}> GPT Model Used: {ConfigData.OPENAI_GPT_MODEL}</label>
                 </div>
@@ -195,7 +188,11 @@ export default function DevityChatGPT()
             <div>
                 {
                     error.status !== 200 && (
-                        <span>Failed request: {error.message} with status {error.status}</span>
+                        <div>
+                            <span style={{ color: "red" }}>Status: {error.status}</span>
+                            <br/>
+                            <span style={{ color: "red" }}>Message: {error.message}</span>
+                        </div>
                     )
                 }
             </div>
@@ -219,6 +216,14 @@ export default function DevityChatGPT()
                     </button>
                 </form>
             </div>
+
+            <ConfirmationDialog
+                title="OpenAI Login"
+                message="Your API token is not in your user profile. Please visit your profile and enter an API Key."
+                isDialogOpen={!props.IsOpenAILoggedIn}
+                modalType={null}
+                onModalCloseCallback={()=>console.log("custom callbacks")}
+            />
         </div>
     );
 }

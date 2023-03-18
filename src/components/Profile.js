@@ -220,11 +220,23 @@ export default function Profile({ COOKIE_NAME, axios })
                         </form>
                     </div>
                     
-                    <div className="copy-container">
-                        <label> OpenAI API Key  : <span>{localStorage.getItem("openai-api-key")}</span></label>
+                    <div>
+                        <label>
+                            OpenAI API Key:
+                            <input 
+                                type="new-password" 
+                                value={localStorage.getItem("openai-api-key") ?? ""} 
+                                onChange={(e) => localStorage.setItem("openai-api-key", e.target.value)} 
+                                onBlur={(e) => {
+                                    localStorage.setItem("openai-api-key", e.target.value);
+                                }}/>
+                        </label>
+                        <br/>
+                        <br/>
+                        <label> OpenAI API Key : <span>{localStorage.getItem("openai-api-key")}</span></label>
                         <button 
-                            onClick={()=> handleCopyClick("openai-key")} 
-                            title="Copy to clipboard" 
+                            onClick={() => handleCopyClick("openai-key")} 
+                            title="Copy to clipboard"
                             style={{
                                 backgroundRepeat: "no-repeat", 
                                 backgroundSize: "contain", 

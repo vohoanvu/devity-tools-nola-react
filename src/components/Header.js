@@ -10,7 +10,6 @@ import btn_image_lib from "../img/d_btn_ctrl_lib.png";
 import chat_gpt_img from "../img/chatgpt-logo.png";
 import { UserContext } from "../api-integration/UserContext";
 
-
 export default function Header(props) 
 {
     const userContext = useContext(UserContext);
@@ -24,9 +23,14 @@ export default function Header(props)
         else{
             onNavigate("DEVITY");
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[userContext]) 
 
     function onNavigate(target) {
+        if (target === "CHATGPT" && !localStorage.getItem("openai-api-key")) {
+            console.log("On Navigate...", props.IsOpenAILoggedIn);
+            props.setIsOpenAILoggedIn(false);
+        }
 
         if (target === "CONSOLE") {
             $("#console_log").toggleClass("hide");

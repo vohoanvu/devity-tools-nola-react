@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 ReactModal.setAppElement("#root"); // Set the root element for accessibility
 
-const ConfirmationDialog = ({ title, message, isDialogOpen, modalType }) => 
+const ConfirmationDialog = ({ title, message, isDialogOpen, modalType, onModalCloseCallback }) => 
 {
     const [isModalOpen, setIsModalOpen] = useState(false);
   
@@ -12,13 +12,14 @@ const ConfirmationDialog = ({ title, message, isDialogOpen, modalType }) =>
 
     function handleDialogClose() {
         setIsModalOpen(false);
+        onModalCloseCallback ?? onModalCloseCallback();
     }
 
     return (
         <div>
             <ReactModal 
                 isOpen={isModalOpen}
-                onRequestClose={() => console.log("some custom logic on Closing...")}
+                onRequestClose={() => console.log("Custom logic on closing...")}
                 style={{
                     content: {
                         width: "50%",

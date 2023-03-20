@@ -10,6 +10,7 @@ import DevityBaseAxios from "../components/DevityAxiosConfig";
 import "../css/App.css";
 import SearchResults from "../components/SearchResults";
 import ConfirmationDialog from "../components/ConfirmationDialog";
+import ChatGPT from "../components/Widgets/DevityChatGPT";
 const COOKIE_NAME = "devity-token";
 
 export default function App() 
@@ -51,7 +52,7 @@ export default function App()
                 message="You have exceeded the rate limit. Please wait 5 minutes and try again."
                 isDialogOpen={isRateLimitModalOpen}
                 modalType={429}
-            /> 
+            />
             <ConfirmationDialog
                 title="Unauthorized User!"
                 message={renderSSOModalMessage()}
@@ -67,12 +68,14 @@ export default function App()
                     <Header isPanelsRendered={isAllPanelRendered}></Header>
                     
                 </div>
+                <ChatGPT/>
                 <DevityPanels signalAllPanelRendered={renderSelectedPanels} axios={axios}></DevityPanels>
                 <Profile COOKIE_NAME={COOKIE_NAME} axios={axios}></Profile>
                 <Libraries></Libraries>
                 <SearchResults
                     searchData={searchResult}
                     videoData={videoResult}/>
+
             </UserProvider>
         </div>
     );

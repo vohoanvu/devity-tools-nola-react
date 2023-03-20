@@ -27,10 +27,6 @@ export default function Header(props)
     },[userContext]) 
 
     function onNavigate(target) {
-        if (target === "CHATGPT" && !localStorage.getItem("openai-api-key")) {
-            console.log("On Navigate...", props.IsOpenAILoggedIn);
-            props.setIsOpenAILoggedIn(false);
-        }
 
         if (target === "CONSOLE") {
             $("#console_log").toggleClass("hide");

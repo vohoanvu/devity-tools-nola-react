@@ -4,7 +4,6 @@ import btn_image_config from "../../img/d_btn_ctrl_config.png";
 import "../../css/chatgpt.css";
 import $ from "jquery";
 import ConfigData from "../../config.json";
-import ConfirmationDialog from "../../components/ConfirmationDialog";
 const defaultPrompt = [
     {"role": "system", "content": "You are a helpful programming assistant that have more than 20 years of software engineering experience and are an enterprise software solution architect."},
     {"role": "user", "content": "Help me fix this Docker error:\n\n```errorLogsText```"},
@@ -34,7 +33,7 @@ const testAnswers = [
 ];
 
 
-export default function DevityChatGPT(props)
+export default function DevityChatGPT()
 {
     const [apiKey, setApiKey] = useState("");
     const [prompt, setPrompt] = useState(defaultPrompt);
@@ -48,16 +47,22 @@ export default function DevityChatGPT(props)
     });
 
     useEffect(() =>{
-        localStorage.getItem("openai-api-key") ?? setApiKey(localStorage.getItem("openai-api-key"));
-    }, [props.isOpenAILoggedIn]);
+        if (localStorage.getItem("openai-api-key")) {
+            setApiKey(localStorage.getItem("openai-api-key"));
+        } else {
+            setError({
+                status: 401,
+                message: "Your API Key is not in your user profile. Please visit your profile and enter an API Key."
+            });
+        }
+
+    }, []);
 
     const handleInputTextChange = (event) => {
         setInputText(event.target.value);
     };
 
     const handleChatSubmit = async (event) => {
-        if (!apiKey) props.setIsOpenAILoggedIn(true);
-
         handleClearMessages();
         event.preventDefault();
         const configuration = new Configuration({
@@ -216,14 +221,6 @@ export default function DevityChatGPT(props)
                     </button>
                 </form>
             </div>
-
-            <ConfirmationDialog
-                title="OpenAI Login"
-                message="Your API token is not in your user profile. Please visit your profile and enter an API Key."
-                isDialogOpen={!props.IsOpenAILoggedIn}
-                modalType={null}
-                onModalCloseCallback={()=>console.log("custom callbacks")}
-            />
         </div>
     );
 }

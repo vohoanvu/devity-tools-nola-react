@@ -233,21 +233,7 @@ export default function Profile({ COOKIE_NAME, axios })
                         </label>
                         <br/>
                         <br/>
-                        <label> OpenAI API Key : <span>{localStorage.getItem("openai-api-key")}</span></label>
-                        <button 
-                            onClick={() => handleCopyClick("openai-key")} 
-                            title="Copy to clipboard"
-                            style={{
-                                backgroundRepeat: "no-repeat", 
-                                backgroundSize: "contain", 
-                                backgroundColor: "transparent",
-                                width: "30px", 
-                                height: "30px",
-                                border: "none",
-                                cursor: "pointer"
-                            }}>
-                            <img src={btn_copy} alt="Copy to clipboard"/>
-                        </button>
+                        <p>You can find your API key at <a href="https://platform.openai.com/account/api-keys">https://platform.openai.com/account/api-keys.</a></p>
                     </div>
                 </div>
 

@@ -21,7 +21,6 @@ export default function App()
     const [isRateLimitModalOpen, setIsRateLimitModalOpen] = useState(false);
     const [is401ModalOpen, setIs401ModalOpen] = useState(false);
     const axios = DevityBaseAxios(()=> setIsRateLimitModalOpen(true), ()=> setIs401ModalOpen(true));
-    const [IsOpenAILoggedIn, setIsOpenAILoggedIn] = useState(false);
 
 
     function renderResults(childResultData) {
@@ -53,7 +52,7 @@ export default function App()
                 message="You have exceeded the rate limit. Please wait 5 minutes and try again."
                 isDialogOpen={isRateLimitModalOpen}
                 modalType={429}
-            /> 
+            />
             <ConfirmationDialog
                 title="Unauthorized User!"
                 message={renderSSOModalMessage()}
@@ -66,23 +65,17 @@ export default function App()
                         passGoogleResultFromChildToParent={renderResults}
                         passvideoResultFromChildToParent={renderVideoResults}
                     />
-                    <Header 
-                        isPanelsRendered={isAllPanelRendered}
-                        IsOpenAILoggedIn={IsOpenAILoggedIn}
-                        setIsOpenAILoggedIn={setIsOpenAILoggedIn}
-                    ></Header>
+                    <Header isPanelsRendered={isAllPanelRendered}></Header>
                     
                 </div>
-                <ChatGPT
-                    IsOpenAILoggedIn={IsOpenAILoggedIn}
-                    setIsOpenAILoggedIn={setIsOpenAILoggedIn}/>
+                <ChatGPT/>
                 <DevityPanels signalAllPanelRendered={renderSelectedPanels} axios={axios}></DevityPanels>
                 <Profile COOKIE_NAME={COOKIE_NAME} axios={axios}></Profile>
                 <Libraries></Libraries>
                 <SearchResults
                     searchData={searchResult}
                     videoData={videoResult}/>
-                    
+
             </UserProvider>
         </div>
     );

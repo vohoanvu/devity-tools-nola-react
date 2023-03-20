@@ -35,7 +35,7 @@ const defaultPrompt = [
 
 export default function DevityChatGPT()
 {
-    const [apiKey, setApiKey] = useState("");
+    const [apiKey, setApiKey] = useState(localStorage.getItem("openai-api-key"));
     const [prompt, setPrompt] = useState(defaultPrompt);
     const [messages, setMessages] = useState([]); //[{"role": "assistant","content": "\n\nHello there, how may I assist you today?"}]
     const [inputText, setInputText] = useState("");
@@ -47,16 +47,29 @@ export default function DevityChatGPT()
     });
 
     useEffect(() =>{
-        if (localStorage.getItem("openai-api-key")) {
-            setApiKey(localStorage.getItem("openai-api-key"));
-        } else {
-            setError({
-                status: 401,
-                message: "Your API Key is not in your user profile. Please visit your profile and enter an API Key."
-            });
+        const handleLocalStorageChange = () => {
+            const newApiKey = localStorage.getItem("openai-api-key");
+            if (newApiKey !== undefined && newApiKey !== null && newApiKey !== "") {
+                setApiKey(newApiKey);
+                setError({ status: 200, message: "" });
+            } else {
+                setError({
+                    status: 401,
+                    message: "Your API Key is not in your user profile. Please visit your profile and enter an API Key."
+                });
+            }
         }
+        
+        handleLocalStorageChange();
+        window.addEventListener("storageUpdated", handleLocalStorageChange);
+        window.addEventListener("storage", handleLocalStorageChange); // this Event is meant for localStorage removal
 
-    }, []);
+        return () => {
+            window.removeEventListener("storageUpdated", handleLocalStorageChange);
+            window.removeEventListener("storage", handleLocalStorageChange);
+        };
+    }, [apiKey]);
+
 
     const handleInputTextChange = (event) => {
         setInputText(event.target.value);
@@ -83,7 +96,6 @@ export default function DevityChatGPT()
             model: ConfigData.OPENAI_GPT_MODEL,
             messages: prompt,
         }).then(response => {
-            console.log("Request failed: ", response);
             console.log("ChatCompletions response....", response);
             return response.data;
         }).then(result => {

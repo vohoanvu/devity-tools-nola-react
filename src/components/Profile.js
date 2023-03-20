@@ -21,6 +21,7 @@ export default function Profile({ COOKIE_NAME, axios })
         search_res_google: JSON.parse(localStorage.getItem("search_res_google")) ?? true,
         search_res_youtube: JSON.parse(localStorage.getItem("search_res_youtube")) ?? true
     });
+    const [openAiApiKey, setOpenAiApiKey] = useState("");
 
     useEffect(() => {
         setUserProfile(userContext.userProfile);
@@ -225,10 +226,14 @@ export default function Profile({ COOKIE_NAME, axios })
                             OpenAI API Key:
                             <input 
                                 type="new-password" 
-                                value={localStorage.getItem("openai-api-key") ?? ""} 
-                                onChange={(e) => localStorage.setItem("openai-api-key", e.target.value)} 
+                                value={openAiApiKey} 
+                                onChange={(e) => {
+                                    setOpenAiApiKey(e.target.value);
+                                }} 
                                 onBlur={(e) => {
                                     localStorage.setItem("openai-api-key", e.target.value);
+                                    const event = new Event("storageUpdated");
+                                    window.dispatchEvent(event);
                                 }}/>
                         </label>
                         <br/>

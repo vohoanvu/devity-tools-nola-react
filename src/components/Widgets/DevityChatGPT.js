@@ -7,13 +7,13 @@ import ConfigData from "../../config.json";
 const defaultPrompt = [
     {"role": "system", "content": "You are a helpful programming assistant that have more than 20 years of software engineering experience and are an enterprise software solution architect."},
     {"role": "user", "content": "Help me fix this Docker error:\n\n```errorLogsText```"},
-    {"role": "assistant", "content": "The error message indicates that the connection to the Kafka broker at 172.18.0.8:9092 is being refused. This suggests that the Kafka server may not be accessible from the container where your Razor UI application is running.\nTo troubleshoot this issue, you can try the following steps:\n"}
-    // {"role": "user", "content": "Write React code for this Confirmation Dialog feature"},
-    // {"role": "assistant", "content": "Here is an example:\n\n```code-block```"},
-    // {"role": "user", "content": "Generate step-by-step instructions on how to configure and build ASP.NET Core Microservice system with Docker"},
-    // {"role": "assistant", "content": "Please specify what kind of software system that you want to build as microservice! But here is an example:\n 1. Install Docker"},
+    {"role": "assistant", "content": "The error message indicates that the connection to the Kafka broker at 172.18.0.8:9092 is being refused. This suggests that the Kafka server may not be accessible from the container where your Razor UI application is running.\nTo troubleshoot this issue, you can try the following steps:\n"},
+    {"role": "user", "content": "Write React code for this Confirmation Dialog feature"},
+    {"role": "assistant", "content": "Here is an example:\n\n```code-block```"}
+    //{"role": "user", "content": "Generate step-by-step instructions on how to configure and build ASP.NET Core Microservice system with Docker"},
+    //{"role": "assistant", "content": "Please specify what kind of software system that you want to build as microservice! But here is an example:\n 1. Install Docker"}
 ];
-const testAnswers = [
+/*const testAnswers = [
     //{"role": "user", "content": "Please write Hello World program in PHP."},
     //{"role": "assistant", "content": "Sure, here are sample Hello World programs in PHP and JavaScript:\n\nPHP:\n```php\n<?php\necho \"Hello World!\";\n?>\n```\n\nJavaScript:\n```javascript\nconsole.log(\"Hello World!\");\n```\n\nNote: The PHP code needs to be saved in a file with .php extension and be run on a web server with PHP installed. The JavaScript code can be saved in a file with .js extension and be run on a web browser."},
     {"role": "user", "content": "Now write Hello World program in C# and JavaScript."},
@@ -30,14 +30,14 @@ const testAnswers = [
     //     "role": "assistant",
     //     "content": "Here's the code to print \"Hello, World!\" in Java:\n\n```java\npublic class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}\n```\n\nThis code creates a Java class called `HelloWorld` with a `main` method that outputs the string \"Hello, World!\" to the console using the `System.out.println` method."
     // }
-];
+];*/
 
 
 export default function DevityChatGPT()
 {
     const [apiKey, setApiKey] = useState("");
     const [prompt, setPrompt] = useState(defaultPrompt);
-    const [messages, setMessages] = useState(testAnswers); //[{"role": "assistant","content": "\n\nHello there, how may I assist you today?"}]
+    const [messages, setMessages] = useState([]); //[{"role": "assistant","content": "\n\nHello there, how may I assist you today?"}]
     const [inputText, setInputText] = useState("");
     const [tokenCount, setTokenCount] = useState(0);
     const [copySuccess, setCopySuccess] = useState(false);

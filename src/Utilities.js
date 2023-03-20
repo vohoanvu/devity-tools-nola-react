@@ -20,9 +20,9 @@ export function format_link(link) {
 }
 
 export function abbriviate(value) {
-    
-    if(value.length > 23){
-        return value.substring(0, 23) + "...";
+    var count = 30;
+    if(value.length > count){
+        return value.substring(0, count) + "...";
     }
     return value;
 }

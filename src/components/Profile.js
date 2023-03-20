@@ -21,6 +21,7 @@ export default function Profile({ COOKIE_NAME, axios })
         search_res_google: JSON.parse(localStorage.getItem("search_res_google")) ?? true,
         search_res_youtube: JSON.parse(localStorage.getItem("search_res_youtube")) ?? true
     });
+    const [openAiApiKey, setOpenAiApiKey] = useState("");
 
     useEffect(() => {
         setUserProfile(userContext.userProfile);
@@ -151,15 +152,16 @@ export default function Profile({ COOKIE_NAME, axios })
     {
         let copyData = "";
         if (btnType === "session-token-btn") {
-            $("span.copy-text-session").animate({ opacity: "0.1" }, "fast");
-            $("span.copy-text-session").animate({ opacity: "1" }, "fast");
             copyData = "Devity " + userProfile.session_info?.session_id;
         } 
         if (btnType === "ip-address-btn") {
-            $("span.copy-text-ip").animate({ opacity: "0.1" }, "fast");
-            $("span.copy-text-ip").animate({ opacity: "1" }, "fast");
             copyData = userProfile.Ip_Address;
         }
+        if (btnType === "openai-key") {
+            copyData = localStorage.getItem("openai-api-key");
+        }
+        $("span.copy-text-session").animate({ opacity: "0.1" }, "fast");
+        $("span.copy-text-session").animate({ opacity: "1" }, "fast");
 
         navigator.clipboard.writeText(copyData).then(function() {
             console.log(copyData);
@@ -218,8 +220,29 @@ export default function Profile({ COOKIE_NAME, axios })
                             </ul>
                         </form>
                     </div>
-
+                    
+                    <div>
+                        <label>
+                            OpenAI API Key:
+                            <input 
+                                type="new-password" 
+                                value={openAiApiKey} 
+                                onChange={(e) => {
+                                    setOpenAiApiKey(e.target.value);
+                                }} 
+                                onBlur={(e) => {
+                                    localStorage.setItem("openai-api-key", e.target.value);
+                                    const event = new Event("storageUpdated");
+                                    window.dispatchEvent(event);
+                                }}/>
+                        </label>
+                        <br/>
+                        <br/>
+                        <p>You can find your API key at <a href="https://platform.openai.com/account/api-keys">https://platform.openai.com/account/api-keys.</a></p>
+                    </div>
                 </div>
+
+
                 <div className='personal card'>
                     <h1>Profile Settings</h1>
                     <p>Help the Technocore AIs help you by filling out your technical profile! Profile settings in this column are persisted on api.devity-tools.com.</p>

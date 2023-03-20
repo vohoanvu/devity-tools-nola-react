@@ -10,5 +10,6 @@
     "THEME_COLORS": {
         "PRIMARY": "#007bff",
         "SECONDARY": "#fc3"
-    }
+    },
+    "OPENAI_GPT_MODEL": "gpt-3.5-turbo"
 }

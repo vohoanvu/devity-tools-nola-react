@@ -133,7 +133,7 @@ export default function Clipboard(props)
                     </Editable>
                 </form>
                 <div className='w_overflowable'>
-                    <ul>
+                    <ul className="truncateable">
                         {
                             clipboardContent.content === null ? (
                                 <div style={{ display: "flex", justifyContent: "center"}}>

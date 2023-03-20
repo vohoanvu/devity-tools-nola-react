@@ -2,8 +2,6 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import WidgetActions from "./WidgetActions";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
-import btn_upsize from "../img/btn_upsize_35.png"
-import btn_downsize from "../img/btn_downsize_35.png"
 import btn_add from "../img/btn_add.png";
 import $ from "jquery";
 import W_Note from "./WidgetNotes";
@@ -257,38 +255,6 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
         onDragEndSaveInDb(newItems, widgetType);
     };
 
-    // TODO: create a function to set a local storage setting. Set upsize as "max" or downsize as "min" 
-
-    function Upsize() {
-        $(".up-size").hide();
-        $(".w-container").removeClass("max");
-        $(".w-container").removeClass("min");
-        $(".w-container").addClass("mid");
-        $(".down-size").show();
-
-        $(".w-chrome > div.buttons > img.img-btn.minimize").hide();
-        $(".w-chrome > div.buttons > img.img-btn.maximize").show();
-
-        $("div.p-contents > div").show();
-
-        
-    }
-
-    function Downsize() {
-        $(".down-size").hide();
-        $(".w-container").removeClass("max");
-        $(".w-container").removeClass("mid");
-        $(".w-container").addClass("min");
-        $(".up-size").show();
-
-        $(".w-chrome > div.buttons > img.img-btn.minimize").hide();
-        $(".w-chrome > div.buttons > img.img-btn.maximize").show();
-
-        $("div.p-contents > div").show();
-    }
-
-
-
     async function onDragEndSaveInDb(orderedWidgetList, type) {
         console.log("new order: ", orderedWidgetList);
         let postBody = {};
@@ -337,28 +303,6 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
                                         <img className='add' src={btn_add} onClick={()=>w_add(key, value)} alt="create widget" aria-hidden="true"/>
                                     )
                                 }
-                                <div className="size">
-                                    
-                                    <img 
-                                        id="up_size"
-                                        alt="upsize"
-                                        className='img-btn up-size' 
-                                        style={{display:"block"}} 
-                                        // onClick={()=>Upsize()} 
-                                        onClick={()=>Upsize()} 
-                                        src={btn_upsize} 
-                                        aria-hidden="true"/>
-
-                                    <img 
-                                        id="down_size"
-                                        alt="downsize"
-                                        className='img-btn down-size' 
-                                        style={{display:"none"}} 
-                                        onClick={()=>Downsize()} 
-                                        src={btn_downsize} 
-                                        aria-hidden="true"/>
-
-                                </div>
                             </div>
                             {
                                 isDevitySubTypeAddOpen && (

@@ -149,7 +149,7 @@ export default function Links(props)
                     </Editable>
                 </form>
                 <div className='w_overflowable'>
-                    <ul>
+                    <ul className="truncateable">
                         {
                             links.displayList === null ? (
                                 <div style={{ display: "flex", justifyContent: "center"}}>

@@ -184,61 +184,63 @@ export default function DevityChatGPT()
             </div>
 
 
-            <div className="output-completion">
-                <ul className="ai-chat-output">
-                    {
-                        messages.length !== 0 ? messages.map((msg, index) => {
-                            let result = msg.role === "user" ? (
-                                <li key={index}>
-                                    <label>You: <span>{msg.content}</span></label>
-                                </li>
-                            ) : (
-                                <li key={index}>
-                                    <label>AI: 
-                                        {
-                                            renderAICompletionText(msg.content).map((part, index) => (
-                                                <div key={index}>{part}</div>
-                                            ))
-                                        }
-                                    </label>
-                                </li>
-                            );
-                            return result;
-                        }) : (
-                            <li><h1>Welcome to ChatGPT 3.5 Turbo</h1></li>
-                        )
-                    }
-                </ul>
-            </div>
+            <div className="flex-container">
+                <div className="output-completion">
+                    <ul className="ai-chat-output">
+                        {
+                            messages.length !== 0 ? messages.map((msg, index) => {
+                                let result = msg.role === "user" ? (
+                                    <li key={index}>
+                                        <label>You: <span>{msg.content}</span></label>
+                                    </li>
+                                ) : (
+                                    <li key={index}>
+                                        <label>AI: 
+                                            {
+                                                renderAICompletionText(msg.content).map((part, index) => (
+                                                    <div key={index}>{part}</div>
+                                                ))
+                                            }
+                                        </label>
+                                    </li>
+                                );
+                                return result;
+                            }) : (
+                                <li><h1>Welcome to ChatGPT 3.5 Turbo</h1></li>
+                            )
+                        }
 
+                        {
+                            error.status !== 200 && (
+                                <li>
+                                    <span style={{ color: "red" }}>Status: {error.status}</span>
+                                    <br/>
+                                    <span style={{ color: "red" }}>Message: {error.message}</span>
+                                </li>
+                            )
+                        }
+                    </ul>
+                </div>
 
-            <div className="input-prompt">
-                {
-                    error.status !== 200 && (
-                        <div className="error-box">
-                            <span style={{ color: "red" }}>Status: {error.status}</span>
-                            <br/>
-                            <span style={{ color: "red" }}>Message: {error.message}</span>
-                        </div>
-                    )
-                }
-                <form onSubmit={handleChatSubmit}>
-                    <textarea 
-                        id="ai-chatbox"
-                        value={inputText} 
-                        onChange={handleInputTextChange} 
-                        placeholder="Type your question..."
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter") handleChatSubmit(e);
-                        }}
-                    />
-                    <button type="submit" title="send chat">
-                        <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-1" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                            <line x1="22" y1="2" x2="11" y2="13"></line>
-                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                        </svg>
-                    </button>
-                </form>
+                <div className="input-prompt">
+                    <form onSubmit={handleChatSubmit}>
+                        <textarea 
+                            id="ai-chatbox"
+                            value={inputText} 
+                            onChange={handleInputTextChange} 
+                            placeholder="Type your question..."
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") handleChatSubmit(e);
+                            }}
+                        />
+                        <button type="submit" title="send chat">
+                            <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-1" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     );

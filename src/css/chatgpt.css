@@ -7,14 +7,19 @@
   flex-direction: row;
 }
 
-
-.input-prompt {
-  height: 100px;
+.flex-container {
   display: flex;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  flex-direction: column;
+  height: 80vh;
+}
+.input-prompt {
+  height: 20%;
+  display: flex;
+  position: relative;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  top: 0px;
 }
 
 .input-prompt form {
@@ -26,11 +31,7 @@
   border-width: 1px;
   width: 100%;
 }
-div.error-box {
-  position: fixed;
-  bottom: 100px;
-  left: 20px;
-}
+
 .input-prompt textarea {
   width: 100%;
   height: 100%;
@@ -76,7 +77,8 @@ div.error-box {
   border-radius: 10px;
   margin-bottom: 10px;
   color: var(---COLOR_TEXT);
-  height: 600px;
+  overflow-y: auto;
+  height: 80%;
 }
 
 .ai-chat-output {
@@ -93,7 +95,6 @@ div.error-box {
 .output-completion ul>li:nth-child(odd) {
   background-color: var(--COLOR_CHROME_BG);
 }
-
 button.copy-ai-code {
   padding: 5px 10px;
   border-radius: 5px;

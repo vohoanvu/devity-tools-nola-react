@@ -59,6 +59,9 @@ export default function Widget(props)
         // manage widget max min buttons
         $(w).find(".maximize").hide();
         $(w).find(".minimize").show();
+
+        const event = new Event("widgetMaximized");
+        window.dispatchEvent(event);
     }
     function Minimize(id) {
         let w = $("[data-w_id=\"" + id + "\"]");
@@ -77,6 +80,9 @@ export default function Widget(props)
         // manage widget max min buttons
         $(w).find(".minimize").hide();
         $(w).find(".maximize").show();
+
+        const event = new Event("widgetMinimized");
+        window.dispatchEvent(event);
     }
 
     async function saveWidgetTitleOnBlur(eventTarget) {

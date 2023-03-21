@@ -22,14 +22,14 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
     useEffect(() => {
         if (activePanel && activePanel !== "DEVITY") return;
 
-        const reloadJiraContent = () => getJiraConfigurationsContent(widget.id).then(configs => {
+        const reloadJiraContent = (widgetId) => getJiraConfigurationsContent(widgetId).then(configs => {
             const apiToken = localStorage.getItem("jira_token");
             const domain = localStorage.getItem("jira_domain");
             const email = localStorage.getItem("jira_user_id");
-            console.log("Saved Jira Configs...", configs);
-            if (apiToken && domain && email) {
+            if (apiToken && domain && email && configs["ISSUETYPES"].length !== 0 && configs["STATUSES"].length !== 0 && configs["PRIORITIES"].length !== 0) {
                 fetchJiraTickets(apiToken, domain, email, configs["DUTY"], configs["ISSUETYPES"], configs["STATUSES"], configs["PRIORITIES"]);
             } else {
+                //when new JIRA widget is created
                 setJiraSearchError({
                     code: 401,
                     errMessages: ["Missing JIRA credentials. Please fill out Jira credentials in the Configs form above!"]
@@ -37,7 +37,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             }
         });
 
-        reloadJiraContent();
+        reloadJiraContent(widget.id);
         const jiraInterval = setInterval(() => {
             reloadJiraContent();
         }, 5 * 60 * 1000);
@@ -177,11 +177,15 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                 )
             }
             {
-                tickets.length !== 0 ? <JiraIssuesTable issues={tickets} jiraDomain={localStorage.getItem("jira_domain")}/> : (
-                    <div>
-                        <h3>NO TICKETS FOUND!</h3>
-                    </div>
-                )
+                tickets.length !== 0 ? 
+                    <JiraIssuesTable 
+                        issues={tickets} 
+                        jiraDomain={localStorage.getItem("jira_domain")}
+                        widgetId={widget.id}/> : (
+                        <div>
+                            <h3>NO TICKETS FOUND!</h3>
+                        </div>
+                    )
             }
             {
                 (jiraSearchtError.code === 0 || jiraPriorityErrors.code === 0) && (
@@ -508,10 +512,31 @@ function JiraConfigurations(props)
 }
 
 
-function JiraIssuesTable({ issues, jiraDomain }) 
+function JiraIssuesTable({ issues, jiraDomain, widgetId }) 
 {
+    const [viewMode, setViewMode] = useState("MIN");
+
     useEffect(() => {
-    }, []);
+        const getWidgetViewMode = () => {
+            const element = $(`[data-w_id="${widgetId}"]`);
+            let viewMode = "";
+            if (element.hasClass("min")) {
+                viewMode = "MIN";
+            } else if (element.hasClass("max")) {
+                viewMode = "MAX";
+            }
+            setViewMode(viewMode);
+        }
+
+        getWidgetViewMode();
+        window.addEventListener("widgetMinimized", getWidgetViewMode);
+        window.addEventListener("widgetMaximized", getWidgetViewMode);
+
+        return () => {
+            window.removeEventListener("widgetMinimized", getWidgetViewMode);
+            window.addEventListener("widgetMaximized", getWidgetViewMode);
+        };
+    }, [widgetId]);
 
     function formatDate(jsonDateTime) {
         const date = new Date(jsonDateTime);
@@ -527,14 +552,20 @@ function JiraIssuesTable({ issues, jiraDomain })
                 <tr>
                     <th>Key</th>
                     <th>Summary</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Priority</th>
-                    <th>Reporter</th>
-                    <th>Resolution</th>
-                    <th>Created</th>
-                    <th>Updated</th>
-                    <th>Due</th>
+                    {
+                        viewMode !== "MIN" &&
+                            <>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                                <th>Reporter</th>
+                                <th>Resolution</th>
+                                <th>Created</th>
+                                <th>Updated</th>
+                                <th>Due</th>
+                            </>
+                    }
+                    
                 </tr>
             </thead>
             <tbody className="issue-horizontal">
@@ -545,14 +576,19 @@ function JiraIssuesTable({ issues, jiraDomain })
                                 <a href={`https://${jiraDomain}/browse/${issue.key}`} target="_blank" rel="noreferrer">{issue.key}</a>
                             </td>
                             <td>{issue.fields.summary}</td>
-                            <td>{issue.fields.issuetype.name}</td>
-                            <td>{issue.fields.status.name}</td>
-                            <td>{issue.fields.priority.name}</td>
-                            <td>{issue.fields.reporter.displayName}</td>
-                            <td>{issue.fields.resolution ? issue.fields.resolution.name : "Unresolved"}</td>
-                            <td>{formatDate(issue.fields.created)}</td>
-                            <td>{formatDate(issue.fields.updated)}</td>
-                            <td>{issue.fields.duedate ? formatDate(issue.fields.duedate) : ""}</td>
+                            {
+                                viewMode !== "MIN" && 
+                                <>
+                                    <td>{issue.fields.issuetype.name}</td>
+                                    <td>{issue.fields.status.name}</td>
+                                    <td>{issue.fields.priority.name}</td>
+                                    <td>{issue.fields.reporter.displayName}</td>
+                                    <td>{issue.fields.resolution ? issue.fields.resolution.name : "Unresolved"}</td>
+                                    <td>{formatDate(issue.fields.created)}</td>
+                                    <td>{formatDate(issue.fields.updated)}</td>
+                                    <td>{issue.fields.duedate ? formatDate(issue.fields.duedate) : ""}</td>
+                                </>
+                            }
                         </tr>
                     ))
                 }

@@ -7,10 +7,10 @@ import btn_image_notes from "../img/d_btn_ctrl_notes.png";
 import btn_image_clipboard from "../img/d_btn_ctrl_clipboard.png";
 //import btn_image_code from "../img/d_btn_ctrl_code.png";
 import btn_image_lib from "../img/d_btn_ctrl_lib.png";
-import chat_gpt_img from "../img/chatgpt-logo.png";
+import chat_gpt_img from "../img/devity-gpt.png";
 import { UserContext } from "../api-integration/UserContext";
 
-export default function Header(props) 
+export default function Header() 
 {
     const userContext = useContext(UserContext);
 
@@ -38,15 +38,14 @@ export default function Header(props)
             // $('#header_container').toggleClass('display-flex');
         } else {
             $(".p-panel").hide();
-    
-            if (target === "ALL") {
-                $(".p-panel").show();
-            } else {
-                $("div[data-panel=" + target + "]").show();
-                $("#prompt_input").val("");
-                $("#prompt_input").focus();
-            }
+            //$(".p-panel").show();
+            $("div[data-panel=" + target + "]").show();
+            $("#prompt_input").val("");
+            $("#prompt_input").focus();
+            
         }
+
+        if (target === "CHATGPT") $(".input-prompt textarea").focus();
     }
 
     function onNavigateClicked(target) {
@@ -59,14 +58,14 @@ export default function Header(props)
     return (<div id="navigation" className="nav">
 
         <header id="ribbon" className="ribbon-cntrls" >
-            <button id="nav_chat" onClick={()=>onNavigateClicked("CHATGPT")}>
-                <img src={chat_gpt_img}  alt="ChatGPT" /><br />
-                <span>AI CHAT</span>
-            </button>
-
             <button id="nav_all" onClick={()=>onNavigateClicked("DEVITY")}>
                 <img src={logo}  alt="logo" /><br />
                 <span>Devity</span>
+            </button>
+
+            <button id="nav_chat" onClick={()=>onNavigateClicked("CHATGPT")}>
+                <img src={chat_gpt_img}  alt="ChatGPT" /><br />
+                <span>OpenAI</span>
             </button>
             
             <button id='nav_links' onClick={()=>onNavigateClicked("LINKS")}>
@@ -96,7 +95,7 @@ export default function Header(props)
 
 
             <button id='nav_profile' onClick={()=>onNavigateClicked("PROFILE")}>
-                <img  src={btn_image_avitar} className="App-avitar" alt="{user.name}" /><br />
+                <img src={btn_image_avitar} className="App-avitar" alt="devity profile" /><br />
                 <span>
                     {userContext.userProfile.name}
                 </span>

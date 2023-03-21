@@ -6,7 +6,6 @@ import { UserContext } from "../api-integration/UserContext";
 import Editable from "./Editable";
 import configData from "../config.json";
 import $ from "jquery";
-import btn_save from "../img/btn_save.png";
 import Cookies from "universal-cookie";
 const SSO_URL = configData.SSO_URL;
 const cookies = new Cookies();
@@ -16,12 +15,11 @@ export default function Profile({ COOKIE_NAME, axios })
     const userContext = React.useContext(UserContext);
     const inputRef = useRef();
     const [userProfile, setUserProfile] = useState({});
-    const [isEditMode, setIsEditMode] = useState(false);
     const [searchResultSelect, setSearchResultSelect] = React.useState({
         search_res_google: JSON.parse(localStorage.getItem("search_res_google")) ?? true,
         search_res_youtube: JSON.parse(localStorage.getItem("search_res_youtube")) ?? true
     });
-    const [openAiApiKey, setOpenAiApiKey] = useState("");
+    const [openAiApiKey, setOpenAiApiKey] = useState(localStorage.getItem("openai-api-key"));
 
     useEffect(() => {
         setUserProfile(userContext.userProfile);
@@ -85,35 +83,6 @@ export default function Profile({ COOKIE_NAME, axios })
             .catch((error) => console.log(error));
     }
 
-    async function saveUserInterestsInDb() {
-        const selectedInterests = userProfile.user_interests.filter(i => i.IsUserSelected).map(i => i.Id);
-        console.log("userSeletecd Interest Ids...", selectedInterests);
-        $("div[data-panel=PROFILE] .gear").addClass("rotate");
-
-        await axios.post("/api/userinterests", [ ...selectedInterests ])
-            .then((response) => {
-                console.log("saveUserInterestsInDb status: ", response.status);
-                if (response.status === 200) {
-                    setIsEditMode(false);
-                    $("div[data-panel=PROFILE] .gear").removeClass("rotate");
-                }
-            })
-            .catch((error) => console.log(error));
-    }
-
-    function handleInterestsOnChange(e) {
-        userProfile.user_interests.forEach(i => {
-            if (i.Title === e.target.name)  i.IsUserSelected = e.target.checked;
-        });
-  
-        setUserProfile({
-            ...userProfile,
-            user_interests: [
-                ...userProfile.user_interests
-            ]
-        });
-        setIsEditMode(true);
-    }
 
     function handleSearchResultSelectOnChange(e) {
         localStorage.setItem("search_res_google", $("#google-results").prop("checked"));
@@ -153,15 +122,19 @@ export default function Profile({ COOKIE_NAME, axios })
         let copyData = "";
         if (btnType === "session-token-btn") {
             copyData = "Devity " + userProfile.session_info?.session_id;
+            $("span.copy-text-session").animate({ opacity: "0.1" }, "fast");
+            $("span.copy-text-session").animate({ opacity: "1" }, "fast");
         } 
         if (btnType === "ip-address-btn") {
             copyData = userProfile.Ip_Address;
+            $("span.copy-text-ip").animate({ opacity: "0.1" }, "fast");
+            $("span.copy-text-ip").animate({ opacity: "1" }, "fast");
         }
         if (btnType === "openai-key") {
-            copyData = localStorage.getItem("openai-api-key");
+            copyData = openAiApiKey;
+            $("label.copy-openai-key").animate({ opacity: "0.1" }, "fast");
+            $("label.copy-openai-key").animate({ opacity: "1" }, "fast");
         }
-        $("span.copy-text-session").animate({ opacity: "0.1" }, "fast");
-        $("span.copy-text-session").animate({ opacity: "1" }, "fast");
 
         navigator.clipboard.writeText(copyData).then(function() {
             console.log(copyData);
@@ -170,20 +143,18 @@ export default function Profile({ COOKIE_NAME, axios })
         });
     }
 
+    function updateApiKeyOnBlur(target) 
+    {
+        localStorage.setItem("openai-api-key", target.value);
+        const event = new Event("storageUpdated");
+        window.dispatchEvent(event);
+    }
+
     return (
         <div className="p-panel border" style={{display:"none"}} data-panel="PROFILE">
             <div className='p-chrome chrome-btn-profile'>
                 <img src={btn_image_config} className="gear" alt="devity gear" />
                 <span className="p-title">Profile</span>
-                {
-                    isEditMode && (
-                        <img 
-                            className='img-btn save' 
-                            onClick={saveUserInterestsInDb} 
-                            src={btn_save} alt="save widget"
-                            aria-hidden="true"/>
-                    )
-                }
         
             </div>
             <div className='p-contents profile'>
@@ -224,21 +195,34 @@ export default function Profile({ COOKIE_NAME, axios })
                     <div>
                         <label>
                             OpenAI API Key:
-                            <input 
-                                type="new-password" 
-                                value={openAiApiKey} 
-                                onChange={(e) => {
-                                    setOpenAiApiKey(e.target.value);
-                                }} 
-                                onBlur={(e) => {
-                                    localStorage.setItem("openai-api-key", e.target.value);
-                                    const event = new Event("storageUpdated");
-                                    window.dispatchEvent(event);
-                                }}/>
+                            <Editable 
+                                displayText={
+                                    <label className="copy-openai-key">{!openAiApiKey ? "Click Me" : openAiApiKey}</label>
+                                }
+                                inputType="input" 
+                                childInputRef={inputRef}
+                                passFromChildToParent={updateApiKeyOnBlur}>
+                                <input 
+                                    ref={inputRef}
+                                    type="text" 
+                                    value={openAiApiKey} 
+                                    onChange={(e) => {
+                                        setOpenAiApiKey(e.target.value);
+                                    }}/>
+                            </Editable>
+                            {
+                                openAiApiKey && 
+                                <button 
+                                    onClick={()=> handleCopyClick("openai-key")} 
+                                    title="Copy to clipboard" 
+                                    className="copy-clipboard-btn">
+                                    <img src={btn_copy} alt="Copy to clipboard"/>
+                                </button>
+                            }
                         </label>
                         <br/>
                         <br/>
-                        <p>You can find your API key at <a href="https://platform.openai.com/account/api-keys">https://platform.openai.com/account/api-keys.</a></p>
+                        <p><a target="_blank" href="https://platform.openai.com/account/api-keys" rel="noreferrer">Click me</a> to find your OpenAI API key.</p>
                     </div>
                 </div>
 
@@ -286,33 +270,6 @@ export default function Profile({ COOKIE_NAME, axios })
                             <option value="UX Engineer">UX Engineer</option>
                         </select>
                     </Editable><br />
-
-                    <h2>Skills, Interests</h2>
-                    <ul>
-                        {
-                            userProfile.user_interests?.map((i, index) => {
-                                return (
-                                    <li className="border"
-                                        key={index}
-                                        onClick={() => document.getElementById(i.Id).click()}
-                                        aria-hidden="true">
-                                        <input 
-                                            type="checkbox" 
-                                            onClick={() => document.getElementById(i.Id).click()}
-                                            id={i.Id}
-                                            name={i.Title} 
-                                            value={i.Id} 
-                                            checked={i.IsUserSelected} 
-                                            onChange={handleInterestsOnChange}/>
-                                        <label 
-                                            onClick={() => document.getElementById(i.Id).click()} htmlFor={i.Id} 
-                                            aria-hidden="true">{i.Title}</label>
-                                    </li>
-                                );
-                            })
-                        }
-                    </ul>
-                    <br />
                     
                     <div id="session_summary">
                         <h1>Session Info (<a href="https://api.devity-tools.com/">api.devity-tools.com</a>)</h1>
@@ -321,15 +278,7 @@ export default function Profile({ COOKIE_NAME, axios })
                             <button 
                                 onClick={()=> handleCopyClick("session-token-btn")} 
                                 title="Copy to clipboard" 
-                                style={{
-                                    backgroundRepeat: "no-repeat", 
-                                    backgroundSize: "contain", 
-                                    backgroundColor: "transparent",
-                                    width: "30px", 
-                                    height: "30px",
-                                    border: "none",
-                                    cursor: "pointer"
-                                }}>
+                                className="copy-clipboard-btn">
                                 <img src={btn_copy} alt="Copy to clipboard"/>
                             </button>
                         </div>
@@ -343,15 +292,7 @@ export default function Profile({ COOKIE_NAME, axios })
                             <button 
                                 onClick={()=>handleCopyClick("ip-address-btn")} 
                                 title="Copy to clipboard" 
-                                style={{ 
-                                    backgroundRepeat: "no-repeat", 
-                                    backgroundSize: "contain", 
-                                    backgroundColor: "transparent",
-                                    width: "30px", 
-                                    height: "30px",
-                                    border: "none",
-                                    cursor: "pointer"
-                                }}>
+                                className="copy-clipboard-btn">
                                 <img src={btn_copy} alt="Copy to clipboard"/>
                             </button>
                         </div>

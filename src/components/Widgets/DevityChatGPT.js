@@ -13,24 +13,29 @@ const defaultPrompt = [
     //{"role": "user", "content": "Generate step-by-step instructions on how to configure and build ASP.NET Core Microservice system with Docker"},
     //{"role": "assistant", "content": "Please specify what kind of software system that you want to build as microservice! But here is an example:\n 1. Install Docker"}
 ];
-/*const testAnswers = [
-    //{"role": "user", "content": "Please write Hello World program in PHP."},
-    //{"role": "assistant", "content": "Sure, here are sample Hello World programs in PHP and JavaScript:\n\nPHP:\n```php\n<?php\necho \"Hello World!\";\n?>\n```\n\nJavaScript:\n```javascript\nconsole.log(\"Hello World!\");\n```\n\nNote: The PHP code needs to be saved in a file with .php extension and be run on a web server with PHP installed. The JavaScript code can be saved in a file with .js extension and be run on a web browser."},
-    {"role": "user", "content": "Now write Hello World program in C# and JavaScript."},
-    {"role": "assistant", "content": "Sure! Here is the 'Hello World' code in C#:\n\n```csharp\nusing System;\n\nclass Program {\n  static void Main(string[] args) {\n    Console.WriteLine(\"Hello World\");\n    Console.ReadKey();\n  }\n}\n```\n\nAnd here is the 'Hello World' code in JavaScript:\n\n```javascript\nconsole.log('Hello World');\n``` \n\nBoth of these code snippets will output \"Hello World\" to the console."},
-    // {"role": "user", "content": "Write Hello World program in Ruby."},
-    // {"role": "assistant", "content": "Here's the Hello World program in Ruby:\n\n```ruby\nputs \"Hello, world!\"\n```\n\nThis code will output \"Hello, world!\" to the console." },
-    // {"role": "user", "content": "Write Hello World program in Ruby on Rails."},
-    // {
-    //     "role": "assistant",
-    //     "content": "Here is the \"Hello, World!\" code in Ruby on Rails:\n\n1. First, make sure you have Ruby and Rails installed on your computer.\n2. Open a terminal or command prompt and type the following command:\n\n   ```\n   rails new hello_world\n   ```\n\n3. This will create a new Rails application with the name \"hello_world\".\n4. Navigate into the newly created directory by typing:\n\n   ```\n   cd hello_world\n   ```\n\n5. Open the file `config/routes.rb` in your favorite text editor, and enter the following code:\n\n   ```ruby\n   Rails.application.routes.draw do\n     root 'application#hello'\n   end\n   ```\n\n6. This code sets up a route that maps the root URL '/' to the `hello` action of the `application` controller.\n7. Open the file `app/controllers/application_controller.rb` in your text editor and add the following method:\n\n   ```ruby\n   class ApplicationController < ActionController::Base\n     def hello\n       render html: \"Hello, World!\"\n     end\n   end\n   ```\n\n8. This code adds an action named `hello` to the `ApplicationController` that simply renders the text \"Hello, World!\".\n9. Start the Rails server by typing:\n\n   ```\n   rails server\n   ```\n\n10. Open your web browser and navigate to `http://localhost:3000`. You should see the text \"Hello, World!\" displayed on the page.\n\nThat's it! You've written and executed your first Ruby on Rails application."
-    // },
-    // {"role": "user", "content": "Write Hello World program in Java"},
-    // {
-    //     "role": "assistant",
-    //     "content": "Here's the code to print \"Hello, World!\" in Java:\n\n```java\npublic class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}\n```\n\nThis code creates a Java class called `HelloWorld` with a `main` method that outputs the string \"Hello, World!\" to the console using the `System.out.println` method."
-    // }
-];*/
+// const testAnswers = [
+//     {"role": "user", "content": "Please write Hello World program in PHP."},
+//     {"role": "assistant", "content": "Sure, here are sample Hello World programs in PHP and JavaScript:\n\nPHP:\n```php\n<?php\necho \"Hello World!\";\n?>\n```\n\nJavaScript:\n```javascript\nconsole.log(\"Hello World!\");\n```\n\nNote: The PHP code needs to be saved in a file with .php extension and be run on a web server with PHP installed. The JavaScript code can be saved in a file with .js extension and be run on a web browser."},
+//     {"role": "user", "content": "Now write Hello World program in C# and JavaScript."},
+//     {"role": "assistant", "content": "Sure! Here is the 'Hello World' code in C#:\n\n```csharp\nusing System;\n\nclass Program {\n  static void Main(string[] args) {\n    Console.WriteLine(\"Hello World\");\n    Console.ReadKey();\n  }\n}\n```\n\nAnd here is the 'Hello World' code in JavaScript:\n\n```javascript\nconsole.log('Hello World');\n``` \n\nBoth of these code snippets will output \"Hello World\" to the console."},
+//     {"role": "user", "content": "Write Hello World program in Ruby."},
+//     {"role": "assistant", "content": "Here's the Hello World program in Ruby:\n\n```ruby\nputs \"Hello, world!\"\n```\n\nThis code will output \"Hello, world!\" to the console." },
+//     {"role": "user", "content": "Write Hello World program in Ruby on Rails."},
+//     {
+//         "role": "assistant",
+//         "content": "Here is the \"Hello, World!\" code in Ruby on Rails:\n\n1. First, make sure you have Ruby and Rails installed on your computer.\n2. Open a terminal or command prompt and type the following command:\n\n   ```\n   rails new hello_world\n   ```\n\n3. This will create a new Rails application with the name \"hello_world\".\n4. Navigate into the newly created directory by typing:\n\n   ```\n   cd hello_world\n   ```\n\n5. Open the file `config/routes.rb` in your favorite text editor, and enter the following code:\n\n   ```ruby\n   Rails.application.routes.draw do\n     root 'application#hello'\n   end\n   ```\n\n6. This code sets up a route that maps the root URL '/' to the `hello` action of the `application` controller.\n7. Open the file `app/controllers/application_controller.rb` in your text editor and add the following method:\n\n   ```ruby\n   class ApplicationController < ActionController::Base\n     def hello\n       render html: \"Hello, World!\"\n     end\n   end\n   ```\n\n8. This code adds an action named `hello` to the `ApplicationController` that simply renders the text \"Hello, World!\".\n9. Start the Rails server by typing:\n\n   ```\n   rails server\n   ```\n\n10. Open your web browser and navigate to `http://localhost:3000`. You should see the text \"Hello, World!\" displayed on the page.\n\nThat's it! You've written and executed your first Ruby on Rails application."
+//     },
+//     {"role": "user", "content": "Write Hello World program in Java"},
+//     {
+//         "role": "assistant",
+//         "content": "Here's the code to print \"Hello, World!\" in Java:\n\n```java\npublic class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}\n```\n\nThis code creates a Java class called `HelloWorld` with a `main` method that outputs the string \"Hello, World!\" to the console using the `System.out.println` method."
+//     },
+//     {"role": "user", "content": "Suggest to me 3 Spotify Premium playlists for focused programming session"},
+//     {
+//         "role": "assistant",
+//         "content": "Here are three playlists on Spotify that I recommend for a focused programming session:\n\n1. \"Deep Focus\" - This playlist features instrumental tracks with slow, calming rhythms to help you concentrate while you work.\n\n2. \"Chill Tracks\" - This playlist has a mix of electronic, hip-hop, and indie tracks that are relaxing and enjoyable while working.\n\n3. \"Lo-fi Beats\" - Lo-fi hip-hop beats are known for their calm and chill vibe that can boost your productivity and focus during work. This playlist features plenty of lo-fi tracks perfect for a programming session."
+//     }
+// ];
 
 
 export default function DevityChatGPT()
@@ -62,7 +67,7 @@ export default function DevityChatGPT()
         
         handleLocalStorageChange();
         window.addEventListener("storageUpdated", handleLocalStorageChange);
-        window.addEventListener("storage", handleLocalStorageChange); // this Event is meant for localStorage removal
+        window.addEventListener("storage", handleLocalStorageChange); // this Event is meant for localStorage removal in the browser UI
 
         return () => {
             window.removeEventListener("storageUpdated", handleLocalStorageChange);
@@ -137,7 +142,9 @@ export default function DevityChatGPT()
         //separating code-blocks from the AI-generated text 
         for (let i = 0; i < splitInput.length; i++) {
             if (splitInput[i]) {
-                result.push(<p>{splitInput[i]}</p>);
+                const lines = splitInput[i].split("\n");
+                const formattedText = lines.map((line,i) => <p key={i}>{line}</p>);
+                result.push(...formattedText);
             }
             if (codeBlocks && codeBlocks[i]) {
                 let language = codeBlocks[i].match(/```(\S*)/)[1];
@@ -147,7 +154,10 @@ export default function DevityChatGPT()
                         <div className="code-block-window border">
                             <div className="code-block-chrome">
                                 <span>{language}</span>
-                                <button title="copy to clipboard" onClick={() => handleCopyClick(codeContent)}>
+                                <button 
+                                    className="copy-ai-code"
+                                    title="copy to clipboard" 
+                                    onClick={() => handleCopyClick(codeContent)}>
                                     {copySuccess ? "Copied!" : "Copy"}
                                 </button>
                             </div>
@@ -179,45 +189,42 @@ export default function DevityChatGPT()
                     {
                         messages.length !== 0 ? messages.map((msg, index) => {
                             let result = msg.role === "user" ? (
-                                <li key={index} style={{ marginBottom: "20px" }}>
-                                    <span>You: </span>
-                                    <div>{msg.content}</div>
+                                <li key={index}>
+                                    <label>You: <span>{msg.content}</span></label>
                                 </li>
                             ) : (
-                                <li key={index} style={{ marginBottom: "20px" }}>
-                                    <span>AI: </span>
-                                    {
-                                        renderAICompletionText(msg.content).map((part, index) => (
-                                            <div key={index}>{part}</div>
-                                        ))
-                                    }
+                                <li key={index}>
+                                    <label>AI: 
+                                        {
+                                            renderAICompletionText(msg.content).map((part, index) => (
+                                                <div key={index}>{part}</div>
+                                            ))
+                                        }
+                                    </label>
                                 </li>
                             );
                             return result;
                         }) : (
-                            <h1>Welcome to ChatGPT 3.5 Turbo</h1>
+                            <li><h1>Welcome to ChatGPT 3.5 Turbo</h1></li>
                         )
                     }
                 </ul>
             </div>
 
-            
-            <div>
+
+            <div className="input-prompt">
                 {
                     error.status !== 200 && (
-                        <div>
+                        <div className="error-box">
                             <span style={{ color: "red" }}>Status: {error.status}</span>
                             <br/>
                             <span style={{ color: "red" }}>Message: {error.message}</span>
                         </div>
                     )
                 }
-            </div>
-
-
-            <div className="input-prompt">
                 <form onSubmit={handleChatSubmit}>
                     <textarea 
+                        id="ai-chatbox"
                         value={inputText} 
                         onChange={handleInputTextChange} 
                         placeholder="Type your question..."

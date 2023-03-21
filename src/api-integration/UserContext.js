@@ -20,10 +20,8 @@ export function UserProvider({ children, axios, setIs402ModalOpen })
         if (bearer && !token) {
             axios.defaults.headers.common["Authorization"] = bearer;
             fetchUser(bearer).then(async (result) => { 
-                let userInterests = await fetchUserInterests();
                 setUserProfile({
-                    ...result,
-                    user_interests: userInterests
+                    ...result
                 });
             });
         } else if (token) {
@@ -31,10 +29,8 @@ export function UserProvider({ children, axios, setIs402ModalOpen })
             bearer !== null && bearer !== undefined && cookies.remove("devity-token", { path: "/" });
             AuthenticateUser(token).then(result => {
                 fetchUser(bearer).then(async (result) => { 
-                    let userInterests = await fetchUserInterests();
                     setUserProfile({
-                        ...result,
-                        user_interests: userInterests
+                        ...result
                     });
                 });
             });
@@ -68,18 +64,6 @@ export function UserProvider({ children, axios, setIs402ModalOpen })
             .then((response) => {
                 //console.log("UserProfile... ", response.data);
                 return response.data;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
-
-    async function fetchUserInterests() {
-        return await axios.get("/api/userinterests")
-            .then((response) => {
-                return response.data;
-            }).then((result) => {
-                return result;
             })
             .catch((error) => {
                 console.log(error);

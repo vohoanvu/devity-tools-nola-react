@@ -144,14 +144,16 @@ export default function Rss(props)
                                         <div key={index}>
                                             {
                                                 item.mediaUrl != null && (
-                                                    <div className="rss-figure">
-                                                        <figure>
-                                                            <img 
-                                                                src={item.mediaUrl}
-                                                                alt={item.description}/>
-                                                            <figcaption><span>{formatRssDate(item.publishDate)}</span></figcaption>
-                                                        </figure>
-                                                    </div>
+                                                    <figure className="rss-figure">
+                                                        <img 
+                                                            src={item.mediaUrl}
+                                                            alt={item.description}
+                                                            style={{
+                                                                width: "100px",
+                                                                height: "100px"
+                                                            }}/>
+                                                        <figcaption><span>{formatRssDate(item.publishDate)}</span></figcaption>
+                                                    </figure>
                                                 )
                                             }
                                             <div className="rss-text">

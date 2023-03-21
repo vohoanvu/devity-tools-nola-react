@@ -7,9 +7,14 @@
   flex-direction: row;
 }
 
+
 .input-prompt {
   height: 100px;
   display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .input-prompt form {
@@ -21,7 +26,11 @@
   border-width: 1px;
   width: 100%;
 }
-
+div.error-box {
+  position: fixed;
+  bottom: 100px;
+  left: 20px;
+}
 .input-prompt textarea {
   width: 100%;
   height: 100%;
@@ -64,18 +73,28 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 10px;
   border-radius: 10px;
   margin-bottom: 10px;
   color: var(---COLOR_TEXT);
+  height: 600px;
 }
+
 .ai-chat-output {
   display: flex;
   width: 100%;
   flex-direction: column;
+  padding-inline-start: 0px;
+  flex-grow: 1;
+}
+.output-completion ul li {
+  list-style-type: none;
+  padding: 30px 100px 30px 80px;
+}
+.output-completion ul>li:nth-child(odd) {
+  background-color: var(--COLOR_CHROME_BG);
 }
 
-.output-completion button {
+button.copy-ai-code {
   padding: 5px 10px;
   border-radius: 5px;
   border: 1px;
@@ -86,17 +105,13 @@
   cursor: pointer;
 }
 
-.output-completion button:hover {
-  background-color: #3e8e41;
-}
-
 
 
 .code-block-window {
   background-color: var(--COLOR_BODY);;
   border-radius: .375rem;
   margin-bottom: 1rem;
-  width: 80%;
+  width: 100%;
 }
 .code-block-chrome {
   color: var(---COLOR_TEXT);

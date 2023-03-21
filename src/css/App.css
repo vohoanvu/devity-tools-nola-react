@@ -930,6 +930,15 @@ span.w_copyable.filterable {
 .copy-text-session, .copy-text-ip {
   margin-right: 10px;
 }
+.copy-clipboard-btn {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: transparent;
+  width: 30px;
+  height: 30px;
+  border: none;
+  cursor: pointer;
+}
 
 .filter-tag {
   display: inline-block;

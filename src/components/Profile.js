@@ -6,7 +6,6 @@ import { UserContext } from "../api-integration/UserContext";
 import Editable from "./Editable";
 import configData from "../config.json";
 import $ from "jquery";
-import btn_save from "../img/btn_save.png";
 import Cookies from "universal-cookie";
 const SSO_URL = configData.SSO_URL;
 const cookies = new Cookies();
@@ -16,7 +15,6 @@ export default function Profile({ COOKIE_NAME, axios })
     const userContext = React.useContext(UserContext);
     const inputRef = useRef();
     const [userProfile, setUserProfile] = useState({});
-    const [isEditMode, setIsEditMode] = useState(false);
     const [searchResultSelect, setSearchResultSelect] = React.useState({
         search_res_google: JSON.parse(localStorage.getItem("search_res_google")) ?? true,
         search_res_youtube: JSON.parse(localStorage.getItem("search_res_youtube")) ?? true
@@ -85,35 +83,6 @@ export default function Profile({ COOKIE_NAME, axios })
             .catch((error) => console.log(error));
     }
 
-    async function saveUserInterestsInDb() {
-        const selectedInterests = userProfile.user_interests.filter(i => i.IsUserSelected).map(i => i.Id);
-        console.log("userSeletecd Interest Ids...", selectedInterests);
-        $("div[data-panel=PROFILE] .gear").addClass("rotate");
-
-        await axios.post("/api/userinterests", [ ...selectedInterests ])
-            .then((response) => {
-                console.log("saveUserInterestsInDb status: ", response.status);
-                if (response.status === 200) {
-                    setIsEditMode(false);
-                    $("div[data-panel=PROFILE] .gear").removeClass("rotate");
-                }
-            })
-            .catch((error) => console.log(error));
-    }
-
-    function handleInterestsOnChange(e) {
-        userProfile.user_interests.forEach(i => {
-            if (i.Title === e.target.name)  i.IsUserSelected = e.target.checked;
-        });
-  
-        setUserProfile({
-            ...userProfile,
-            user_interests: [
-                ...userProfile.user_interests
-            ]
-        });
-        setIsEditMode(true);
-    }
 
     function handleSearchResultSelectOnChange(e) {
         localStorage.setItem("search_res_google", $("#google-results").prop("checked"));
@@ -186,15 +155,6 @@ export default function Profile({ COOKIE_NAME, axios })
             <div className='p-chrome chrome-btn-profile'>
                 <img src={btn_image_config} className="gear" alt="devity gear" />
                 <span className="p-title">Profile</span>
-                {
-                    isEditMode && (
-                        <img 
-                            className='img-btn save' 
-                            onClick={saveUserInterestsInDb} 
-                            src={btn_save} alt="save widget"
-                            aria-hidden="true"/>
-                    )
-                }
         
             </div>
             <div className='p-contents profile'>
@@ -262,7 +222,7 @@ export default function Profile({ COOKIE_NAME, axios })
                         </label>
                         <br/>
                         <br/>
-                        <p><a target="_blank" href="https://platform.openai.com/account/api-keys" rel="noreferrer">Click me</a> to find your API key.</p>
+                        <p><a target="_blank" href="https://platform.openai.com/account/api-keys" rel="noreferrer">Click me</a> to find your OpenAI API key.</p>
                     </div>
                 </div>
 
@@ -310,33 +270,6 @@ export default function Profile({ COOKIE_NAME, axios })
                             <option value="UX Engineer">UX Engineer</option>
                         </select>
                     </Editable><br />
-
-                    <h2>Skills, Interests</h2>
-                    <ul>
-                        {
-                            userProfile.user_interests?.map((i, index) => {
-                                return (
-                                    <li className="border"
-                                        key={index}
-                                        onClick={() => document.getElementById(i.Id).click()}
-                                        aria-hidden="true">
-                                        <input 
-                                            type="checkbox" 
-                                            onClick={() => document.getElementById(i.Id).click()}
-                                            id={i.Id}
-                                            name={i.Title} 
-                                            value={i.Id} 
-                                            checked={i.IsUserSelected} 
-                                            onChange={handleInterestsOnChange}/>
-                                        <label 
-                                            onClick={() => document.getElementById(i.Id).click()} htmlFor={i.Id} 
-                                            aria-hidden="true">{i.Title}</label>
-                                    </li>
-                                );
-                            })
-                        }
-                    </ul>
-                    <br />
                     
                     <div id="session_summary">
                         <h1>Session Info (<a href="https://api.devity-tools.com/">api.devity-tools.com</a>)</h1>

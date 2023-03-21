@@ -21,7 +21,7 @@ export default function Profile({ COOKIE_NAME, axios })
         search_res_google: JSON.parse(localStorage.getItem("search_res_google")) ?? true,
         search_res_youtube: JSON.parse(localStorage.getItem("search_res_youtube")) ?? true
     });
-    const [openAiApiKey, setOpenAiApiKey] = useState("");
+    const [openAiApiKey, setOpenAiApiKey] = useState(localStorage.getItem("openai-api-key"));
 
     useEffect(() => {
         setUserProfile(userContext.userProfile);
@@ -153,21 +153,32 @@ export default function Profile({ COOKIE_NAME, axios })
         let copyData = "";
         if (btnType === "session-token-btn") {
             copyData = "Devity " + userProfile.session_info?.session_id;
+            $("span.copy-text-session").animate({ opacity: "0.1" }, "fast");
+            $("span.copy-text-session").animate({ opacity: "1" }, "fast");
         } 
         if (btnType === "ip-address-btn") {
             copyData = userProfile.Ip_Address;
+            $("span.copy-text-ip").animate({ opacity: "0.1" }, "fast");
+            $("span.copy-text-ip").animate({ opacity: "1" }, "fast");
         }
         if (btnType === "openai-key") {
-            copyData = localStorage.getItem("openai-api-key");
+            copyData = openAiApiKey;
+            $("label.copy-openai-key").animate({ opacity: "0.1" }, "fast");
+            $("label.copy-openai-key").animate({ opacity: "1" }, "fast");
         }
-        $("span.copy-text-session").animate({ opacity: "0.1" }, "fast");
-        $("span.copy-text-session").animate({ opacity: "1" }, "fast");
 
         navigator.clipboard.writeText(copyData).then(function() {
             console.log(copyData);
         }, function(err) {
             console.error("Async: Could not copy text: ", err);
         });
+    }
+
+    function updateApiKeyOnBlur(target) 
+    {
+        localStorage.setItem("openai-api-key", target.value);
+        const event = new Event("storageUpdated");
+        window.dispatchEvent(event);
     }
 
     return (
@@ -224,21 +235,34 @@ export default function Profile({ COOKIE_NAME, axios })
                     <div>
                         <label>
                             OpenAI API Key:
-                            <input 
-                                type="new-password" 
-                                value={openAiApiKey} 
-                                onChange={(e) => {
-                                    setOpenAiApiKey(e.target.value);
-                                }} 
-                                onBlur={(e) => {
-                                    localStorage.setItem("openai-api-key", e.target.value);
-                                    const event = new Event("storageUpdated");
-                                    window.dispatchEvent(event);
-                                }}/>
+                            <Editable 
+                                displayText={
+                                    <label className="copy-openai-key">{!openAiApiKey ? "Click Me" : openAiApiKey}</label>
+                                }
+                                inputType="input" 
+                                childInputRef={inputRef}
+                                passFromChildToParent={updateApiKeyOnBlur}>
+                                <input 
+                                    ref={inputRef}
+                                    type="text" 
+                                    value={openAiApiKey} 
+                                    onChange={(e) => {
+                                        setOpenAiApiKey(e.target.value);
+                                    }}/>
+                            </Editable>
+                            {
+                                openAiApiKey && 
+                                <button 
+                                    onClick={()=> handleCopyClick("openai-key")} 
+                                    title="Copy to clipboard" 
+                                    className="copy-clipboard-btn">
+                                    <img src={btn_copy} alt="Copy to clipboard"/>
+                                </button>
+                            }
                         </label>
                         <br/>
                         <br/>
-                        <p>You can find your API key at <a href="https://platform.openai.com/account/api-keys">https://platform.openai.com/account/api-keys.</a></p>
+                        <p><a target="_blank" href="https://platform.openai.com/account/api-keys" rel="noreferrer">Click me</a> to find your API key.</p>
                     </div>
                 </div>
 
@@ -321,15 +345,7 @@ export default function Profile({ COOKIE_NAME, axios })
                             <button 
                                 onClick={()=> handleCopyClick("session-token-btn")} 
                                 title="Copy to clipboard" 
-                                style={{
-                                    backgroundRepeat: "no-repeat", 
-                                    backgroundSize: "contain", 
-                                    backgroundColor: "transparent",
-                                    width: "30px", 
-                                    height: "30px",
-                                    border: "none",
-                                    cursor: "pointer"
-                                }}>
+                                className="copy-clipboard-btn">
                                 <img src={btn_copy} alt="Copy to clipboard"/>
                             </button>
                         </div>
@@ -343,15 +359,7 @@ export default function Profile({ COOKIE_NAME, axios })
                             <button 
                                 onClick={()=>handleCopyClick("ip-address-btn")} 
                                 title="Copy to clipboard" 
-                                style={{ 
-                                    backgroundRepeat: "no-repeat", 
-                                    backgroundSize: "contain", 
-                                    backgroundColor: "transparent",
-                                    width: "30px", 
-                                    height: "30px",
-                                    border: "none",
-                                    cursor: "pointer"
-                                }}>
+                                className="copy-clipboard-btn">
                                 <img src={btn_copy} alt="Copy to clipboard"/>
                             </button>
                         </div>

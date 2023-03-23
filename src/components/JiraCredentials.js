@@ -9,9 +9,9 @@ export default class JiraCredentials extends React.Component
     constructor(props) {
         super(props);
         this.state = {
-            jira_token: localStorage.getItem(LOCAL_STORAGE_KEY) ?? "",
-            jiraDomain: localStorage.getItem(LOCAL_STORAGE_DOMAIN_KEY) ?? "",
-            jiraUserId: localStorage.getItem(LOCAL_STORAGE_USERID_KEY) ?? "",
+            jira_token: "",
+            jiraDomain: "",
+            jiraUserId: "",
             domainError: ""
         };
 

@@ -181,11 +181,12 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                     <JiraIssuesTable 
                         issues={tickets} 
                         jiraDomain={localStorage.getItem("jira_domain")}
-                        widgetId={widget.id}/> : (
+                        widgetId={widget.id}/> : 
+                    jiraSearchtError.code !== 401 ? (
                         <div>
                             <h3>NO TICKETS FOUND!</h3>
                         </div>
-                    )
+                    ) : null
             }
             {
                 (jiraSearchtError.code === 0 || jiraPriorityErrors.code === 0) && (
@@ -198,7 +199,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                 jiraSearchtError.code !== 200 && jiraSearchtError.code !== 0 &&
                 (
                     <div>
-                        <h4 style={{ color: "red" }}>JIRA Search request failed with Status: {jiraSearchtError.code}</h4>
+                        {/* <h4 style={{ color: "red" }}>JIRA Search request failed with Status: {jiraSearchtError.code}</h4> */}
                         <ul>
                             {
                                 jiraSearchtError.errMessages?.map((message, index) => <li key={index}>{message}</li>) 

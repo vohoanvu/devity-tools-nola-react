@@ -642,14 +642,21 @@ select > option{
 .nav button{
   border-width: 0px;
 }
-#session_summary > button {
-  border-style: double;
-  border-width: 2px;
+button {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px;
   border-color: var(--COLOR_BRD);
-  background-color: var(--COLOR_WIDGET_INPUT_BG);
+  border-style: solid;
+  background-color: var(--COLOR_CHROME_BG);
+  color: var(---COLOR_TEXT);
+  cursor: pointer;
+}
+button.logout-btn {
+  background-color: var(--COLOR_BODY);
 }
 
-#session_summary  a{
+#session_summary a {
   color: var(--COLOR_LINK);
 }
 

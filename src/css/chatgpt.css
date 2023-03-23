@@ -95,17 +95,6 @@
 .output-completion ul>li:nth-child(odd) {
   background-color: var(--COLOR_CHROME_BG);
 }
-button.copy-ai-code {
-  padding: 5px 10px;
-  border-radius: 5px;
-  border: 1px;
-  border-color: var(--COLOR_BRD);
-  border-style: solid;
-  background-color: var(--COLOR_CHROME_BG);
-  color: var(---COLOR_TEXT);
-  cursor: pointer;
-}
-
 
 
 .code-block-window {

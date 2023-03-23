@@ -19,7 +19,7 @@ export default function Profile({ COOKIE_NAME, axios })
         search_res_google: JSON.parse(localStorage.getItem("search_res_google")) ?? true,
         search_res_youtube: JSON.parse(localStorage.getItem("search_res_youtube")) ?? true
     });
-    const [openAiApiKey, setOpenAiApiKey] = useState(localStorage.getItem("openai-api-key"));
+    const [openAiApiKey, setOpenAiApiKey] = useState(localStorage.getItem("openai-api-key") ?? "");
 
     useEffect(() => {
         setUserProfile(userContext.userProfile);
@@ -164,30 +164,32 @@ export default function Profile({ COOKIE_NAME, axios })
                     <div>
                         <h3>OpenAI API Key</h3>
                         <p>Your OpenAI key can be found <a target="_blank" href="https://platform.openai.com/account/api-keys" rel="noreferrer">here</a>.</p>
-                        <Editable 
-                            displayText={
-                                <label className="copy-openai-key" title="Click here to update field">{!openAiApiKey ? "000-000-000-000" : openAiApiKey}</label>
+                        <div className="copy-container">
+                            <Editable 
+                                displayText={
+                                    <label className="copy-openai-key" title="Click here to update field">{!openAiApiKey ? "000-000-000-000" : openAiApiKey}</label>
+                                }
+                                inputType="input" 
+                                childInputRef={inputRef}
+                                passFromChildToParent={updateApiKeyOnBlur}>
+                                <input 
+                                    ref={inputRef}
+                                    type="text" 
+                                    value={openAiApiKey} 
+                                    onChange={(e) => {
+                                        setOpenAiApiKey(e.target.value);
+                                    }}/>
+                            </Editable>
+                            {
+                                openAiApiKey && 
+                                <button 
+                                    onClick={()=> handleCopyClick("openai-key")} 
+                                    title="Copy to clipboard" 
+                                    className="copy-clipboard-btn">
+                                    <img src={btn_copy} alt="Copy to clipboard"/>
+                                </button>
                             }
-                            inputType="input" 
-                            childInputRef={inputRef}
-                            passFromChildToParent={updateApiKeyOnBlur}>
-                            <input 
-                                ref={inputRef}
-                                type="text" 
-                                value={openAiApiKey} 
-                                onChange={(e) => {
-                                    setOpenAiApiKey(e.target.value);
-                                }}/>
-                        </Editable>
-                        {
-                            openAiApiKey && 
-                            <button 
-                                onClick={()=> handleCopyClick("openai-key")} 
-                                title="Copy to clipboard" 
-                                className="copy-clipboard-btn">
-                                <img src={btn_copy} alt="Copy to clipboard"/>
-                            </button>
-                        } 
+                        </div>
                     </div>
                     <h3>Theme</h3>
                     <ViewModeSelection devityCookie={COOKIE_NAME}/>

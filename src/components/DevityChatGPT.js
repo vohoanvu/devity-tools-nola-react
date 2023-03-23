@@ -143,7 +143,9 @@ export default function DevityChatGPT()
         for (let i = 0; i < splitInput.length; i++) {
             if (splitInput[i]) {
                 const lines = splitInput[i].split("\n");
-                const formattedText = lines.map((line,i) => <p key={i}>{line}</p>);
+                const formattedText = i === 0 ? 
+                    lines.map((line,i) => <span key={i}>{line}</span>) :
+                    lines.map((line,i) => <p key={i}>{line}</p>);
                 result.push(...formattedText);
             }
             if (codeBlocks && codeBlocks[i]) {
@@ -194,15 +196,19 @@ export default function DevityChatGPT()
                                     </li>
                                 ) : (
                                     <li key={index}>
-                                        <label>AI: 
-                                            {
-                                                renderAICompletionText(msg.content).map((part, index) => (
-                                                    <div key={index}>{part}</div>
-                                                ))
-                                            }
-                                        </label>
+                                        {
+                                            renderAICompletionText(msg.content).map((part, index) => {
+                                                if (index === 0) {
+                                                    return (<label key={index}>OpenAI: {part}</label>)
+                                                } else {
+                                                    return (<div key={index}>{part}</div>)
+                                                }
+                                            })
+                                        }
                                     </li>
                                 );
+                                var objDiv = $("div.output-completion");
+                                objDiv.scrollTop = objDiv.scrollHeight;
                                 return result;
                             }) : (
                                 <li><h1>Welcome to ChatGPT 3.5 Turbo</h1></li>

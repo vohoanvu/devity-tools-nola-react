@@ -25,6 +25,9 @@ const ConfirmationDialog = ({ title, message, isDialogOpen, modalType, onModalCl
                         width: "50%",
                         height: "50%",
                         margin: "auto",
+                    },
+                    overlay: {
+                        zIndex: 1
                     }
                 }}>
                 <h2>{title}</h2>

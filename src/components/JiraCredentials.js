@@ -1,8 +1,5 @@
 import * as React from "react";
 import $ from "jquery";
-const LOCAL_STORAGE_KEY = "jira_token";
-const LOCAL_STORAGE_DOMAIN_KEY = "jira_domain";
-const LOCAL_STORAGE_USERID_KEY = "jira_user_id";
 
 export default class JiraCredentials extends React.Component
 {
@@ -20,9 +17,9 @@ export default class JiraCredentials extends React.Component
 
     componentDidMount() {
         this.setState({
-            jira_token: localStorage.getItem(LOCAL_STORAGE_KEY) ?? "",
-            jiraDomain: localStorage.getItem(LOCAL_STORAGE_DOMAIN_KEY) ?? "",
-            jiraUserId: localStorage.getItem(LOCAL_STORAGE_USERID_KEY) ?? ""
+            jira_token: this.props.jiraCredentials.TOKEN,
+            jiraDomain: this.props.jiraCredentials.DOMAIN,
+            jiraUserId: this.props.jiraCredentials.EMAIL
         });
     }
 
@@ -41,15 +38,36 @@ export default class JiraCredentials extends React.Component
                 });
                 validDomain = event.target.value;
             }
-            localStorage.setItem(LOCAL_STORAGE_DOMAIN_KEY, validDomain);
+            this.props.setConfigsContentObj({
+                ...this.props.configsContentObj,
+                DOMAIN: validDomain
+            });
+            this.props.setJiraCredentials({
+                ...this.props.jiraCredentials,
+                DOMAIN: validDomain
+            });
         }
 
         if (event.target.name === "jiraUserId") {
-            localStorage.setItem(LOCAL_STORAGE_USERID_KEY, event.target.value);
+            this.props.setConfigsContentObj({
+                ...this.props.configsContentObj,
+                EMAIL: event.target.value
+            });
+            this.props.setJiraCredentials({
+                ...this.props.jiraCredentials,
+                EMAIL: event.target.value
+            });
         } 
 
         if (event.target.name === "jira_token") {
-            localStorage.setItem(LOCAL_STORAGE_KEY, event.target.value);
+            this.props.setConfigsContentObj({
+                ...this.props.configsContentObj,
+                TOKEN: event.target.value
+            });
+            this.props.setJiraCredentials({
+                ...this.props.jiraCredentials,
+                TOKEN: event.target.value
+            });
         }
 
         this.props.sendContentToDevityPanels();

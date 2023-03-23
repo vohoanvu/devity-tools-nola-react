@@ -227,7 +227,7 @@ export default function Profile({ COOKIE_NAME, axios })
                     <p>Settings in this column are persisted on api.devity-tools.com.</p>
                     <h2>{ userProfile.paid ? "Premium Account" : "Free Account" }</h2>
                     <p>{ userProfile.paid ? "Thanks for your support!" : "If you enjoy the tool consider supporting it by upgrading to a paid account. Premium accounts have higher data limits." }</p>
-                    <label> Data: {userProfile.datasize} used of 20KB</label>
+                    <label> Data: {userProfile.datasize} used of {userProfile.datalimit}</label>
                     <br/>
                     <label> Widgets: {userProfile.widget_count} </label>
                     <br/>

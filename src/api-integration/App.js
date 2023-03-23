@@ -10,7 +10,7 @@ import DevityBaseAxios from "../components/DevityAxiosConfig";
 import "../css/App.css";
 import SearchResults from "../components/SearchResults";
 import ConfirmationDialog from "../components/ConfirmationDialog";
-import ChatGPT from "../components/Widgets/DevityChatGPT";
+import ChatGPT from "../components/DevityChatGPT";
 const COOKIE_NAME = "devity-token";
 
 export default function App() 

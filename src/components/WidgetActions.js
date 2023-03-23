@@ -60,6 +60,9 @@ export default function Widget(props)
         $(w).find(".maximize").hide();
         $(w).find(".minimize").show();
 
+        //rss text display
+        $(".rss-item").find(".rss-text").removeClass("rss-min-font");
+
         const event = new Event("widgetMaximized");
         window.dispatchEvent(event);
     }
@@ -80,6 +83,9 @@ export default function Widget(props)
         // manage widget max min buttons
         $(w).find(".minimize").hide();
         $(w).find(".maximize").show();
+
+        //rss text display
+        $(".rss-item").find(".rss-text").addClass("rss-min-font");
 
         const event = new Event("widgetMinimized");
         window.dispatchEvent(event);

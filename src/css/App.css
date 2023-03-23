@@ -965,6 +965,6 @@ span.w_copyable.filterable {
   padding: 0 5px 0px 0px;
   margin: 0 0 0 0;
 }
-.rss-text {
-  text-align: justify;
+.rss-min-font {
+  font-size: small;
 }

@@ -98,6 +98,9 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
                 jsonObject["ISSUETYPES"] = []; //format: "{ ISSUETYPES: ["Bug", "Story"] }"
                 jsonObject["STATUSES"] = []; //format: "{ STATUSES: ["Open", "In Progress"] }"
                 jsonObject["PRIORITIES"] = []; //format: "{ PRIORITIES: ["High", "Medium"] }"
+                jsonObject["TOKEN"] = "";
+                jsonObject["DOMAIN"] = "";
+                jsonObject["EMAIL"] = "";
             }
             return jsonObject;
         default:
@@ -167,7 +170,7 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
     }
 
     async function sendPUTContentToParent(widget, setWidgetState, currentContent) 
-    {  
+    {
         setIsReadyToSave({
             isReadyToSave: true,
             putBody: {

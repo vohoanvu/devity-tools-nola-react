@@ -18,15 +18,25 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
         code: 0,
         errMessages: []
     });
+    const [jiraCredentials, setJiraCredentials] = useState({
+        TOKEN: "",
+        DOMAIN: "",
+        EMAIL: ""
+    });
 
     useEffect(() => {
         if (activePanel && activePanel !== "DEVITY") return;
 
         const reloadJiraContent = (widgetId) => getJiraConfigurationsContent(widgetId).then(configs => {
-            const apiToken = localStorage.getItem("jira_token");
-            const domain = localStorage.getItem("jira_domain");
-            const email = localStorage.getItem("jira_user_id");
-            if (apiToken && domain && email && configs["ISSUETYPES"].length !== 0 && configs["STATUSES"].length !== 0 && configs["PRIORITIES"].length !== 0) {
+            const apiToken = configs["TOKEN"];
+            const domain = configs["DOMAIN"];
+            const email = configs["EMAIL"];
+            if (apiToken && domain && email) {
+                setJiraCredentials({
+                    TOKEN: apiToken,
+                    DOMAIN: domain,
+                    EMAIL: email
+                });
                 fetchJiraTickets(apiToken, domain, email, configs["DUTY"], configs["ISSUETYPES"], configs["STATUSES"], configs["PRIORITIES"]);
             } else {
                 //when new JIRA widget is created
@@ -64,6 +74,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                     setTicketStatuses(configsContent["STATUSES"]);
                     setPriorities(configsContent["PRIORITIES"]);
                 }
+                //console.log("Fetch Jira Configs, ", configsContent);
                 return configsContent;
             })
             .catch((err) => console.log(err));
@@ -173,7 +184,9 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                         setPriorities={setPriorities}
                         axios={axios}
                         isConfigsChanged={isConfigsChanged}
-                        setJiraPriorityErrors={setJiraPriorityErrors}/>
+                        setJiraPriorityErrors={setJiraPriorityErrors}
+                        jiraCredentials={jiraCredentials}
+                        setJiraCredentials={setJiraCredentials}/>
                 )
             }
             {
@@ -189,14 +202,14 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                     ) : null
             }
             {
-                (jiraSearchtError.code === 0 || jiraPriorityErrors.code === 0) && (
+                !widget.id && (
                     <div style={{ display: "flex", justifyContent: "center"}}>
                         <div className="loader"></div>
                     </div>
                 )
             }
             { 
-                jiraSearchtError.code !== 200 && jiraSearchtError.code !== 0 &&
+                (jiraSearchtError.code !== 200 || jiraSearchtError.code !== 0) &&
                 (
                     <div>
                         {/* <h4 style={{ color: "red" }}>JIRA Search request failed with Status: {jiraSearchtError.code}</h4> */}
@@ -209,10 +222,10 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                 )
             }
             {
-                jiraPriorityErrors.code !== 200 && jiraPriorityErrors.code !== 0 &&
+                (jiraPriorityErrors.code !== 200 || jiraPriorityErrors.code !== 0) &&
                 (
                     <div>
-                        <h4 style={{ color: "red" }}>JIRA Priority request failed with Status: {jiraPriorityErrors.code}</h4>
+                        {/* <h4 style={{ color: "red" }}>JIRA Priority request failed with Status: {jiraPriorityErrors.code}</h4> */}
                         <ul>
                             {
                                 jiraPriorityErrors.errMessages?.map((message, index) => <li key={index}>{message}</li>) 
@@ -234,7 +247,10 @@ function JiraConfigurations(props)
         DUTY: props.assignedOrMentioned,
         ISSUETYPES: props.ticketTypes,
         STATUSES: props.ticketStatuses,
-        PRIORITIES: props.priorities
+        PRIORITIES: props.priorities,
+        TOKEN: props.jiraCredentials.TOKEN,
+        DOMAIN: props.jiraCredentials.DOMAIN,
+        EMAIL: props.jiraCredentials.EMAIL
     });
     const [jiraWidget, setJiraWidget] = useState({});
     const [priorityOptions, setPriorityOptions] = useState([]);
@@ -243,9 +259,10 @@ function JiraConfigurations(props)
 
     useEffect(() => {
         async function fetchPriorities() {
-            const apiToken = localStorage.getItem("jira_token");
-            const domain = localStorage.getItem("jira_domain");
-            const email = localStorage.getItem("jira_user_id");
+            const apiToken = props.jiraCredentials.TOKEN;
+            const domain = props.jiraCredentials.DOMAIN;
+            const email = props.jiraCredentials.EMAIL;
+            if (!apiToken || !domain || !email) return;
             // const headers = {
             //     "Content-Type": "application/json",
             //     "Authorization": `Basic ${btoa(`${email}:${apiToken}`)}`
@@ -280,7 +297,7 @@ function JiraConfigurations(props)
                     console.log(error);
                     const errMsgList = [ error.response.status === 400 ? "Bad Request! Please check your credentials" : error.message ];
                     if (!error.response.data.success) {
-                        errMsgList.push("Status from JIRA=>> "+error.response.data.message);
+                        errMsgList.push("Status from JIRA =>> "+error.response.data.message);
                     }
                     props.setJiraPriorityErrors({
                         code: error.response.status,
@@ -380,7 +397,11 @@ function JiraConfigurations(props)
                 </p>
                 <JiraCredentials 
                     sendContentToDevityPanels={sendContentToParent} 
-                    widgetId={props.widget.id}/>
+                    widgetId={props.widget.id}
+                    jiraCredentials={props.jiraCredentials}
+                    setJiraCredentials={props.setJiraCredentials}
+                    configsContentObj={configsContentObj} 
+                    setConfigsContentObj={setConfigsContentObj}/>
             </div>
             <form>
                 <div className="duty">

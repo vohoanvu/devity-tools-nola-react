@@ -154,8 +154,7 @@ export default function DevityChatGPT()
                         <div className="code-block-window border">
                             <div className="code-block-chrome">
                                 <span>{language}</span>
-                                <button 
-                                    className="copy-ai-code"
+                                <button
                                     title="copy to clipboard" 
                                     onClick={() => handleCopyClick(codeContent)}>
                                     {copySuccess ? "Copied!" : "Copy"}

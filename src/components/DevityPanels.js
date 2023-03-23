@@ -118,6 +118,7 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
                 setWObject({...wObject});
                 $("div[data-panel=" + type + "] .gear").removeClass("rotate");
                 console.log("Created " + type + " widget.", result);
+                setIsDevitySubTypeAddOpen(false);
             })
             .catch(err => {
                 console.log(err);

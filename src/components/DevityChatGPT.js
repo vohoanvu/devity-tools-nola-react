@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Configuration, OpenAIApi } from "openai";
-import btn_image_config from "../../img/d_btn_ctrl_config.png";
-import "../../css/chatgpt.css";
+import btn_image_config from "../img/d_btn_ctrl_config.png";
+import "../css/chatgpt.css";
 import $ from "jquery";
-import ConfigData from "../../config.json";
+import ConfigData from "../config.json";
 const defaultPrompt = [
     {"role": "system", "content": "You are a helpful programming assistant that have more than 20 years of software engineering experience and are an enterprise software solution architect."},
     {"role": "user", "content": "Help me fix this Docker error:\n\n```errorLogsText```"},

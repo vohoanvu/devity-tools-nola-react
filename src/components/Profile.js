@@ -160,7 +160,35 @@ export default function Profile({ COOKIE_NAME, axios })
             <div className='p-contents profile'>
                 <div className='settings card'>
                     <h1>Local Settings</h1>
-                    <p>Local storage settings in this column are used for security and performance. If you clear your cache they will be erased.</p>
+                    <p>Settings in this column are persisted in local browser storage. If you clear your cache they will be erased.</p>
+                    <div>
+                        <h3>OpenAI API Key</h3>
+                        <p>Your OpenAI key can be found <a target="_blank" href="https://platform.openai.com/account/api-keys" rel="noreferrer">here</a>.</p>
+                        <Editable 
+                            displayText={
+                                <label className="copy-openai-key" title="Click here to update field">{!openAiApiKey ? "000-000-000-000" : openAiApiKey}</label>
+                            }
+                            inputType="input" 
+                            childInputRef={inputRef}
+                            passFromChildToParent={updateApiKeyOnBlur}>
+                            <input 
+                                ref={inputRef}
+                                type="text" 
+                                value={openAiApiKey} 
+                                onChange={(e) => {
+                                    setOpenAiApiKey(e.target.value);
+                                }}/>
+                        </Editable>
+                        {
+                            openAiApiKey && 
+                            <button 
+                                onClick={()=> handleCopyClick("openai-key")} 
+                                title="Copy to clipboard" 
+                                className="copy-clipboard-btn">
+                                <img src={btn_copy} alt="Copy to clipboard"/>
+                            </button>
+                        } 
+                    </div>
                     <h3>Theme</h3>
                     <ViewModeSelection devityCookie={COOKIE_NAME}/>
                     <div className='select-results-card'>
@@ -191,47 +219,14 @@ export default function Profile({ COOKIE_NAME, axios })
                             </ul>
                         </form>
                     </div>
-                    
-                    <div>
-                        <label>
-                            OpenAI API Key:
-                            <Editable 
-                                displayText={
-                                    <label className="copy-openai-key">{!openAiApiKey ? "Click Me" : openAiApiKey}</label>
-                                }
-                                inputType="input" 
-                                childInputRef={inputRef}
-                                passFromChildToParent={updateApiKeyOnBlur}>
-                                <input 
-                                    ref={inputRef}
-                                    type="text" 
-                                    value={openAiApiKey} 
-                                    onChange={(e) => {
-                                        setOpenAiApiKey(e.target.value);
-                                    }}/>
-                            </Editable>
-                            {
-                                openAiApiKey && 
-                                <button 
-                                    onClick={()=> handleCopyClick("openai-key")} 
-                                    title="Copy to clipboard" 
-                                    className="copy-clipboard-btn">
-                                    <img src={btn_copy} alt="Copy to clipboard"/>
-                                </button>
-                            }
-                        </label>
-                        <br/>
-                        <br/>
-                        <p><a target="_blank" href="https://platform.openai.com/account/api-keys" rel="noreferrer">Click me</a> to find your OpenAI API key.</p>
-                    </div>
                 </div>
 
 
                 <div className='personal card'>
                     <h1>Profile Settings</h1>
-                    <p>Help the Technocore AIs help you by filling out your technical profile! Profile settings in this column are persisted on api.devity-tools.com.</p>
+                    <p>Settings in this column are persisted on api.devity-tools.com.</p>
                     <h2>{ userProfile.paid ? "Premium Account" : "Free Account" }</h2>
-                    <p>{ userProfile.paid ? "Thanks for your support!" : "Paid accounts have higher data and rate-limits. If you enjoy the tool consider supporting it by upgrading to a paid account." }</p>
+                    <p>{ userProfile.paid ? "Thanks for your support!" : "If you enjoy the tool consider supporting it by upgrading to a paid account. Premium accounts have higher data limits." }</p>
                     <label> Data: {userProfile.datasize} used of 20KB</label>
                     <br/>
                     <label> Widgets: {userProfile.widget_count} </label>
@@ -239,10 +234,10 @@ export default function Profile({ COOKIE_NAME, axios })
 
                     <button type="submit" hidden onClick={upgradeProfileMembership}>Upgrade</button>
 
-                    <h2>User Name:</h2>
+                    <h2>User</h2>
                     <p>Click on your user name or profession to update.</p>
                     <Editable 
-                        displayText={<label>{userProfile.name}</label>}
+                        displayText={<label title="Click here to update field">{userProfile.name}</label>}
                         inputType="input" 
                         childInputRef={inputRef}
                         passFromChildToParent={updateUserProfileOnBlur}>
@@ -256,7 +251,7 @@ export default function Profile({ COOKIE_NAME, axios })
                         />
                     </Editable>
                     <Editable 
-                        displayText={<label className="title"> {userProfile.profession || "Select Profession"} </label>}
+                        displayText={<label title="Click here to update field" className="title"> {userProfile.profession || "Select Profession"} </label>}
                         inputType="input" 
                         childInputRef={inputRef}
                         passFromChildToParent={updateUserProfileOnBlur}>

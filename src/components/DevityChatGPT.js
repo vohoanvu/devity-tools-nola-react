@@ -94,6 +94,7 @@ export default function DevityChatGPT()
         };
         prompt.push(userMessage);
         setMessages(prevs => [...prevs, userMessage]);
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
 
         
         //Calling OpenAI API
@@ -118,8 +119,6 @@ export default function DevityChatGPT()
                 message: error.response.data.error.message
             });
         });
-
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
     const handleClearMessages = () => 
@@ -223,8 +222,8 @@ export default function DevityChatGPT()
                                 </li>
                             )
                         }
+                        <div ref={messagesEndRef}/>
                     </ul>
-                    <div ref={messagesEndRef}/>
                 </div>
                 
                 <div className="input-prompt">

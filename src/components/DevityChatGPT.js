@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Configuration, OpenAIApi } from "openai";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import "../css/chatgpt.css";
@@ -50,6 +50,7 @@ export default function DevityChatGPT()
         status: 200,
         message: ""
     });
+    const messagesEndRef = useRef(null);
 
     useEffect(() =>{
         const handleLocalStorageChange = () => {
@@ -94,7 +95,7 @@ export default function DevityChatGPT()
         prompt.push(userMessage);
         setMessages(prevs => [...prevs, userMessage]);
 
-
+        
         //Calling OpenAI API
         $("div[data-panel=CHATGPT] .gear").addClass("rotate");
         await openai.createChatCompletion({
@@ -108,8 +109,6 @@ export default function DevityChatGPT()
             setMessages(prevMsg => [...prevMsg, result.choices[0].message] );
             setTokenCount(tokenCount + result.usage.total_tokens);
             setInputText("");
-            var objDiv = $("div.output-completion");
-            objDiv.scrollTop(objDiv[0].scrollHeight);
             $("div[data-panel=CHATGPT] .gear").removeClass("rotate");
         }).catch(error => {
             console.log("error.response: ",error.response);
@@ -119,6 +118,8 @@ export default function DevityChatGPT()
                 message: error.response.data.error.message
             });
         });
+
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
     const handleClearMessages = () => 
@@ -207,14 +208,12 @@ export default function DevityChatGPT()
                                         }
                                     </li>
                                 );
-                                var objDiv = $("div.output-completion");
-                                objDiv.scrollTop = objDiv.scrollHeight;
+                                
                                 return result;
                             }) : (
                                 <li><h1>Welcome to ChatGPT 3.5 Turbo</h1></li>
                             )
                         }
-
                         {
                             error.status !== 200 && (
                                 <li>
@@ -225,8 +224,9 @@ export default function DevityChatGPT()
                             )
                         }
                     </ul>
+                    <div ref={messagesEndRef}/>
                 </div>
-
+                
                 <div className="input-prompt">
                     <form onSubmit={handleChatSubmit}>
                         <textarea 

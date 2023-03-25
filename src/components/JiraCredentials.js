@@ -8,8 +8,7 @@ export default class JiraCredentials extends React.Component
         this.state = {
             jira_token: "",
             jiraDomain: "",
-            jiraUserId: "",
-            domainError: ""
+            jiraUserId: ""
         };
 
         this.jiraDomainRegex = /^([a-zA-Z0-9-]+).atlassian.(net|com)$/;
@@ -23,56 +22,64 @@ export default class JiraCredentials extends React.Component
         });
     }
 
-    handleBlur = (event) => {
-        if (event.target.name === "jiraDomain") {
-            let validDomain = "";
-            if (!this.jiraDomainRegex.test(event.target.value)) {
-                this.setState({
-                    domainError: "Invalid Jira Domain URL"
-                });
-                //removing the invalid characters such as "http://", "https://" or '/' at the end from the domain
-                validDomain = event.target.value.replace(/(^\w+:|^)\/\//, "").replace(/\/$/, "");
-            } else {
-                this.setState({
-                    domainError: ""
-                });
-                validDomain = event.target.value;
-            }
-            this.props.setConfigsContentObj({
-                ...this.props.configsContentObj,
-                DOMAIN: validDomain
-            });
-            this.props.setJiraCredentials({
-                ...this.props.jiraCredentials,
-                DOMAIN: validDomain
-            });
+    handleDomainOnBlur = (event) => {
+        let validDomain = "";
+        if (!this.jiraDomainRegex.test(event.target.value)) {
+            //removing the invalid characters such as "http://", "https://" or '/' at the end from the domain
+            validDomain = event.target.value.replace(/(^\w+:|^)\/\//, "").replace(/\/$/, "");
+        } else {
+            validDomain = event.target.value;
         }
-
-        if (event.target.name === "jiraUserId") {
-            this.props.setConfigsContentObj({
-                ...this.props.configsContentObj,
-                EMAIL: event.target.value
-            });
-            this.props.setJiraCredentials({
-                ...this.props.jiraCredentials,
-                EMAIL: event.target.value
-            });
-        } 
-
-        if (event.target.name === "jira_token") {
-            this.props.setConfigsContentObj({
-                ...this.props.configsContentObj,
-                TOKEN: event.target.value
-            });
-            this.props.setJiraCredentials({
-                ...this.props.jiraCredentials,
-                TOKEN: event.target.value
-            });
-        }
-
-        this.props.sendContentToDevityPanels();
+        this.props.setConfigsContentObj({
+            ...this.props.configsContentObj,
+            DOMAIN: validDomain
+        });
+        this.props.setJiraCredentials({
+            ...this.props.jiraCredentials,
+            DOMAIN: validDomain
+        });
+        this.props.sendContentToDevityPanels({
+            DOMAIN: this.state.jiraDomain,
+            EMAIL: this.state.jiraUserId,
+            TOKEN: this.state.jira_token
+        });
         $(`#save-btn-${this.props.widgetId}`).show();
     };
+
+    handleEmailOnBlur = (event) => {
+        this.props.setConfigsContentObj({
+            ...this.props.configsContentObj,//this set-state call is not fast enough on the first Blur, 2nd Blur works
+            EMAIL: event.target.value
+        });
+        this.props.setJiraCredentials({
+            ...this.props.jiraCredentials,
+            EMAIL: event.target.value
+        });
+        this.props.sendContentToDevityPanels({
+            DOMAIN: this.state.jiraDomain,
+            EMAIL: this.state.jiraUserId,
+            TOKEN: this.state.jira_token
+        });
+        $(`#save-btn-${this.props.widgetId}`).show();
+    }
+
+    handleTokenOnBlur = (event) => {
+        this.props.setConfigsContentObj({
+            ...this.props.configsContentObj,
+            TOKEN: event.target.value
+        });
+        this.props.setJiraCredentials({
+            ...this.props.jiraCredentials,
+            TOKEN: event.target.value
+        });
+        this.props.sendContentToDevityPanels({
+            DOMAIN: this.state.jiraDomain,
+            EMAIL: this.state.jiraUserId,
+            TOKEN: this.state.jira_token
+        });
+        $(`#save-btn-${this.props.widgetId}`).show();
+    }
+
 
     handleOnChange = (event) => {
         this.setState({
@@ -97,7 +104,7 @@ export default class JiraCredentials extends React.Component
                                         type="text" 
                                         name="jiraDomain"
                                         value={this.state.jiraDomain} 
-                                        onBlur={this.handleBlur.bind(this)} 
+                                        onBlur={this.handleDomainOnBlur.bind(this)} 
                                         onChange={this.handleOnChange.bind(this)}/>
                                 </td>
                             </tr>
@@ -109,7 +116,7 @@ export default class JiraCredentials extends React.Component
                                     type="text" 
                                     name="jiraUserId"
                                     value={this.state.jiraUserId} 
-                                    onBlur={this.handleBlur.bind(this)} 
+                                    onBlur={this.handleEmailOnBlur.bind(this)} 
                                     onChange={this.handleOnChange.bind(this)}/>
                                 </td>
                             </tr>
@@ -119,7 +126,7 @@ export default class JiraCredentials extends React.Component
                                     type="text" 
                                     name="jira_token"
                                     value={this.state.jira_token} 
-                                    onBlur={this.handleBlur.bind(this)} 
+                                    onBlur={this.handleTokenOnBlur.bind(this)} 
                                     onChange={this.handleOnChange.bind(this)}/>
                                 </td>
                             </tr>

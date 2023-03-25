@@ -112,6 +112,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                     code: error.response.status,
                     errMessages: errMsgList
                 });
+                setTickets([]);
             });
 
         // await axios.get(`https://${domain}/rest/api/3/search`, { headers, params: jqlParams })
@@ -195,7 +196,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                         issues={tickets} 
                         jiraDomain={localStorage.getItem("jira_domain")}
                         widgetId={widget.id}/> : 
-                    jiraSearchtError.code !== 401 ? (
+                    jiraSearchtError.code === 200 ? (
                         <div>
                             <h3>NO TICKETS FOUND!</h3>
                         </div>
@@ -379,7 +380,11 @@ function JiraConfigurations(props)
         sendContentToParent();
     }
 
-    function sendContentToParent() {
+    function sendContentToParent({ DOMAIN, EMAIL, TOKEN }) {
+        configsContentObj.DOMAIN = DOMAIN;
+        configsContentObj.EMAIL = EMAIL;
+        configsContentObj.TOKEN = TOKEN;
+
         const putBody = {
             ...jiraWidget,
             w_content: JSON.stringify(configsContentObj)

@@ -169,7 +169,7 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
         return result;
     }
 
-    async function sendPUTContentToParent(widget, setWidgetState, currentContent) 
+    async function sendPUTContentToParent(widget) 
     {
         setIsReadyToSave({
             isReadyToSave: true,

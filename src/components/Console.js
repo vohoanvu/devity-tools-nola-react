@@ -136,9 +136,18 @@ const Console = (props) =>
 
     }
 
+    function clearFilterTerm() {
+        setFilterTerm("");
+        $(".filterable").filter(function() {
+            $("#prompt_input").focus();
+            return $(this).parent().show();
+        });
+    }
+
     function handleCmdChange(e) {
         setCmd("#" + e.target.value);
         $("#prompt_input").focus();
+        if (e.target.value === "s") clearFilterTerm();
     }
 
     function handleKeyUp(e) {
@@ -226,13 +235,7 @@ const Console = (props) =>
             {
                 cmd === FilterCmd && filterTerm.length !== 0 && (
                     <button className="filter-tag"
-                        onClick={() => {
-                            setFilterTerm("");
-                            $(".filterable").filter(function() {
-                                $("#prompt_input").focus();
-                                return $(this).parent().show();
-                            });
-                        }}>
+                        onClick={clearFilterTerm}>
                         <span>{ abbreviate30Chars(filterTerm) }</span>
                         <img 
                             className='img-btn delete-item' 

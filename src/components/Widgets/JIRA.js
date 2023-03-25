@@ -384,7 +384,7 @@ function JiraConfigurations(props)
         configsContentObj.DOMAIN = DOMAIN;
         configsContentObj.EMAIL = EMAIL;
         configsContentObj.TOKEN = TOKEN;
-        console.log("ConfigsContentObj to be sent up...", configsContentObj);
+
         const putBody = {
             ...jiraWidget,
             w_content: JSON.stringify(configsContentObj)

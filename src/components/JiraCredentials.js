@@ -47,7 +47,6 @@ export default class JiraCredentials extends React.Component
     };
 
     handleEmailOnBlur = (event) => {
-        console.log("OnBlur...", event.target.value);
         this.props.setConfigsContentObj({
             ...this.props.configsContentObj,//this set-state call is not fast enough on the first Blur, 2nd Blur works
             EMAIL: event.target.value
@@ -83,7 +82,6 @@ export default class JiraCredentials extends React.Component
 
 
     handleOnChange = (event) => {
-        console.log("OnChange...", event.target.value);
         this.setState({
             [event.target.name]: event.target.value
         });

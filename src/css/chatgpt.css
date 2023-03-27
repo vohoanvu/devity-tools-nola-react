@@ -56,13 +56,23 @@
 
 .input-prompt button {
   position: absolute;
-  bottom: 1.5rem;
+  bottom: 0.5rem;
   right: 1rem;
   padding: 0.25rem;
   border-radius: 0.375rem;
   color: #4b5563;
   border: 2px solid #e5e7eb;
   transition: all 0.2s ease-in-out;
+}
+.send-chat-btn-img {
+  height: 25px;
+  width: 25px;
+}
+#ai-chatbox {
+  resize: vertical;
+  height: auto;
+  overflow-y: auto;
+  min-height: 80px; /* set a preferred min-height */
 }
 .input-prompt button:hover {
   background-color: #f3f4f6;

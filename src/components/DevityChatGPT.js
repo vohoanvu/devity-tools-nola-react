@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Configuration, OpenAIApi } from "openai";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
+import send_chat_btn from "../img/send_chat.png";
 import "../css/chatgpt.css";
 import $ from "jquery";
 import ConfigData from "../config.json";
@@ -234,14 +235,16 @@ export default function DevityChatGPT()
                             onChange={handleInputTextChange} 
                             placeholder="Type your question..."
                             onKeyDown={(e) => {
-                                if (e.key === "Enter") handleChatSubmit(e);
+                                if (e.shiftKey && e.key === "Enter") {
+                                    return; // do nothing, let the new line be added
+                                }
+                                if (e.key === "Enter") {
+                                    handleChatSubmit(e);
+                                }
                             }}
                         />
                         <button type="submit" title="send chat">
-                            <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-1" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                            </svg>
+                            <img src={send_chat_btn} alt="send-chat button" className="send-chat-btn-img"/>
                         </button>
                     </form>
                 </div>

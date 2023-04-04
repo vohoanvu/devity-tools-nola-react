@@ -20,6 +20,7 @@ export default function Profile({ COOKIE_NAME, axios })
         search_res_youtube: JSON.parse(localStorage.getItem("search_res_youtube")) ?? true
     });
     const [openAiApiKey, setOpenAiApiKey] = useState(localStorage.getItem("openai-api-key") ?? "");
+    const [openAiGptModel, setOpenAiGptModel] = useState(localStorage.getItem("gpt-model") ?? "");
 
     useEffect(() => {
         setUserProfile(userContext.userProfile);
@@ -150,6 +151,17 @@ export default function Profile({ COOKIE_NAME, axios })
         window.dispatchEvent(event);
     }
 
+    function updateGptModelOnBlur(target) 
+    {
+        if (target.value.length === 0) {
+            localStorage.removeItem("gpt-model");
+        } else {
+            localStorage.setItem("gpt-model", target.value);
+        }
+        const event = new Event("storageUpdated");
+        window.dispatchEvent(event);
+    }
+
     return (
         <div className="p-panel border" style={{display:"none"}} data-panel="PROFILE">
             <div className='p-chrome chrome-btn-profile'>
@@ -189,6 +201,26 @@ export default function Profile({ COOKIE_NAME, axios })
                                     <img src={btn_copy} alt="Copy to clipboard"/>
                                 </button>
                             }
+                        </div>
+                    </div>
+                    <div>
+                        <h3>OpenAI GPT Model</h3>
+                        <div>
+                            <Editable 
+                                displayText={
+                                    <label className="copy-openai-key" title="Click here to update field">{!openAiGptModel ? "gpt-3.5-turbo" : openAiGptModel}</label>
+                                }
+                                inputType="input" 
+                                childInputRef={inputRef}
+                                passFromChildToParent={updateGptModelOnBlur}>
+                                <input 
+                                    ref={inputRef}
+                                    type="text" 
+                                    value={openAiGptModel} 
+                                    onChange={(e) => {
+                                        setOpenAiGptModel(e.target.value);
+                                    }}/>
+                            </Editable>
                         </div>
                     </div>
                     <h3>Theme</h3>

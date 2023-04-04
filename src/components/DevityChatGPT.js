@@ -101,7 +101,7 @@ export default function DevityChatGPT()
         //Calling OpenAI API
         $("div[data-panel=CHATGPT] .gear").addClass("rotate");
         await openai.createChatCompletion({
-            model: ConfigData.OPENAI_GPT_MODEL,
+            model: localStorage.getItem("gpt-model") ?? ConfigData.OPENAI_GPT_MODEL,
             messages: prompt,
         }).then(response => {
             console.log("ChatCompletions response....", response);
@@ -113,8 +113,8 @@ export default function DevityChatGPT()
             setInputText("");
             $("div[data-panel=CHATGPT] .gear").removeClass("rotate");
         }).catch(error => {
-            console.log("error.response: ",error.response);
-            console.log("error.message: ",error.message);
+            //console.log("error.response: ",error.response);
+            //console.log("error.message: ",error.message);
             setError({
                 status: error.response.status,
                 message: error.response.data.error.message
@@ -181,7 +181,7 @@ export default function DevityChatGPT()
                 <img src={btn_image_config} className="gear" alt="devity gear" />
                 <div className="gpt-api-info">
                     <label style={{marginLeft:"10px"}}> Tokens Used: {tokenCount} |</label>
-                    <label style={{marginLeft:"10px"}}> GPT Model Used: {ConfigData.OPENAI_GPT_MODEL}</label>
+                    <label style={{marginLeft:"10px"}}> GPT Model Used: {localStorage.getItem("gpt-model") ?? ConfigData.OPENAI_GPT_MODEL}</label>
                 </div>
             </div>
 
@@ -211,7 +211,7 @@ export default function DevityChatGPT()
                                 
                                 return result;
                             }) : (
-                                <li><h1>Welcome to ChatGPT 3.5 Turbo</h1></li>
+                                <li><h1>Welcome to ChatGPT using {localStorage.getItem("gpt-model") ?? ConfigData.OPENAI_GPT_MODEL}</h1></li>
                             )
                         }
                         {

@@ -75,7 +75,6 @@ export default function App()
                 <SearchResults
                     searchData={searchResult}
                     videoData={videoResult}/>
-
             </UserProvider>
         </div>
     );

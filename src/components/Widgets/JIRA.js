@@ -323,7 +323,11 @@ function JiraConfigurations(props)
         configsContentObj.STATUSES = props.ticketStatuses;
         configsContentObj.PRIORITIES = props.priorities;
         setConfigsContentObj(configsContentObj);
-        sendContentToParent();
+        sendContentToParent({ 
+            DOMAIN: configsContentObj.DOMAIN,
+            TOKEN: configsContentObj.TOKEN,
+            EMAIL: configsContentObj.EMAIL
+        });
     }
 
     function handleTicketTypeChange(changeEvent) {

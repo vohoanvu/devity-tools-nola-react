@@ -4,7 +4,6 @@ import btn_save from "../img/btn_save.png";
 import btn_maximize from "../img/btn_maximize.png";
 import btn_minimize from "../img/btn_minimize.png";
 import btn_delete from "../img/btn_delete.png";
-import { log } from "../Utilities";
 import $ from "jquery";
 
 
@@ -31,8 +30,10 @@ export default function Widget(props)
         $("div[data-panel=" + props.widget.w_type + "] .gear").addClass("rotate");
         await axios.delete("/api/widgets/" + id)
             .then(res => {
-                log("Succesfully deleted " + props.widget.w_type + " widget " + props.widget.name);
-                $("div[data-panel=" + props.widget.w_type + "] .gear").removeClass("rotate");
+                if (res.status === 200) {
+                    console.log("Succesfully deleted " + props.widget.w_type + " widget " + props.widget.name);
+                    $("div[data-panel=" + props.widget.w_type + "] .gear").removeClass("rotate");
+                }
             })
             .catch(err => console.log(err));
     }

@@ -1,10 +1,5 @@
-import $ from "jquery";
-
 export function log(value) {
     console.log(value);
-    $("#console_output").append("<li>" + value + "</li>");
-    var objDiv = document.getElementById("console_log");
-    objDiv.scrollTop = objDiv.scrollHeight;
     return true;
 }
 

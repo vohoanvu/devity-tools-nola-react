@@ -5,7 +5,6 @@ import send_chat_btn from "../img/send_chat.png";
 import "../css/chatgpt.css";
 import $ from "jquery";
 import ConfigData from "../config.json";
-import OpenAIModelList from "../components/OpenAiModelList";
 const defaultPrompt = [
     {"role": "system", "content": "You are a helpful programming assistant that have more than 20 years of software engineering experience and are an enterprise software solution architect."},
     {"role": "user", "content": "Help me fix this Docker error:\n\n```errorLogsText```"},
@@ -250,10 +249,6 @@ export default function DevityChatGPT()
                     </form>
                 </div>
 
-            </div>
-
-            <div className="border">
-                <OpenAIModelList/>
             </div>
         </div>
     );

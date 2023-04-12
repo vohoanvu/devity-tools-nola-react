@@ -15,10 +15,6 @@ export default function Profile({ COOKIE_NAME, axios })
     const userContext = React.useContext(UserContext);
     const inputRef = useRef();
     const [userProfile, setUserProfile] = useState({});
-    const [searchResultSelect, setSearchResultSelect] = React.useState({
-        search_res_google: JSON.parse(localStorage.getItem("search_res_google")) ?? true,
-        search_res_youtube: JSON.parse(localStorage.getItem("search_res_youtube")) ?? true
-    });
     const [openAiApiKey, setOpenAiApiKey] = useState(localStorage.getItem("openai-api-key") ?? "");
     const [openAiGptModel, setOpenAiGptModel] = useState(localStorage.getItem("gpt-model") ?? "");
 
@@ -82,17 +78,6 @@ export default function Profile({ COOKIE_NAME, axios })
                 return result;
             })
             .catch((error) => console.log(error));
-    }
-
-
-    function handleSearchResultSelectOnChange(e) {
-        localStorage.setItem("search_res_google", $("#google-results").prop("checked"));
-        localStorage.setItem("search_res_youtube", $("#youtube-results").prop("checked"));
-
-        setSearchResultSelect({
-            ...searchResultSelect,
-            [e.target.name]: e.target.checked
-        });
     }
 
     async function upgradeProfileMembership() {
@@ -225,34 +210,6 @@ export default function Profile({ COOKIE_NAME, axios })
                     </div>
                     <h3>Theme</h3>
                     <ViewModeSelection devityCookie={COOKIE_NAME}/>
-                    <div className='select-results-card'>
-                        <h3>Search result types</h3>
-                        <p>Select results types for search command.</p>
-                        <form>
-                            <ul>
-                                <li className="border">
-                                    <input 
-                                        onClick={() => document.getElementById("google-results").click()}
-                                        type="checkbox" 
-                                        id="google-results" 
-                                        name="search_res_google"
-                                        checked={searchResultSelect.search_res_google}
-                                        onChange={handleSearchResultSelectOnChange}/>
-                                    <label htmlFor="google-results">Google Search Results</label>
-                                </li>
-                                <li className="border">
-                                    <input 
-                                        onClick={() => document.getElementById("youtube-results").click()}
-                                        type="checkbox" 
-                                        id="youtube-results" 
-                                        name="search_res_youtube"
-                                        checked={searchResultSelect.search_res_youtube}
-                                        onChange={handleSearchResultSelectOnChange}/>
-                                    <label htmlFor="youtube-results">Youtube Search Results</label>
-                                </li>
-                            </ul>
-                        </form>
-                    </div>
                 </div>
 
 

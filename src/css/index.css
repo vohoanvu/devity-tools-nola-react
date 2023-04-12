@@ -1,0 +1,10 @@
+.config-gear-btn {
+    padding: 0%;
+    border-style: hidden;
+}
+
+.config-gear-btn .gear{
+    display: block;
+    width: 35px;
+    float: left;
+}

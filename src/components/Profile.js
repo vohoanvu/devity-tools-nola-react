@@ -7,6 +7,7 @@ import Editable from "./Editable";
 import configData from "../config.json";
 import $ from "jquery";
 import Cookies from "universal-cookie";
+import OpenAIModelList from "../components/OpenAiModelList";
 const SSO_URL = configData.SSO_URL;
 const cookies = new Cookies();
 
@@ -16,7 +17,6 @@ export default function Profile({ COOKIE_NAME, axios })
     const inputRef = useRef();
     const [userProfile, setUserProfile] = useState({});
     const [openAiApiKey, setOpenAiApiKey] = useState(localStorage.getItem("openai-api-key") ?? "");
-    const [openAiGptModel, setOpenAiGptModel] = useState(localStorage.getItem("gpt-model") ?? "");
 
     useEffect(() => {
         setUserProfile(userContext.userProfile);
@@ -136,7 +136,7 @@ export default function Profile({ COOKIE_NAME, axios })
         window.dispatchEvent(event);
     }
 
-    function updateGptModelOnBlur(target) 
+    function updateGptModel(target) 
     {
         if (target.value.length === 0) {
             localStorage.removeItem("gpt-model");
@@ -191,7 +191,10 @@ export default function Profile({ COOKIE_NAME, axios })
                     <div>
                         <h3>OpenAI GPT Model</h3>
                         <div>
-                            <Editable 
+                            <OpenAIModelList
+                                updateOpenAiModel={updateGptModel}
+                            />
+                            {/* <Editable 
                                 displayText={
                                     <label className="copy-openai-key" title="Click here to update field">{!openAiGptModel ? "gpt-3.5-turbo" : openAiGptModel}</label>
                                 }
@@ -205,7 +208,7 @@ export default function Profile({ COOKIE_NAME, axios })
                                     onChange={(e) => {
                                         setOpenAiGptModel(e.target.value);
                                     }}/>
-                            </Editable>
+                            </Editable> */}
                         </div>
                     </div>
                     <h3>Theme</h3>

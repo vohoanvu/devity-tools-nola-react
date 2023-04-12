@@ -167,11 +167,16 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
 
     function toggleShowConfigurations() {
         setShowConfigurations(!showConfigurations);
+
+        let isMinMode = $("[data-w_id=\"" + widget.id + "\"]").hasClass("min");
+        if (isMinMode) {
+            $(`#maximize-btn-${widget.id}`).trigger("click");
+        }
     }
 
     return (
         <div className="w_overflowable">
-            <button type="button" title="Click to configure" className="config-gear-btn gear" onClick={toggleShowConfigurations}>
+            <button type="button" title="Click to configure" className="config-gear-btn" onClick={toggleShowConfigurations}>
                 <img src={btn_image_config} className="gear" alt="devity gear"/>
             </button>
             {

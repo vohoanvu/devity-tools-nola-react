@@ -2,11 +2,6 @@
     "API_URL": "https://api.devity-tools.com",  
     "SSO_URL": "https://noladigital.net",
     "DEVITY" : "https://devity-tools.com",
-    "GOOGLE_API_KEY" : "AIzaSyAzgX2yArFJrRogwd5GCdkjmQaUwGUWMqs",
-    "GOOGLE_SEARCH_ENGINE" : "b2801acca79e24323",
-    "GOOGLE_SEARCH_ENGINE_URL" : "https://www.googleapis.com/customsearch/v1",
-    "YOUTUBE_API_URL": "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=",
-    "YOUTUBE_API_KEY" : "AIzaSyCbhOplocxL1BSRHPNc5hPhbTnAQfJOQe4",
     "THEME_COLORS": {
         "PRIMARY": "#007bff",
         "SECONDARY": "#fc3"

@@ -128,9 +128,9 @@ list-style-type: none;
 }
 
 #prompt_container{
-  margin-left: 0;
   padding: 8px;
   background-color: var(--COLOR_BODY);
+  height: 50px;
 }
 #prompt_cmd{
   font-size: 20px;
@@ -322,12 +322,6 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
 .p-contents{
   padding: 10px;
   flex-wrap: wrap;
-}
-
-#console > div.cmd_type_radio label{
-  color: var(--COLOR_TEXT);
-  font-size: 12px;
-  align-self: center;;
 }
 
 .img-btn{
@@ -540,23 +534,6 @@ div.mce-content-body {
 }
 
 
-
-div[data-panel=RESULTS] {
-  display: flex;
-}
-
-#googleSearchResult {
-  float: left;
-}
-
-#youtubeSearchResults {
-  float: right;
-}
-
-.settings{
-  
-}
-
 .library table tr td{
   padding: 10px;
 }
@@ -723,12 +700,7 @@ span.w_copyable.filterable {
     height: 50%;
     width: 50%;;
   }
-  #console > div.cmd_type_radio{
-    display: flex;
-    width: 25%;
-    padding: 7px;
-    margin: auto;
-  }
+
   .nav-min{
     display: flex;
     float: right;
@@ -772,10 +744,6 @@ span.w_copyable.filterable {
     display: block;
   }
 
-  #console > div.cmd_type_radio{
-    display: flex;
-    padding: 7px;
-  }
   .nav-min{
     display: flex;
     float: right;
@@ -821,12 +789,7 @@ span.w_copyable.filterable {
     height: 50%;
     width: 50%;;
   }
-  .cmd_type_radio{
-    display: block;
-    padding: 7px;
-    margin-left: auto;
-    margin-right: 0;
-  }
+
   .profile{
     display: block;
   }

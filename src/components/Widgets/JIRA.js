@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "../../css/App.css";
+import "../../css/index.css";
 import $ from "jquery";
 import JiraCredentials from "../JiraCredentials";
+import btn_image_config from "../../img/d_btn_ctrl_config.png";
 
 const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged, axios }) => {
     const [tickets, setTickets] = useState([]);
@@ -169,7 +171,9 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
 
     return (
         <div className="w_overflowable">
-            <button type="button" className="link-button" onClick={toggleShowConfigurations}>Configs</button>
+            <button type="button" title="Click to configure" className="config-gear-btn gear" onClick={toggleShowConfigurations}>
+                <img src={btn_image_config} className="gear" alt="devity gear"/>
+            </button>
             {
                 showConfigurations && (
                     <JiraConfigurations 
@@ -194,7 +198,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                 tickets.length !== 0 ? 
                     <JiraIssuesTable 
                         issues={tickets} 
-                        jiraDomain={localStorage.getItem("jira_domain")}
+                        jiraDomain={jiraCredentials.DOMAIN}
                         widgetId={widget.id}/> : 
                     jiraSearchtError.code === 200 ? (
                         <div>

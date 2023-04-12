@@ -8,28 +8,17 @@ import Header  from "../components/Header";
 import CONFIG from "../config.json";
 import DevityBaseAxios from "../components/DevityAxiosConfig";
 import "../css/App.css";
-import SearchResults from "../components/SearchResults";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import ChatGPT from "../components/DevityChatGPT";
 const COOKIE_NAME = "devity-token";
 
 export default function App() 
 {
-    const [searchResult, setSearchResult] = useState([]);
-    const [videoResult, setvideoResult] = useState([]);
     const [isAllPanelRendered, setIsAllPanelRendered] = useState(false);
     const [isRateLimitModalOpen, setIsRateLimitModalOpen] = useState(false);
     const [is401ModalOpen, setIs401ModalOpen] = useState(false);
     const axios = DevityBaseAxios(()=> setIsRateLimitModalOpen(true), ()=> setIs401ModalOpen(true));
 
-
-    function renderResults(childResultData) {
-        setSearchResult(childResultData);
-    }
-
-    function renderVideoResults(childResultData) {
-        setvideoResult(childResultData);
-    }
 
     function renderSelectedPanels(isAllPanelRendered) {
         setIsAllPanelRendered(isAllPanelRendered);
@@ -61,20 +50,13 @@ export default function App()
             />
             <UserProvider axios={axios} setIs402ModalOpen={setIs401ModalOpen}>
                 <div id="header_container">
-                    <Console 
-                        passGoogleResultFromChildToParent={renderResults}
-                        passvideoResultFromChildToParent={renderVideoResults}
-                    />
+                    <Console />
                     <Header isPanelsRendered={isAllPanelRendered}></Header>
-                    
                 </div>
                 <ChatGPT/>
                 <DevityPanels signalAllPanelRendered={renderSelectedPanels} axios={axios}></DevityPanels>
                 <Profile COOKIE_NAME={COOKIE_NAME} axios={axios}></Profile>
                 <Libraries></Libraries>
-                <SearchResults
-                    searchData={searchResult}
-                    videoData={videoResult}/>
             </UserProvider>
         </div>
     );

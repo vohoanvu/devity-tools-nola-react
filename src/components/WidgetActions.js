@@ -141,6 +141,7 @@ export default function Widget(props)
                     src={btn_delete} alt="delete" 
                     aria-hidden="true"/>
                 <img 
+                    id={`maximize-btn-${props.widget.id}`}
                     className='img-btn maximize' 
                     onClick={()=>Maximize(props.widget.id)} 
                     src={btn_maximize} alt="maximize" 

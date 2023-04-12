@@ -5,6 +5,9 @@
 
 .config-gear-btn .gear{
     display: block;
-    width: 35px;
-    float: left;
+    width: 19px;
+    float: left;  
+    position: absolute;    
+    top: 4px;
+    left: 1px;
 }

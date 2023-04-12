@@ -1,75 +1,24 @@
 import * as React from "react";
 import $ from "jquery";
-import axios from "axios";
-import { useState, useContext } from "react";
-import { log } from "../Utilities"
-import CONFIG from "../config.json";
-import { UserContext } from "../api-integration/UserContext";
+import { useState } from "react";
+import { log } from "../Utilities";
 import btn_delete_sm from "../img/btn_delete_sm.png";
 import { abbreviate30Chars } from "../Utilities";
-const GOOGLE_SEARCH_API = CONFIG.GOOGLE_SEARCH_ENGINE_URL + "?key=" + CONFIG.GOOGLE_API_KEY + "&cx=" + CONFIG.GOOGLE_SEARCH_ENGINE;
 const FilterCmd = "#f";
-const SearchCmd = "#s";
 
 
-const Console = (props) => 
+const Console = () => 
 {
-    const [err, setErr] = useState("");
     const [cmd, setCmd] = useState(FilterCmd);
     const [params, setParams] = useState(" ");
     const keys_ignore = ["Shift", "Capslock", "Alt", "Control", "Alt", "Delete", "End", "PageDown", "PageUp", "Meta", "ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft", "NumLock", "Pause", "ScrollLock", "Home", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10","F11","F12"];
     const command_ignore = ["Tab", "Escape"];
-    const userContext = useContext(UserContext);
     const [filterTerm, setFilterTerm] = useState("");
 
     const runCommand = async () => {
-
-        switch(cmd) {
-        case SearchCmd:
-
-            $(".p-panel").hide();
-            $("div[data-panel=RESULTS]").show();
-            $("div[data-panel=RESULTS] .gear").addClass("rotate");
-            userContext.setActivePanel("RESULTS");
-            if (params) {
-            
-                const googleSearchApi = GOOGLE_SEARCH_API + "&q=" + encodeURIComponent(params);
-                await axios.get(googleSearchApi)
-                    .then((res) => {
-                        console.log("google search results: ", res);
-                        localStorage.setItem("curr_view", "RESULTS");
-                        props.passGoogleResultFromChildToParent(res.data.items);
-                    
-                        $("div[data-panel=RESULTS] .gear").removeClass("rotate");
-                        //log('fetched google search api results for ' + params);
-                    })
-                    .catch((error) => {
-                        setErr(error);
-                        log(err);
-                    });
-
-
-                const youtubeSearchApi = CONFIG.YOUTUBE_API_URL 
-          + encodeURIComponent(params) + "&type=video&key=" + CONFIG.YOUTUBE_API_KEY;
-                await axios.get(youtubeSearchApi)
-                    .then((res) => {
-                        localStorage.setItem("curr_view", "RESULTS");
-                        return res.data.items;
-                    })
-                    .then((result) => {
-                        console.log("youtube search results: ", result);
-                        props.passvideoResultFromChildToParent(result);
-                        $("div[data-panel=RESULTS] .gear").removeClass("rotate");
-                        //log('fetched youtube results for ' + params);
-                    })
-                    .catch((error) => console.log(error));
-
-            } else {
-                log("Attempt to search without entering search term");
-            }
-            break;
+        switch(cmd) 
+        {
         case "#devity":
-
             if(params === "clear"){$("#console_output").empty();}
             if(params === "profile"){$("#nav_profile").trigger("click");}
             if(params === "clipboard"){$("#nav_clipboard").trigger("click");}
@@ -114,13 +63,7 @@ const Console = (props) =>
                 $("#prompt_input").val("");
 
             }
-            if(params === "#s" || params === SearchCmd){
-                setCmd(SearchCmd)
-                setParams("");
-                $("#prompt_input").val("");
-                $(".filterable").parent().show();
 
-            }
             if(params === "#d" || params === "#devity"){
                 setCmd("#devity")
                 setParams("");
@@ -144,12 +87,6 @@ const Console = (props) =>
         });
     }
 
-    function handleCmdChange(e) {
-        setCmd("#" + e.target.value);
-        $("#prompt_input").focus();
-        if (e.target.value === "s") clearFilterTerm();
-    }
-
     function handleKeyUp(e) {
 
         var key = e.key;
@@ -171,37 +108,9 @@ const Console = (props) =>
         }
     }
 
-    function RadionButtonFilter(){
-        if(cmd === FilterCmd){
-            return <input onChange={handleCmdChange} type="radio" name="cmdType" checked value="f" />;
-        }
-        else{
-            return <input onChange={handleCmdChange} type="radio" name="cmdType" value="f" />;
-        }
-    }
-    function RadionButtonSearch(){
-        if(cmd === SearchCmd){
-            return <input onChange={handleCmdChange} type="radio" name="cmdType" checked value="s" />;
-        }
-        else{
-            return <input onChange={handleCmdChange} type="radio" name="cmdType" value="s" />;
-        }
-    }
-
     return (
         <div id="console" className="console">
-            <script src="https://apis.google.com/js/api.js"></script>
-            <div className='cmd_type_radio'>
-                <RadionButtonFilter /><label htmlFor="opt_search">Filter</label><br />
-                <RadionButtonSearch /><label htmlFor="opt_filter">Search</label>
-            </div>
             <div id="prompt_container" className="border">
-                <div id="console_log" className="hide">
-                    <ul id="console_output" className="console">
-                        <li>Welcome to devity!</li>
-                    </ul>
-            
-                </div>
                 <span id='prompt_cmd'>{cmd}&gt;</span>
                 <input 
                     onKeyDown={(e) => handleKeyDown(e)}
@@ -230,7 +139,6 @@ const Console = (props) =>
                     aria-label="Search"
                     value={filterTerm}>
                 </input>
-                <div id="search_results"></div>
             </div>
             {
                 cmd === FilterCmd && filterTerm.length !== 0 && (

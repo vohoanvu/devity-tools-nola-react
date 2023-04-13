@@ -19,10 +19,11 @@ body {
 }
 
 .border {
-    border: 1px;
-    border-style: solid;
-    border-radius: 7.5px;
-    border-color: var(--COLOR_BRD);
+  border: 3px;    
+  border-color: var(--COLOR_BRD);    
+  border-radius: 16.5px;    
+  border-style: solid;    
+  margin-top: 2%;
 }
 
 code {
@@ -538,6 +539,7 @@ div.mce-content-body {
   padding: 10px;
 }
 
+
 #library-hd{
  display: flex;
  width: 400px;
@@ -661,9 +663,7 @@ span.w_copyable.filterable {
 .ticket-priorities input[type="checkbox"] {
   border: 1px solid var(--COLOR_LINK_VISITED);
 }
-.issue-horizontal {
-  display: flexbox;
-}
+
 .link-button {
   background-color: transparent;
   border: none;

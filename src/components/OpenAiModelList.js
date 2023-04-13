@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../css/chatgpt.css";
 //import { Configuration, OpenAIApi } from "openai";
-const chatCompletionModels = ["gpt-4", "gpt-4-0314", "gpt-4-32k", "gpt-4-32k-0314", "gpt-3.5-turbo", "gpt-3.5-turbo-0301"];
+const chatCompletionModels = ["gpt-4", "gpt-4-0314", "gpt-3.5-turbo", "gpt-3.5-turbo-0301"]; //gpt-4-32k-0314,gpt-4-32k
 
 const OpenAIModelList = (props) => {
     const [models, setModels] = useState([]);

@@ -138,11 +138,7 @@ export default function Profile({ COOKIE_NAME, axios })
 
     function updateGptModel(target) 
     {
-        if (target.value.length === 0) {
-            localStorage.removeItem("gpt-model");
-        } else {
-            localStorage.setItem("gpt-model", target.value);
-        }
+        localStorage.setItem("gpt-model", target.value);
         const event = new Event("storageUpdated");
         window.dispatchEvent(event);
     }

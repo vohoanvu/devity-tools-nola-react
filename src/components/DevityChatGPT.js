@@ -156,9 +156,9 @@ export default function DevityChatGPT()
         var markdownExp = /\[([^[]+)\]\(([^)]+)\)/g;
         var urlExp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi;
         if (markdownExp.test(text)) {
-            return text.replace(markdownExp, "<a href='$2'>$1</a>");
+            return text.replace(markdownExp, "<a target='_blank' rel='noreferrer' href='$2'>$1</a>");
         } else {
-            return text.replace(urlExp, "<a href='$1'>$1</a>");
+            return text.replace(urlExp, "<a target='_blank' rel='noreferrer' href='$1'>$1</a>");
         }
     }
 
@@ -278,6 +278,7 @@ export default function DevityChatGPT()
                                     handleChatSubmit(e);
                                 }
                             }}
+                            style={{ resize: "both" }} // Make the textarea resizable
                         />
                         <button type="submit" title="send chat">
                             <img src={send_chat_btn} alt="send-chat button" className="send-chat-btn-img"/>

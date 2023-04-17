@@ -23,7 +23,8 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
     const [jiraCredentials, setJiraCredentials] = useState({
         TOKEN: "",
         DOMAIN: "",
-        EMAIL: ""
+        EMAIL: "",
+        PROJECT_ID: ""
     });
 
     useEffect(() => {
@@ -33,11 +34,13 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
             const apiToken = configs["TOKEN"];
             const domain = configs["DOMAIN"];
             const email = configs["EMAIL"];
+            const projectId = configs["PROJECT_ID"];
             if (apiToken && domain && email) {
                 setJiraCredentials({
                     TOKEN: apiToken,
                     DOMAIN: domain,
-                    EMAIL: email
+                    EMAIL: email,
+                    PROJECT_ID: projectId
                 });
                 fetchJiraTickets(apiToken, domain, email, configs["DUTY"], configs["ISSUETYPES"], configs["STATUSES"], configs["PRIORITIES"]);
             } else {
@@ -260,10 +263,12 @@ function JiraConfigurations(props)
         PRIORITIES: props.priorities,
         TOKEN: props.jiraCredentials.TOKEN,
         DOMAIN: props.jiraCredentials.DOMAIN,
-        EMAIL: props.jiraCredentials.EMAIL
+        EMAIL: props.jiraCredentials.EMAIL,
+        PROJECT_ID: props.jiraCredentials.PROJECT_ID
     });
     const [jiraWidget, setJiraWidget] = useState({});
     const [priorityOptions, setPriorityOptions] = useState([]);
+    const [projectStatuses, setProjectStatuses] = useState([]);
     const axios = props.axios;
     const jira_token_uri = "https://id.atlassian.com/manage-profile/security/api-tokens";
 
@@ -318,10 +323,42 @@ function JiraConfigurations(props)
 
         setJiraWidget(props.widget);
         fetchPriorities();
+        fetchProjectStatuses();
         $(`#save-btn-${props.widget.id}`).hide();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [axios, props.widget, props.isConfigsChanged]);
     
+    async function fetchProjectStatuses() {
+        const apiToken = props.jiraCredentials.TOKEN;
+        const domain = props.jiraCredentials.DOMAIN;
+        const email = props.jiraCredentials.EMAIL;
+        const projectId = props.jiraCredentials.PROJECT_ID;
+        if (!projectId) return;
+
+        const postBody = {
+            uri: `${domain}/rest/api/3/project/${projectId}/statuses`,
+            email: email,
+            api_token: apiToken
+        };
+        await axios.post("/api/proxy/jira", postBody).then(response => {
+            if (response.status === 200) {
+                const issueTypesList = response.data.data
+                    .filter(issuetype => issuetype.name === "Task" || issuetype.name === "Bug" || issuetype.name === "Story");
+                const projectStatuses = issueTypesList[0].statuses.map(status => status.name);
+                setProjectStatuses(projectStatuses);
+            }
+        }).catch(error => {
+            console.log(error);
+            const errMsgList = [ error.response.status === 400 ? "Bad Request! Please check your credentials" : error.message ];
+            if (!error.response.data.success) {
+                errMsgList.push("Status from JIRA =>> "+error.response.data.message);
+            }
+            props.setJiraPriorityErrors({
+                code: error.response.status,
+                errMessages: errMsgList
+            });
+        });
+    }
 
     function handleDutyChange(changeEvent) {
         $(`#save-btn-${props.widget.id}`).show();
@@ -335,7 +372,8 @@ function JiraConfigurations(props)
         sendContentToParent({ 
             DOMAIN: configsContentObj.DOMAIN,
             TOKEN: configsContentObj.TOKEN,
-            EMAIL: configsContentObj.EMAIL
+            EMAIL: configsContentObj.EMAIL,
+            PROJECT_ID: configsContentObj.PROJECT_ID
         });
     }
 
@@ -354,7 +392,12 @@ function JiraConfigurations(props)
         configsContentObj.STATUSES = props.ticketStatuses;
         configsContentObj.PRIORITIES = props.priorities;
         setConfigsContentObj(configsContentObj);
-        sendContentToParent();
+        sendContentToParent({ 
+            DOMAIN: configsContentObj.DOMAIN,
+            TOKEN: configsContentObj.TOKEN,
+            EMAIL: configsContentObj.EMAIL,
+            PROJECT_ID: configsContentObj.PROJECT_ID
+        });
     }
 
     function handleStatusChange(changeEvent) {
@@ -372,7 +415,12 @@ function JiraConfigurations(props)
         configsContentObj.ISSUETYPES = props.ticketTypes;
         configsContentObj.PRIORITIES = props.priorities;
         setConfigsContentObj(configsContentObj);
-        sendContentToParent();
+        sendContentToParent({ 
+            DOMAIN: configsContentObj.DOMAIN,
+            TOKEN: configsContentObj.TOKEN,
+            EMAIL: configsContentObj.EMAIL,
+            PROJECT_ID: configsContentObj.PROJECT_ID
+        });
     }
 
     function handlePriorityChange(changeEvent) {
@@ -390,13 +438,19 @@ function JiraConfigurations(props)
         configsContentObj.ISSUETYPES = props.ticketTypes;
         configsContentObj.STATUSES = props.ticketStatuses;
         setConfigsContentObj(configsContentObj);
-        sendContentToParent();
+        sendContentToParent({ 
+            DOMAIN: configsContentObj.DOMAIN,
+            TOKEN: configsContentObj.TOKEN,
+            EMAIL: configsContentObj.EMAIL,
+            PROJECT_ID: configsContentObj.PROJECT_ID
+        });
     }
 
-    function sendContentToParent({ DOMAIN, EMAIL, TOKEN }) {
+    function sendContentToParent({ DOMAIN, EMAIL, TOKEN, PROJECT_ID }) {
         configsContentObj.DOMAIN = DOMAIN;
         configsContentObj.EMAIL = EMAIL;
         configsContentObj.TOKEN = TOKEN;
+        configsContentObj.PROJECT_ID = PROJECT_ID;
 
         const putBody = {
             ...jiraWidget,
@@ -485,47 +539,69 @@ function JiraConfigurations(props)
                     </label>
                 </div>
                 <h4>Ticket Status</h4>
-                <div className="ticket-statuses">
-                    <label>
-                        <input 
-                            type="checkbox" 
-                            value="Backlog" 
-                            checked={props.ticketStatuses.includes("Backlog")}
-                            onChange={handleStatusChange}
-                        />
-                        Backlog
-                    </label>
-                    <br />
-                    <label>
-                        <input 
-                            type="checkbox" 
-                            value="Selected for Development" 
-                            checked={props.ticketStatuses.includes("Selected for Development")}
-                            onChange={handleStatusChange}
-                        />
-                        Selected For Development
-                    </label>
-                    <br />
-                    <label>
-                        <input 
-                            type="checkbox" 
-                            value="In Progress" 
-                            checked={props.ticketStatuses.includes("In Progress")}
-                            onChange={handleStatusChange}
-                        />
-                        In Progress
-                    </label>
-                    <br />
-                    <label>
-                        <input 
-                            type="checkbox" 
-                            value="Done" 
-                            checked={props.ticketStatuses.includes("Done")}
-                            onChange={handleStatusChange}
-                        />
-                        Done
-                    </label>
-                </div>
+                {
+                    projectStatuses.length === 0 ? (
+                        <div className="ticket-statuses">
+                            <label>
+                                <input 
+                                    type="checkbox" 
+                                    value="Backlog" 
+                                    checked={props.ticketStatuses.includes("Backlog")}
+                                    onChange={handleStatusChange}
+                                />
+                                Backlog
+                            </label>
+                            <br />
+                            <label>
+                                <input 
+                                    type="checkbox" 
+                                    value="Selected for Development" 
+                                    checked={props.ticketStatuses.includes("Selected for Development")}
+                                    onChange={handleStatusChange}
+                                />
+                                Selected For Development
+                            </label>
+                            <br />
+                            <label>
+                                <input 
+                                    type="checkbox" 
+                                    value="In Progress" 
+                                    checked={props.ticketStatuses.includes("In Progress")}
+                                    onChange={handleStatusChange}
+                                />
+                                In Progress
+                            </label>
+                            <br />
+                            <label>
+                                <input 
+                                    type="checkbox" 
+                                    value="Done" 
+                                    checked={props.ticketStatuses.includes("Done")}
+                                    onChange={handleStatusChange}
+                                />
+                                Done
+                            </label>
+                        </div>
+                    ) : (
+                        <div className="ticket-statuses">
+                            {
+                                projectStatuses.map((status, index) => {
+                                    return (
+                                        <label key={index}>
+                                            <input 
+                                                type="checkbox" 
+                                                value={status} 
+                                                checked={props.ticketStatuses.includes(status)}
+                                                onChange={handleStatusChange}
+                                            />
+                                            {status} 
+                                        </label>
+                                    );
+                                })
+                            }
+                        </div>
+                    )
+                }
                 <h4>Ticket priorities</h4>
                 <div className="ticket-priorities">
                     {

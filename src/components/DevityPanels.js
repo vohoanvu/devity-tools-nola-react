@@ -101,6 +101,7 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
                 jsonObject["TOKEN"] = "";
                 jsonObject["DOMAIN"] = "";
                 jsonObject["EMAIL"] = "";
+                jsonObject["PROJECT_ID"] = "";
             }
             return jsonObject;
         default:

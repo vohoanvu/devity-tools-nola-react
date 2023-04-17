@@ -5,10 +5,12 @@ export default class JiraCredentials extends React.Component
 {
     constructor(props) {
         super(props);
+        //these must match the <input/> Name attribute
         this.state = {
             jira_token: "",
             jiraDomain: "",
-            jiraUserId: ""
+            jiraUserId: "",
+            jiraProjectId: ""
         };
 
         this.jiraDomainRegex = /^([a-zA-Z0-9-]+).atlassian.(net|com)$/;
@@ -18,7 +20,8 @@ export default class JiraCredentials extends React.Component
         this.setState({
             jira_token: this.props.jiraCredentials.TOKEN,
             jiraDomain: this.props.jiraCredentials.DOMAIN,
-            jiraUserId: this.props.jiraCredentials.EMAIL
+            jiraUserId: this.props.jiraCredentials.EMAIL,
+            jiraProjectId: this.props.jiraCredentials.PROJECT_ID
         });
     }
 
@@ -80,6 +83,24 @@ export default class JiraCredentials extends React.Component
         $(`#save-btn-${this.props.widgetId}`).show();
     }
 
+    handleProjectIdOnBlur = (event) => {
+        this.props.setConfigsContentObj({
+            ...this.props.configsContentObj,
+            PROJECT_ID: event.target.value
+        });
+        this.props.setJiraCredentials({
+            ...this.props.jiraCredentials,
+            PROJECT_ID: event.target.value
+        });
+        this.props.sendContentToDevityPanels({
+            DOMAIN: this.state.jiraDomain,
+            EMAIL: this.state.jiraUserId,
+            TOKEN: this.state.jira_token,
+            PROJECT_ID: this.state.jiraProjectId
+        });
+        $(`#save-btn-${this.props.widgetId}`).show();
+    }
+
 
     handleOnChange = (event) => {
         this.setState({
@@ -127,6 +148,16 @@ export default class JiraCredentials extends React.Component
                                     name="jira_token"
                                     value={this.state.jira_token} 
                                     onBlur={this.handleTokenOnBlur.bind(this)} 
+                                    onChange={this.handleOnChange.bind(this)}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label htmlFor="jiraProjectId">Jira Project Id (optional):</label></td>
+                                <td><input 
+                                    type="text" 
+                                    name="jiraProjectId"
+                                    value={this.state.jiraProjectId ?? ""} 
+                                    onBlur={this.handleProjectIdOnBlur.bind(this)} 
                                     onChange={this.handleOnChange.bind(this)}/>
                                 </td>
                             </tr>

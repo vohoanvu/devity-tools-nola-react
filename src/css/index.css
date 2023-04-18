@@ -19,3 +19,15 @@
 .issue-horizontal td:nth-child(4) {
     text-align: center;
 }
+
+
+#ai-save-single {
+    border: none;
+    display: flex;
+    float: right;
+    padding: 0 0 0 0;
+}
+#ai-save-single img {
+    width: 30px;
+    height: 30px;
+}

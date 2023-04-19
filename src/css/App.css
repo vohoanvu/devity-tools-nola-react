@@ -259,7 +259,8 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
   }
   .p-chrome button{
     display: block;
-    align-self: left;
+    margin-left: auto;
+    border: none;
   }
   
   .p-chrome .gear{

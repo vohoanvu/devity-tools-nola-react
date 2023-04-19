@@ -587,15 +587,17 @@ function JiraConfigurations(props)
                             {
                                 projectStatuses.map((status, index) => {
                                     return (
-                                        <label key={index}>
-                                            <input 
-                                                type="checkbox" 
-                                                value={status} 
-                                                checked={props.ticketStatuses.includes(status)}
-                                                onChange={handleStatusChange}
-                                            />
-                                            {status} 
-                                        </label>
+                                        <>
+                                            <label key={index}>
+                                                <input 
+                                                    type="checkbox" 
+                                                    value={status} 
+                                                    checked={props.ticketStatuses.includes(status)}
+                                                    onChange={handleStatusChange}
+                                                />
+                                                {status} 
+                                            </label><br/>
+                                        </>
                                     );
                                 })
                             }

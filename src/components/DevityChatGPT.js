@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Configuration, OpenAIApi } from "openai";
-//import ReactMarkdown from "react-markdown";
+import "../css/index.css";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import send_chat_btn from "../img/send_chat.png";
+import ai_btn_save from "../img/save_btn_original.png";
 import "../css/chatgpt.css";
 import $ from "jquery";
 import ConfigData from "../config.json";
@@ -16,10 +17,10 @@ const defaultPrompt = [
     //{"role": "assistant", "content": "Please specify what kind of software system that you want to build as microservice! But here is an example:\n 1. Install Docker"}
 ];
 // const testAnswers = [
-//     {"role": "user", "content": "Please write Hello World program in PHP."},
-//     {"role": "assistant", "content": "Sure, here are sample Hello World programs in PHP and JavaScript:\n\nPHP:\n```php\n<?php\necho \"Hello World!\";\n?>\n```\n\nJavaScript:\n```javascript\nconsole.log(\"Hello World!\");\n```\n\nNote: The PHP code needs to be saved in a file with .php extension and be run on a web server with PHP installed. The JavaScript code can be saved in a file with .js extension and be run on a web browser."},
-//     {"role": "user", "content": "Now write Hello World program in C# and JavaScript."},
-//     {"role": "assistant", "content": "Sure! Here is the 'Hello World' code in C#:\n\n```csharp\nusing System;\n\nclass Program {\n  static void Main(string[] args) {\n    Console.WriteLine(\"Hello World\");\n    Console.ReadKey();\n  }\n}\n```\n\nAnd here is the 'Hello World' code in JavaScript:\n\n```javascript\nconsole.log('Hello World');\n``` \n\nBoth of these code snippets will output \"Hello World\" to the console."},
+//     // {"role": "user", "content": "Please write Hello World program in PHP."},
+//     // {"role": "assistant", "content": "Sure, here are sample Hello World programs in PHP and JavaScript:\n\nPHP:\n```php\n<?php\necho \"Hello World!\";\n?>\n```\n\nJavaScript:\n```javascript\nconsole.log(\"Hello World!\");\n```\n\nNote: The PHP code needs to be saved in a file with .php extension and be run on a web server with PHP installed. The JavaScript code can be saved in a file with .js extension and be run on a web browser."},
+//     // {"role": "user", "content": "Now write Hello World program in C# and JavaScript."},
+//     // {"role": "assistant", "content": "Sure! Here is the 'Hello World' code in C#:\n\n```csharp\nusing System;\n\nclass Program {\n  static void Main(string[] args) {\n    Console.WriteLine(\"Hello World\");\n    Console.ReadKey();\n  }\n}\n```\n\nAnd here is the 'Hello World' code in JavaScript:\n\n```javascript\nconsole.log('Hello World');\n``` \n\nBoth of these code snippets will output \"Hello World\" to the console."},
 //     {"role": "user", "content": "Write Hello World program in Ruby."},
 //     {"role": "assistant", "content": "Here's the Hello World program in Ruby:\n\n```ruby\nputs \"Hello, world!\"\n```\n\nThis code will output \"Hello, world!\" to the console." },
 //     {"role": "user", "content": "Write Hello World program in Ruby on Rails."},
@@ -56,7 +57,7 @@ const defaultPrompt = [
 // ];
 
 
-export default function DevityChatGPT()
+export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreated, setIsDataLimitModalOpen })
 {
     const [apiKey, setApiKey] = useState(localStorage.getItem("openai-api-key"));
     const [prompt, setPrompt] = useState(defaultPrompt);
@@ -152,6 +153,52 @@ export default function DevityChatGPT()
         setTimeout(() => setCopySuccess(false), 1500);
     };
 
+    async function handleAIConversationSave() {
+        console.log("Saving AI conversation into NOTE...", $("div.output-completion").html());
+
+        await saveAIResponseAsNoteWidget($("div.output-completion").html());
+    }
+
+    async function handleAISingleMessageSave(index) {
+        console.log("Single AI message...", $(`#ai-single-answer-${index}`).html());
+
+        await saveAIResponseAsNoteWidget($(`#ai-single-answer-${index}`).html());
+    }
+
+    async function saveAIResponseAsNoteWidget(htmlContent) {
+        let jsonObject = {};
+        jsonObject["NOTES"] = "<p>" + htmlContent + "</p>";
+
+        let currentNoteWidgets = $("div[data-panel=NOTES]").find(".w-container min border");
+        
+        const newNoteWidget = {
+            w_content: JSON.stringify(jsonObject),
+            name: "AI Title",
+            order: currentNoteWidgets.length+1,
+            w_type: "NOTES",
+            height : 300,
+            width: 300
+        }
+
+        //$("div[data-panel=" + type + "] .gear").addClass("rotate");
+        await axios.post("/api/widgets/", { ...newNoteWidget })
+            .then(response => {
+                return response.data;
+            })
+            .then(result => {
+                if (result.id) {
+                    setIsAINoteCreated(!isAINoteCreated);
+                    console.log("Created AI NOTE widget.", result);
+                }
+            })
+            .catch(err => {
+                console.log(err.response);
+                if (err.response && err.response.status === 402) {
+                    setIsDataLimitModalOpen(true);
+                }
+            });
+    }
+
     function replaceURLandMarkdownWithHTMLLinks(text) {
         var markdownExp = /\[([^[]+)\]\(([^)]+)\)/g;
         var urlExp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi;
@@ -219,6 +266,15 @@ export default function DevityChatGPT()
                     <label style={{marginLeft:"10px"}}> Tokens Used: {tokenCount} |</label>
                     <label style={{marginLeft:"10px"}}> GPT Model Used: {localStorage.getItem("gpt-model") ?? ConfigData.OPENAI_GPT_MODEL}</label>
                 </div>
+                <button title="Save AI conversation">
+                    <img
+                        onClick={() => {
+                            handleAIConversationSave();
+                        }}
+                        src={ai_btn_save} 
+                        alt="save widget"
+                        aria-hidden="true"/>
+                </button>
             </div>
 
 
@@ -232,7 +288,7 @@ export default function DevityChatGPT()
                                         <label>You: <span>{msg.content}</span></label>
                                     </li>
                                 ) : (
-                                    <li key={index}>
+                                    <li id={`ai-single-answer-${index}`} key={index}>
                                         {
                                             renderAICompletionText(msg.content).map((part, index) => {
                                                 if (index === 0) {
@@ -242,6 +298,13 @@ export default function DevityChatGPT()
                                                 }
                                             })
                                         }
+                                        <button id="ai-save-single" title="Save single AI answer">
+                                            <img
+                                                onClick={() => handleAISingleMessageSave(index)}
+                                                src={ai_btn_save}
+                                                alt="save widget"
+                                                aria-hidden="true"/>
+                                        </button>
                                     </li>
                                 );
                                 

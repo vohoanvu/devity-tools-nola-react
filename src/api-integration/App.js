@@ -17,6 +17,8 @@ export default function App()
     const [isAllPanelRendered, setIsAllPanelRendered] = useState(false);
     const [isRateLimitModalOpen, setIsRateLimitModalOpen] = useState(false);
     const [is401ModalOpen, setIs401ModalOpen] = useState(false);
+    const [isAINoteCreated, setIsAINoteCreated] = useState(false);
+    const [isDataLimitModalOpen, setIsDataLimitModalOpen] = useState(false);
     const axios = DevityBaseAxios(()=> setIsRateLimitModalOpen(true), ()=> setIs401ModalOpen(true));
 
 
@@ -53,8 +55,17 @@ export default function App()
                     <Console />
                     <Header isPanelsRendered={isAllPanelRendered}></Header>
                 </div>
-                <ChatGPT/>
-                <DevityPanels signalAllPanelRendered={renderSelectedPanels} axios={axios}></DevityPanels>
+                <ChatGPT 
+                    axios={axios}
+                    isAINoteCreated={isAINoteCreated}
+                    setIsAINoteCreated={setIsAINoteCreated}
+                    setIsDataLimitModalOpen={setIsDataLimitModalOpen}/>
+                <DevityPanels 
+                    isAINoteCreated={isAINoteCreated}
+                    signalAllPanelRendered={renderSelectedPanels} 
+                    axios={axios}
+                    isDataLimitModalOpen={isDataLimitModalOpen}
+                    setIsDataLimitModalOpen={setIsDataLimitModalOpen}></DevityPanels>
                 <Profile COOKIE_NAME={COOKIE_NAME} axios={axios}></Profile>
                 <Libraries></Libraries>
             </UserProvider>

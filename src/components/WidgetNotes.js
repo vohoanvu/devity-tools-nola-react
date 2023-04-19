@@ -42,6 +42,12 @@ export default function Note(props)
             .catch((err) => log(err));
     }
 
+    function decodeHtml(html) {
+        var parser = new DOMParser();
+        var htmlDoc = parser.parseFromString(html, "text/html");
+        return htmlDoc.body.textContent;
+    }
+
     return (
         <div className='widget notes filterable'>
             <div className='tiny-editor-box'>
@@ -59,12 +65,14 @@ export default function Note(props)
                             onEditorChange={(newContent) => {
                                 if (newContent !== noteContent) {
                                     setNoteContent(newContent);
-                                    $(`#save-btn-${props.widget.id}`).show();
-                                    props.widget.w_content = {
-                                        NOTES: newContent
-                                    };
-                                    console.log("Note Title to be save...", props.widget);
-                                    props.sendContentToParent(props.widget, null, null);
+                                    if (props.widget.name !== "AI Title" || decodeHtml(newContent).replace(/\s+/g, "") !== decodeHtml(noteContent).replace(/\s+/g, "")) {
+                                        $(`#save-btn-${props.widget.id}`).show();
+                                        props.widget.w_content = {
+                                            NOTES: newContent
+                                        };
+                                        console.log("Note Title to be saved...", props.widget);
+                                        props.sendContentToParent(props.widget, null, null);
+                                    }
                                 }
                             }}
                             init={{

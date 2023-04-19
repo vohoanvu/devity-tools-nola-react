@@ -14,7 +14,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Cookies from "universal-cookie";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 
-export default function DevityPanels({ signalAllPanelRendered, axios }) 
+export default function DevityPanels({ isAINoteCreated, signalAllPanelRendered, axios, isDataLimitModalOpen, setIsDataLimitModalOpen }) 
 {
     const [wObject, setWObject] = useState({}); // { NOTES: [{}, {}], LINKS: [{}, {}], CLIPBOARD: [{}, {}] }
     const inputRef = useRef();
@@ -29,7 +29,7 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
         isRssUriChanged: false,
         isJiraConfigsChanged: false
     });
-    const [isDataLimitModalOpen, setIsDataLimitModalOpen] = useState(false);
+    //const [isDataLimitModalOpen, setIsDataLimitModalOpen] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -53,7 +53,7 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
             fetchData();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [isAINoteCreated]);
 
 
     async function w_add(widgetType, widgetList, devitySubType = null) {
@@ -114,7 +114,7 @@ export default function DevityPanels({ signalAllPanelRendered, axios })
         $("div[data-panel=" + type + "] .gear").addClass("rotate");
         await axios.post("/api/widgets/", { ...postBody })
             .then(response => {
-                return response.data
+                return response.data;
             })
             .then(result => {
                 postBody["id"] = result.id;

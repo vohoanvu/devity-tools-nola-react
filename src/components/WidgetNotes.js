@@ -76,7 +76,7 @@ export default function Note(props)
                                 }
                             }}
                             init={{
-                                height: 250,
+                                height: 1000,
                                 menubar: false,
                                 plugins: ["anchor","autolink","charmap", "codesample","link","lists", "searchreplace","table", "code"],
                                 toolbar: "bold italic underline strikethrough | link table | align lineheight | numlist bullist indent outdent | removeformat | code",

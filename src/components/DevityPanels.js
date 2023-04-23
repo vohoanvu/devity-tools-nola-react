@@ -29,7 +29,7 @@ export default function DevityPanels({ isAINoteCreated, signalAllPanelRendered, 
         isRssUriChanged: false,
         isJiraConfigsChanged: false
     });
-    //const [isDataLimitModalOpen, setIsDataLimitModalOpen] = useState(false);
+    const [noteReloadFlag, setNoteReloadFlag] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -206,7 +206,8 @@ export default function DevityPanels({ isAINoteCreated, signalAllPanelRendered, 
                 widget={widget} 
                 sendContentToParent={sendPUTContentToParent}
                 activePanel={widgetType}
-                axios={axios}/>;
+                axios={axios}
+                noteReloadFlag={noteReloadFlag}/>;
 
         case "DEVITY":
             if (widget.w_type_sub === "RSS")
@@ -268,8 +269,15 @@ export default function DevityPanels({ isAINoteCreated, signalAllPanelRendered, 
         });
         $("div[data-panel=" + type + "] .gear").addClass("rotate");
         return await axios.post("/api/widgets/order", { ...postBody })
-            .then(response => console.log("On Order POST Response: ", response.status))
-            .then(result => $("div[data-panel=" + type + "] .gear").removeClass("rotate"))
+            .then(response => {
+                console.log("On Order POST Response: ", response);
+            })
+            .then(result => {
+                $("div[data-panel=" + type + "] .gear").removeClass("rotate");
+                if (type === "NOTES") {
+                    setNoteReloadFlag(true);
+                }
+            })
             .catch(err => console.log(err));
     }
 

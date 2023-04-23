@@ -16,52 +16,52 @@ const defaultPrompt = [
     //{"role": "user", "content": "Generate step-by-step instructions on how to configure and build ASP.NET Core Microservice system with Docker"},
     //{"role": "assistant", "content": "Please specify what kind of software system that you want to build as microservice! But here is an example:\n 1. Install Docker"}
 ];
-// const testAnswers = [
-//     // {"role": "user", "content": "Please write Hello World program in PHP."},
-//     // {"role": "assistant", "content": "Sure, here are sample Hello World programs in PHP and JavaScript:\n\nPHP:\n```php\n<?php\necho \"Hello World!\";\n?>\n```\n\nJavaScript:\n```javascript\nconsole.log(\"Hello World!\");\n```\n\nNote: The PHP code needs to be saved in a file with .php extension and be run on a web server with PHP installed. The JavaScript code can be saved in a file with .js extension and be run on a web browser."},
-//     // {"role": "user", "content": "Now write Hello World program in C# and JavaScript."},
-//     // {"role": "assistant", "content": "Sure! Here is the 'Hello World' code in C#:\n\n```csharp\nusing System;\n\nclass Program {\n  static void Main(string[] args) {\n    Console.WriteLine(\"Hello World\");\n    Console.ReadKey();\n  }\n}\n```\n\nAnd here is the 'Hello World' code in JavaScript:\n\n```javascript\nconsole.log('Hello World');\n``` \n\nBoth of these code snippets will output \"Hello World\" to the console."},
-//     {"role": "user", "content": "Write Hello World program in Ruby."},
-//     {"role": "assistant", "content": "Here's the Hello World program in Ruby:\n\n```ruby\nputs \"Hello, world!\"\n```\n\nThis code will output \"Hello, world!\" to the console." },
-//     {"role": "user", "content": "Write Hello World program in Ruby on Rails."},
-//     {
-//         "role": "assistant",
-//         "content": "Here is the \"Hello, World!\" code in Ruby on Rails:\n\n1. First, make sure you have Ruby and Rails installed on your computer.\n2. Open a terminal or command prompt and type the following command:\n\n   ```\n   rails new hello_world\n   ```\n\n3. This will create a new Rails application with the name \"hello_world\".\n4. Navigate into the newly created directory by typing:\n\n   ```\n   cd hello_world\n   ```\n\n5. Open the file `config/routes.rb` in your favorite text editor, and enter the following code:\n\n   ```ruby\n   Rails.application.routes.draw do\n     root 'application#hello'\n   end\n   ```\n\n6. This code sets up a route that maps the root URL '/' to the `hello` action of the `application` controller.\n7. Open the file `app/controllers/application_controller.rb` in your text editor and add the following method:\n\n   ```ruby\n   class ApplicationController < ActionController::Base\n     def hello\n       render html: \"Hello, World!\"\n     end\n   end\n   ```\n\n8. This code adds an action named `hello` to the `ApplicationController` that simply renders the text \"Hello, World!\".\n9. Start the Rails server by typing:\n\n   ```\n   rails server\n   ```\n\n10. Open your web browser and navigate to `http://localhost:3000`. You should see the text \"Hello, World!\" displayed on the page.\n\nThat's it! You've written and executed your first Ruby on Rails application."
-//     },
-//     {"role": "user", "content": "Write Hello World program in Java"},
-//     {
-//         "role": "assistant",
-//         "content": "Here's the code to print \"Hello, World!\" in Java:\n\n```java\npublic class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}\n```\n\nThis code creates a Java class called `HelloWorld` with a `main` method that outputs the string \"Hello, World!\" to the console using the `System.out.println` method."
-//     },
-//     {"role": "user", "content": "Suggest to me 3 Spotify Premium playlists for focused programming session"},
-//     {
-//         "role": "assistant",
-//         "content": "Here are three playlists on Spotify that I recommend for a focused programming session:\n\n1. \"Deep Focus\" - This playlist features instrumental tracks with slow, calming rhythms to help you concentrate while you work.\n\n2. \"Chill Tracks\" - This playlist has a mix of electronic, hip-hop, and indie tracks that are relaxing and enjoyable while working.\n\n3. \"Lo-fi Beats\" - Lo-fi hip-hop beats are known for their calm and chill vibe that can boost your productivity and focus during work. This playlist features plenty of lo-fi tracks perfect for a programming session."
-//     },
-//     {
-//         "role": "user",
-//         "content": "I'm a developer who wants to learn about nx-dotnet. Can you suggest the three best introductory videos on youtube about nx-dotnet?"
-//     },
-//     {
-//         "role": "assistant",
-//         "content": "Sure, here are three good videos on YouTube that provide an introduction to nx-dotnet:\n\n1. **Getting Started with Nx and .NET Core**: This video by John Papa, one of the creators of Nx, provides an excellent introduction to using Nx with .NET Core. He covers the basics of Nx, shows how to set up a new Nx workspace with .NET Core, and provides examples of using Nx commands to generate and test code. \n\nLink: https://www.youtube.com/watch?v=CAzE5flnrdc\n\n2. **Building Full-stack Web Apps with Nx and ASP.NET Core**: This video by Stephen Fluin provides an overview of using Nx to develop full-stack web applications with ASP.NET Core. He covers how to create an Nx workspace, generate an ASP.NET Core application, and build and test the app with Nx commands. \n\nLink: https://www.youtube.com/watch?v=vxtl5X5zu5M\n\n3. **Nx Workspaces and .NET Core: Best Practices**: This video by Jeremy Likness provides an in-depth look at using Nx with .NET Core and covers best practices for organizing your code and setting up your workspace. He also provides examples of using Nx commands to manage dependencies, generate code, and test your application.\n\nLink: https://www.youtube.com/watch?v=iilDwBaVTfg"
-//     },
-//     {
-//         "role": "user",
-//         "content": "now regenerate the same response for the same prompt, but this time you write the hyperlink text extracted from the content response in the markdown format like [link-title-description](https://www.youtube.com/watch?)"
-//     },
-//     {
-//         "role": "assistant",
-//         "content": "Sure, here are the three best introductory videos on `nx-dotnet`:\n\n1. [Nx for .NET Developers - How to Use Nx with .NET Core Projects - YouTube](https://www.youtube.com/watch?v=KjZp-Vxqroo&ab_channel=nrwl%3ANext)\n2. [Angular + .NET + NX = The Perfect Trio (Angular Conf 2020) - YouTube](https://www.youtube.com/watch?v=JuuF92H1mXE&ab_channel=Angular)\n3. [Practical Full-stack Development with Nx, Node, and React - YouTube](https://www.youtube.com/watch?v=F4EzRM4iFbc&ab_channel=nrwl%3ANext)\n\nHere's the same response written in markdown format:\n\n1. [Nx for .NET Developers - How to Use Nx with .NET Core Projects - YouTube](https://www.youtube.com/watch?v=KjZp-Vxqroo&ab_channel=nrwl%3ANext)\n2. [Angular + .NET + NX = The Perfect Trio (Angular Conf 2020) - YouTube](https://www.youtube.com/watch?v=JuuF92H1mXE&ab_channel=Angular)\n3. [Practical Full-stack Development with Nx, Node, and React - YouTube](https://www.youtube.com/watch?v=F4EzRM4iFbc&ab_channel=nrwl%3ANext)"
-//     }
-// ];
+const testAnswers = [
+    // {"role": "user", "content": "Please write Hello World program in PHP."},
+    // {"role": "assistant", "content": "Sure, here are sample Hello World programs in PHP and JavaScript:\n\nPHP:\n```php\n<?php\necho \"Hello World!\";\n?>\n```\n\nJavaScript:\n```javascript\nconsole.log(\"Hello World!\");\n```\n\nNote: The PHP code needs to be saved in a file with .php extension and be run on a web server with PHP installed. The JavaScript code can be saved in a file with .js extension and be run on a web browser."},
+    // {"role": "user", "content": "Now write Hello World program in C# and JavaScript."},
+    // {"role": "assistant", "content": "Sure! Here is the 'Hello World' code in C#:\n\n```csharp\nusing System;\n\nclass Program {\n  static void Main(string[] args) {\n    Console.WriteLine(\"Hello World\");\n    Console.ReadKey();\n  }\n}\n```\n\nAnd here is the 'Hello World' code in JavaScript:\n\n```javascript\nconsole.log('Hello World');\n``` \n\nBoth of these code snippets will output \"Hello World\" to the console."},
+    {"role": "user", "content": "Write Hello World program in Ruby."},
+    {"role": "assistant", "content": "Here's the Hello World program in Ruby:\n\n```ruby\nputs \"Hello, world!\"\n```\n\nThis code will output \"Hello, world!\" to the console." },
+    {"role": "user", "content": "Write Hello World program in Ruby on Rails."},
+    {
+        "role": "assistant",
+        "content": "Here is the \"Hello, World!\" code in Ruby on Rails:\n\n1. First, make sure you have Ruby and Rails installed on your computer.\n2. Open a terminal or command prompt and type the following command:\n\n   ```\n   rails new hello_world\n   ```\n\n3. This will create a new Rails application with the name \"hello_world\".\n4. Navigate into the newly created directory by typing:\n\n   ```\n   cd hello_world\n   ```\n\n5. Open the file `config/routes.rb` in your favorite text editor, and enter the following code:\n\n   ```ruby\n   Rails.application.routes.draw do\n     root 'application#hello'\n   end\n   ```\n\n6. This code sets up a route that maps the root URL '/' to the `hello` action of the `application` controller.\n7. Open the file `app/controllers/application_controller.rb` in your text editor and add the following method:\n\n   ```ruby\n   class ApplicationController < ActionController::Base\n     def hello\n       render html: \"Hello, World!\"\n     end\n   end\n   ```\n\n8. This code adds an action named `hello` to the `ApplicationController` that simply renders the text \"Hello, World!\".\n9. Start the Rails server by typing:\n\n   ```\n   rails server\n   ```\n\n10. Open your web browser and navigate to `http://localhost:3000`. You should see the text \"Hello, World!\" displayed on the page.\n\nThat's it! You've written and executed your first Ruby on Rails application."
+    },
+    {"role": "user", "content": "Write Hello World program in Java"},
+    {
+        "role": "assistant",
+        "content": "Here's the code to print \"Hello, World!\" in Java:\n\n```java\npublic class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}\n```\n\nThis code creates a Java class called `HelloWorld` with a `main` method that outputs the string \"Hello, World!\" to the console using the `System.out.println` method."
+    },
+    {"role": "user", "content": "Suggest to me 3 Spotify Premium playlists for focused programming session"},
+    {
+        "role": "assistant",
+        "content": "Here are three playlists on Spotify that I recommend for a focused programming session:\n\n1. \"Deep Focus\" - This playlist features instrumental tracks with slow, calming rhythms to help you concentrate while you work.\n\n2. \"Chill Tracks\" - This playlist has a mix of electronic, hip-hop, and indie tracks that are relaxing and enjoyable while working.\n\n3. \"Lo-fi Beats\" - Lo-fi hip-hop beats are known for their calm and chill vibe that can boost your productivity and focus during work. This playlist features plenty of lo-fi tracks perfect for a programming session."
+    },
+    {
+        "role": "user",
+        "content": "I'm a developer who wants to learn about nx-dotnet. Can you suggest the three best introductory videos on youtube about nx-dotnet?"
+    },
+    {
+        "role": "assistant",
+        "content": "Sure, here are three good videos on YouTube that provide an introduction to nx-dotnet:\n\n1. **Getting Started with Nx and .NET Core**: This video by John Papa, one of the creators of Nx, provides an excellent introduction to using Nx with .NET Core. He covers the basics of Nx, shows how to set up a new Nx workspace with .NET Core, and provides examples of using Nx commands to generate and test code. \n\nLink: https://www.youtube.com/watch?v=CAzE5flnrdc\n\n2. **Building Full-stack Web Apps with Nx and ASP.NET Core**: This video by Stephen Fluin provides an overview of using Nx to develop full-stack web applications with ASP.NET Core. He covers how to create an Nx workspace, generate an ASP.NET Core application, and build and test the app with Nx commands. \n\nLink: https://www.youtube.com/watch?v=vxtl5X5zu5M\n\n3. **Nx Workspaces and .NET Core: Best Practices**: This video by Jeremy Likness provides an in-depth look at using Nx with .NET Core and covers best practices for organizing your code and setting up your workspace. He also provides examples of using Nx commands to manage dependencies, generate code, and test your application.\n\nLink: https://www.youtube.com/watch?v=iilDwBaVTfg"
+    },
+    {
+        "role": "user",
+        "content": "now regenerate the same response for the same prompt, but this time you write the hyperlink text extracted from the content response in the markdown format like [link-title-description](https://www.youtube.com/watch?)"
+    },
+    {
+        "role": "assistant",
+        "content": "Sure, here are the three best introductory videos on `nx-dotnet`:\n\n1. [Nx for .NET Developers - How to Use Nx with .NET Core Projects - YouTube](https://www.youtube.com/watch?v=KjZp-Vxqroo&ab_channel=nrwl%3ANext)\n2. [Angular + .NET + NX = The Perfect Trio (Angular Conf 2020) - YouTube](https://www.youtube.com/watch?v=JuuF92H1mXE&ab_channel=Angular)\n3. [Practical Full-stack Development with Nx, Node, and React - YouTube](https://www.youtube.com/watch?v=F4EzRM4iFbc&ab_channel=nrwl%3ANext)\n\nHere's the same response written in markdown format:\n\n1. [Nx for .NET Developers - How to Use Nx with .NET Core Projects - YouTube](https://www.youtube.com/watch?v=KjZp-Vxqroo&ab_channel=nrwl%3ANext)\n2. [Angular + .NET + NX = The Perfect Trio (Angular Conf 2020) - YouTube](https://www.youtube.com/watch?v=JuuF92H1mXE&ab_channel=Angular)\n3. [Practical Full-stack Development with Nx, Node, and React - YouTube](https://www.youtube.com/watch?v=F4EzRM4iFbc&ab_channel=nrwl%3ANext)"
+    }
+];
 
 
 export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreated, setIsDataLimitModalOpen })
 {
     const [apiKey, setApiKey] = useState(localStorage.getItem("openai-api-key"));
     const [prompt, setPrompt] = useState(defaultPrompt);
-    const [messages, setMessages] = useState([]); //[{"role": "assistant","content": "\n\nHello there, how may I assist you today?"}]
+    const [messages, setMessages] = useState(testAnswers); //[{"role": "assistant","content": "\n\nHello there, how may I assist you today?"}]
     const [inputText, setInputText] = useState("");
     const [tokenCount, setTokenCount] = useState(0);
     const [copySuccess, setCopySuccess] = useState(false);
@@ -137,6 +137,7 @@ export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreat
                 status: error.response.status,
                 message: error.response.data.error.message
             });
+            $("div[data-panel=CHATGPT] .gear").removeClass("rotate");
         });
     };
 
@@ -154,26 +155,22 @@ export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreat
     };
 
     async function handleAIConversationSave() {
-        console.log("Saving AI conversation into NOTE...", $("div.output-completion").html());
-
         await saveAIResponseAsNoteWidget($("div.output-completion").html());
     }
 
     async function handleAISingleMessageSave(index) {
-        console.log("Single AI message...", $(`#ai-single-answer-${index}`).html());
-
         await saveAIResponseAsNoteWidget($(`#ai-single-answer-${index}`).html());
     }
 
     async function saveAIResponseAsNoteWidget(htmlContent) {
         let jsonObject = {};
-        jsonObject["NOTES"] = "<p>" + htmlContent + "</p>";
+        jsonObject["NOTES"] = "<div class='ai-conversation'><p>" + htmlContent + "</p></div>";
 
         let currentNoteWidgets = $("div[data-panel=NOTES]").find(".w-container min border");
         
         const newNoteWidget = {
             w_content: JSON.stringify(jsonObject),
-            name: "AI Title",
+            name: localStorage.getItem("gpt-model") ?? ConfigData.OPENAI_GPT_MODEL,
             order: currentNoteWidgets.length+1,
             w_type: "NOTES",
             height : 300,

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { log } from "../Utilities";
+import ConfigData from "../config.json";
 import $ from "jquery";
 
 export default function Note(props)
@@ -65,7 +66,8 @@ export default function Note(props)
                             onEditorChange={(newContent) => {
                                 if (newContent !== noteContent) {
                                     setNoteContent(newContent);
-                                    if (props.widget.name !== "AI Title" || decodeHtml(newContent).replace(/\s+/g, "") !== decodeHtml(noteContent).replace(/\s+/g, "")) {
+                                    let AINoteTitle = localStorage.getItem("gpt-model") ?? ConfigData.OPENAI_GPT_MODEL
+                                    if (props.widget.name !== AINoteTitle || decodeHtml(newContent).replace(/\s+/g, "") !== decodeHtml(noteContent).replace(/\s+/g, "")) {
                                         $(`#save-btn-${props.widget.id}`).show();
                                         props.widget.w_content = {
                                             NOTES: newContent
@@ -76,7 +78,7 @@ export default function Note(props)
                                 }
                             }}
                             init={{
-                                height: 250,
+                                height: 1000,
                                 menubar: false,
                                 plugins: ["anchor","autolink","charmap", "codesample","link","lists", "searchreplace","table", "code"],
                                 toolbar: "bold italic underline strikethrough | link table | align lineheight | numlist bullist indent outdent | removeformat | code",

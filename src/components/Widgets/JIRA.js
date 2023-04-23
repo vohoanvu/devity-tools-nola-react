@@ -98,7 +98,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
         await axios.post("/api/proxy/jira", postBody)
             .then(response => {
                 console.log("JIRA tickets res list: ", response.data.data.issues);
-                console.log("JIRA ticket res status: ", response.status);
+                //console.log("JIRA ticket res status: ", response.status);
                 if (response.status === 200) {
                     setJiraSearchError({code: 200})
                 }

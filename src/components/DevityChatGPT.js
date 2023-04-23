@@ -137,6 +137,7 @@ export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreat
                 status: error.response.status,
                 message: error.response.data.error.message
             });
+            $("div[data-panel=CHATGPT] .gear").removeClass("rotate");
         });
     };
 
@@ -154,26 +155,22 @@ export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreat
     };
 
     async function handleAIConversationSave() {
-        console.log("Saving AI conversation into NOTE...", $("div.output-completion").html());
-
         await saveAIResponseAsNoteWidget($("div.output-completion").html());
     }
 
     async function handleAISingleMessageSave(index) {
-        console.log("Single AI message...", $(`#ai-single-answer-${index}`).html());
-
         await saveAIResponseAsNoteWidget($(`#ai-single-answer-${index}`).html());
     }
 
     async function saveAIResponseAsNoteWidget(htmlContent) {
         let jsonObject = {};
-        jsonObject["NOTES"] = "<p>" + htmlContent + "</p>";
+        jsonObject["NOTES"] = "<div class='ai-conversation'><p>" + htmlContent + "</p></div>";
 
         let currentNoteWidgets = $("div[data-panel=NOTES]").find(".w-container min border");
         
         const newNoteWidget = {
             w_content: JSON.stringify(jsonObject),
-            name: "AI Title",
+            name: localStorage.getItem("gpt-model") ?? ConfigData.OPENAI_GPT_MODEL,
             order: currentNoteWidgets.length+1,
             w_type: "NOTES",
             height : 300,

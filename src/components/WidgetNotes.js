@@ -3,18 +3,20 @@ import { Editor } from "@tinymce/tinymce-react";
 import { log } from "../Utilities";
 import ConfigData from "../config.json";
 import $ from "jquery";
+import styleAxios from "axios";
 
 export default function Note(props)
 {
     const [note, setNote] = useState({});
     const [noteContent, setNoteContent] = useState(null);
     const editorRef = useRef(null);
+    const [customTinyStyle, setCustomTinyStyle] = useState("");
     const axios = props.axios;
 
     useEffect(() => {
+        getCustomTinyStyleText();
         const curr_view = props.activePanel;
         (async () => {
-            //console.log("beginging useEffect in WidgetNotes.js");
             if ((curr_view && curr_view !== "NOTES" && curr_view !== "ALL") || 
             (curr_view === "NOTES" && note["w_content"])) return;
 
@@ -50,6 +52,17 @@ export default function Note(props)
         return htmlDoc.body.textContent;
     }
 
+    async function getCustomTinyStyleText()
+    {
+        await styleAxios.get("/css/tiny-content-style.css")
+            .then(response => {
+                return response.data;
+            }).then(result => {
+                setCustomTinyStyle(result);
+            })
+            .catch(error => console.log(error.response));
+    }
+
     return (
         <div className='widget notes filterable'>
             <div className='tiny-editor-box'>
@@ -83,7 +96,8 @@ export default function Note(props)
                                 menubar: false,
                                 plugins: ["anchor","autolink","charmap", "codesample","link","lists", "searchreplace","table", "code"],
                                 toolbar: "bold italic underline strikethrough | link table | align lineheight | numlist bullist indent outdent | removeformat | code",
-                                content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                                //content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                                content_style: customTinyStyle,
                                 skin_url: "./css/CUSTOM/skins/ui/CUSTOM"
                             }}
                         />

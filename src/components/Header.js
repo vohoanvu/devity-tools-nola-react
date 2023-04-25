@@ -51,6 +51,7 @@ export default function Header()
     function onNavigateClicked(target) {
         localStorage.setItem("curr_view", target);
         if (target !== "CONSOLE") userContext.setActivePanel(target);
+        if (target === "NOTES") $("#nav_notes").removeClass("lightning-animation");
         onNavigate(target);
     }
 
@@ -79,7 +80,7 @@ export default function Header()
             </button>
 
             <button id='nav_notes' onClick={()=>onNavigateClicked("NOTES")}>
-                <img  src={btn_image_notes} className="" alt="Notes" /><br />
+                <img src={btn_image_notes} alt="Notes"/><br />
                 <span>Notes</span>
             </button>
 
@@ -87,11 +88,6 @@ export default function Header()
                 <img  src={btn_image_lib} className="" alt="Libraries" /><br />
                 <span>Libraries</span>
             </button>
-
-            {/* <button id="nav_console" onClick={()=>onNavigateClicked("CONSOLE")}>
-                <img  src={btn_image_code} className="" alt="Console" /><br />
-                <span>Console</span>
-            </button> */}
 
 
             <button id='nav_profile' onClick={()=>onNavigateClicked("PROFILE")}>

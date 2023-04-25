@@ -159,7 +159,7 @@ export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreat
     }
 
     async function handleAISingleMessageSave(index) {
-        await saveAIResponseAsNoteWidget($(`#ai-single-answer-${index}`).html());
+        await saveAIResponseAsNoteWidget($(`#ai-single-answer-${index+1}`).html());
     }
 
     async function saveAIResponseAsNoteWidget(htmlContent) {
@@ -177,7 +177,7 @@ export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreat
             width: 300
         }
 
-        //$("div[data-panel=" + type + "] .gear").addClass("rotate");
+        $("div[data-panel=CHATGPT] .gear").addClass("rotate");
         await axios.post("/api/widgets/", { ...newNoteWidget })
             .then(response => {
                 return response.data;
@@ -186,6 +186,7 @@ export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreat
                 if (result.id) {
                     setIsAINoteCreated(!isAINoteCreated);
                     console.log("Created AI NOTE widget.", result);
+                    $("div[data-panel=CHATGPT] .gear").removeClass("rotate");
                 }
             })
             .catch(err => {
@@ -193,6 +194,7 @@ export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreat
                 if (err.response && err.response.status === 402) {
                     setIsDataLimitModalOpen(true);
                 }
+                $("div[data-panel=CHATGPT] .gear").removeClass("rotate");
             });
     }
 
@@ -283,6 +285,13 @@ export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreat
                                 let result = msg.role === "user" ? (
                                     <li key={index}>
                                         <label>You: <span>{msg.content}</span></label>
+                                        <button id="ai-save-single" title="Save single AI answer">
+                                            <img
+                                                onClick={() => handleAISingleMessageSave(index)}
+                                                src={ai_btn_save}
+                                                alt="save widget"
+                                                aria-hidden="true"/>
+                                        </button>
                                     </li>
                                 ) : (
                                     <li id={`ai-single-answer-${index}`} key={index}>
@@ -295,13 +304,6 @@ export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreat
                                                 }
                                             })
                                         }
-                                        <button id="ai-save-single" title="Save single AI answer">
-                                            <img
-                                                onClick={() => handleAISingleMessageSave(index)}
-                                                src={ai_btn_save}
-                                                alt="save widget"
-                                                aria-hidden="true"/>
-                                        </button>
                                     </li>
                                 );
                                 

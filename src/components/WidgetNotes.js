@@ -20,6 +20,7 @@ export default function Note(props)
 
             const content = await getWidgetContentById(props.widget.id);
             const jsonContent = JSON.parse(content);
+
             setNoteContent(jsonContent.NOTES);
             const currentWidget = {
                 ...props.widget,

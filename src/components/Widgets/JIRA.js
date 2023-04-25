@@ -28,7 +28,8 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
     });
 
     useEffect(() => {
-        if (activePanel && activePanel !== "DEVITY") return;
+        if ((activePanel && activePanel !== "DEVITY") || 
+        (activePanel === "DEVITY" && jiraSearchtError.code === 200)) return;
 
         const reloadJiraContent = (widgetId) => getJiraConfigurationsContent(widgetId).then(configs => {
             const apiToken = configs["TOKEN"];

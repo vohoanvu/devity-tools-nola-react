@@ -275,7 +275,7 @@ export default function DevityPanels({ isAINoteCreated, signalAllPanelRendered, 
             .then(result => {
                 $("div[data-panel=" + type + "] .gear").removeClass("rotate");
                 if (type === "NOTES") {
-                    setNoteReloadFlag(true);
+                    setNoteReloadFlag(!noteReloadFlag);
                 }
             })
             .catch(err => console.log(err));

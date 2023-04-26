@@ -10,30 +10,30 @@ export default function Note(props)
     const [note, setNote] = useState({});
     const [noteContent, setNoteContent] = useState(null);
     const editorRef = useRef(null);
-    const [customTinyStyle, setCustomTinyStyle] = useState("");
     const axios = props.axios;
+    const [customTinyStyle, setCustomTinyStyle] = useState("");
 
     useEffect(() => {
-        getCustomTinyStyleText();
         const curr_view = props.activePanel;
+        if (props.widget.name) getCustomTinyStyleText();
         (async () => {
             if ((curr_view && curr_view !== "NOTES" && curr_view !== "ALL") || 
             (curr_view === "NOTES" && note["w_content"])) return;
 
             const content = await getWidgetContentById(props.widget.id);
             const jsonContent = JSON.parse(content);
-
+            
             setNoteContent(jsonContent.NOTES);
             const currentWidget = {
                 ...props.widget,
                 w_content: jsonContent
             }
-            setNote(currentWidget);
+            setNote(currentWidget);            
         })();
 
         $(`#save-btn-${props.widget.id}`).hide();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.widget, props.activePanel]);
+    }, [props.widget, props.activePanel, props.isAINoteCreated]);
 
     async function getWidgetContentById(w_id) {
         return await axios.get("/api/widgets/"+ w_id)
@@ -42,7 +42,9 @@ export default function Note(props)
                 //console.log("Get NOTES widget");
                 //console.log(res.data);
                 return res.data.w_content;
-            }).then(result => {return result;} )
+            }).then(result => {
+                return result;
+            })
             .catch((err) => log(err));
     }
 
@@ -75,7 +77,9 @@ export default function Note(props)
                         <Editor
                             id={props.widget.id}
                             apiKey='c706reknirqudytbeuz7vvwxpc7qdscxg9j4jixwm0zhqbo4'
-                            onInit={(evt, editor) => editorRef.current = editor}
+                            onInit={(evt, editor) => {
+                                editorRef.current = editor;
+                            }}
                             value={ noteContent }
                             onEditorChange={(newContent) => {
                                 if (newContent !== noteContent) {
@@ -86,7 +90,7 @@ export default function Note(props)
                                         props.widget.w_content = {
                                             NOTES: newContent
                                         };
-                                        console.log("Note Title to be saved...", props.widget);
+                                        //console.log("Note Title to be saved...", props.widget);
                                         props.sendContentToParent(props.widget, null, null);
                                     }
                                 }

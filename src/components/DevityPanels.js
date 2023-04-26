@@ -14,7 +14,13 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Cookies from "universal-cookie";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 
-export default function DevityPanels({ isAINoteCreated, signalAllPanelRendered, axios, isDataLimitModalOpen, setIsDataLimitModalOpen }) 
+export default function DevityPanels({ 
+    isAINoteCreated, 
+    signalAllPanelRendered, 
+    axios, 
+    isDataLimitModalOpen, 
+    setIsDataLimitModalOpen
+}) 
 {
     const [wObject, setWObject] = useState({}); // { NOTES: [{}, {}], LINKS: [{}, {}], CLIPBOARD: [{}, {}] }
     const inputRef = useRef();
@@ -207,7 +213,8 @@ export default function DevityPanels({ isAINoteCreated, signalAllPanelRendered, 
                 sendContentToParent={sendPUTContentToParent}
                 activePanel={widgetType}
                 axios={axios}
-                noteReloadFlag={noteReloadFlag}/>;
+                noteReloadFlag={noteReloadFlag}
+                isAINoteCreated={isAINoteCreated}/>;
 
         case "DEVITY":
             if (widget.w_type_sub === "RSS")
@@ -232,10 +239,10 @@ export default function DevityPanels({ isAINoteCreated, signalAllPanelRendered, 
 
     }
 
-    const reorder = (list, startIndex, endIndex) => {
+    const reorder = (list, oldIndex, newIndex) => {
         const result = Array.from(list);
-        const [removed] = result.splice(startIndex, 1);
-        result.splice(endIndex, 0, removed);
+        const [removed] = result.splice(oldIndex, 1);
+        result.splice(newIndex, 0, removed);
   
         return result;
     };
@@ -258,10 +265,10 @@ export default function DevityPanels({ isAINoteCreated, signalAllPanelRendered, 
             [widgetType]: newItems
         });
 
-        onDragEndSaveInDb(newItems, widgetType);
+        SaveWidgetOrderInDb(newItems, widgetType);
     };
 
-    async function onDragEndSaveInDb(orderedWidgetList, type) {
+    async function SaveWidgetOrderInDb(orderedWidgetList, type) {
         console.log("new order: ", orderedWidgetList);
         let postBody = {};
         orderedWidgetList.forEach((item, index) => {

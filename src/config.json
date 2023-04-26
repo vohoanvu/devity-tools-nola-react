@@ -2,6 +2,7 @@
     "API_URL": "https://api.devity-tools.com",  
     "SSO_URL": "https://noladigital.net",
     "DEVITY" : "https://devity-tools.com",
+    "TINYMCE_API_KEY" : "c706reknirqudytbeuz7vvwxpc7qdscxg9j4jixwm0zhqbo4",
     "THEME_COLORS": {
         "PRIMARY": "#007bff",
         "SECONDARY": "#fc3"

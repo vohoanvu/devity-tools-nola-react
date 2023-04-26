@@ -132,9 +132,12 @@ export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreat
         }).catch(error => {
             //console.log("error.response: ",error.response);
             //console.log("error.message: ",error.message);
+            let errorMsg = error.response.data.error.message.includes("gpt-4") ? 
+                "gpt-4 model is currently in limited beta. Please sign up for GPT-4 API waitlist <a target='_blank' href='https://openai.com/product/gpt-4' rel='noreferrer'>here</a>" : 
+                error.response.data.error.message;
             setError({
                 status: error.response.status,
-                message: error.response.data.error.message
+                message: errorMsg
             });
             $("div[data-panel=CHATGPT] .gear").removeClass("rotate");
         });

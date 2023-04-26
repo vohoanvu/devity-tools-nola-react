@@ -76,7 +76,7 @@ export default function Note(props)
                     ) : (
                         <Editor
                             id={props.widget.id}
-                            apiKey='c706reknirqudytbeuz7vvwxpc7qdscxg9j4jixwm0zhqbo4'
+                            apiKey={ConfigData.TINYMCE_API_KEY}
                             onInit={(evt, editor) => {
                                 editorRef.current = editor;
                             }}

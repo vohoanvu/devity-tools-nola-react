@@ -5,6 +5,12 @@ body {
 br[data-mce-bogus="1"] {
     display: none;
 }
+div.code-block-chrome > button {
+    display: none;
+}
+#ai-save-single {
+    display: none;
+}
 
 #tinymce > div > ul {
     display: flex;

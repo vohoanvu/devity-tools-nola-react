@@ -65,7 +65,8 @@ export default function App()
                     signalAllPanelRendered={renderSelectedPanels} 
                     axios={axios}
                     isDataLimitModalOpen={isDataLimitModalOpen}
-                    setIsDataLimitModalOpen={setIsDataLimitModalOpen}></DevityPanels>
+                    setIsDataLimitModalOpen={setIsDataLimitModalOpen}
+                    setIsAINoteCreated={setIsAINoteCreated}></DevityPanels>
                 <Profile COOKIE_NAME={COOKIE_NAME} axios={axios}></Profile>
                 <Libraries></Libraries>
             </UserProvider>

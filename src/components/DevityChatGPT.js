@@ -57,7 +57,7 @@ const defaultPrompt = [
 // ];
 
 
-export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreated, setIsDataLimitModalOpen })
+export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimitModalOpen, isAINoteCreated })
 {
     const [apiKey, setApiKey] = useState(localStorage.getItem("openai-api-key"));
     const [prompt, setPrompt] = useState(defaultPrompt);
@@ -133,7 +133,7 @@ export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreat
             //console.log("error.response: ",error.response);
             //console.log("error.message: ",error.message);
             let errorMsg = error.response.data.error.message.includes("gpt-4") ? 
-                "gpt-4 model is currently in limited beta. Please sign up for GPT-4 API waitlist <a target='_blank' href='https://openai.com/product/gpt-4' rel='noreferrer'>here</a>" : 
+                "gpt-4 model is currently in limited beta. Please sign up for GPT-4 API waitlist at https://openai.com/product/gpt-4" : 
                 error.response.data.error.message;
             setError({
                 status: error.response.status,
@@ -165,13 +165,12 @@ export default function DevityChatGPT({ axios, isAINoteCreated, setIsAINoteCreat
     async function saveAIResponseAsNoteWidget(htmlContent) {
         let jsonObject = {};
         jsonObject["NOTES"] = "<div class='ai-conversation'><p>" + htmlContent + "</p></div>";
-
-        let currentNoteWidgets = $("div[data-panel=NOTES]").find(".w-container min border");
+        //let currentNoteWidgets = $("div[data-panel=NOTES]").find(".w-container.min.border");
         
         const newNoteWidget = {
             w_content: JSON.stringify(jsonObject),
             name: localStorage.getItem("gpt-model") ?? ConfigData.OPENAI_GPT_MODEL,
-            order: currentNoteWidgets.length+1,
+            order: 0,
             w_type: "NOTES",
             height : 300,
             width: 300

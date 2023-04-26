@@ -2,3 +2,86 @@ body {
     font-family:Helvetica,Arial,sans-serif; 
     font-size:14px;
 }
+br[data-mce-bogus="1"] {
+    display: none;
+}
+
+#tinymce > div > ul {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding-inline-start: 0px;
+    flex-grow: 1;
+}
+#tinymce > div > ul > li {
+    list-style-type: none;
+    padding: 10px 10px 10px 10px;
+}
+
+#tinymce > div > ul > li:nth-child(odd) {
+    background-color: #16172a;
+}
+
+.ai-conversation {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    color: #7a72df;
+    overflow-y: auto;
+    width: 100%;
+    padding-inline-start: 0px;
+    flex-grow: 1;
+}
+.code-block-window {
+    background-color: #000;
+    border-radius: .375rem;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+.code-block-chrome {
+    color: #7a72df;
+    font-size: .75rem;
+    line-height: 1rem;
+    font-family: Söhne,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+    padding-bottom: .5rem;
+    padding-top: .5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    --tw-bg-opacity: 1;
+    background-color: #16172a;
+    border-top-left-radius: .375rem;
+    border-top-right-radius: .375rem;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    position: relative;
+}
+.code-block-div {
+    padding: 1rem;
+    overflow-y: auto;
+}
+.code-block-content {
+    border-radius: .3em;
+    padding: .1em;
+    word-wrap: normal;
+    background: none;
+    color: #7a72df;
+    -webkit-hyphens: none;
+    hyphens: none;
+    line-height: 1.5;
+    tab-size: 4;
+    text-align: left;
+    white-space: pre;
+    word-break: normal;
+    word-spacing: normal;
+    white-space: pre!important;
+}
+.border {
+    border: 3px;    
+    border-color: #22274e; 
+    border-radius: 16.5px;    
+    border-style: solid;    
+    margin-top: 2%;
+}

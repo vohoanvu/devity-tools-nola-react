@@ -1729,6 +1729,7 @@ body.tox-dialog__disable-scroll {
 .tox .tox-form__group--stretched .tox-textarea {
   flex: 1;
   -ms-flex-preferred-size: auto;
+  height: 30.5rem;
 }
 .tox .tox-form__group--stretched .tox-navobj {
   display: flex;

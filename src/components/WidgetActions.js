@@ -139,12 +139,16 @@ export default function Widget(props)
                 />
             </Editable>
             <div className='buttons'>
-                <img 
-                    className='img-btn download' 
-                    onClick={() => DownloadWidgetHandler(props.widget.w_type)} 
-                    src={btn_downnload} alt="download" 
-                    title="Download JSON file"
-                    aria-hidden="true"/>
+                {
+                    props.widget.w_type !== "DEVITY" && (
+                        <img 
+                            className='img-btn download' 
+                            onClick={() => DownloadWidgetHandler(props.widget.w_type)} 
+                            src={btn_downnload} alt="download" 
+                            title="Download JSON file"
+                            aria-hidden="true"/>
+                    )
+                }
                 <img 
                     id={`save-btn-${props.widget.id}`}
                     className='img-btn save' 

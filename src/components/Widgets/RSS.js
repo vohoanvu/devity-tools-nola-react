@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import CONFIG from "../../config.json";
 import "../../css/App.css";
+import { downloadStringAsFile } from "../../Utilities";
 const sso_url = CONFIG.SSO_URL;
 
 export default function Rss(props)
@@ -9,6 +10,7 @@ export default function Rss(props)
     const [rssWidget, setRssWidget] = useState({});
     const [rssFeed, setRssFeed] = useState(null);
     const axios = props.axios;
+    window.addEventListener(`JsonDevityDownloadRequested-${props.widget.id}`, downloadJSONContent);
 
     useEffect(() => {
         const curr_view = props.activePanel;
@@ -28,6 +30,14 @@ export default function Rss(props)
         $(`#save-btn-${props.widget.id}`).hide();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[props.isUriChanged, props.activePanel]);
+
+    function downloadJSONContent() 
+    {
+        if (rssWidget.w_content) {
+            downloadStringAsFile(rssWidget.w_content, `${rssWidget.name}.json`);
+            $("div[data-panel=DEVITY] .gear").removeClass("rotate");
+        }
+    }
 
     async function fetchFeed(rssUri) {
         if (rssUri.length === 0) return;
@@ -51,25 +61,6 @@ export default function Rss(props)
                 setRssFeed(result);
             })
             .catch((err) => console.log(err));
-
-        //const domParser = new DOMParser();
-        // await axios.get(rssUri)
-        //     .then(res => {
-        //         const xmlDoc = domParser.parseFromString(res.data, "application/xml");
-        //         const items = xmlDoc.getElementsByTagName("item");
-        //         const itemsArray = Array.prototype.map.call(items, item => {
-        //             const itemData = {};
-        //             Array.prototype.forEach.call(item.childNodes, child => {
-        //                 if(child.nodeName !== "#text") {
-        //                     itemData[child.nodeName] = child.textContent;
-        //                 }
-        //             });
-        //             return itemData;
-        //         });
-        //         return itemsArray;
-        //     })
-        //     .then(result => setRssFeed(result))
-        //     .catch((err) => console.log(err));
     }
 
     async function getWidgetContentById(w_id) {

@@ -165,20 +165,17 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(7, 159, 20, 1);
   background: linear-gradient(
     to right, 
-    rgba(255, 255, 255, 0.13) 0%,
-    rgba(255, 255, 255, 0.13) 77%,
-    rgba(255, 255, 255, 0.5) 92%,
+    rgba(11, 128, 69, 0.571) 0%,
+    rgba(13, 95, 98, 0.35) 77%,
+    rgba(8, 98, 112, 0.632) 92%,
     rgba(255, 255, 255, 0.0) 100%
   );
   transform: rotate(30deg);
   pointer-events: none;
-}
-
-.lightning-animation::before {
-  animation: lightning 1s linear infinite;
+  animation: lightning 2s linear 1 forwards;
 }
 
 @keyframes lightning {

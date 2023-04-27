@@ -119,7 +119,7 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
         $("div[data-panel=CHATGPT] .gear").addClass("rotate");
         await openai.createChatCompletion({
             model: localStorage.getItem("gpt-model") ?? ConfigData.OPENAI_GPT_MODEL,
-            messages: prompt,
+            messages: prompt
         }).then(response => {
             console.log("ChatCompletions response....", response);
             return response.data;
@@ -130,8 +130,6 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
             setInputText("");
             $("div[data-panel=CHATGPT] .gear").removeClass("rotate");
         }).catch(error => {
-            //console.log("error.response: ",error.response);
-            //console.log("error.message: ",error.message);
             let errorMsg = error.response.data.error.message.includes("gpt-4") ? 
                 "gpt-4 model is currently in limited beta. Please sign up for GPT-4 API waitlist at https://openai.com/product/gpt-4" : 
                 error.response.data.error.message;
@@ -174,7 +172,7 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
             w_type: "NOTES",
             height : 300,
             width: 300
-        }
+        };
 
         $("div[data-panel=CHATGPT] .gear").addClass("rotate");
         await axios.post("/api/widgets/", { ...newNoteWidget })

@@ -4,7 +4,7 @@ import btn_save from "../img/btn_save.png";
 import btn_maximize from "../img/btn_maximize.png";
 import btn_minimize from "../img/btn_minimize.png";
 import btn_delete from "../img/btn_delete.png";
-import btn_downnload from "../img/btn_downsize_35.png"
+import btn_downnload from "../img/btn_download.png"
 import $ from "jquery";
 
 
@@ -112,6 +112,9 @@ export default function Widget(props)
             break;
         case "CLIPBOARD":
             window.dispatchEvent(new Event(`JsonClipboardDownloadRequested-${props.widget.id}`));
+            break;
+        case "DEVITY":
+            window.dispatchEvent(new Event(`JsonDevityDownloadRequested-${props.widget.id}`));
             break;
         default:
             break;

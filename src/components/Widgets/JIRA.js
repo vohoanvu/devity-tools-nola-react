@@ -4,6 +4,7 @@ import "../../css/index.css";
 import $ from "jquery";
 import JiraCredentials from "../JiraCredentials";
 import btn_image_config from "../../img/d_btn_ctrl_config.png";
+import { downloadStringAsFile } from "../../Utilities";
 
 const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged, axios }) => {
     const [tickets, setTickets] = useState([]);
@@ -26,6 +27,8 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
         EMAIL: "",
         PROJECT_ID: ""
     });
+    const [jiraJsonContent, setJiraJsonContent] = useState({});
+    window.addEventListener(`JsonDevityDownloadRequested-${widget.id}`, downloadJSONContent);
 
     useEffect(() => {
         if ((activePanel && activePanel !== "DEVITY") || 
@@ -57,12 +60,20 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
         const jiraInterval = setInterval(() => {
             reloadJiraContent();
         }, 5 * 60 * 1000);
-
+        
         return () => {
             clearInterval(jiraInterval);
         };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isConfigsChanged, activePanel, widget.id]);
+
+    function downloadJSONContent() 
+    {
+        if (JSON.stringify(jiraJsonContent) !== "{}") {
+            downloadStringAsFile(JSON.stringify(jiraJsonContent), `${widget.name}.json`);
+            $("div[data-panel=DEVITY] .gear").removeClass("rotate");
+        }
+    }
 
     async function getJiraConfigurationsContent(w_id) {
         return await axios.get("/api/widgets/"+ w_id)
@@ -80,7 +91,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
                     setTicketStatuses(configsContent["STATUSES"]);
                     setPriorities(configsContent["PRIORITIES"]);
                 }
-                //console.log("Fetch Jira Configs, ", configsContent);
+                setJiraJsonContent(configsContent);
                 return configsContent;
             })
             .catch((err) => console.log(err));

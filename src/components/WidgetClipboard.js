@@ -4,7 +4,7 @@ import "../css/App.css";
 import Editable from "./Editable";
 import btn_add from "../img/btn_add.png";
 import btn_delete_sm from "../img/btn_delete_sm.png";
-import { abbriviate, currate_title } from "../Utilities";
+import { abbriviate, currate_title, downloadStringAsFile } from "../Utilities";
 
 
 export default function Clipboard(props)
@@ -16,6 +16,7 @@ export default function Clipboard(props)
     });
     const inputRef = useRef();
     const axios = props.axios;
+    window.addEventListener(`JsonClipboardDownloadRequested-${props.widget.id}`, downloadJSONContent);
 
     useEffect(() => {
         const curr_view = props.activePanel;
@@ -38,8 +39,21 @@ export default function Clipboard(props)
 
         getWidgetContent();
         $(`#save-btn-${props.widget.id}`).hide();
+
+        return () => {
+            window.removeEventListener(`JsonClipboardDownloadRequested-${props.widget.id}`, downloadJSONContent);
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.widget.id, props.activePanel]);
+
+    function downloadJSONContent() 
+    {
+        if (clipboardContent.widget.w_content) {
+            downloadStringAsFile(clipboardContent.widget.w_content, `${clipboardContent.widget.name}.json`);
+            $("div[data-panel=CLIPBOARD] .gear").removeClass("rotate");
+        }
+    }
+
 
     async function getWidgetContentById(w_id) {
         return await axios.get("/api/widgets/"+ w_id)

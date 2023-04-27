@@ -4,6 +4,7 @@ import btn_save from "../img/btn_save.png";
 import btn_maximize from "../img/btn_maximize.png";
 import btn_minimize from "../img/btn_minimize.png";
 import btn_delete from "../img/btn_delete.png";
+import btn_downnload from "../img/btn_downsize_35.png"
 import $ from "jquery";
 
 
@@ -100,6 +101,23 @@ export default function Widget(props)
         await props.callPUTRequest(putBody, props.widget.w_type);
     }
 
+    function DownloadWidgetHandler(type) {
+        $("div[data-panel=" + type + "] .gear").addClass("rotate");
+        switch (type) {
+        case "NOTES":
+            window.dispatchEvent(new Event(`JsonNoteDownloadRequested-${props.widget.id}`));
+            break;
+        case "LINKS":
+            window.dispatchEvent(new Event(`JsonLinkDownloadRequested-${props.widget.id}`));
+            break;
+        case "CLIPBOARD":
+            window.dispatchEvent(new Event(`JsonClipboardDownloadRequested-${props.widget.id}`));
+            break;
+        default:
+            break;
+        }
+    }
+
     return (
         <React.Fragment>
             <Editable 
@@ -118,6 +136,12 @@ export default function Widget(props)
                 />
             </Editable>
             <div className='buttons'>
+                <img 
+                    className='img-btn download' 
+                    onClick={() => DownloadWidgetHandler(props.widget.w_type)} 
+                    src={btn_downnload} alt="download" 
+                    title="Download JSON file"
+                    aria-hidden="true"/>
                 <img 
                     id={`save-btn-${props.widget.id}`}
                     className='img-btn save' 

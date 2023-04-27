@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import { log } from "../Utilities";
+import { log, downloadStringAsFile } from "../Utilities";
 import ConfigData from "../config.json";
 import $ from "jquery";
 import styleAxios from "axios";
@@ -12,6 +12,7 @@ export default function Note(props)
     const editorRef = useRef(null);
     const axios = props.axios;
     const [customTinyStyle, setCustomTinyStyle] = useState("");
+    window.addEventListener(`JsonNoteDownloadRequested-${props.widget.id}`, downloadJSONContent);
 
     useEffect(() => {
         const curr_view = props.activePanel;
@@ -32,8 +33,21 @@ export default function Note(props)
         })();
 
         $(`#save-btn-${props.widget.id}`).hide();
+
+        
+        return () => {
+            window.removeEventListener(`JsonNoteDownloadRequested-${props.widget.id}`, downloadJSONContent);
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.widget, props.activePanel, props.isAINoteCreated]);
+
+    function downloadJSONContent() 
+    {
+        if (note.w_content) {
+            downloadStringAsFile(JSON.stringify(note.w_content), `${props.widget.name}.json`);
+            $("div[data-panel=NOTES] .gear").removeClass("rotate");
+        }
+    }
 
     async function getWidgetContentById(w_id) {
         return await axios.get("/api/widgets/"+ w_id)
@@ -91,7 +105,7 @@ export default function Note(props)
                                             NOTES: newContent
                                         };
                                         //console.log("Note Title to be saved...", props.widget);
-                                        props.sendContentToParent(props.widget, null, null);
+                                        props.sendContentToParent(props.widget);
                                     }
                                 }
                             }}

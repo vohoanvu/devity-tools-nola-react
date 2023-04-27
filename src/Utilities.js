@@ -37,3 +37,15 @@ export function abbreviate30Chars(value) {
     }
     return value;
 }
+
+export function downloadStringAsFile(text, filename) {
+    const blob = new Blob([text], {type: "text/plain"});
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.download = filename;
+    anchor.href = url;
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+    URL.revokeObjectURL(url);
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { format_link, abbriviate, currate_title } from "../Utilities";
+import { format_link, abbriviate, currate_title, downloadStringAsFile } from "../Utilities";
 import Editable from "./Editable";
 import btn_add from "../img/btn_add.png";
 import btn_delete_sm from "../img/btn_delete_sm.png";
@@ -36,8 +36,20 @@ export default function Links(props)
 
         fetchWidgetContent();
         $(`#save-btn-${props.widget.id}`).hide();
+        window.addEventListener(`JsonLinkDownloadRequested-${props.widget.id}`, downloadJSONContent);
+        return () => {
+            window.removeEventListener(`JsonLinkDownloadRequested-${props.widget.id}`, downloadJSONContent);
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.widget, props.activePanel]);
+
+    function downloadJSONContent() 
+    {
+        if (links.link.w_content) {
+            downloadStringAsFile(links.link.w_content, `${props.widget.name}.json`);
+            $("div[data-panel=LINKS] .gear").removeClass("rotate");
+        }
+    }
 
     async function getWidgetContentById(w_id) {
         return await axios.get("/api/widgets/"+ w_id)

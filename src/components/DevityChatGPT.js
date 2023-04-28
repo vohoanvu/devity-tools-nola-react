@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Configuration, OpenAIApi } from "openai";
 import "../css/index.css";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
@@ -68,7 +68,11 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
         status: 200,
         message: ""
     });
-    const messagesEndRef = useRef(null);
+    const $ai_console = $("#ai_console");
+
+    useEffect(() => {
+        $ai_console.scrollTop($ai_console.prop("scrollHeight"));
+    }, [$ai_console, messages]);
 
     useEffect(() =>{
         const handleLocalStorageChange = () => {
@@ -112,9 +116,7 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
         };
         prompt.push(userMessage);
         setMessages(prevs => [...prevs, userMessage]);
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
 
-        
         //Calling OpenAI API
         $("div[data-panel=CHATGPT] .gear").addClass("rotate");
         await openai.createChatCompletion({
@@ -274,9 +276,8 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
                 </button>
             </div>
 
-
             <div className="flex-container">
-                <div className="output-completion">
+                <div id='ai_console' className="output-completion">
                     <ul className="ai-chat-output">
                         {
                             messages.length !== 0 ? messages.map((msg, index) => {
@@ -319,7 +320,6 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
                                 </li>
                             )
                         }
-                        <div ref={messagesEndRef}/>
                     </ul>
                 </div>
                 

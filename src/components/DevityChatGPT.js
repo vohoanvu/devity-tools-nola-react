@@ -68,12 +68,11 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
         status: 200,
         message: ""
     });
-
-    const $ai_console = $('#ai_console');
+    const $ai_console = $("#ai_console");
 
     useEffect(() => {
-        $ai_console.scrollTop($ai_console.prop('scrollHeight'));
-      }, [messages]); 
+        $ai_console.scrollTop($ai_console.prop("scrollHeight"));
+    }, [$ai_console, messages]);
 
     useEffect(() =>{
         const handleLocalStorageChange = () => {

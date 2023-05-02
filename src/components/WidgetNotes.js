@@ -13,9 +13,12 @@ export default function Note(props)
     const axios = props.axios;
     const [customTinyStyle, setCustomTinyStyle] = useState("");
     window.addEventListener(`JsonNoteDownloadRequested-${props.widget.id}`, downloadJSONContent);
+    window.addEventListener(`widgetMinimized-${props.widget.id}`, resetTinyEditorHeight);
+    window.addEventListener(`widgetMaximized-${props.widget.id}`, resetTinyEditorHeight);
 
     useEffect(() => {
         const curr_view = props.activePanel;
+
         if (props.widget.name) getCustomTinyStyleText();
         (async () => {
             if ((curr_view && curr_view !== "NOTES" && curr_view !== "ALL") || 
@@ -29,7 +32,7 @@ export default function Note(props)
                 ...props.widget,
                 w_content: jsonContent
             }
-            setNote(currentWidget);            
+            setNote(currentWidget);          
         })();
 
         $(`#save-btn-${props.widget.id}`).hide();
@@ -40,6 +43,15 @@ export default function Note(props)
         };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.widget, props.activePanel, props.isAINoteCreated]);
+
+    function resetTinyEditorHeight() {
+        let isMinMode = $("[data-w_id=\"" + props.widget.id + "\"]").hasClass("min");
+        if (isMinMode) {
+            editorRef.current.container.style.setProperty("height", "250px");
+        } else {
+            editorRef.current.container.style.setProperty("height", "1000px");
+        }
+    }
 
     function downloadJSONContent() 
     {
@@ -110,7 +122,7 @@ export default function Note(props)
                                 }
                             }}
                             init={{
-                                height: 1000,
+                                height: 250,
                                 menubar: false,
                                 plugins: ["anchor","autolink","charmap", "codesample","link","lists", "searchreplace","table", "code"],
                                 toolbar: "bold italic underline strikethrough | link table | align lineheight | numlist bullist indent outdent | removeformat | code",

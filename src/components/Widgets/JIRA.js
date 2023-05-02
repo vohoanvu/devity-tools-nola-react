@@ -659,12 +659,12 @@ function JiraIssuesTable({ issues, jiraDomain, widgetId })
         }
 
         getWidgetViewMode();
-        window.addEventListener("widgetMinimized", getWidgetViewMode);
-        window.addEventListener("widgetMaximized", getWidgetViewMode);
+        window.addEventListener(`widgetMinimized-${widgetId}`, getWidgetViewMode);
+        window.addEventListener(`widgetMaximized-${widgetId}`, getWidgetViewMode);
 
         return () => {
-            window.removeEventListener("widgetMinimized", getWidgetViewMode);
-            window.addEventListener("widgetMaximized", getWidgetViewMode);
+            window.removeEventListener(`widgetMinimized-${widgetId}`, getWidgetViewMode);
+            window.addEventListener(`widgetMaximized-${widgetId}`, getWidgetViewMode);
         };
     }, [widgetId]);
 

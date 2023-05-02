@@ -65,7 +65,7 @@ export default function Widget(props)
         //rss text display
         $(".rss-item").find(".rss-text").removeClass("rss-min-font");
 
-        const event = new Event("widgetMaximized");
+        const event = new Event(`widgetMaximized-${props.widget.id}`);
         window.dispatchEvent(event);
     }
     function Minimize(id) {
@@ -89,7 +89,7 @@ export default function Widget(props)
         //rss text display
         $(".rss-item").find(".rss-text").addClass("rss-min-font");
 
-        const event = new Event("widgetMinimized");
+        const event = new Event(`widgetMinimized-${props.widget.id}`);
         window.dispatchEvent(event);
     }
 

@@ -175,7 +175,7 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
             height : 300,
             width: 300
         };
-
+        $("#nav_notes").addClass("lightning-animation");
         $("div[data-panel=CHATGPT] .gear").addClass("rotate");
         await axios.post("/api/widgets/", { ...newNoteWidget })
             .then(response => {
@@ -185,8 +185,7 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
                 if (result.id) {
                     setIsAINoteCreated(!isAINoteCreated);
                     console.log("Created AI NOTE widget.", result);
-                    $("div[data-panel=CHATGPT] .gear").removeClass("rotate");
-                    $("#nav_notes").addClass("lightning-animation");
+                    $("div[data-panel=CHATGPT] .gear").removeClass("rotate"); 
                 }
             })
             .catch(err => {

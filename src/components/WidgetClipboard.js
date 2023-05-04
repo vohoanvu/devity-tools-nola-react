@@ -5,6 +5,7 @@ import Editable from "./Editable";
 import btn_add from "../img/btn_add.png";
 import btn_delete_sm from "../img/btn_delete_sm.png";
 import { abbriviate, currate_title, downloadStringAsFile } from "../Utilities";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 
 export default function Clipboard(props)
@@ -100,11 +101,10 @@ export default function Clipboard(props)
     }
 
     const handleItemClick = event => {
-        var text = $(event.currentTarget).data("copy");
-    
+        var text = $(event.currentTarget).attr("data-copy");
+
         $(event.currentTarget).animate({ opacity: "0.1" }, "fast");
         $(event.currentTarget).animate({ opacity: "1" }, "fast");
-        
     
         navigator.clipboard.writeText(text).then(function() {
             console.log(text);
@@ -124,47 +124,106 @@ export default function Clipboard(props)
         updateWidgetContent(clipboardContent.content, "CLIPBOARD");
     }
 
+    const reorder = (list, oldIndex, newIndex) => {
+        const result = Array.from(list);
+        const [removed] = result.splice(oldIndex, 1);
+        result.splice(newIndex, 0, removed);
+  
+        return result;
+    };
+
+    const onDragEnd = (result) => {
+        // dropped outside the list
+        if (!result.destination) {
+            return;
+        }
+
+        const newList = [...clipboardContent.content];
+        const newItems = reorder(
+            newList,
+            result.source.index,
+            result.destination.index
+        );
+        setClipboardContent({
+            ...clipboardContent,
+            content: newItems
+        });
+
+        $(`#save-btn-${props.widget.id}`).show();
+        updateWidgetContent(newItems);
+    };
+
+    const getItemStyle = (isDragging, draggableStyle) => ({
+        userSelect: "none",
+        background: isDragging ? "lightgreen" : "none",
+        ...draggableStyle
+    });
+
+    const getListStyle = (isDraggingOver) => ({
+        background: isDraggingOver ? "transparent" : "none"
+    });
+
     return (
-        <div className='w_overflowable'>
-            <div className='widget clipboard'>
-                <form className="clipboardContentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
-                    <img style={{ width: "10px", height: "10px"}} className='add-btn' src={btn_add} alt="create widget"/>
-                    <Editable 
-                        displayText={<span>{clipboardContent.currentText || "Add"}</span>}
-                        inputType="input" 
-                        childInputRef={inputRef}
-                        passFromChildToParent={onBlurClipboardContent}
-                        styling={{ display: "inline-block", width: "95%" }}>
-                        <input
-                            ref={inputRef}
-                            type="text"
-                            name="clipboardContent"
-                            placeholder=""
-                            value={clipboardContent.currentText}
-                            onChange={handleContentOnChange}
-                            style={{ width: "100%" }}
-                        />
-                    </Editable>
-                </form>
-                <div className='w_overflowable'>
-                    <ul className="truncateable">
-                        {
-                            clipboardContent.content === null ? (
-                                <div style={{ display: "flex", justifyContent: "center"}}>
-                                    <div className="loader"></div>
+        <DragDropContext onDragEnd={(result)=>onDragEnd(result)}>
+            <Droppable droppableId="droppable" direction="vertical" style={{transform: "none"}}>
+                {
+                    (provided, snapshot) => (
+                        <div className='w_overflowable' ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)} {...provided.droppableProps}>
+                            <div className='widget clipboard'>
+                                <form className="clipboardContentForm" onSubmit={e => e.preventDefault() } autoComplete="off">
+                                    <img style={{ width: "10px", height: "10px"}} className='add-btn' src={btn_add} alt="create widget"/>
+                                    <Editable 
+                                        displayText={<span>{clipboardContent.currentText || "Add"}</span>}
+                                        inputType="input" 
+                                        childInputRef={inputRef}
+                                        passFromChildToParent={onBlurClipboardContent}
+                                        styling={{ display: "inline-block", width: "95%" }}>
+                                        <input
+                                            ref={inputRef}
+                                            type="text"
+                                            name="clipboardContent"
+                                            placeholder=""
+                                            value={clipboardContent.currentText}
+                                            onChange={handleContentOnChange}
+                                            style={{ width: "100%" }}
+                                        />
+                                    </Editable>
+                                </form>
+                                <div className='w_overflowable'>
+                                    <ul className="truncateable">
+                                        {
+                                            clipboardContent.content === null ? (
+                                                <div style={{ display: "flex", justifyContent: "center"}}>
+                                                    <div className="loader"></div>
+                                                </div>
+                                            ) : (
+                                                clipboardContent.content.map( (data, index) => (
+                                                    <Draggable key={index} index={index} draggableId={index.toString()}>
+                                                        {
+                                                            (provided,snapshot) => (
+                                                                <li
+                                                                    ref={provided.innerRef}
+                                                                    {...provided.draggableProps}
+                                                                    style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
+                                                                >
+                                                                    <span className='w_copyable filterable truncated' title={currate_title(data)} data-copy={data} onClick={handleItemClick} aria-hidden="true" {...provided.dragHandleProps}>{abbriviate(data)}</span>
+                                                                    <span className='w_copyable filterable non-truncated' style={{display:"none"}}  data-copy={data} onClick={handleItemClick} aria-hidden="true" {...provided.dragHandleProps}>{data}</span>
+                                                                    <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveClipboard} aria-hidden="true"/>
+                                                                </li>
+                                                            )
+                                                        }
+                                                    </Draggable>
+                                                ))
+                                            )
+                                        }
+                                    </ul>
                                 </div>
-                            ) : (
-                                clipboardContent.content.map( (data, index) => 
-                                    <li key={index}>
-                                        <span className='w_copyable filterable truncated' title={currate_title(data)} data-copy={data} onClick={handleItemClick} aria-hidden="true">{abbriviate(data)}</span>
-                                        <span className='w_copyable filterable non-truncated' style={{display:"none"}}  data-copy={data} onClick={handleItemClick} aria-hidden="true">{data}</span>
-                                        <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveClipboard} aria-hidden="true"/>
-                                    </li>)
-                            )
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
+                            </div>
+                            {provided.placeholder}
+                        </div>
+                    )
+                }
+            </Droppable>
+        </DragDropContext>
     );
 }

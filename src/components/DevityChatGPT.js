@@ -185,7 +185,10 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
                 if (result.id) {
                     setIsAINoteCreated(!isAINoteCreated);
                     console.log("Created AI NOTE widget.", result);
-                    $("div[data-panel=CHATGPT] .gear").removeClass("rotate"); 
+                    $("div[data-panel=CHATGPT] .gear").removeClass("rotate");
+                    setTimeout(function() {
+                        $("#nav_notes").removeClass("lightning-animation");
+                    }, 1500);
                 }
             })
             .catch(err => {

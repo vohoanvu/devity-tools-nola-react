@@ -4,6 +4,7 @@ import Editable from "./Editable";
 import btn_add from "../img/btn_add.png";
 import btn_delete_sm from "../img/btn_delete_sm.png";
 import $ from "jquery";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 
 export default function Links(props)
@@ -83,37 +84,14 @@ export default function Links(props)
                 displayList: links.displayList,
                 inputLink: ""
             });
-            sendLinkContentToParentTobeSaved();
+            sendLinkContentToParentTobeSaved(links.displayList);
         }
     }
 
-    // function onBlurNewTitleHandler() {
-    //     let displayTextForLink = "";
-    //     if (links.inputTitle.length === 0) {
-    //         displayTextForLink = format_link(links.inputLink);
-    //     } else {
-    //         displayTextForLink = links.inputTitle;
-    //     }
-
-    //     const newLink = {
-    //         hyperLink: links.inputLink,
-    //         displayName: displayTextForLink
-    //     }
-    //     links.displayList.splice(0, 0, newLink);
-    //     setLinks({
-    //         ...links,
-    //         displayList: links.displayList,
-    //         inputLink: "",
-    //         inputTitle: ""
-    //     });
-    //     setIsEdit(false);
-    //     sendLinkContentToParentTobeSaved();
-    // }
-
-    async function sendLinkContentToParentTobeSaved() {
+    async function sendLinkContentToParentTobeSaved(updatedList) {
         const putBody = {
             ...props.widget,
-            w_content: JSON.stringify(links.displayList)
+            w_content: JSON.stringify(updatedList)
         }
         await props.sendContentToParent(putBody, null, null);
     }
@@ -135,53 +113,107 @@ export default function Links(props)
             ...links
         });
         $(`#save-btn-${props.widget.id}`).show();
-        sendLinkContentToParentTobeSaved();
+        sendLinkContentToParentTobeSaved(links.displayList);
     }
+
+    const reorder = (list, oldIndex, newIndex) => {
+        const result = Array.from(list);
+        const [removed] = result.splice(oldIndex, 1);
+        result.splice(newIndex, 0, removed);
+  
+        return result;
+    };
+
+    const onDragEnd = (result) => {
+        // dropped outside the list
+        if (!result.destination) {
+            return;
+        }
+
+        const newList = [...links.displayList];
+        const newItems = reorder(
+            newList,
+            result.source.index,
+            result.destination.index
+        );
+        setLinks({
+            ...links,
+            displayList: newItems
+        });
+
+        $(`#save-btn-${props.widget.id}`).show();
+        sendLinkContentToParentTobeSaved(newItems);
+    };
+
+    const getItemStyle = (isDragging, draggableStyle) => ({
+        userSelect: "none",
+        background: isDragging ? "lightgreen" : "none",
+        ...draggableStyle
+    });
+
+    const getListStyle = (isDraggingOver) => ({
+        background: isDraggingOver ? "transparent" : "none"
+    });
     
     return (
-        <div className='w_overflowable'>
-            <div className='widget w-links'>
-                <form className="linkContentForm" autoComplete="off">
-                    <img style={{ width: "10px", height: "10px"}} className='add-btn' src={btn_add} alt="create widget"/>
-                    <Editable 
-                        displayText={<span>{links.inputLink || "Add"}</span>}
-                        inputType="input" 
-                        childInputRef={inputLinkRef}
-                        passFromChildToParent={onBlurNewLinkHandler}
-                        styling={{ display: "inline-block", width: "95%" }}>
-                        <input
-                            ref={inputLinkRef}
-                            type="text"
-                            name="inputLink"
-                            placeholder="www.google.com, Google"
-                            value={links.inputLink}
-                            onChange={handleLinkChange}
-                            style={{ width: "100%" }}
-                        />
-                    </Editable>
-                </form>
-                <div className='w_overflowable'>
-                    <ul className="truncateable">
-                        {
-                            links.displayList === null ? (
-                                <div style={{ display: "flex", justifyContent: "center"}}>
-                                    <div className="loader"></div>
+        <DragDropContext onDragEnd={(result)=>onDragEnd(result)}>
+            <Droppable droppableId="droppable" direction="vertical" style={{transform: "none"}}>
+                {
+                    (provided,snapshot) => (
+                        <div className='w_overflowable' ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)} {...provided.droppableProps}>
+                            <div className='widget w-links'>
+                                <form className="linkContentForm" autoComplete="off">
+                                    <img style={{ width: "10px", height: "10px"}} className='add-btn' src={btn_add} alt="create widget"/>
+                                    <Editable 
+                                        displayText={<span>{links.inputLink || "Add"}</span>}
+                                        inputType="input" 
+                                        childInputRef={inputLinkRef}
+                                        passFromChildToParent={onBlurNewLinkHandler}
+                                        styling={{ display: "inline-block", width: "95%" }}>
+                                        <input
+                                            ref={inputLinkRef}
+                                            type="text"
+                                            name="inputLink"
+                                            placeholder="www.google.com, Google"
+                                            value={links.inputLink}
+                                            onChange={handleLinkChange}
+                                            style={{ width: "100%" }}
+                                        />
+                                    </Editable>
+                                </form>
+                                <div className='w_overflowable'>
+                                    <ul className="truncateable">
+                                        {
+                                            links.displayList === null ? (
+                                                <div style={{ display: "flex", justifyContent: "center"}}>
+                                                    <div className="loader"></div>
+                                                </div>
+                                            ) : (
+                                                links.displayList.map((item, index) => {
+                                                    return (
+                                                        <Draggable key={index} index={index} draggableId={index.toString()}>
+                                                            {
+                                                                (provided,snapshot) => (
+                                                                    <li ref={provided.innerRef} {...provided.draggableProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+                                                                        <a className='filterable truncated' target="_blank" href={format_link(item.HYPERLINK)} title={currate_title(item.DISPLAYNAME)} rel="noreferrer" {...provided.dragHandleProps}>{abbriviate(item.DISPLAYNAME)}</a>
+                                                                        <a className='filterable non-truncated' style={{display:"none"}} target="_blank" href={format_link(item.HYPERLINK)} rel="noreferrer" {...provided.dragHandleProps}>{item.DISPLAYNAME}</a>
+                                                                        <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveLink} aria-hidden="true"/>
+                                                                    </li>
+                                                                )
+                                                            }
+                                                        </Draggable>
+                                                    )
+                                                })
+                                            )
+                                        }
+                                    </ul>
                                 </div>
-                            ) : (
-                                links.displayList.map((item, index) => {
-                                    return (
-                                        <li key={index}>
-                                            <a className='filterable truncated' target="_blank" href={format_link(item.HYPERLINK)} title={currate_title(item.DISPLAYNAME)} rel="noreferrer">{abbriviate(item.DISPLAYNAME)}</a>
-                                            <a className='filterable non-truncated' style={{display:"none"}} target="_blank" href={format_link(item.HYPERLINK)} rel="noreferrer">{item.DISPLAYNAME}</a>
-                                            <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveLink} aria-hidden="true"/>
-                                        </li>
-                                    )
-                                })
-                            )
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>     
+                            </div>
+                            {provided.placeholder}
+                        </div>
+                    )
+                }
+            </Droppable>
+        </DragDropContext>   
     );
 }

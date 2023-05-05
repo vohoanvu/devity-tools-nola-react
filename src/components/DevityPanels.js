@@ -13,6 +13,7 @@ import { UserContext } from "../api-integration/UserContext";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Cookies from "universal-cookie";
 import ConfirmationDialog from "../components/ConfirmationDialog";
+import FileUploadForm from "./FileUploadForm";
 
 export default function DevityPanels({ 
     isAINoteCreated, 
@@ -312,88 +313,90 @@ export default function DevityPanels({
             {
                 Object.entries(wObject).map( ([key,value], index) => {
                     return (
-                        <div key={index} className="p-panel border" data-panel={key} style={{display:"none"}}>
-                            <div className='p-chrome'>
-                                <img src={btn_image_config} className="gear" alt="devity gear"/>
-                                <span className="title">{key}</span>
+                        <FileUploadForm key={index} axios={axios}>
+                            <div className="p-panel border" data-panel={key} style={{display:"none"}}>
+                                <div className='p-chrome'>
+                                    <img src={btn_image_config} className="gear" alt="devity gear"/>
+                                    <span className="title">{key}</span>
+                                    {
+                                        key === "DEVITY" ? (
+                                            <img className='add' src={btn_add} onClick={() => setIsDevitySubTypeAddOpen(true)} alt="create devity" aria-hidden="true"/>
+                                        ) : (
+                                            <img className='add' src={btn_add} onClick={()=>w_add(key, value)} alt="create widget" aria-hidden="true"/>
+                                        )
+                                    }
+                                </div>
                                 {
-                                    key === "DEVITY" ? (
-                                        <img className='add' src={btn_add} onClick={() => setIsDevitySubTypeAddOpen(true)} alt="create devity" aria-hidden="true"/>
-                                    ) : (
-                                        <img className='add' src={btn_add} onClick={()=>w_add(key, value)} alt="create widget" aria-hidden="true"/>
+                                    isDevitySubTypeAddOpen && (
+                                        <div className="w-add-devity" style={{display:"flex"}}>
+                                            <div>
+                                                <figure>
+                                                    <img className='add-subtype' src={btn_add} onClick={()=>w_add(key, value, "RSS")} alt="create devity subtype" aria-hidden="true"/>
+                                                    <figcaption>RSS</figcaption>
+                                                </figure>
+                                            </div>
+                                            <div>
+                                                <figure>
+                                                    <img className='add-subtype' src={btn_add} onClick={()=>w_add(key, value, "JIRA")} alt="create devity subtype" aria-hidden="true"/>
+                                                    <figcaption>JIRA</figcaption>
+                                                </figure>
+                                            </div>
+                                        </div>
                                     )
                                 }
-                            </div>
-                            {
-                                isDevitySubTypeAddOpen && (
-                                    <div className="w-add-devity" style={{display:"flex"}}>
-                                        <div>
-                                            <figure>
-                                                <img className='add-subtype' src={btn_add} onClick={()=>w_add(key, value, "RSS")} alt="create devity subtype" aria-hidden="true"/>
-                                                <figcaption>RSS</figcaption>
-                                            </figure>
-                                        </div>
-                                        <div>
-                                            <figure>
-                                                <img className='add-subtype' src={btn_add} onClick={()=>w_add(key, value, "JIRA")} alt="create devity subtype" aria-hidden="true"/>
-                                                <figcaption>JIRA</figcaption>
-                                            </figure>
-                                        </div>
-                                    </div>
-                                )
-                            }
-                            <DragDropContext onDragEnd={(result)=>onDragEnd(result, key)}>
-                                <Droppable droppableId="droppable" direction="horizontal" style={{transform: "none"}}>
-                                    {
-                                        (provided, snapshot) => (
-                                            <div 
-                                                className='p-contents'
-                                                ref={provided.innerRef}
-                                                style={getListStyle(snapshot.isDraggingOver)}
-                                                {...provided.droppableProps}
-                                            >
-                                                {
-                                                    value.map((w, index) => {
-                                                        return (
-                                                            <Draggable index={index} key={w.id} draggableId={w.id}>
-                                                                {
-                                                                    (provided, snapshot) => (
-                                                                        <div 
-                                                                            data-w_id={w.id}
-                                                                            className="w-container min border"
-                                                                            ref={provided.innerRef}
-                                                                            {...provided.draggableProps}
-                                                                            style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
-                                                                        >
+                                <DragDropContext onDragEnd={(result)=>onDragEnd(result, key)}>
+                                    <Droppable droppableId="droppable" direction="horizontal" style={{transform: "none"}}>
+                                        {
+                                            (provided, snapshot) => (
+                                                <div 
+                                                    className='p-contents'
+                                                    ref={provided.innerRef}
+                                                    style={getListStyle(snapshot.isDraggingOver)}
+                                                    {...provided.droppableProps}
+                                                >
+                                                    {
+                                                        value.map((w, index) => {
+                                                            return (
+                                                                <Draggable index={index} key={w.id} draggableId={w.id}>
+                                                                    {
+                                                                        (provided, snapshot) => (
                                                                             <div 
-                                                                                className='w-chrome'
-                                                                                {...provided.dragHandleProps}
+                                                                                data-w_id={w.id}
+                                                                                className="w-container min border"
+                                                                                ref={provided.innerRef}
+                                                                                {...provided.draggableProps}
+                                                                                style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                                                                             >
-                                                                                <WidgetActions
-                                                                                    widget={w}
-                                                                                    setWidgetObjState={setWObject}
-                                                                                    widgetObjState={wObject}
-                                                                                    inputRef={inputRef}
-                                                                                    callPUTRequest={w_update}
-                                                                                    isReadyToSave={isReadyToSave}
-                                                                                    axios={axios}
-                                                                                />
+                                                                                <div 
+                                                                                    className='w-chrome'
+                                                                                    {...provided.dragHandleProps}
+                                                                                >
+                                                                                    <WidgetActions
+                                                                                        widget={w}
+                                                                                        setWidgetObjState={setWObject}
+                                                                                        widgetObjState={wObject}
+                                                                                        inputRef={inputRef}
+                                                                                        callPUTRequest={w_update}
+                                                                                        isReadyToSave={isReadyToSave}
+                                                                                        axios={axios}
+                                                                                    />
+                                                                                </div>
+                                                                                { w_render(w) }
                                                                             </div>
-                                                                            { w_render(w) }
-                                                                        </div>
-                                                                    )
-                                                                }
-                                                            </Draggable>
-                                                        );
-                                                    })
-                                                }
-                                                {provided.placeholder}
-                                            </div>
-                                        )
-                                    } 
-                                </Droppable>
-                            </DragDropContext>
-                        </div>
+                                                                        )
+                                                                    }
+                                                                </Draggable>
+                                                            );
+                                                        })
+                                                    }
+                                                    {provided.placeholder}
+                                                </div>
+                                            )
+                                        } 
+                                    </Droppable>
+                                </DragDropContext>
+                            </div>
+                        </FileUploadForm>
                     )
                 })
             }

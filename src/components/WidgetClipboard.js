@@ -155,6 +155,7 @@ export default function Clipboard(props)
 
     const getItemStyle = (isDragging, draggableStyle) => ({
         userSelect: "none",
+        cursor: isDragging ? "grabbing" : "pointer",
         // background: isDragging ? "lightgreen" : "none",
         ...draggableStyle
     });
@@ -206,8 +207,8 @@ export default function Clipboard(props)
                                                                     {...provided.draggableProps}
                                                                     style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                                                                 >
-                                                                    <span className='w_copyable filterable truncated' title={currate_title(data)} data-copy={data} onClick={handleItemClick} aria-hidden="true" {...provided.dragHandleProps}>{abbriviate(data)}</span>
-                                                                    <span className='w_copyable filterable non-truncated' style={{display:"none"}}  data-copy={data} onClick={handleItemClick} aria-hidden="true" {...provided.dragHandleProps}>{data}</span>
+                                                                    <span className='w_copyable filterable truncated' title={currate_title(data)} data-copy={data} onClick={handleItemClick} aria-hidden="true" {...provided.dragHandleProps} style={{ cursor: "pointer" }}>{abbriviate(data)}</span>
+                                                                    <span className='w_copyable filterable non-truncated' style={{display:"none", cursor: "pointer"}}  data-copy={data} onClick={handleItemClick} aria-hidden="true" {...provided.dragHandleProps}>{data}</span>
                                                                     <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveClipboard} aria-hidden="true"/>
                                                                 </li>
                                                             )

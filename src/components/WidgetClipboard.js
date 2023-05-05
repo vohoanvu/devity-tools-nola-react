@@ -155,7 +155,7 @@ export default function Clipboard(props)
 
     const getItemStyle = (isDragging, draggableStyle) => ({
         userSelect: "none",
-        background: isDragging ? "lightgreen" : "none",
+        // background: isDragging ? "lightgreen" : "none",
         ...draggableStyle
     });
 

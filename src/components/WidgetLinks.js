@@ -147,7 +147,8 @@ export default function Links(props)
 
     const getItemStyle = (isDragging, draggableStyle) => ({
         userSelect: "none",
-        background: isDragging ? "lightgreen" : "none",
+        cursor: isDragging ? "grabbing" : "pointer",
+        // background: isDragging ? "lightgreen" : "none",
         ...draggableStyle
     });
 
@@ -195,8 +196,8 @@ export default function Links(props)
                                                             {
                                                                 (provided,snapshot) => (
                                                                     <li ref={provided.innerRef} {...provided.draggableProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                                                                        <a className='filterable truncated' target="_blank" href={format_link(item.HYPERLINK)} title={currate_title(item.DISPLAYNAME)} rel="noreferrer" {...provided.dragHandleProps}>{abbriviate(item.DISPLAYNAME)}</a>
-                                                                        <a className='filterable non-truncated' style={{display:"none"}} target="_blank" href={format_link(item.HYPERLINK)} rel="noreferrer" {...provided.dragHandleProps}>{item.DISPLAYNAME}</a>
+                                                                        <a className='filterable truncated' target="_blank" href={format_link(item.HYPERLINK)} title={currate_title(item.DISPLAYNAME)} rel="noreferrer" {...provided.dragHandleProps} style={{ cursor: "pointer" }}>{abbriviate(item.DISPLAYNAME)}</a>
+                                                                        <a className='filterable non-truncated' style={{display:"none", cursor: "pointer"}} target="_blank" href={format_link(item.HYPERLINK)} rel="noreferrer" {...provided.dragHandleProps}>{item.DISPLAYNAME}</a>
                                                                         <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveLink} aria-hidden="true"/>
                                                                     </li>
                                                                 )

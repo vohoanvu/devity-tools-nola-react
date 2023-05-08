@@ -28,6 +28,10 @@ export default function Rss(props)
         getWidgetContent();
 
         $(`#save-btn-${props.widget.id}`).hide();
+
+        return () => {
+            props.setIsDevitySubTypeAddOpen(false);
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[props.isUriChanged, props.activePanel]);
 

@@ -6,7 +6,7 @@ import JiraCredentials from "../JiraCredentials";
 import btn_image_config from "../../img/d_btn_ctrl_config.png";
 import { downloadStringAsFile } from "../../Utilities";
 
-const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged, axios }) => {
+const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged, axios, setIsDevitySubTypeAddOpen }) => {
     const [tickets, setTickets] = useState([]);
     const [assignedOrMentioned, setAssignedOrMentioned] = useState("");
     const [ticketTypes, setTicketTypes] = useState([]);
@@ -63,6 +63,7 @@ const JiraTicket = ({ widget, sendContentToParent, activePanel, isConfigsChanged
         
         return () => {
             clearInterval(jiraInterval);
+            setIsDevitySubTypeAddOpen(false);
         };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isConfigsChanged, activePanel, widget.id]);

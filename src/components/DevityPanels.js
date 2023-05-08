@@ -36,7 +36,7 @@ export default function DevityPanels({
         isRssUriChanged: false,
         isJiraConfigsChanged: false
     });
-    const [noteReloadFlag, setNoteReloadFlag] = useState(false);
+    const [reloadFlag, setReloadFlag] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -49,6 +49,7 @@ export default function DevityPanels({
             })
                 .then(result => {
                     signalAllPanelRendered(true);
+                    setReloadFlag(false);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -59,8 +60,9 @@ export default function DevityPanels({
         if (cookie.get("devity-token")) {
             fetchData();
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isAINoteCreated]);
+    }, [isAINoteCreated, reloadFlag]);
 
 
     async function w_add(widgetType, widgetList, devitySubType = null) {
@@ -214,7 +216,6 @@ export default function DevityPanels({
                 sendContentToParent={sendPUTContentToParent}
                 activePanel={widgetType}
                 axios={axios}
-                noteReloadFlag={noteReloadFlag}
                 isAINoteCreated={isAINoteCreated}/>;
 
         case "DEVITY":
@@ -224,7 +225,8 @@ export default function DevityPanels({
                     sendContentToParent={sendPUTContentToParent} 
                     activePanel={widgetType}
                     isUriChanged={isDevitySubTypeChanged.isRssUriChanged}
-                    axios={axios}/>
+                    axios={axios}
+                    setIsDevitySubTypeAddOpen={setIsDevitySubTypeAddOpen}/>
 
             if (widget.w_type_sub === "JIRA")
                 return <Jira
@@ -232,7 +234,8 @@ export default function DevityPanels({
                     widget={widget} 
                     sendContentToParent={sendPUTContentToParent}
                     isConfigsChanged={isDevitySubTypeChanged.isJiraConfigsChanged}
-                    axios={axios}/>
+                    axios={axios}
+                    setIsDevitySubTypeAddOpen={setIsDevitySubTypeAddOpen}/>
             break;
         default:
             return <div className="w-container border">LOADING...</div>;
@@ -283,7 +286,7 @@ export default function DevityPanels({
             .then(result => {
                 $("div[data-panel=" + type + "] .gear").removeClass("rotate");
                 if (type === "NOTES") {
-                    setNoteReloadFlag(!noteReloadFlag);
+                    setReloadFlag(true);
                 }
             })
             .catch(err => console.log(err));
@@ -313,7 +316,7 @@ export default function DevityPanels({
             {
                 Object.entries(wObject).map( ([key,value], index) => {
                     return (
-                        <FileUploadForm key={index} axios={axios}>
+                        <FileUploadForm key={index} axios={axios} setReloadFlag={setReloadFlag} reloadFlag={reloadFlag} widgetType={key}>
                             <div className="p-panel border" data-panel={key} style={{display:"none"}}>
                                 <div className='p-chrome'>
                                     <img src={btn_image_config} className="gear" alt="devity gear"/>

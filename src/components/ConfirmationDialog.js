@@ -12,7 +12,7 @@ const ConfirmationDialog = ({ title, message, isDialogOpen, modalType, onModalCl
 
     function handleDialogClose() {
         setIsModalOpen(false);
-        onModalCloseCallback ?? onModalCloseCallback();
+        if (onModalCloseCallback !== null) onModalCloseCallback();
     }
 
     return (

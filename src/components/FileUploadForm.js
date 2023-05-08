@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import ConfirmationDialog from "../components/ConfirmationDialog";
+import $ from "jquery";
 
 const FileUploadForm = (props) => 
 {
@@ -29,7 +30,7 @@ const FileUploadForm = (props) =>
         const formData = new FormData();
         formData.append("file", file);
 
-
+        $("div[data-panel=" + props.widgetType + "] .gear").addClass("rotate");
         await axios.post("/api/widgets/upload-json", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
@@ -39,6 +40,9 @@ const FileUploadForm = (props) =>
             return response.data;
         }).then(result => {
             console.log("Upload result: ", result);
+            console.log("Current reload flag...", props.reloadFlag);
+            props.setReloadFlag(true);
+            $("div[data-panel=" + props.widgetType + "] .gear").removeClass("rotate");
         }).catch(err => {
             console.log("An error occurred while uploading the file: ", err.response);
             setUploadError({
@@ -46,8 +50,10 @@ const FileUploadForm = (props) =>
                 title: "File Upload Failed Request!",
                 message: err.response.data.message + " Please close this modal and retry!",
                 code: err.response.status
-            })
+            });
+            $("div[data-panel=" + props.widgetType + "] .gear").removeClass("rotate");
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [axios]);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -69,6 +75,7 @@ const FileUploadForm = (props) =>
                 message={uploadError.message}
                 isDialogOpen={uploadError.isFailed}
                 modalType={uploadError.code}
+                onModalCloseCallback={null}
             />
         </div>
     );

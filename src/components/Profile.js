@@ -190,21 +190,6 @@ export default function Profile({ COOKIE_NAME, axios })
                             <OpenAIModelList
                                 updateOpenAiModel={updateGptModel}
                             />
-                            {/* <Editable 
-                                displayText={
-                                    <label className="copy-openai-key" title="Click here to update field">{!openAiGptModel ? "gpt-3.5-turbo" : openAiGptModel}</label>
-                                }
-                                inputType="input" 
-                                childInputRef={inputRef}
-                                passFromChildToParent={updateGptModelOnBlur}>
-                                <input 
-                                    ref={inputRef}
-                                    type="text" 
-                                    value={openAiGptModel} 
-                                    onChange={(e) => {
-                                        setOpenAiGptModel(e.target.value);
-                                    }}/>
-                            </Editable> */}
                         </div>
                     </div>
                     <h3>Theme</h3>

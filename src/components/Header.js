@@ -5,9 +5,9 @@ import btn_image_avitar from "../img/d_btn_ctrl_user.png";
 import btn_image_links from "../img/d_btn_ctrl_links.png";
 import btn_image_notes from "../img/d_btn_ctrl_notes.png";
 import btn_image_clipboard from "../img/d_btn_ctrl_clipboard.png";
-//import btn_image_code from "../img/d_btn_ctrl_code.png";
 import btn_image_lib from "../img/d_btn_ctrl_lib.png";
 import chat_gpt_img from "../img/devity-gpt.png";
+import btn_copy from "../img/btn_copy.png";
 import { UserContext } from "../api-integration/UserContext";
 
 export default function Header() 
@@ -92,11 +92,24 @@ export default function Header()
 
             <button id='nav_profile' onClick={()=>onNavigateClicked("PROFILE")}>
                 <img src={btn_image_avitar} className="App-avitar" alt="devity profile" /><br />
-                <span>
-                    {userContext.userProfile.name}
-                </span>
+                <span title={$("span.copy-text-ip").text()}>{userContext.userProfile.name}</span>
             </button>
-
+            <div 
+                onClick={()=> {
+                    let userIp = $("span.copy-text-ip").text();
+                    navigator.clipboard.writeText(userIp).then(function() {
+                        console.log(userIp);
+                    }, function(err) {
+                        console.error("Async: Could not copy text: ", err);
+                    });
+                }} 
+                role="button"
+                tabIndex="0"
+                onKeyDown={() => console.log("Keydown event triggered...")}
+                title="Copy User IP" 
+                className="copy-clipboard-btn">
+                <img src={btn_copy} alt="Copy to clipboard" />
+            </div>
         </header>
 
     </div>);

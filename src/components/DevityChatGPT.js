@@ -7,6 +7,7 @@ import ai_btn_save from "../img/save_btn_original.png";
 import "../css/chatgpt.css";
 import $ from "jquery";
 import ConfigData from "../config.json";
+import { useSelector } from "react-redux";
 const defaultPrompt = [
     {"role": "system", "content": "You are a helpful programming assistant that have more than 20 years of software engineering experience and are an enterprise software solution architect."},
     {"role": "user", "content": "Help me fix this Docker error:\n\n```errorLogsText```"},
@@ -59,7 +60,8 @@ const defaultPrompt = [
 
 export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimitModalOpen, isAINoteCreated })
 {
-    const [apiKey, setApiKey] = useState(localStorage.getItem("openai-api-key"));
+    const apiKey = useSelector((state) => state.UserProfileReducer.openAiApiKey);
+    const selectedGptModel = useSelector((state) => state.UserProfileReducer.selectedGptModel);
     const [prompt, setPrompt] = useState(defaultPrompt);
     const [messages, setMessages] = useState([]); //[{"role": "assistant","content": "\n\nHello there, how may I assist you today?"}]
     const [inputText, setInputText] = useState("");
@@ -76,9 +78,7 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
 
     useEffect(() =>{
         const handleLocalStorageChange = () => {
-            const newApiKey = localStorage.getItem("openai-api-key");
-            if (newApiKey !== undefined && newApiKey !== null && newApiKey !== "") {
-                setApiKey(newApiKey);
+            if (apiKey !== undefined && apiKey !== null && apiKey !== "") {
                 setError({ status: 200, message: "" });
             } else {
                 setError({
@@ -89,13 +89,6 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
         }
         
         handleLocalStorageChange();
-        window.addEventListener("storageUpdated", handleLocalStorageChange);
-        window.addEventListener("storage", handleLocalStorageChange); // this Event is meant for localStorage removal in the browser UI
-
-        return () => {
-            window.removeEventListener("storageUpdated", handleLocalStorageChange);
-            window.removeEventListener("storage", handleLocalStorageChange);
-        };
     }, [apiKey]);
 
 
@@ -120,7 +113,7 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
         //Calling OpenAI API
         $("div[data-panel=CHATGPT] .gear").addClass("rotate");
         await openai.createChatCompletion({
-            model: localStorage.getItem("gpt-model") ?? ConfigData.OPENAI_GPT_MODEL,
+            model: selectedGptModel,
             messages: prompt
         }).then(response => {
             console.log("ChatCompletions response....", response);
@@ -265,7 +258,7 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
                 <img src={btn_image_config} className="gear" alt="devity gear" />
                 <div className="gpt-api-info">
                     <label style={{marginLeft:"10px"}}> Tokens Used: {tokenCount} |</label>
-                    <label style={{marginLeft:"10px"}}> GPT Model Used: {localStorage.getItem("gpt-model") ?? ConfigData.OPENAI_GPT_MODEL}</label>
+                    <label style={{marginLeft:"10px"}}> GPT Model Used: {selectedGptModel}</label>
                 </div>
                 <button title="Save AI conversation">
                     <img
@@ -310,7 +303,7 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
                                 
                                 return result;
                             }) : (
-                                <li><h1>Welcome to ChatGPT using {localStorage.getItem("gpt-model") ?? ConfigData.OPENAI_GPT_MODEL}</h1></li>
+                                <li><h1>Welcome to ChatGPT using {selectedGptModel}</h1></li>
                             )
                         }
                         {

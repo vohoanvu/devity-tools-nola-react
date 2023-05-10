@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import $ from "jquery";
 import logo from "../img/devity_logo.png";
 import btn_image_avitar from "../img/d_btn_ctrl_user.png";
@@ -13,6 +13,7 @@ import { UserContext } from "../api-integration/UserContext";
 export default function Header() 
 {
     const userContext = useContext(UserContext);
+    const [userIP, setUserIP] = useState("");
 
     useEffect(()=>{
         const curr_view = userContext.activePanel;
@@ -23,6 +24,8 @@ export default function Header()
         else{
             onNavigate("DEVITY");
         }
+
+        setUserIP($("span.copy-text-ip").text());
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[userContext]) 
 
@@ -92,13 +95,12 @@ export default function Header()
 
             <button id='nav_profile' onClick={()=>onNavigateClicked("PROFILE")}>
                 <img src={btn_image_avitar} className="App-avitar" alt="devity profile" /><br />
-                <span title={$("span.copy-text-ip").text()}>{userContext.userProfile.name}</span>
+                <span title={userIP}>{userContext.userProfile.name}</span>
             </button>
             <div 
                 onClick={()=> {
-                    let userIp = $("span.copy-text-ip").text();
-                    navigator.clipboard.writeText(userIp).then(function() {
-                        console.log(userIp);
+                    navigator.clipboard.writeText(userIP).then(function() {
+                        console.log(userIP);
                     }, function(err) {
                         console.error("Async: Could not copy text: ", err);
                     });
@@ -106,9 +108,10 @@ export default function Header()
                 role="button"
                 tabIndex="0"
                 onKeyDown={() => console.log("Keydown event triggered...")}
-                title="Copy User IP" 
-                className="copy-clipboard-btn">
-                <img src={btn_copy} alt="Copy to clipboard" />
+                title={userIP}
+                className="copy-clipboard-btn"
+                style={{ height: "20px", width: "20px", position: "absolute", right: "0px", bottom: "5px" }}>
+                <img src={btn_copy} alt="Copy to clipboard" style={{ height: "100%", width: "100%" }}/>
             </div>
         </header>
 

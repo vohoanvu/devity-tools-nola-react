@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import btn_image_config from "../img/d_btn_ctrl_config.png";
 import btn_copy from "../img/btn_copy.png";
 import ViewModeSelection from "./ViewModeSelection";
@@ -8,6 +8,8 @@ import configData from "../config.json";
 import $ from "jquery";
 import Cookies from "universal-cookie";
 import OpenAIModelList from "../components/OpenAiModelList";
+import { useSelector, useDispatch } from "react-redux";
+import { setOpenAiApiKey, setUserProfileData } from "../redux/actions/UserProfileActions";
 const SSO_URL = configData.SSO_URL;
 const cookies = new Cookies();
 
@@ -15,42 +17,43 @@ export default function Profile({ COOKIE_NAME, axios })
 {
     const userContext = React.useContext(UserContext);
     const inputRef = useRef();
-    const [userProfile, setUserProfile] = useState({});
-    const [openAiApiKey, setOpenAiApiKey] = useState(localStorage.getItem("openai-api-key") ?? "");
+    const userProfile = useSelector((state) => state.UserProfileReducer.userProfileData);
+    const openAIApiKey = useSelector((state) => state.UserProfileReducer.openAiApiKey);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        setUserProfile(userContext.userProfile);
-    },[userContext.userProfile])
+        dispatch(setUserProfileData(userContext.userProfile));
+    },[dispatch, userContext.userProfile])
 
 
     function handleUsernameOnChange(newName) {
-        setUserProfile({
+        dispatch(setUserProfileData({
             ...userProfile,
             name: newName
-        });
+        }));
     }
 
     function handleUserProfessionOnChange(newProfession) {
-        setUserProfile({
+        dispatch(setUserProfileData({
             ...userProfile,
             profession: newProfession
-        });
+        }));
     }
 
     function updateUserProfileOnBlur(evenTarget) {
 
         switch (evenTarget.name) {
         case "userName":
-            setUserProfile({
+            dispatch(setUserProfileData({
                 ...userProfile,
                 name: evenTarget.value
-            });
+            }));
             break;
         case "userProfession":
-            setUserProfile({
+            dispatch(setUserProfileData({
                 ...userProfile,
                 profession: evenTarget.value
-            });
+            }));
             break;
         default:
             <div id="header_container">…</div>
@@ -117,7 +120,7 @@ export default function Profile({ COOKIE_NAME, axios })
             $("span.copy-text-ip").animate({ opacity: "1" }, "fast");
         }
         if (btnType === "openai-key") {
-            copyData = openAiApiKey;
+            copyData = openAIApiKey;
             $("label.copy-openai-key").animate({ opacity: "0.1" }, "fast");
             $("label.copy-openai-key").animate({ opacity: "1" }, "fast");
         }
@@ -132,15 +135,7 @@ export default function Profile({ COOKIE_NAME, axios })
     function updateApiKeyOnBlur(target) 
     {
         localStorage.setItem("openai-api-key", target.value);
-        const event = new Event("storageUpdated");
-        window.dispatchEvent(event);
-    }
-
-    function updateGptModel(target) 
-    {
-        localStorage.setItem("gpt-model", target.value);
-        const event = new Event("storageUpdated");
-        window.dispatchEvent(event);
+        dispatch(setOpenAiApiKey(target.value));
     }
 
     return (
@@ -160,7 +155,7 @@ export default function Profile({ COOKIE_NAME, axios })
                         <div className="copy-container">
                             <Editable 
                                 displayText={
-                                    <label className="copy-openai-key" title="Click here to update field">{!openAiApiKey ? "000-000-000-000" : openAiApiKey}</label>
+                                    <label className="copy-openai-key" title="Click here to update field">{!openAIApiKey ? "000-000-000-000" : openAIApiKey}</label>
                                 }
                                 inputType="input" 
                                 childInputRef={inputRef}
@@ -168,13 +163,13 @@ export default function Profile({ COOKIE_NAME, axios })
                                 <input 
                                     ref={inputRef}
                                     type="text" 
-                                    value={openAiApiKey} 
+                                    value={openAIApiKey} 
                                     onChange={(e) => {
-                                        setOpenAiApiKey(e.target.value);
+                                        dispatch(setOpenAiApiKey(e.target.value));
                                     }}/>
                             </Editable>
                             {
-                                openAiApiKey && 
+                                openAIApiKey && 
                                 <button 
                                     onClick={()=> handleCopyClick("openai-key")} 
                                     title="Copy to clipboard" 
@@ -187,9 +182,7 @@ export default function Profile({ COOKIE_NAME, axios })
                     <div>
                         <h3>OpenAI GPT Model</h3>
                         <div>
-                            <OpenAIModelList
-                                updateOpenAiModel={updateGptModel}
-                            />
+                            <OpenAIModelList/>
                         </div>
                     </div>
                     <h3>Theme</h3>

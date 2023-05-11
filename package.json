@@ -17,7 +17,10 @@
     "react-dropzone": "^14.2.3",
     "react-json-editor-ajrm": "^2.5.14",
     "react-modal": "^3.16.1",
+    "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",
+    "redux": "^4.2.1",
+    "redux-thunk": "^2.4.2",
     "styled-components": "^5.3.6",
     "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.4"

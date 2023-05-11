@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "../css/chatgpt.css";
+import { useSelector, useDispatch } from "react-redux";
+import { setGptModel } from "../redux/actions/UserProfileActions";
 //import { Configuration, OpenAIApi } from "openai";
 const chatCompletionModels = ["gpt-4", "gpt-4-0314", "gpt-3.5-turbo", "gpt-3.5-turbo-0301"]; //gpt-4-32k-0314,gpt-4-32k
 
-const OpenAIModelList = (props) => {
+const OpenAIModelList = () => {
     const [models, setModels] = useState([]);
-    const [currentModel, setCurrentModel] = useState("gpt-3.5-turbo");
-    //const OPENAI_API_KEY = localStorage.getItem("openai-api-key") ?? "";
+    const selectedGptModel = useSelector((state) => state.UserProfileReducer.selectedGptModel);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setModels(chatCompletionModels);
@@ -35,10 +37,10 @@ const OpenAIModelList = (props) => {
     return (
         <div>
             <select 
-                value={currentModel} 
+                value={selectedGptModel} 
                 onChange={(e)=> {
-                    setCurrentModel(e.target.value);
-                    props.updateOpenAiModel(e.target);
+                    dispatch(setGptModel(e.target.value));
+                    localStorage.setItem("gpt-model", e.target.value);
                 }}>
                 {
                     models.map((modelName, index)=> (

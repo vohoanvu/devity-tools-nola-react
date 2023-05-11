@@ -286,7 +286,8 @@ export default function DevityPanels({
             .then(result => {
                 $("div[data-panel=" + type + "] .gear").removeClass("rotate");
                 if (type === "NOTES") {
-                    setReloadFlag(true);
+                    //setReloadFlag(true);
+                    window.location.reload();
                 }
             })
             .catch(err => console.log(err));

@@ -93,26 +93,30 @@ export default function Header()
             </button>
 
 
-            <button id='nav_profile' onClick={()=>onNavigateClicked("PROFILE")}>
-                <img src={btn_image_avitar} className="App-avitar" alt="devity profile" /><br />
-                <span title={userIP}>{userContext.userProfile.name}</span>
+            <button id='nav_profile'>
+                <div role="button" tabIndex="0" onClick={()=>onNavigateClicked("PROFILE")} onKeyDown={() => console.log("Keydown event triggered...")} style={{ position: "relative" }}>
+                    <img src={btn_image_avitar} className="App-avitar" alt="devity profile"/>
+                    <div 
+                        onClick={()=> {
+                            navigator.clipboard.writeText(userIP).then(function() {
+                                console.log(userIP);
+                            }, function(err) {
+                                console.error("Async: Could not copy text: ", err);
+                            });
+                        }} 
+                        role="button"
+                        tabIndex="0"
+                        onKeyDown={() => console.log("Keydown event triggered...")}
+                        title={userIP}
+                        className="copy-clipboard-btn"
+                        style={{ height: "15px", width: "15px", position: "absolute", right: "7px", bottom: "-14px" }}>
+                        <img src={btn_copy} alt="Copy to clipboard" style={{ height: "100%", width: "100%" }}/>
+                    </div>
+                </div>
+                <span title={userIP}>
+                    {userContext.userProfile.name}
+                </span>
             </button>
-            <div 
-                onClick={()=> {
-                    navigator.clipboard.writeText(userIP).then(function() {
-                        console.log(userIP);
-                    }, function(err) {
-                        console.error("Async: Could not copy text: ", err);
-                    });
-                }} 
-                role="button"
-                tabIndex="0"
-                onKeyDown={() => console.log("Keydown event triggered...")}
-                title={userIP}
-                className="copy-clipboard-btn"
-                style={{ height: "15px", width: "15px", position: "absolute", right: "20px", bottom: "6px" }}>
-                <img src={btn_copy} alt="Copy to clipboard" style={{ height: "100%", width: "100%" }}/>
-            </div>
         </header>
 
     </div>);

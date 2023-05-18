@@ -110,7 +110,7 @@ export default function Header()
                 onKeyDown={() => console.log("Keydown event triggered...")}
                 title={userIP}
                 className="copy-clipboard-btn"
-                style={{ height: "20px", width: "20px", position: "absolute", right: "0px", bottom: "5px" }}>
+                style={{ height: "15px", width: "15px", position: "absolute", right: "20px", bottom: "6px" }}>
                 <img src={btn_copy} alt="Copy to clipboard" style={{ height: "100%", width: "100%" }}/>
             </div>
         </header>

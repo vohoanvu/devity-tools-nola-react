@@ -1,0 +1,68 @@
+{
+  "Title": "Gulp cheatsheet",
+  "Version": "0.2",
+  "Description": "CLI",
+  "Type": "CLI",
+  "Items": [
+    {
+      "Command": "$ npm install gulp -g",
+      "Details": "Install Gulp globally on your system"
+    },
+    {
+      "Command": "$ npm install gulp --save-dev",
+      "Details": "Install Gulp as a development dependency in your project"
+    },
+    {
+      "Command": "$ touch gulpfile.js",
+      "Details": "Create a gulpfile.js in your project directory"
+    },
+    {
+      "Command": "gulp.task(\u0027task-name\u0027, function() { ... })",
+      "Details": "Define a new task in gulpfile.js"
+    },
+    {
+      "Command": "gulp.src(\u0027source-files\u0027)",
+      "Details": "Specify the source files for a Gulp task"
+    },
+    {
+      "Command": "gulp.dest(\u0027destination\u0027)",
+      "Details": "Specify the destination folder for a Gulp task\u0027s output"
+    },
+    {
+      "Command": "gulp.watch(\u0027source-files\u0027, [\u0027task-name\u0027])",
+      "Details": "Watch for changes in source files and automatically run specified tasks"
+    },
+    {
+      "Command": ".pipe(plugin_name())",
+      "Details": "Pipe the files through a Gulp plugin"
+    },
+    {
+      "Command": "gulp.series([\u0027task1\u0027, \u0027task2\u0027])",
+      "Details": "Run tasks sequentially"
+    },
+    {
+      "Command": "gulp.parallel([\u0027task1\u0027, \u0027task2\u0027])",
+      "Details": "Run tasks concurrently"
+    },
+    {
+      "Command": "return gulp.src(...)",
+      "Details": "Return the stream to ensure proper task completion"
+    },
+    {
+      "Command": "done()",
+      "Details": "Signal the completion of a task (used when you have a callback)"
+    },
+    {
+      "Command": "$ gulp \u0027task-name\u0027",
+      "Details": "Run a specific Gulp task in the terminal"
+    },
+    {
+      "Command": "$ gulp",
+      "Details": "Run the default Gulp task in the terminal"
+    },
+    {
+      "Command": "$ gulp --tasks",
+      "Details": "Display the list of available tasks in your gulpfile.js"
+    }
+  ]
+}

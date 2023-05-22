@@ -3,7 +3,7 @@ import "../css/chatgpt.css";
 import { useSelector, useDispatch } from "react-redux";
 import { setGptModel } from "../redux/actions/UserProfileActions";
 //import { Configuration, OpenAIApi } from "openai";
-const chatCompletionModels = ["gpt-4", "gpt-4-0314", "gpt-3.5-turbo", "gpt-3.5-turbo-0301"]; //gpt-4-32k-0314,gpt-4-32k
+const chatCompletionModels = ["gpt-4", "gpt-4-0314", "gpt-4-32k-0314", "gpt-4-32k", "gpt-3.5-turbo", "gpt-3.5-turbo-0301"];
 
 const OpenAIModelList = () => {
     const [models, setModels] = useState([]);

@@ -84,6 +84,9 @@ const Libraries = (props) =>
                         <option value="select">Select Library</option>
                         <option value="git_cheatsheet.json">Git Cheatsheet</option>
                         <option value="npm_cheatsheet.json">NPM Cheatsheet</option>
+                        <option value="yarn_cheatsheet.json">Yarn Cheatsheet</option>
+                        <option value="gulp_cheatsheet.json">Gulp Cheatsheet</option>
+                        <option value="nx-dotnet_cheatsheet.json">Nx-dotnet Cheatsheet</option>
                     </select>
 
                     <div className='library-hd'>

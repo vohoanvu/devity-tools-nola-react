@@ -1,0 +1,84 @@
+{
+  "Title": "nx-dotnet cheatsheet",
+  "Version": "0.1",
+  "Description": "CLI",
+  "Type": "CLI",
+  "Items": [
+    {
+      "Command": "nx generate nxdotnet:app \u003Capp-name\u003E",
+      "Details": "Generates a new .NET app project within the Nx workspace."
+    },
+    {
+      "Command": "nx generate nxdotnet:lib \u003Clib-name\u003E",
+      "Details": "Generates a new .NET library project within the Nx workspace."
+    },
+    {
+      "Command": "nx generate nxdotnet:data \u003Cdata-name\u003E",
+      "Details": "Generates a new data library project within the Nx workspace."
+    },
+    {
+      "Command": "nx generate nxdotnet:domain \u003Cdomain-name\u003E",
+      "Details": "Generates a new domain library project within the Nx workspace."
+    },
+    {
+      "Command": "nx generate nxdotnet:feature \u003Cfeature-name\u003E",
+      "Details": "Generates a new feature library project within the Nx workspace."
+    },
+    {
+      "Command": "nx generate nxdotnet:application-layer \u003Capplication-layer-name\u003E",
+      "Details": "Generates a new application layer project within the Nx workspace."
+    },
+    {
+      "Command": "nx run \u003Capp-name\u003E:serve",
+      "Details": "Runs the app using the \u0027serve\u0027 target."
+    },
+    {
+      "Command": "nx run \u003Capp-name\u003E:serve --configuration \u003Capp-config\u003E",
+      "Details": "Runs the app using the \u0027serve\u0027 target and a specific configuration."
+    },
+    {
+      "Command": "nx run \u003Capp-name\u003E:build",
+      "Details": "Runs a build of the app using the \u0027build\u0027 target."
+    },
+    {
+      "Command": "nx run \u003Capp-name\u003E:build --configuration \u003Capp-config\u003E",
+      "Details": "Runs a build of the app using the \u0027build\u0027 target and a specific configuration."
+    },
+    {
+      "Command": "nx run \u003Clib-name\u003E:test",
+      "Details": "Runs the unit tests for the specified library."
+    },
+    {
+      "Command": "nx run \u003Clib-name\u003E:publish",
+      "Details": "Runs the \u0027publish\u0027 target for the specified library."
+    },
+    {
+      "Command": "nx run \u003Clib-name\u003E:publish --configuration \u003Capp-config\u003E",
+      "Details": "Runs the \u0027publish\u0027 target for the specified library with a specific configuration."
+    },
+    {
+      "Command": "nx affected:build",
+      "Details": "Rebuilds only the affected apps and libs."
+    },
+    {
+      "Command": "nx affected:test",
+      "Details": "Runs tests on only the affected apps and libs."
+    },
+    {
+      "Command": "nx affected:lint",
+      "Details": "Runs lint checks on only the affected apps and libs."
+    },
+    {
+      "Command": "nx format:check",
+      "Details": "Checks for formatting changes using Nx-aware lint checks."
+    },
+    {
+      "Command": "nx format:write",
+      "Details": "Fixes/overwrites incorrect formatting using Nx-aware lint checks."
+    },
+    {
+      "Command": "nx list",
+      "Details": "Lists available plugins for installation into the Nx workspace."
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "Title": "Yarn cheatsheet",
+  "Version": "0.1",
+  "Description": "CLI",
+  "Type": "CLI",
+  "Items": [
+    {
+      "Command": "$ yarn init",
+      "Details": "Initializes a new Yarn project by creating a package.json file in the current directory"
+    },
+    {
+      "Command": "$ yarn add [package]",
+      "Details": "Installs a package as a dependency for your project; if no version is specified"
+    },
+    {
+      "Command": "$ yarn add [package]@[version]",
+      "Details": "Installs a specific version of a package as a dependency for your project"
+    },
+    {
+      "Command": "$ yarn add [package] --dev",
+      "Details": "Installs a package as a development dependency for your project"
+    },
+    {
+      "Command": "$ yarn upgrade",
+      "Details": "Upgrades all dependencies to their latest versions"
+    },
+    {
+      "Command": "$ yarn upgrade [package]",
+      "Details": "Upgrades a specific package to its latest version"
+    },
+    {
+      "Command": "$ yarn upgrade [package]@[version]",
+      "Details": "Upgrades a specific package to the specified version"
+    },
+    {
+      "Command": "$ yarn remove [package]",
+      "Details": "Removes a package from your project\u0027s dependencies"
+    },
+    {
+      "Command": "$ yarn install",
+      "Details": "Installs all dependencies for your project based on the versions listed in the package.json and yarn.lock files"
+    },
+    {
+      "Command": "$ yarn list",
+      "Details": "Displays a hierarchical view of your project\u0027s dependencies"
+    },
+    {
+      "Command": "$ yarn info [package]",
+      "Details": "Shows information about a package including its description"
+    },
+    {
+      "Command": "$ yarn global add [package]",
+      "Details": "Installs a package globally on your system"
+    },
+    {
+      "Command": "$ yarn global remove [package]",
+      "Details": "Removes a globally installed package from your system"
+    },
+    {
+      "Command": "$ yarn global list",
+      "Details": "Displays a list of all globally installed packages on your system"
+    },
+    {
+      "Command": "$ yarn run [script]",
+      "Details": "Runs a script defined in your package.json file"
+    },
+    {
+      "Command": "$ yarn cache clean",
+      "Details": "Removes all packages from the Yarn cache directory to free up space"
+    },
+    {
+      "Command": "$ yarn cache dir",
+      "Details": "Displays the path to the Yarn cache directory"
+    },
+    {
+      "Command": "$ yarn cache list",
+      "Details": "Lists all packages stored in the Yarn cache directory"
+    },
+    {
+      "Command": "$ yarn config set [key] [value]",
+      "Details": "Sets a Yarn configuration option"
+    },
+    {
+      "Command": "$ yarn config get [key]",
+      "Details": "Displays the value of a Yarn configuration option"
+    },
+    {
+      "Command": "$ yarn config delete [key]",
+      "Details": "Deletes a Yarn configuration option"
+    },
+    {
+      "Command": "$ yarn config list",
+      "Details": "Displays the current Yarn configuration"
+    },
+    {
+      "Command": "$ yarn help [command]",
+      "Details": "Displays help information for a specific Yarn command"
+    }
+  ]
+}

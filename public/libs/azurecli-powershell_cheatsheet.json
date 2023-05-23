@@ -1,0 +1,244 @@
+{
+  "Title": "azurecli-powershell cheatsheet",
+  "Version": "0.1",
+  "Description": "Azure CLI and Azure PS",
+  "Type": "CLI",
+  "Items": [
+    {
+      "Command": "az | PowerShell uses a verb-noun pair for the names of cmdlets",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003ESyntax\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003E\u003C/li\u003E \u003Cli\u003E\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az login | Az.Accounts",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003ELog in to Azure\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz login -u johndoe@contoso.com -p VerySecret\u003C/li\u003E \u003Cli\u003EConnect-AzAccount\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az account | Az.Accounts",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure subscription information\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz account list --o table\u003C/li\u003E \u003Cli\u003EGet-AzSubscription\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az acr | Az.ContainerRegistry",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage private registries with Azure Container Registries\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz acr list -g MyResourceGroup -o table\u003C/li\u003E \u003Cli\u003EGet-AzContainerRegistry -ResourceGroupName \u0027MyResourceGroup\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az acs | Az.Compute",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Container Services\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz acs list-locations --subscription\u003C/li\u003E \u003Cli\u003EGet-AzContainerService -ResourceGroupName \u0027myRG\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az ad | Az.Resources",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Active Directory\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz ad group show --group\u003C/li\u003E \u003Cli\u003EGet-AzADGroup -First 100\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az advisor | Az.Advisor",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Advisor\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz advisor recommendation list --category Performance\u003C/li\u003E \u003Cli\u003EGet-AzAdvisorRecommendation -Category Performance\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az aks | Az.Aks",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Kubernetes Services\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz aks get-versions --location westus2\u003C/li\u003E \u003Cli\u003EGet-AzAksVersion -Location westus\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az ams | Az.Media",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Media Services resources\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz ams account list --resource-group --subscription\u003C/li\u003E \u003Cli\u003EGet-AzMediaService -ResourceGroupName \u0027myRG\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az appconfig | Az.AppConfiguration",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage App Configurations\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz appconfig list -g MyResourceGroup\u003C/li\u003E \u003Cli\u003EGet-AzAppConfigurationStore\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az appservice | Az.Websites",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage App Service plans\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz appservice ase list\u003C/li\u003E \u003Cli\u003EGet-AzAppServicePlan -Location \u0027West US\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az backup | Az.RecoveryServices",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Backups\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz backup container show..\u003C/li\u003E \u003Cli\u003EGet-AzRecoveryServicesBackupJob\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az batch | Az.Batch",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Batch\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz batch account list [--resource-group] [--subscription]\u003C/li\u003E \u003Cli\u003EGet-AzBatchAccount -AccountName \u0027pfuller\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az billing | Az.Billing",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Billing\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz billing period show --name --subscription\u003C/li\u003E \u003Cli\u003EGet-AzBillingInvoice -Latest\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az cdn | Az.Cdn",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Content Delivery Networks\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz cdn origin list\u003C/li\u003E \u003Cli\u003EGet-AzCdnOrigin\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az cognitiveservices | Az.CognitiveServices",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Cognitive Services accounts\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz cognitiveservices account list -g MyResourceGroup\u003C/li\u003E \u003Cli\u003EGet-AzCognitiveServicesAccount\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az configure | Az.Accounts",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure CLI configuration\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz configure --defaults group=myRG web=myweb vm=myvm\u003C/li\u003E \u003Cli\u003ESet-AzContext -SubscriptionId \u0027xxxx-xxxx-xxxx-xxxx\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az container | Az.ContainerInstance",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Container Instances.\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz container logs --name MyContainerGroup --resource-group MyResourceGroup\u003C/li\u003E \u003Cli\u003EGet-AzContainerGroup -ResourceGroupName demo -Name mycontainer\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az cosmosdb | Az.CosmosDB",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Cosmos DB database\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz cosmosdb list [--resource-group] [--subscription]\u003C/li\u003E \u003Cli\u003EGet-AzCosmosDBAccount -ResourceGroupName {resourceGroupName} -Name {databaseAccountName}\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az deployment | Az.DeploymentManager",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage ARM template deployment at subscription scope\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz deployment group list -g testrg\u003C/li\u003E \u003Cli\u003EGet-AzDeploymentManagerArtifactSource -InputObject $artifactSourceObject\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az disk | Az.Compute",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Managed Disks\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz disk list [--resource-group] [--subscription]\u003C/li\u003E \u003Cli\u003EGet-AzDisk -ResourceGroupName \u0027ResourceGroup01\u0027 -DiskName \u0027Disk01\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az dla | Az.DataLakeAnalytics",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Data Lake Analytics\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz dla account list [--resource-group] [--subscription]\u003C/li\u003E \u003Cli\u003EGet-AzDataLakeAnalyticsAccount -Name \u0027ContosoAdlAccount\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az dls | Az.DataLakeStore",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Data Lake Store\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz dls account list --resource-group myRG\u003C/li\u003E \u003Cli\u003EGet-AzDataLakeStoreAccount -Name \u0027ContosoADL\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az dms | Az.DataMigration",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Data Migration Service\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz dms check-name --location westus2 --name MyService\u003C/li\u003E \u003Cli\u003EGet-AzDataMigrationProject -InputObject $myService\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az eventgrid | Az.EventGrid",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Event Grid\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003EGet-AzEventGridDomain -ResourceGroup myRG -Name Domain1\u003C/li\u003E \u003Cli\u003Eaz ams account list --resource-group --subscription\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az eventhubs | Az.EventHub",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Event Hubs\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz eventhubs eventhub list --resource-group myRG --namespace-name mynamespace\u003C/li\u003E \u003Cli\u003EGet-AzEventHub -ResourceGroup myRG -NamespaceName MyNamespaceName\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az feature | Az.Resources",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage resource provider features\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz feature list\u003C/li\u003E \u003Cli\u003ERegister-AzResourceProvider -ProviderNamespace Microsoft.Network\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az find | Az.Accounts",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EFind commands\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz find \u0027az storage\u0027\u003C/li\u003E \u003Cli\u003EGet-Command -Verb Get -Noun AzVM* -Module Az.Compute\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az functionapp | Az.Functions",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage function apps\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz functionapp list --query \u0027[?state==\u0027Running\u0027]\u0027\u003C/li\u003E \u003Cli\u003EGet-AzFunctionApp\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az group | Az.Resources",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage resource groups and template deployments\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz group create -l westus -n myRG\u003C/li\u003E \u003Cli\u003EGet-AzResourceGroup -Name \u0027EngineerBlog\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az hdinsight | Az.HDInsight",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage HDInsight resources.\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz hdinsight list [--resource-group] [--subscription]\u003C/li\u003E \u003Cli\u003EGet-AzHDInsightCluster\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az identity | Az.ManagedServiceIdentity",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManaged Service Identities.\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz identity list-operations [--subscription]\u003C/li\u003E \u003Cli\u003EGet-AzUserAssignedIdentity -ResourceGroupName PSRG -Name ID1\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az image | Az.ManagedServiceIdentity",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage custom virtual machine images.\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz image builder show --name mytemplate --resource-group my-group\u003C/li\u003E \u003Cli\u003EGet-AzImageBuilderTemplate\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az keyvault | Az.KeyVault",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage KeyVault\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz keyvault list [--resource-group] [--subscription]\u003C/li\u003E \u003Cli\u003EGet-AzKeyVault\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az kusto | Az.Kusto",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Kusto resources\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz kusto cluster list --resource-group myRG\u003C/li\u003E \u003Cli\u003EGet-AzKustoCluster -ResourceGroupName testrg\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az lock | Az.Resources",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure locks\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz lock list\u003C/li\u003E \u003Cli\u003EGet-AzResourceLock -ResourceGroupName \u0027myRG\u0027 -AtScope\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az managedservices | Az.ManagedServices",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage assignments and definitions\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz managedservices definition list\u003C/li\u003E \u003Cli\u003EGet-AzManagedServicesAssignment\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az maps | Az.Maps",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Maps\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz maps account show --name MyMapsAccount --resource-group myRG\u003C/li\u003E \u003Cli\u003EGet-AzMapsAccount -ResourceGroupName myRG\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az mariadb | Az.MariaDb",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Database for MariaDB servers\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz mariadb db list -g testgroup -s testsvr\u003C/li\u003E \u003Cli\u003EGet-AzMariaDbServer\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az monitor | Az.Monitor",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage the Azure Monitor Service.\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz monitor action-group list [--resource-group] [--subscription]\u003C/li\u003E \u003Cli\u003EGet-AzActionGroup\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az mysql | Az.MySql",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Database for MySQL servers.\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz mysql db list -g testgroup -s testsvr\u003C/li\u003E \u003Cli\u003EGet-AzMySqlServer\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az network | Az.Network",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Network resources.\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz network nic list --query \u0027[?dnsSettings.internalDomainNameSuffix=\u0060{dnsSuffix}\u0060]\u0027\u003C/li\u003E \u003Cli\u003EGet-AzNetworkInterface\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az policy | Az.Resources",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage resource policies.\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz policy definition show --name MyPolicyDefinition\u003C/li\u003E \u003Cli\u003EGet-AzPolicyDefinition\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az postgres | Az.PostgreSql",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Database for PostgreSQL servers.\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz postgres db list -g testgroup -s testsvr\u003C/li\u003E \u003Cli\u003EGet-AzPostgreSqlServer\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az redis | Az.RedisCache",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage dedicated Redis caches for your Azure applications.\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz redis list [--resource-group] [--subscription]\u003C/li\u003E \u003Cli\u003EGet-AzRedisCache -Name \u0027myexists\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az reservations | Az.Reservations",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Reservations\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz reservations reservation list --reservation-order-id [--subscription]\u003C/li\u003E \u003Cli\u003EGet-AzReservation -ReservationOrderId \u00271111aaaa\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az resource | Az.Resources",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure resources.\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz resource list --location westus\u003C/li\u003E \u003Cli\u003EGet-AzResource | ft\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az role | Az.Resources",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage user roles for access control with AAD and service principals\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz role assignment list [--all]\u003C/li\u003E \u003Cli\u003EGet-AzADServicePrincipal\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az search | Az.Search",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Search services\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz search service list --resource-group [--subscription]\u003C/li\u003E \u003Cli\u003EGet-AzSearchService -ResourceGroupName felixwa-01\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az security | Az.Security",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage security with Azure Security Center\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz security alert list\u003C/li\u003E \u003Cli\u003EGet-AzDiscoveredSecuritySolution\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az sig | Az.ImageBuilder",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage shared image gallery\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz sig list [--resource-group] [--subscription]\u003C/li\u003E \u003Cli\u003EGet-AzImageBuilderTemplate\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az snapshot | Az.Compute",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage snapshots\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz snapshot list [--resource-group] [--subscription]\u003C/li\u003E \u003Cli\u003EGet-AzSnapshot\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az sql | Az.Sql",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure SQL Databases and Data Warehouses.\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz sql db list --resource-group myRG --server myserver\u003C/li\u003E \u003Cli\u003EGet-AzSqlDatabase -ResourceGroupName \u0027myRG\u0027 -ServerName \u0027server01\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az storage | Az.Storage",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Azure Storage resources\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz storage account list -g myRG]\u003C/li\u003E \u003Cli\u003EGet-AzStorageAccount -ResourceGroupName \u0027RG01\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az tag | Az.Resources",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage resource tags\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz tag list [--subscription]\u003C/li\u003E \u003Cli\u003EGet-AzTag -Name \u0027Department\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az version | PowerShellGet",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EShow the versions of Azure CLI modules\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz version [--subscription]\u003C/li\u003E \u003Cli\u003EGet-InstalledModule Azure -AllVersions\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az vm | Az.Compute",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Linux or Windows virtual machines\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz vm list -g myRG\u003C/li\u003E \u003Cli\u003EGet-AzVM -ResourceGroupName \u0027myRG\u0027 -Name \u0027VirtualMachine07\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az vmss | Az.Compute",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage Virtual Machine Scale Set (VMSS)\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz vmss list --resource-group myRG\u003C/li\u003E \u003Cli\u003EGet-AzVmss -ResourceGroupName \u0027Group001\u0027 -VMScaleSetName \u0027VMSS001\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    },
+    {
+      "Command": "az webapp | Az-WebApp",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EManage web apps\u003C/p\u003E\u003Cbr/\u003E\u003Cp\u003EExample Usage:\u003C/p\u003E \u003Cul\u003E \u003Cli\u003Eaz webapp list --query \u0027[?state==\u0027Running\u0027]\u0027\u003C/li\u003E \u003Cli\u003EGet-AzWebApp -myRG \u0027Default-Web-WestUS\u0027 -Name \u0027ContosoSite\u0027\u003C/li\u003E\u003C/ul\u003E \u003C/div\u003E"
+    }
+  ]
+}

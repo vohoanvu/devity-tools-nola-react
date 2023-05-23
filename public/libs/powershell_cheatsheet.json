@@ -1,0 +1,108 @@
+{
+  "Title": "Powershell Cheatsheet",
+  "Version": "0.1",
+  "Description": "CLI",
+  "Type": "CLI",
+  "Items": [
+    {
+      "Command": "cd, chdir, sl",
+      "Details": "Sets the current working location to a specified location."
+    },
+    {
+      "Command": "cat, gc, type",
+      "Details": "Gets the content of the item at the specified location."
+    },
+    {
+      "Command": "ac",
+      "Details": "Adds content to the specified items, such as adding words to a file."
+    },
+    {
+      "Command": "sc",
+      "Details": "Writes or replaces the content in an item with new content."
+    },
+    {
+      "Command": "copy, cp, cpi",
+      "Details": "Copies an item from one location to another."
+    },
+    {
+      "Command": "del, rmdir, erase, rd, ri, rm",
+      "Details": "Deletes the specified items."
+    },
+    {
+      "Command": "mi, move, mv",
+      "Details": "Moves an item from one location to another."
+    },
+    {
+      "Command": "si",
+      "Details": "Changes the value of an item to the value specified in the command."
+    },
+    {
+      "Command": "ni",
+      "Details": "Creates a new item."
+    },
+    {
+      "Command": "sajb",
+      "Details": "Starts a Windows PowerShell background job."
+    },
+    {
+      "Command": "compare, dif",
+      "Details": "Compares two sets of objects."
+    },
+    {
+      "Command": "group",
+      "Details": "Groups objects that contain the same value for specified properties."
+    },
+    {
+      "Command": "curl, iwr, wget",
+      "Details": "Gets content from a web page on the Internet."
+    },
+    {
+      "Command": "measure",
+      "Details": "Calculates the numeric properties of objects, and the characters, words, and lines in string objects, such as files."
+    },
+    {
+      "Command": "rvpa",
+      "Details": "Resolves the wildcard characters in a path, and displays the path contents."
+    },
+    {
+      "Command": "rujb",
+      "Details": "Restarts a suspended job"
+    },
+    {
+      "Command": "set, sv",
+      "Details": "Sets the value of a variable. Creates the variable if one with the requested name does not exist."
+    },
+    {
+      "Command": "shcm",
+      "Details": "Creates Windows PowerShell commands in a graphical command window."
+    },
+    {
+      "Command": "sort",
+      "Details": "Sorts objects by property values."
+    },
+    {
+      "Command": "sasv",
+      "Details": "Starts one or more stopped services."
+    },
+    {
+      "Command": "saps, start",
+      "Details": "Starts one or more processes on the local computer."
+    },
+    {
+      "Command": "sujb",
+      "Details": "Temporarily stops workflow jobs."
+    },
+    {
+      "Command": "wjb",
+      "Details": "Suppresses the command prompt until one or all of the Windows PowerShell background jobs running in the session are."
+    },
+    {
+      "Command": "?,where",
+      "Details": "Selects objects from a collection based on their property values."
+    },
+    {
+      "Command": "echo, write",
+      "Details": "Sends the specified objects to the next command in the pipeline. If the command is the last command in the pipeline."
+    }
+  ]
+}

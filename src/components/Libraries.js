@@ -87,9 +87,11 @@ const Libraries = (props) =>
                         <option value="yarn_cheatsheet.json">Yarn Cheatsheet</option>
                         <option value="gulp_cheatsheet.json">Gulp Cheatsheet</option>
                         <option value="nx-dotnet_cheatsheet.json">Nx-dotnet Cheatsheet</option>
+                        <option value="powershell_cheatsheet.json">Powershell Cheatsheet</option>
+                        <option value="azurecli-powershell_cheatsheet.json">AzureCLI-PS Cheatsheet</option>
                     </select>
 
-                    <div className='library-hd'>
+                    <div className="library-hd">
                         <span>Title: </span><span>{data.Title}</span><br />
                         <span>Description: </span><span>{data.Description}</span><br />
                         <span>Version: </span><span>{data.Version}</span><br />

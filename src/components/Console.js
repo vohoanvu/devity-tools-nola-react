@@ -85,6 +85,18 @@ const Console = () =>
             $("#prompt_input").focus();
             return $(this).parent().show();
         });
+
+        showAllHiddenWidget();
+    }
+
+    function showAllHiddenWidget()
+    {
+        //show all the hidden widget from filtering operation
+        $("div.w-container.min.border").filter(function() {
+            return $(this).attr("style") && $(this).css("display") === "none";
+        }).each(function() {
+            $(this).show();
+        });
     }
 
     function handleKeyUp(e) {
@@ -108,6 +120,30 @@ const Console = () =>
         }
     }
 
+    function onFilterTermChange(e)
+    {
+        setFilterTerm(e.target.value);
+        $(".filterable").filter(function() {
+            return $(this).parent().toggle($(this).text().toLowerCase().indexOf(params) > -1);
+        });
+
+        if (e.target.value.length === 0) showAllHiddenWidget();
+
+        //select all `<ul class="truncateable">` elements whose every child `<li>` contains the `display: none;` inline property
+        $("ul.truncateable").filter(function () {
+            return $(this).children("li").length > 0 && 
+                $(this).children("li").toArray().every(function (el) {
+                    return $(el).css("display") === "none";
+                });
+        }).each(function() {
+            // Perform operations on the selected elements here
+            let widgetParentDiv = $(this).closest("div.w-container.min.border").filter(function() {
+                return $(this).attr("data-w_id") !== undefined;
+            });
+            widgetParentDiv.hide();
+        });
+    }
+
     return (
         <div id="console" className="console">
             <div id="prompt_container" className="border">
@@ -115,12 +151,7 @@ const Console = () =>
                 <input 
                     onKeyDown={(e) => handleKeyDown(e)}
                     onKeyUp={(e) => handleKeyUp(e)}
-                    onChange={(e) => {
-                        setFilterTerm(e.target.value);
-                        $(".filterable").filter(function() {
-                            return $(this).parent().toggle($(this).text().toLowerCase().indexOf(params) > -1);
-                        });
-                    }}
+                    onChange={(e) => onFilterTermChange(e)}
                     id="prompt_input"
                     maxLength="2048"
                     type="text" 

@@ -123,21 +123,27 @@ export default function Widget(props)
 
     return (
         <React.Fragment>
-            <Editable 
-                displayText={<span className="title">{props.widget.name || "Enter a name for widget" }</span>}
-                inputType="input" 
-                childInputRef={props.inputRef}
-                passFromChildToParent={saveWidgetTitleOnBlur}
-                styling={{ display: "inline-block" }}>
-                <input
-                    ref={props.inputRef}
-                    type="text"
-                    name="widgetTitle"
-                    placeholder="Enter a name for widget"
-                    value={props.widget.name}
-                    onChange={e => handleTitleChange(e.target.value, props.widget)}
-                />
-            </Editable>
+            {
+                props.widget.name === "Devity News!" ? (
+                    <span style={{ fontSize: "20px" }}>{props.widget.name}</span>
+                ) : (
+                    <Editable 
+                        displayText={<span className="title">{props.widget.name || "Enter a name for widget" }</span>}
+                        inputType="input" 
+                        childInputRef={props.inputRef}
+                        passFromChildToParent={saveWidgetTitleOnBlur}
+                        styling={{ display: "inline-block" }}>
+                        <input
+                            ref={props.inputRef}
+                            type="text"
+                            name="widgetTitle"
+                            placeholder="Enter a name for widget"
+                            value={props.widget.name}
+                            onChange={e => handleTitleChange(e.target.value, props.widget)}
+                        />
+                    </Editable>
+                )
+            }
             <div className='buttons'>
                 {
                     props.widget.w_type !== "DEVITY" && (
@@ -168,6 +174,7 @@ export default function Widget(props)
                     alt="save widget"
                     aria-hidden="true"/>
                 <img 
+                    id={`delete-btn-${props.widget.id}`}
                     className='img-btn delete' 
                     onClick={()=>DeleteWidgetHandler(props.widget.id)} 
                     src={btn_delete} alt="delete" 

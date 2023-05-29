@@ -19,6 +19,9 @@ export default function Rss(props)
                 (curr_view === "DEVITY" && rssFeed)) return;
 
             await getWidgetContentById(props.widget.id).then(widget => {
+                if (widget.name === "Devity News!") {
+                    $(`#delete-btn-${props.widget.id}`).hide();
+                }
                 setRssWidget(widget);
                 fetchFeed(widget.w_content);
             });
@@ -89,6 +92,9 @@ export default function Rss(props)
     }
 
     function handleURIOnChange(event) {
+        if (event.target.value === "https://www.noladigital.net/rss/devity-news") {
+            rssWidget.name = "Devity News!";
+        }
         setRssWidget({
             ...rssWidget,
             w_content: event.target.value

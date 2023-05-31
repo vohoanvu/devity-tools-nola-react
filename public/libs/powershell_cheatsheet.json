@@ -1,108 +1,108 @@
 {
-  "Title": "Powershell Cheatsheet",
-  "Version": "0.1",
+  "Title": "powershell_cheatsheet",
+  "Version": "2.0",
   "Description": "CLI",
   "Type": "CLI",
   "Items": [
     {
-      "Command": "cd, chdir, sl",
-      "Details": "Sets the current working location to a specified location."
+      "Command": "Set-Location",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003ESets the current working location to a specified location.\u003Cbr /\u003E\u003Cp\u003EAlias:  cd, chdir, sl\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "cat, gc, type",
-      "Details": "Gets the content of the item at the specified location."
+      "Command": "Get-Content",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EGets the content of the item at the specified location.\u003Cbr /\u003E\u003Cp\u003EAlias:  cat, gc, type\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "ac",
-      "Details": "Adds content to the specified items, such as adding words to a file."
+      "Command": "Add-Content",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EAdds content to the specified items, such as adding words to a file.\u003Cbr /\u003E\u003Cp\u003EAlias:  ac\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "sc",
-      "Details": "Writes or replaces the content in an item with new content."
+      "Command": "Set-Content",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EWrites or replaces the content in an item with new content.\u003Cbr /\u003E\u003Cp\u003EAlias:  sc\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "copy, cp, cpi",
-      "Details": "Copies an item from one location to another."
+      "Command": "Copy-Item",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003ECopies an item from one location to another.\u003Cbr /\u003E\u003Cp\u003EAlias:  copy, cp, cpi\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "del, rmdir, erase, rd, ri, rm",
-      "Details": "Deletes the specified items."
+      "Command": "Remove-Item",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EDeletes the specified items.\u003Cbr /\u003E\u003Cp\u003EAlias:  del, erase, rd, ri, rm, rmdir\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "mi, move, mv",
-      "Details": "Moves an item from one location to another."
+      "Command": "Move-Item",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EMoves an item from one location to another.\u003Cbr /\u003E\u003Cp\u003EAlias:  mi, move, mv\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "si",
-      "Details": "Changes the value of an item to the value specified in the command."
+      "Command": "Set-Item",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EChanges the value of an item to the value specified in the command.\u003Cbr /\u003E\u003Cp\u003EAlias:  si\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "ni",
-      "Details": "Creates a new item."
+      "Command": "New-Item",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003ECreates a new item.\u003Cbr /\u003E\u003Cp\u003EAlias:  ni\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "sajb",
-      "Details": "Starts a Windows PowerShell background job."
+      "Command": "Start-Job",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EStarts a Windows PowerShell background job.\u003Cbr /\u003E\u003Cp\u003EAlias:  sajb\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "compare, dif",
-      "Details": "Compares two sets of objects."
+      "Command": "Compare-Object",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003ECompares two sets of objects.\u003Cbr /\u003E\u003Cp\u003EAlias:  compare, dif\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "group",
-      "Details": "Groups objects that contain the same value for specified properties."
+      "Command": "Group-Object",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EGroups objects that contain the same value for specified properties.\u003Cbr /\u003E\u003Cp\u003EAlias:  group\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "curl, iwr, wget",
-      "Details": "Gets content from a web page on the Internet."
+      "Command": "Invoke-WebRequest",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EGets content from a web page on the Internet.\u003Cbr /\u003E\u003Cp\u003EAlias:  curl, iwr, wget\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "measure",
-      "Details": "Calculates the numeric properties of objects, and the characters, words, and lines in string objects, such as files."
+      "Command": "Measure-Object",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003ECalculates the numeric properties of objects, and the characters, words, and lines in string objects, such as files.\u003Cbr /\u003E\u003Cp\u003EAlias:  measure\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "rvpa",
-      "Details": "Resolves the wildcard characters in a path, and displays the path contents."
+      "Command": "Resolve-Path",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EResolves the wildcard characters in a path, and displays the path contents.\u003Cbr /\u003E\u003Cp\u003EAlias:  rvpa\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "rujb",
-      "Details": "Restarts a suspended job"
+      "Command": "Resume-Job",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003ERestarts a suspended job\u003Cbr /\u003E\u003Cp\u003EAlias:  rujb\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "set, sv",
-      "Details": "Sets the value of a variable. Creates the variable if one with the requested name does not exist."
+      "Command": "Set-Variable",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003ESets the value of a variable. Creates the variable if one with the requested name does not exist.\u003Cbr /\u003E\u003Cp\u003EAlias:  set, sv\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "shcm",
-      "Details": "Creates Windows PowerShell commands in a graphical command window."
+      "Command": "Show-Command",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003ECreates Windows PowerShell commands in a graphical command window.\u003Cbr /\u003E\u003Cp\u003EAlias:  shcm\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "sort",
-      "Details": "Sorts objects by property values."
+      "Command": "Sort-Object",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003ESorts objects by property values.\u003Cbr /\u003E\u003Cp\u003EAlias:  sort\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "sasv",
-      "Details": "Starts one or more stopped services."
+      "Command": "Start-Service",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EStarts one or more stopped services.\u003Cbr /\u003E\u003Cp\u003EAlias:  sasv\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "saps, start",
-      "Details": "Starts one or more processes on the local computer."
+      "Command": "Start-Process",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003EStarts one or more processes on the local computer.\u003Cbr /\u003E\u003Cp\u003EAlias:  saps, start\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "sujb",
-      "Details": "Temporarily stops workflow jobs."
+      "Command": "Suspend-Job",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003ETemporarily stops workflow jobs.\u003Cbr /\u003E\u003Cp\u003EAlias:  sujb\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "wjb",
-      "Details": "Suppresses the command prompt until one or all of the Windows PowerShell background jobs running in the session are."
+      "Command": "Wait-Job",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003ESuppresses the command prompt until one or all of the Windows PowerShell background jobs running in the session are.\u003Cbr /\u003E\u003Cp\u003EAlias:  wjb\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "?,where",
-      "Details": "Selects objects from a collection based on their property values."
+      "Command": "Where-Object",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003ESelects objects from a collection based on their property values.\u003Cbr /\u003E\u003Cp\u003EAlias:  ?, where\u003C/p\u003E\u003C/div\u003E"
     },
     {
-      "Command": "echo, write",
-      "Details": "Sends the specified objects to the next command in the pipeline. If the command is the last command in the pipeline."
+      "Command": "Write-Output",
+      "Details": "\u003Cdiv\u003E\u003Cp\u003ESends the specified objects to the next command in the pipeline. If the command is the last command in the pipeline.\u003Cbr /\u003E\u003Cp\u003EAlias:  echo, write\u003C/p\u003E\u003C/div\u003E"
     }
   ]
 }

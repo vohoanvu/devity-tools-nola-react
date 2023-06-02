@@ -1,19 +1,24 @@
 import * as React from "react";
 import $ from "jquery";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext } from "../api-integration/UserContext";
 import { log } from "../Utilities";
 import btn_delete_sm from "../img/btn_delete_sm.png";
 import { abbreviate30Chars } from "../Utilities";
 const FilterCmd = "#f";
 
 
-const Console = () => 
+
+const Console = (props) => 
 {
     const [cmd, setCmd] = useState(FilterCmd);
     const [params, setParams] = useState(" ");
     const keys_ignore = ["Shift", "Capslock", "Alt", "Control", "Alt", "Delete", "End", "PageDown", "PageUp", "Meta", "ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft", "NumLock", "Pause", "ScrollLock", "Home", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10","F11","F12"];
     const command_ignore = ["Tab", "Escape"];
     const [filterTerm, setFilterTerm] = useState("");
+    const userContext = useContext(UserContext);
+    const currentView = userContext.activePanel;
+
 
     const runCommand = async () => {
         switch(cmd) 
@@ -123,12 +128,36 @@ const Console = () =>
     function onFilterTermChange(e)
     {
         setFilterTerm(e.target.value);
-        $(".filterable").filter(function() {
-            return $(this).parent().toggle($(this).text().toLowerCase().indexOf(params) > -1);
-        });
+        if (currentView === "NOTES") {
+            $("span.title.filterable").each(function() {
+                console.log("Current Span title...", $(this).text());
+                console.log("current Fitler term...", e.target.value);
+                let isFilterMatched = $(this).text().toLowerCase().includes(e.target.value.toLowerCase());
+                console.log("Is Filter matched: ", isFilterMatched);
 
-        if (e.target.value.length === 0) showAllHiddenWidget();
+                let closestParent = $(this).parents(".w-container.min.border").first();
+                if (isFilterMatched) {
+                    console.log("TO be hidden", closestParent);
+                    //closestParent.addClass("notes-hidden");
+                } else {
+                    console.log("TO be shown", closestParent);
+                    //closestParent.removeClass("notes-hidden");
+                }
+            });
+        } else {
+            $(".filterable").filter(function() {
+                return $(this).parent().toggle($(this).text().toLowerCase().indexOf(params) > -1);
+            });
+    
+            if (e.target.value.length === 0) showAllHiddenWidget();
+    
+            hideEmptyFilterWidget();
+        }
+        
+    }
 
+    function hideEmptyFilterWidget()
+    {
         //select all `<ul class="truncateable">` elements whose every child `<li>` contains the `display: none;` inline property
         $("ul.truncateable").filter(function () {
             return $(this).children("li").length > 0 && 

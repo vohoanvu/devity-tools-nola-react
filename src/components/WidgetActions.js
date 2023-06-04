@@ -128,7 +128,7 @@ export default function Widget(props)
                     <span style={{ fontSize: "20px" }}>{props.widget.name}</span>
                 ) : (
                     <Editable 
-                        displayText={<span className="title filterable">{props.widget.name || "Enter a name for widget" }</span>}
+                        displayText={<span className="title">{props.widget.name || "Enter a name for widget" }</span>}
                         inputType="input" 
                         childInputRef={props.inputRef}
                         passFromChildToParent={saveWidgetTitleOnBlur}

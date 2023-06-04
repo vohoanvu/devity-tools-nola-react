@@ -1,8 +1,8 @@
 import * as React from "react";
 import $ from "jquery";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../api-integration/UserContext";
-import { log } from "../Utilities";
+//import { log } from "../Utilities";
 import btn_delete_sm from "../img/btn_delete_sm.png";
 import { abbreviate30Chars } from "../Utilities";
 const FilterCmd = "#f";
@@ -19,70 +19,72 @@ const Console = (props) =>
     const userContext = useContext(UserContext);
     const currentView = userContext.activePanel;
 
+    useEffect(() => {
+        setCmd(FilterCmd);
+    }, []);
+    // const runCommand = async () => {
+    //     switch(cmd) 
+    //     {
+    //     case "#devity":
+    //         if(params === "clear"){$("#console_output").empty();}
+    //         if(params === "profile"){$("#nav_profile").trigger("click");}
+    //         if(params === "clipboard"){$("#nav_clipboard").trigger("click");}
+    //         if(params === "notes"){$("#nav_notes").trigger("click");}
+    //         if(params === "links"){$("#nav_links").trigger("click");}
+    //         if(params === "libraries"){$("#nav_libraries").trigger("click");}
+    //         if(params === "console"){$("#nav_console").trigger("click");}
+    //         if(params === "all"){$("#nav_all").trigger("click");}
+    //         break;
+    //     case FilterCmd:
+    //         break;
+    //     default:
+    //         log(cmd + " is not a recognized command");
+    //         break;
+    //     }
 
-    const runCommand = async () => {
-        switch(cmd) 
-        {
-        case "#devity":
-            if(params === "clear"){$("#console_output").empty();}
-            if(params === "profile"){$("#nav_profile").trigger("click");}
-            if(params === "clipboard"){$("#nav_clipboard").trigger("click");}
-            if(params === "notes"){$("#nav_notes").trigger("click");}
-            if(params === "links"){$("#nav_links").trigger("click");}
-            if(params === "libraries"){$("#nav_libraries").trigger("click");}
-            if(params === "console"){$("#nav_console").trigger("click");}
-            if(params === "all"){$("#nav_all").trigger("click");}
-            break;
-        case FilterCmd:
-            break;
-        default:
-            log(cmd + " is not a recognized command");
-            break;
-        }
+    //     $("#prompt_input").val("");
+    //     setParams("");
+    // };
 
-        $("#prompt_input").val("");
-        setParams("");
-    };
+    // function handleKeyDown(e) {
 
-    function handleKeyDown(e) {
-
-        var key = e.key;
+    //     var key = e.key;
     
-        if (keys_ignore.includes(key)) {
-            return;
-        }
+    //     if (keys_ignore.includes(key)) {
+    //         return;
+    //     }
 
-        if(key === "Escape"){
-            setCmd("#devity");
-            setParams("");
-            $(".filterable").show();
-            $(".filterable").parent().show();
-            $("#prompt_input").val("");
-            return;
-        }
+    //     if(key === "Escape"){
+    //         setCmd("#devity");
+    //         setParams("");
+    //         $(".filterable").show();
+    //         $(".filterable").parent().show();
+    //         $("#prompt_input").val("");
+    //         return;
+    //     }
    
-        if(key === " " || key === "Tab"){
-            if( params === "#f" || params === FilterCmd ){
-                setCmd(FilterCmd)
-                setParams("");
-                $("#prompt_input").val("");
+    //     if(key === " " || key === "Tab"){
+    //         if( params === "#f" || params === FilterCmd ){
+    //             setCmd(FilterCmd)
+    //             setParams("");
+    //             $("#prompt_input").val("");
 
-            }
+    //         }
 
-            if(params === "#d" || params === "#devity"){
-                setCmd("#devity")
-                setParams("");
-                $("#prompt_input").val("");
-                $(".filterable").parent().show();
-            }
-        }
+    //         if(params === "#d" || params === "#devity"){
+    //             setCmd("#devity")
+    //             setParams("");
+    //             $("#prompt_input").val("");
+    //             $(".filterable").parent().show();
+    //         }
+    //     }
 
-        if (key==="Enter") {
-            runCommand();
-            return;
-        }
+    //     if (key==="Enter") {
+    //         runCommand();
+    //         return;
+    //     }
 
-    }
+    // }
 
     function clearFilterTerm() {
         setFilterTerm("");
@@ -116,44 +118,26 @@ const Console = (props) =>
             setParams($("#prompt_input").val().toLowerCase().trim());
         }
 
-        if(cmd === FilterCmd){
+        if(cmd === FilterCmd && currentView !== "NOTES"){
 
             $(".filterable").filter(function() {
                 return $(this).parent().toggle($(this).text().toLowerCase().indexOf(params) > -1);
             });
-
         }
-    }
 
-    function onFilterTermChange(e)
-    {
-        setFilterTerm(e.target.value);
-        if (currentView === "NOTES") {
-            $("span.title.filterable").each(function() {
-                console.log("Current Span title...", $(this).text());
-                console.log("current Fitler term...", e.target.value);
-                let isFilterMatched = $(this).text().toLowerCase().includes(e.target.value.toLowerCase());
-                console.log("Is Filter matched: ", isFilterMatched);
-
-                let closestParent = $(this).parents(".w-container.min.border").first();
-                if (isFilterMatched) {
-                    console.log("TO be hidden", closestParent);
-                    //closestParent.addClass("notes-hidden");
-                } else {
-                    console.log("TO be shown", closestParent);
-                    //closestParent.removeClass("notes-hidden");
-                }
-            });
-        } else {
-            $(".filterable").filter(function() {
-                return $(this).parent().toggle($(this).text().toLowerCase().indexOf(params) > -1);
-            });
-    
-            if (e.target.value.length === 0) showAllHiddenWidget();
-    
-            hideEmptyFilterWidget();
-        }
         
+        if (currentView === "NOTES") {
+            const filterTerm = e.target.value.toLowerCase();
+            $("div.p-panel.border[data-panel='NOTES'] span.title").filter(function () {
+                let currentText = $(this).text().toLowerCase();
+                let isFilterMatched = currentText.includes(filterTerm);
+                let closestParent = $(this).closest(".w-container.min.border");
+                return closestParent.toggle(isFilterMatched);
+            });
+        }
+
+        if (e.target.value.length === 0) showAllHiddenWidget();
+        hideEmptyFilterWidget();
     }
 
     function hideEmptyFilterWidget()
@@ -178,9 +162,8 @@ const Console = (props) =>
             <div id="prompt_container" className="border">
                 <span id='prompt_cmd'>{cmd}&gt;</span>
                 <input 
-                    onKeyDown={(e) => handleKeyDown(e)}
                     onKeyUp={(e) => handleKeyUp(e)}
-                    onChange={(e) => onFilterTermChange(e)}
+                    onChange={(e) => setFilterTerm(e.target.value)}
                     id="prompt_input"
                     maxLength="2048"
                     type="text" 

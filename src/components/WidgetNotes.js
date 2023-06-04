@@ -8,7 +8,7 @@ import styleAxios from "axios";
 export default function Note(props)
 {
     const [note, setNote] = useState({});
-    const [noteContent, setNoteContent] = useState(null);
+    const [localContent, setLocalContent] = useState(null);
     const editorRef = useRef(null);
     const axios = props.axios;
     const [customTinyStyle, setCustomTinyStyle] = useState("");
@@ -27,7 +27,7 @@ export default function Note(props)
             const content = await getWidgetContentById(props.widget.id);
             const jsonContent = JSON.parse(content);
             
-            setNoteContent(jsonContent.NOTES);
+            setLocalContent(jsonContent.NOTES);
             const currentWidget = {
                 ...props.widget,
                 w_content: jsonContent
@@ -106,12 +106,12 @@ export default function Note(props)
                             onInit={(evt, editor) => {
                                 editorRef.current = editor;
                             }}
-                            value={ noteContent }
+                            value={ localContent }
                             onEditorChange={(newContent) => {
-                                if (newContent !== noteContent) {
-                                    setNoteContent(newContent);
+                                if (newContent !== localContent) {
+                                    setLocalContent(newContent);
                                     let AINoteTitle = localStorage.getItem("gpt-model") ?? ConfigData.OPENAI_GPT_MODEL
-                                    if (props.widget.name !== AINoteTitle || decodeHtml(newContent).replace(/\s+/g, "") !== decodeHtml(noteContent).replace(/\s+/g, "")) {
+                                    if (props.widget.name !== AINoteTitle || decodeHtml(newContent).replace(/\s+/g, "") !== decodeHtml(localContent).replace(/\s+/g, "")) {
                                         $(`#save-btn-${props.widget.id}`).show();
                                         props.widget.w_content = {
                                             NOTES: newContent

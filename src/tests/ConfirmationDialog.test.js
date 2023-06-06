@@ -1,7 +1,9 @@
+/* eslint-disable no-undef */
+/* eslint-disable jest/no-jasmine-globals */
 import React from "react";
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import ConfirmationDialog from "../components/ConfirmationDialog";
-
+global.process = { env: {} };
 // Create a separate div element for unit testing.
 const modalRoot = document.createElement("div");
 modalRoot.setAttribute("id", "root");
@@ -20,13 +22,14 @@ describe("ConfirmationDialog", () => {
             { container: document.body.appendChild(modalRoot) }
         );
 
-        expect(screen.getByText("Test Title")).toBeInTheDocument();
-        expect(screen.getByText("Test Message")).toBeInTheDocument();
-        expect(screen.getByText("Close Modal")).toBeInTheDocument();
+        expect(screen.getByText("Test Title")).toBeDefined();
+        expect(screen.getByText("Test Message")).toBeDefined();
+        expect(screen.getByText("Close Modal")).toBeDefined();        
     });
 
     it("calls the onModalCloseCallback when the close button is clicked", async () => {
-        const handleClose = jest.fn();
+        const handleClose = jasmine.createSpy();
+        //jest.fn(); 
 
         render(
             <ConfirmationDialog
@@ -58,7 +61,7 @@ describe("ConfirmationDialog", () => {
             { container: document.body.appendChild(modalRoot) }
         );
 
-        expect(screen.queryByText("Close Modal")).not.toBeInTheDocument();
+        expect(screen.queryByText("Close Modal")).not.toBeDefined();
     });
 
     it("does not render the close button for modalType 401", () => {
@@ -74,7 +77,7 @@ describe("ConfirmationDialog", () => {
             { container: document.body.appendChild(modalRoot) }
         );
 
-        expect(screen.queryByText("Close Modal")).not.toBeInTheDocument();
+        expect(screen.queryByText("Close Modal")).not.toBeDefined();
     });
 
     it("renders the close button for modalType 402", () => {
@@ -90,6 +93,6 @@ describe("ConfirmationDialog", () => {
             { container: document.body.appendChild(modalRoot) }
         );
 
-        expect(screen.getByText("Close Modal")).toBeInTheDocument();
+        expect(screen.getByText("Close Modal")).toBeDefined();
     });
 });

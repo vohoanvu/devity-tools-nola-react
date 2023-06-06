@@ -1,27 +1,58 @@
+/* eslint-disable no-undef */
+/* eslint-disable jest/no-jasmine-globals */
 import React, { useContext } from "react";
 import { render, screen, act } from "@testing-library/react";
 import { UserProvider, UserContext } from "../api-integration/UserContext";
 import { BrowserRouter as Router } from "react-router-dom";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { JSDOM } from "jsdom";
+global.process = { env: {} };
 const cookies = new Cookies();
-jest.mock("axios");
-jest.mock("universal-cookie");
+//jest.mock("axios");
+//jest.mock("universal-cookie");
+let mockAxiosGet;
+let mockAxiosPost;
+let mockCookiesGet;
+let mockCookiesSet;
+let locationReplaceSpy;
 
-const mockAxiosGet = jest.spyOn(axios, "get");
-const mockAxiosPost = jest.spyOn(axios, "post");
+beforeEach(() => {
+    mockAxiosGet = spyOn(axios, "get");
+    mockAxiosPost = spyOn(axios, "post");
+    mockCookiesGet = spyOn(Cookies.prototype, "get");
+    mockCookiesSet = spyOn(Cookies.prototype, "set");
+    // Set up default mock implementations
+    mockAxiosGet.and.returnValue(Promise.resolve({ data: {} }));
+    mockAxiosPost.and.returnValue(Promise.resolve({ data: {} }));
+    mockCookiesGet.and.returnValue("fake-bearer");
+    mockCookiesSet.and.returnValue(undefined);
+    //mocking window.location.replace() call
+    const dom = new JSDOM();
+    global.window = dom.window;
+    locationReplaceSpy = jasmine.createSpy("replace");
+    Object.defineProperty(window, "location", {
+        value: { replace: locationReplaceSpy },
+        writable: true,
+    });
+});
 
 afterEach(() => {
-    jest.clearAllMocks();
+    //jest.clearAllMocks();
+    mockAxiosGet.calls.reset();
+    mockAxiosPost.calls.reset();
+    mockCookiesGet.calls.reset();
+    mockCookiesSet.calls.reset();
 });
 
 
 
 describe("UserContext tests", () => {
     //test case 1
-    test("Renders children components correctly", () => {
+    it("Renders children components correctly", () => {
         const ChildComponent = () => <p data-testid="child-component">Child Component</p>;
-        const setIs402ModalOpen = jest.fn(); // Add this line to create a mock function
+        const setIs402ModalOpen = jasmine.createSpy();
+        //jest.fn(); 
 
         render(
             <Router>
@@ -37,7 +68,7 @@ describe("UserContext tests", () => {
     });
 
     //test case 2
-    test("Renders children components with correct default values", () => {
+    it("Renders children components with correct default values", () => {
         const ChildComponent = () => {
             const { userProfile, activePanel } = useContext(UserContext);
             return (
@@ -47,7 +78,7 @@ describe("UserContext tests", () => {
                 </>
             );
         };
-        const setIs402ModalOpen = jest.fn();
+        const setIs402ModalOpen = jasmine.createSpy();//jest.fn();
 
         render(
             <Router>
@@ -67,20 +98,26 @@ describe("UserContext tests", () => {
 
 
     // Test case 3
-    test("UserProvider handles the authentication process as expected", async () => {
+    it("UserProvider handles the authentication process as expected", async () => {
         const token = "fake-token";
         const bearer = "Devity fake-bearer";
-        const setIs402ModalOpen = jest.fn();
+        const setIs402ModalOpen = jasmine.createSpy();//jest.fn();
 
         // Simulate API response for POST /api/sessions
-        mockAxiosPost.mockResolvedValue({
+        // mockAxiosPost.mockResolvedValue({
+        //     data: { id: "fake-bearer", expires: new Date() },
+        // });
+        mockAxiosPost.and.returnValue(Promise.resolve({
             data: { id: "fake-bearer", expires: new Date() },
-        });
+        }));
 
         // Simulate API response for GET /api/profile
-        mockAxiosGet.mockResolvedValue({
+        // mockAxiosGet.mockResolvedValue({
+        //     data: { name: "John Doe", email: "john.doe@example.com" },
+        // });
+        mockAxiosGet.and.returnValue(Promise.resolve({
             data: { name: "John Doe", email: "john.doe@example.com" },
-        });
+        }));
 
         // Render component with token
         window.history.pushState({}, "", `/?token=${token}`);
@@ -98,14 +135,13 @@ describe("UserContext tests", () => {
 
         // Assert that axios.post is called with the correct token
         expect(mockAxiosPost).toHaveBeenCalledWith("/api/sessions", { token });
-
+        expect(locationReplaceSpy).toHaveBeenCalledWith(CONFIG.DEVITY);
         // Assert that axios.get is called to fetch user
         expect(mockAxiosGet).toHaveBeenCalledWith("/api/profile");
 
         // Render component with bearer
-        jest
-            .spyOn(window.document, "cookie", "get")
-            .mockImplementation(() => `devity-token=${bearer}`);
+        //jest.spyOn(window.document, "cookie", "get").mockImplementation(() => `devity-token=${bearer}`);
+        spyOnProperty(window.document, "cookie", "get").and.returnValue(`devity-token=${bearer}`);
 
         render(
             <Router>
@@ -125,7 +161,7 @@ describe("UserContext tests", () => {
 
 
     // Test case 4
-    test("AuthenticateUser and fetchUser function as expected", async () => {
+    it("AuthenticateUser and fetchUser function as expected", async () => {
         const TestChildComponent = () => {
             const { userProfile } = useContext(UserContext);
             return (
@@ -136,7 +172,7 @@ describe("UserContext tests", () => {
         };
 
         // Mock the cookies.get() method
-        const cookiesGet = jest.fn().mockReturnValue("fake-bearer");
+        const cookiesGet = mockCookiesGet;//jest.fn().mockReturnValue("fake-bearer");
         // Temporarily replace the original method with our mock function
         const originalMethod = cookies.get;
         cookies.get = cookiesGet;

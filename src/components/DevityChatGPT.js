@@ -12,16 +12,16 @@ const defaultPrompt = [
     {"role": "system", "content": "You are a helpful programming assistant that have more than 20 years of software engineering experience and are an enterprise software solution architect."},
     {"role": "user", "content": "Help me fix this Docker error:\n\n```errorLogsText```"},
     {"role": "assistant", "content": "The error message indicates that the connection to the Kafka broker at 172.18.0.8:9092 is being refused. This suggests that the Kafka server may not be accessible from the container where your Razor UI application is running.\nTo troubleshoot this issue, you can try the following steps:\n"},
-    {"role": "user", "content": "Write React code for this Confirmation Dialog feature"},
-    {"role": "assistant", "content": "Here is an example:\n\n```code-block```"}
+    //{"role": "user", "content": "Write React code for this Confirmation Dialog feature"},
+    //{"role": "assistant", "content": "Here is an example:\n\n```code-block```"}
     //{"role": "user", "content": "Generate step-by-step instructions on how to configure and build ASP.NET Core Microservice system with Docker"},
     //{"role": "assistant", "content": "Please specify what kind of software system that you want to build as microservice! But here is an example:\n 1. Install Docker"}
 ];
 // const testAnswers = [
-//     // {"role": "user", "content": "Please write Hello World program in PHP."},
-//     // {"role": "assistant", "content": "Sure, here are sample Hello World programs in PHP and JavaScript:\n\nPHP:\n```php\n<?php\necho \"Hello World!\";\n?>\n```\n\nJavaScript:\n```javascript\nconsole.log(\"Hello World!\");\n```\n\nNote: The PHP code needs to be saved in a file with .php extension and be run on a web server with PHP installed. The JavaScript code can be saved in a file with .js extension and be run on a web browser."},
-//     // {"role": "user", "content": "Now write Hello World program in C# and JavaScript."},
-//     // {"role": "assistant", "content": "Sure! Here is the 'Hello World' code in C#:\n\n```csharp\nusing System;\n\nclass Program {\n  static void Main(string[] args) {\n    Console.WriteLine(\"Hello World\");\n    Console.ReadKey();\n  }\n}\n```\n\nAnd here is the 'Hello World' code in JavaScript:\n\n```javascript\nconsole.log('Hello World');\n``` \n\nBoth of these code snippets will output \"Hello World\" to the console."},
+//     {"role": "user", "content": "Please write Hello World program in PHP."},
+//     {"role": "assistant", "content": "Sure, here are sample Hello World programs in PHP and JavaScript:\n\nPHP:\n```php\n<?php\necho \"Hello World!\";\n?>\n```\n\nJavaScript:\n```javascript\nconsole.log(\"Hello World!\");\n```\n\nNote: The PHP code needs to be saved in a file with .php extension and be run on a web server with PHP installed. The JavaScript code can be saved in a file with .js extension and be run on a web browser."},
+//     {"role": "user", "content": "Now write Hello World program in C# and JavaScript."},
+//     {"role": "assistant", "content": "Sure! Here is the 'Hello World' code in C#:\n\n```csharp\nusing System;\n\nclass Program {\n  static void Main(string[] args) {\n    Console.WriteLine(\"Hello World\");\n    Console.ReadKey();\n  }\n}\n```\n\nAnd here is the 'Hello World' code in JavaScript:\n\n```javascript\nconsole.log('Hello World');\n``` \n\nBoth of these code snippets will output \"Hello World\" to the console."},
 //     {"role": "user", "content": "Write Hello World program in Ruby."},
 //     {"role": "assistant", "content": "Here's the Hello World program in Ruby:\n\n```ruby\nputs \"Hello, world!\"\n```\n\nThis code will output \"Hello, world!\" to the console." },
 //     {"role": "user", "content": "Write Hello World program in Ruby on Rails."},
@@ -74,6 +74,16 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
 
     useEffect(() => {
         $ai_console.scrollTop($ai_console.prop("scrollHeight"));
+
+        const textarea = $("#ai-chatbox");
+        const handleLongChatInput = () => {
+            textarea.css("height", "auto");
+            textarea.css("height", textarea.prop("scrollHeight") + "px");
+        };
+        textarea.on("input", handleLongChatInput);
+        return () => {
+            textarea.off("input", handleLongChatInput);
+        };
     }, [$ai_console, messages]);
 
     useEffect(() =>{
@@ -143,8 +153,11 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
         $(".input-prompt textarea").focus();
     };
 
-    const handleCopyClick = (codeContent) => {
+    const handleCopyClick = (codeContent,event) => {
         navigator.clipboard.writeText(codeContent);
+
+        $(event.currentTarget).animate({ opacity: "0.1" }, "fast");
+        $(event.currentTarget).animate({ opacity: "1" }, "fast");
     };
 
     async function handleAIConversationSave() {
@@ -236,7 +249,7 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
                                 <span>{language}</span>
                                 <button
                                     title="copy to clipboard" 
-                                    onClick={() => handleCopyClick(codeContent)}>
+                                    onClick={(e) => handleCopyClick(codeContent,e)}>
                                     Copy
                                 </button>
                             </div>
@@ -333,7 +346,6 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
                                     handleChatSubmit(e);
                                 }
                             }}
-                            style={{ resize: "both" }} // Make the textarea resizable
                         />
                         <button type="submit" title="send chat">
                             <img src={send_chat_btn} alt="send-chat button" className="send-chat-btn-img"/>

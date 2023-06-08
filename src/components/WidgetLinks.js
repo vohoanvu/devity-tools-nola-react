@@ -4,6 +4,7 @@ import Editable from "./Editable";
 import btn_add from "../img/btn_add.png";
 import btn_delete_sm from "../img/btn_delete_sm.png";
 import $ from "jquery";
+import btn_copy from "../img/btn_copy.png";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 
@@ -155,6 +156,13 @@ export default function Links(props)
     const getListStyle = (isDraggingOver) => ({
         background: isDraggingOver ? "transparent" : "none"
     });
+
+    const handleLinkCopy = (event, linkContent) => {
+        $(event.currentTarget).animate({ opacity: "0.1" }, "fast");
+        $(event.currentTarget).animate({ opacity: "1" }, "fast");
+    
+        navigator.clipboard.writeText(linkContent);
+    };
     
     return (
         <DragDropContext onDragEnd={(result)=>onDragEnd(result)}>
@@ -198,6 +206,7 @@ export default function Links(props)
                                                                     <li ref={provided.innerRef} {...provided.draggableProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                                                                         <a className='filterable truncated' target="_blank" href={format_link(item.HYPERLINK)} title={currate_title(item.DISPLAYNAME)} rel="noreferrer" {...provided.dragHandleProps} style={{ cursor: "pointer" }}>{abbriviate(item.DISPLAYNAME)}</a>
                                                                         <a className='filterable non-truncated' style={{display:"none", cursor: "pointer"}} target="_blank" href={format_link(item.HYPERLINK)} rel="noreferrer" {...provided.dragHandleProps}>{item.DISPLAYNAME}</a>
+                                                                        <img src={btn_copy} title="Copy to clipboard" alt="Copy to clipboard" style={{ width: "20px", height: "20px" }} onClick={(e) => handleLinkCopy(e, item.HYPERLINK)} aria-hidden="true"/>
                                                                         <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveLink} aria-hidden="true"/>
                                                                     </li>
                                                                 )

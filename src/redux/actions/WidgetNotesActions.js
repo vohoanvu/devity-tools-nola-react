@@ -5,3 +5,11 @@ export function setNoteContents(data)
         payload: data 
     };
 }
+
+export function setIsTinyEditorReady(data)
+{
+    return {
+        type: "SET_ISTINYEDITORREADY_FLAG",
+        payload: data
+    }
+}

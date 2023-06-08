@@ -118,6 +118,14 @@ const Console = (props) =>
             setParams($("#prompt_input").val().toLowerCase().trim());
         }
 
+        if (currentView === "LIBRARIES")
+        {
+            $("td.lib_content.filterable").filter(function() {
+                return $(this).closest(".lib-tbl-row").toggle($(this).text().toLowerCase().includes(e.target.value.toLowerCase()));
+            });
+            return;
+        }
+
         if(cmd === FilterCmd && currentView !== "NOTES"){
 
             $(".filterable").filter(function() {

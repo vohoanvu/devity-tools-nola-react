@@ -12,8 +12,8 @@ const defaultPrompt = [
     {"role": "system", "content": "You are a helpful programming assistant that have more than 20 years of software engineering experience and are an enterprise software solution architect."},
     {"role": "user", "content": "Help me fix this Docker error:\n\n```errorLogsText```"},
     {"role": "assistant", "content": "The error message indicates that the connection to the Kafka broker at 172.18.0.8:9092 is being refused. This suggests that the Kafka server may not be accessible from the container where your Razor UI application is running.\nTo troubleshoot this issue, you can try the following steps:\n"},
-    {"role": "user", "content": "Write React code for this Confirmation Dialog feature"},
-    {"role": "assistant", "content": "Here is an example:\n\n```code-block```"}
+    //{"role": "user", "content": "Write React code for this Confirmation Dialog feature"},
+    //{"role": "assistant", "content": "Here is an example:\n\n```code-block```"}
     //{"role": "user", "content": "Generate step-by-step instructions on how to configure and build ASP.NET Core Microservice system with Docker"},
     //{"role": "assistant", "content": "Please specify what kind of software system that you want to build as microservice! But here is an example:\n 1. Install Docker"}
 ];
@@ -74,6 +74,16 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
 
     useEffect(() => {
         $ai_console.scrollTop($ai_console.prop("scrollHeight"));
+
+        const textarea = $("#ai-chatbox");
+        const handleLongChatInput = () => {
+            textarea.css("height", "auto");
+            textarea.css("height", textarea.prop("scrollHeight") + "px");
+        };
+        textarea.on("input", handleLongChatInput);
+        return () => {
+            textarea.off("input", handleLongChatInput);
+        };
     }, [$ai_console, messages]);
 
     useEffect(() =>{
@@ -333,7 +343,6 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
                                     handleChatSubmit(e);
                                 }
                             }}
-                            style={{ resize: "both" }} // Make the textarea resizable
                         />
                         <button type="submit" title="send chat">
                             <img src={send_chat_btn} alt="send-chat button" className="send-chat-btn-img"/>

@@ -13,7 +13,7 @@
   height: 80vh;
 }
 .input-prompt {
-  height: 20%;
+  min-height: 20%;
   display: flex;
   position: relative;
   bottom: 0px;
@@ -30,17 +30,16 @@
   width: 100%;
 }
 
-.input-prompt textarea {
-  width: 100%;
-  height: 100%;
+#ai-chatbox {
+  min-height: 100%;
   padding: 8px;
   border: 2px solid #CBD5E0;
-  resize: none;
+  resize: both;
   outline: none;
   font-size: 16px;
   line-height: 1.5;
   font-family: inherit;
-  
+  overflow-y: auto;
   caret-color: var(--COLOR_AFFECT);
   background-color: var(--COLOR_WIDGET_INPUT_BG);
 }
@@ -65,12 +64,7 @@
   height: 25px;
   width: 25px;
 }
-#ai-chatbox {
-  resize: vertical;
-  height: auto;
-  overflow-y: auto;
-  min-height: 100%; /* set a preferred min-height */
-}
+
 .input-prompt button:hover {
   background-color: #f3f4f6;
   color: #1f2937;

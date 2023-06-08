@@ -153,8 +153,11 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
         $(".input-prompt textarea").focus();
     };
 
-    const handleCopyClick = (codeContent) => {
+    const handleCopyClick = (codeContent,event) => {
         navigator.clipboard.writeText(codeContent);
+
+        $(event.currentTarget).animate({ opacity: "0.1" }, "fast");
+        $(event.currentTarget).animate({ opacity: "1" }, "fast");
     };
 
     async function handleAIConversationSave() {
@@ -246,7 +249,7 @@ export default function DevityChatGPT({ axios, setIsAINoteCreated, setIsDataLimi
                                 <span>{language}</span>
                                 <button
                                     title="copy to clipboard" 
-                                    onClick={() => handleCopyClick(codeContent)}>
+                                    onClick={(e) => handleCopyClick(codeContent,e)}>
                                     Copy
                                 </button>
                             </div>

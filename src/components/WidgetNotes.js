@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect, useCallback } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { log, downloadStringAsFile } from "../Utilities";
 import ConfigData from "../config.json";
 import $ from "jquery";
 import styleAxios from "axios";
+import { useDispatch } from "react-redux";
+import { setIsTinyEditorReady } from "../redux/actions/WidgetNotesActions";
 
 export default function Note(props)
 {
@@ -12,14 +14,19 @@ export default function Note(props)
     const editorRef = useRef(null);
     const axios = props.axios;
     const [customTinyStyle, setCustomTinyStyle] = useState("");
-    window.addEventListener(`JsonNoteDownloadRequested-${props.widget.id}`, downloadJSONContent);
-    window.addEventListener(`widgetMinimized-${props.widget.id}`, resetTinyEditorHeight);
-    window.addEventListener(`widgetMaximized-${props.widget.id}`, resetTinyEditorHeight);
+    const dispatch = useDispatch();
+
+    useLayoutEffect(() => {
+        if (props.widget.name) getCustomTinyStyleText();
+        window.addEventListener(`JsonNoteDownloadRequested-${props.widget.id}`, downloadJSONContent);
+        window.addEventListener(`widgetMinimized-${props.widget.id}`, resetTinyEditorHeight);
+        window.addEventListener(`widgetMaximized-${props.widget.id}`, resetTinyEditorHeight);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[props.widget.id]);
 
     useEffect(() => {
         const curr_view = props.activePanel;
 
-        if (props.widget.name) getCustomTinyStyleText();
         (async () => {
             if ((curr_view && curr_view !== "NOTES" && curr_view !== "ALL") || 
             (curr_view === "NOTES" && note["w_content"])) return;
@@ -46,23 +53,22 @@ export default function Note(props)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.widget, props.activePanel, props.isAINoteCreated]);
 
-    function resetTinyEditorHeight() {
-        console.log("On reset tinyMCE Height...", editorRef.current.container);
+    const resetTinyEditorHeight = useCallback(() => {
         let isMinMode = $("[data-w_id=\"" + props.widget.id + "\"]").hasClass("min");
         if (isMinMode) {
-            editorRef.current.container.style.setProperty("height", "250px");
+            editorRef.current.editorContainer.style.setProperty("height", "250px");
         } else {
-            editorRef.current.container.style.setProperty("height", "1000px");
+            editorRef.current.editorContainer.style.setProperty("height", "1000px");
         }
-    }
-
-    function downloadJSONContent() 
-    {
+    }, [props.widget.id]);
+    
+    const downloadJSONContent = useCallback(() => {
         if (note.w_content) {
             downloadStringAsFile(JSON.stringify(note.w_content), `${props.widget.name}.json`);
             $("div[data-panel=NOTES] .gear").removeClass("rotate");
         }
-    }
+    }, [note.w_content, props.widget.name]);
+    
 
     async function getWidgetContentById(w_id) {
         return await axios.get("/api/widgets/"+ w_id)
@@ -108,7 +114,7 @@ export default function Note(props)
                             apiKey={ConfigData.TINYMCE_API_KEY}
                             onInit={(evt, editor) => {
                                 editorRef.current = editor;
-                                console.log("OnInit tinyMCE...", editorRef.current.container);
+                                dispatch(setIsTinyEditorReady(true));
                             }}
                             value={ localContent }
                             onEditorChange={(newContent) => {

@@ -6,12 +6,14 @@ import btn_minimize from "../img/btn_minimize.png";
 import btn_delete from "../img/btn_delete.png";
 import btn_downnload from "../img/btn_download.png"
 import $ from "jquery";
+import { useSelector } from "react-redux";
 
 
 export default function Widget(props) 
 {
     const saveBtnRef = React.useRef(null);
     const axios = props.axios;
+    const isTinyEditorReady = useSelector((state) => state.WidgetNotesReducer.isTinyEditorReady);
 
     React.useEffect(() => {
     }, []);
@@ -181,8 +183,8 @@ export default function Widget(props)
                     aria-hidden="true"/>
                 <img 
                     id={`maximize-btn-${props.widget.id}`}
-                    className='img-btn maximize' 
-                    onClick={()=>Maximize(props.widget.id)} 
+                    className={`img-btn maximize ${!isTinyEditorReady ? "notes-hidden" : ""}`}
+                    onClick={()=>{ if (isTinyEditorReady) Maximize(props.widget.id) }} 
                     src={btn_maximize} alt="maximize" 
                     aria-hidden="true"/>
                 <img 

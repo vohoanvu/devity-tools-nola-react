@@ -1,5 +1,6 @@
 const initialState = {
-    noteContents: []
+    noteContents: [],
+    isTinyEditorReady: false
 };
 
 export default function WidgetNotesReducer(state=initialState, action)
@@ -10,6 +11,11 @@ export default function WidgetNotesReducer(state=initialState, action)
         return { 
             ...state, 
             noteContents: action.payload
+        };
+    case "SET_ISTINYEDITORREADY_FLAG":
+        return { 
+            ...state, 
+            isTinyEditorReady: action.payload
         };
     default: 
         return state;

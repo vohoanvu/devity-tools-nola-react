@@ -22,8 +22,7 @@ export default function Profile({ COOKIE_NAME, axios })
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setUserProfileData(userContext.userProfile));
-    },[dispatch, userContext.userProfile])
+    },[])
 
 
     function handleUsernameOnChange(newName) {

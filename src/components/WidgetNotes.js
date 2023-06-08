@@ -32,7 +32,7 @@ export default function Note(props)
                 ...props.widget,
                 w_content: jsonContent
             }
-            setNote(currentWidget);          
+            setNote(currentWidget);
         })();
 
         $(`#save-btn-${props.widget.id}`).hide();
@@ -40,11 +40,14 @@ export default function Note(props)
         
         return () => {
             window.removeEventListener(`JsonNoteDownloadRequested-${props.widget.id}`, downloadJSONContent);
+            window.removeEventListener(`widgetMinimized-${props.widget.id}`, resetTinyEditorHeight);
+            window.removeEventListener(`widgetMaximized-${props.widget.id}`, resetTinyEditorHeight);
         };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.widget, props.activePanel, props.isAINoteCreated]);
 
     function resetTinyEditorHeight() {
+        console.log("On reset tinyMCE Height...", editorRef.current.container);
         let isMinMode = $("[data-w_id=\"" + props.widget.id + "\"]").hasClass("min");
         if (isMinMode) {
             editorRef.current.container.style.setProperty("height", "250px");
@@ -105,6 +108,7 @@ export default function Note(props)
                             apiKey={ConfigData.TINYMCE_API_KEY}
                             onInit={(evt, editor) => {
                                 editorRef.current = editor;
+                                console.log("OnInit tinyMCE...", editorRef.current.container);
                             }}
                             value={ localContent }
                             onEditorChange={(newContent) => {
@@ -139,8 +143,3 @@ export default function Note(props)
     );
     
 }
-
-// onBlur={() => {
-//     props.sendContentToParent(note, null, editorRef.current.getContent());
-//     $(`#save-btn-${props.widget.id}`).show();
-// }}

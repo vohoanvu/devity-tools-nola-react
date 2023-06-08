@@ -77,7 +77,6 @@
   align-items: flex-start;
   border-radius: 10px;
   margin-bottom: 10px;
-  color: var(---COLOR_TEXT);
   overflow-y: auto;
   height: 80%;
 }
@@ -94,7 +93,14 @@
   padding: 10px 10px 10px 10px;
 }
 .output-completion ul>li:nth-child(odd) {
-  background-color: var(--COLOR_CHROME_BG);
+  background-color: var(--COLOR_AFFECT_HOVER);
+  color: var(--COLOR_AI_PROMPT_TEXT);
+}
+.output-completion ul>li:nth-child(odd) span {
+  color: inherit;
+}
+.output-completion ul>li:nth-child(odd) h1 {
+  color: inherit;
 }
 
 

@@ -161,11 +161,7 @@ export default function Links(props)
         $(event.currentTarget).animate({ opacity: "0.1" }, "fast");
         $(event.currentTarget).animate({ opacity: "1" }, "fast");
     
-        navigator.clipboard.writeText(linkContent).then(function() {
-            console.log(linkContent);
-        }, function(err) {
-            console.error("Async: Could not copy text: ", err);
-        });
+        navigator.clipboard.writeText(linkContent);
     };
     
     return (

@@ -112,7 +112,7 @@ const Libraries = (props) =>
                             return (
                                 <tr key={index} className='lib-tbl-row' onClick={handleRowClick} >
                                     <td className="lib_content lib-tbl-row-cmd filterable" dangerouslySetInnerHTML={{__html: i.Command}}></td>
-                                    <td className="lib_content filterable" dangerouslySetInnerHTML={{__html: i.Details}}></td>
+                                    <td className="lib_content" dangerouslySetInnerHTML={{__html: i.Details}}></td>
                                 </tr>
                             );
                         })}

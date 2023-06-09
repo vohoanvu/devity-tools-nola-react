@@ -206,7 +206,7 @@ export default function Links(props)
                                                                     <li ref={provided.innerRef} {...provided.draggableProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                                                                         <a className='filterable truncated' target="_blank" href={format_link(item.HYPERLINK)} title={currate_title(item.DISPLAYNAME)} rel="noreferrer" {...provided.dragHandleProps} style={{ cursor: "pointer" }}>{abbriviate(item.DISPLAYNAME)}</a>
                                                                         <a className='filterable non-truncated' style={{display:"none", cursor: "pointer"}} target="_blank" href={format_link(item.HYPERLINK)} rel="noreferrer" {...provided.dragHandleProps}>{item.DISPLAYNAME}</a>
-                                                                        <img src={btn_copy} title="Copy to clipboard" alt="Copy to clipboard" style={{ width: "20px", height: "20px" }} onClick={(e) => handleLinkCopy(e, item.HYPERLINK)} aria-hidden="true"/>
+                                                                        <img src={btn_copy} title="Copy to clipboard" alt="Copy to clipboard" style={{ width: "15px", height: "15px", marginRight: "5px" }} onClick={(e) => handleLinkCopy(e, item.HYPERLINK)} aria-hidden="true"/>
                                                                         <img className='img-btn delete-item' src={btn_delete_sm} title='delete' alt="delete" onClick={handleRemoveLink} aria-hidden="true"/>
                                                                     </li>
                                                                 )

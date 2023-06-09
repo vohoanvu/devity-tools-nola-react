@@ -1,8 +1,7 @@
 import * as React from "react";
 import $ from "jquery";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useCallback } from "react";
 import { UserContext } from "../api-integration/UserContext";
-//import { log } from "../Utilities";
 import btn_delete_sm from "../img/btn_delete_sm.png";
 import { abbreviate30Chars } from "../Utilities";
 const FilterCmd = "#f";
@@ -12,9 +11,7 @@ const FilterCmd = "#f";
 const Console = (props) => 
 {
     const [cmd, setCmd] = useState(FilterCmd);
-    const [params, setParams] = useState(" ");
     const keys_ignore = ["Shift", "Capslock", "Alt", "Control", "Alt", "Delete", "End", "PageDown", "PageUp", "Meta", "ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft", "NumLock", "Pause", "ScrollLock", "Home", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10","F11","F12"];
-    const command_ignore = ["Tab", "Escape"];
     const [filterTerm, setFilterTerm] = useState("");
     const userContext = useContext(UserContext);
     const currentView = userContext.activePanel;
@@ -96,27 +93,18 @@ const Console = (props) =>
         showAllHiddenWidget();
     }
 
-    function showAllHiddenWidget()
-    {
+    const showAllHiddenWidget = useCallback(() => {
         //show all the hidden widget from filtering operation
         $("div.w-container.min.border").filter(function() {
             return $(this).attr("style") && $(this).css("display") === "none";
         }).each(function() {
             $(this).show();
         });
-    }
+    },[]);
 
-    function handleKeyUp(e) {
-
-        var key = e.key;
-
-        if (keys_ignore.includes(key)) {
-            return;
-        }
-
-        if(!command_ignore.includes(key)){
-            setParams($("#prompt_input").val().toLowerCase().trim());
-        }
+    function handleKeyUp(e)
+    {
+        if (keys_ignore.includes(e.key)) return;
 
         if (currentView === "LIBRARIES")
         {
@@ -126,14 +114,6 @@ const Console = (props) =>
             return;
         }
 
-        if(cmd === FilterCmd && currentView !== "NOTES"){
-
-            $(".filterable").filter(function() {
-                return $(this).parent().toggle($(this).text().toLowerCase().indexOf(params) > -1);
-            });
-        }
-
-        
         if (currentView === "NOTES") {
             const filterTerm = e.target.value.toLowerCase();
             $("div.p-panel.border[data-panel='NOTES'] span.title").filter(function () {
@@ -142,14 +122,23 @@ const Console = (props) =>
                 let closestParent = $(this).closest(".w-container.min.border");
                 return closestParent.toggle(isFilterMatched);
             });
+            return;
+        }
+
+        if(currentView !== "NOTES")
+        {
+            showAllHiddenWidget();
+            $(".filterable").filter(function() {
+                //return $(this).parent().toggle($(this).text().toLowerCase().indexOf(params) > -1);
+                return $(this).parent().toggle($(this).text().toLowerCase().includes(e.target.value.toLowerCase()));
+            });
         }
 
         if (e.target.value.length === 0) showAllHiddenWidget();
         hideEmptyFilterWidget();
     }
 
-    function hideEmptyFilterWidget()
-    {
+    const hideEmptyFilterWidget = useCallback(() =>{
         //select all `<ul class="truncateable">` elements whose every child `<li>` contains the `display: none;` inline property
         $("ul.truncateable").filter(function () {
             return $(this).children("li").length > 0 && 
@@ -163,15 +152,17 @@ const Console = (props) =>
             });
             widgetParentDiv.hide();
         });
-    }
+    },[]);
 
     return (
         <div id="console" className="console">
             <div id="prompt_container" className="border">
                 <span id='prompt_cmd'>{cmd}&gt;</span>
                 <input 
-                    onKeyUp={(e) => handleKeyUp(e)}
-                    onChange={(e) => setFilterTerm(e.target.value)}
+                    onChange={(e) => {
+                        setFilterTerm(e.target.value);
+                        handleKeyUp(e);
+                    }}
                     id="prompt_input"
                     maxLength="2048"
                     type="text" 

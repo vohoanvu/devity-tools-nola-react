@@ -158,7 +158,7 @@ export default function Rss(props)
                                                 )
                                             }
                                             <div className="rss-text rss-min-font">
-                                                <a href={item.link}><span>{item.title}</span></a>
+                                                <a target="_blank" rel="noreferrer" href={item.link}><span>{item.title}</span></a>
                                                 <p>{item.description}</p>
                                             </div>
                                         </div>

@@ -104,7 +104,9 @@ export default function Header()
                     </span>
                 </div>
                 <div 
-                    onClick={()=> {
+                    onClick={(e)=> {
+                        $(e.currentTarget).animate({ opacity: "0.1" }, "fast");
+                        $(e.currentTarget).animate({ opacity: "1" }, "fast");
                         navigator.clipboard.writeText(userProfile.Ip_Address).then(function() {
                             console.log(userProfile.Ip_Address);
                         }, function(err) {

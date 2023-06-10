@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import $ from "jquery";
 import logo from "../img/devity_logo.png";
 import btn_image_avitar from "../img/d_btn_ctrl_user.png";
@@ -9,23 +9,25 @@ import btn_image_lib from "../img/d_btn_ctrl_lib.png";
 import chat_gpt_img from "../img/devity-gpt.png";
 import btn_copy from "../img/btn_copy.png";
 import { UserContext } from "../api-integration/UserContext";
+import { useSelector, useDispatch } from "react-redux";
+import { setUserProfileData } from "../redux/actions/UserProfileActions";
 
 export default function Header() 
 {
     const userContext = useContext(UserContext);
-    const [userIP, setUserIP] = useState("");
+    const userProfile = useSelector((state) => state.UserProfileReducer.userProfileData);
+    const dispatch = useDispatch();
 
     useEffect(()=>{
         const curr_view = userContext.activePanel;
         $(".p-panel").hide();
         if(curr_view){
             onNavigate(curr_view);
-        }
-        else{
+        }else{
             onNavigate("DEVITY");
         }
 
-        setUserIP($("span.copy-text-ip").text());
+        dispatch(setUserProfileData(userContext.userProfile));
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[userContext]) 
 
@@ -96,26 +98,29 @@ export default function Header()
             <button id='nav_profile'>
                 <div role="button" tabIndex="0" onClick={()=>onNavigateClicked("PROFILE")} onKeyDown={() => console.log("Keydown event triggered...")} style={{ position: "relative" }}>
                     <img src={btn_image_avitar} className="App-avitar" alt="devity profile"/>
-                    <div 
-                        onClick={()=> {
-                            navigator.clipboard.writeText(userIP).then(function() {
-                                console.log(userIP);
-                            }, function(err) {
-                                console.error("Async: Could not copy text: ", err);
-                            });
-                        }} 
-                        role="button"
-                        tabIndex="0"
-                        onKeyDown={() => console.log("Keydown event triggered...")}
-                        title={userIP}
-                        className="copy-clipboard-btn"
-                        style={{ height: "15px", width: "15px", position: "absolute", right: "7px", bottom: "-14px" }}>
-                        <img src={btn_copy} alt="Copy to clipboard" style={{ height: "100%", width: "100%" }}/>
-                    </div>
+                    <br/>
+                    <span title={userProfile.Ip_Address}>
+                        {userContext.userProfile.name}
+                    </span>
                 </div>
-                <span title={userIP}>
-                    {userContext.userProfile.name}
-                </span>
+                <div 
+                    onClick={(e)=> {
+                        $(e.currentTarget).animate({ opacity: "0.1" }, "fast");
+                        $(e.currentTarget).animate({ opacity: "1" }, "fast");
+                        navigator.clipboard.writeText(userProfile.Ip_Address).then(function() {
+                            console.log(userProfile.Ip_Address);
+                        }, function(err) {
+                            console.error("Async: Could not copy text: ", err);
+                        });
+                    }} 
+                    role="button"
+                    tabIndex="0"
+                    onKeyDown={() => console.log("Keydown event triggered...")}
+                    title={userProfile.Ip_Address}
+                    className="copy-clipboard-btn"
+                    style={{ height: "15px", width: "15px", position: "absolute", right: "32px", top: "77px" }}>
+                    <img src={btn_copy} alt="Copy to clipboard" style={{ height: "100%", width: "100%" }}/>
+                </div>
             </button>
         </header>
 

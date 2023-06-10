@@ -92,7 +92,7 @@ export default function Rss(props)
     }
 
     function handleURIOnChange(event) {
-        if (event.target.value === "https://www.noladigital.net/rss/devity-news") {
+        if (event.target.value === CONFIG["DEVITY-RSS"]) {
             rssWidget.name = "Devity News!";
         }
         setRssWidget({

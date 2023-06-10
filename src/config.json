@@ -7,5 +7,6 @@
         "PRIMARY": "#007bff",
         "SECONDARY": "#fc3"
     },
-    "OPENAI_GPT_MODEL": "gpt-3.5-turbo"
+    "OPENAI_GPT_MODEL": "gpt-3.5-turbo",
+    "DEVITY-RSS": "https://www.noladigital.net/rss/devity-news"
 }

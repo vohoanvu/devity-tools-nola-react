@@ -19,7 +19,7 @@ export default function Rss(props)
                 (curr_view === "DEVITY" && rssFeed)) return;
 
             await getWidgetContentById(props.widget.id).then(widget => {
-                if (widget.name === "Devity News!") {
+                if (widget.name === "Devity News!" || widget.w_content === CONFIG["DEVITY-RSS"]) {
                     $(`#delete-btn-${props.widget.id}`).hide();
                 }
                 setRssWidget(widget);

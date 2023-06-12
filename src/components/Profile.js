@@ -240,7 +240,8 @@ export default function Profile({ COOKIE_NAME, axios })
                             <button 
                                 onClick={()=> handleCopyClick("session-token-btn")} 
                                 title="Copy to clipboard" 
-                                className="copy-clipboard-btn">
+                                className="copy-clipboard-btn"
+                                data-testid="session-token-btn">
                                 <img src={btn_copy} alt="Copy to clipboard"/>
                             </button>
                         </div>

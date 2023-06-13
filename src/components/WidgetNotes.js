@@ -18,13 +18,13 @@ export default function Note(props)
 
     useLayoutEffect(() => {
         if (props.widget.name) getCustomTinyStyleText();
-        window.addEventListener(`JsonNoteDownloadRequested-${props.widget.id}`, downloadJSONContent);
-        window.addEventListener(`widgetMinimized-${props.widget.id}`, resetTinyEditorHeight);
-        window.addEventListener(`widgetMaximized-${props.widget.id}`, resetTinyEditorHeight);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[props.widget.id]);
 
     useEffect(() => {
+        window.addEventListener(`JsonNoteDownloadRequested-${props.widget.id}`, downloadJSONContent);
+        window.addEventListener(`widgetMinimized-${props.widget.id}`, resetTinyEditorHeight);
+        window.addEventListener(`widgetMaximized-${props.widget.id}`, resetTinyEditorHeight);
         const curr_view = props.activePanel;
 
         (async () => {
@@ -55,6 +55,7 @@ export default function Note(props)
 
     const resetTinyEditorHeight = useCallback(() => {
         let isMinMode = $("[data-w_id=\"" + props.widget.id + "\"]").hasClass("min");
+        console.log("resetting tiny height...");
         if (isMinMode) {
             editorRef.current.editorContainer.style.setProperty("height", "250px");
         } else {

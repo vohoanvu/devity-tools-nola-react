@@ -1,3 +1,6 @@
+# Video introduction to Devity Tools
+[![Video Thumbnail](https://img.youtube.com/vi/liqtRlRqs1c/0.jpg)](https://www.youtube.com/watch?v=liqtRlRqs1c)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

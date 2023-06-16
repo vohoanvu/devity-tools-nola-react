@@ -389,10 +389,6 @@ div.p-contents.profile > div.settings.card > div.select-results-card > form > ul
 
 
 
-.w-ctrl-add{
-
-
-}
 .w-ctrl-add figcaption {
   color: var(--COLOR_LINK);
 }
@@ -927,6 +923,7 @@ span.w_copyable.filterable {
 .rss-item {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
 }
 .rss-figure {
   float: left;
@@ -935,4 +932,8 @@ span.w_copyable.filterable {
 }
 .rss-min-font {
   font-size: small;
+  display: block;
+}
+.rss-figure figcaption {
+  text-align: center;
 }

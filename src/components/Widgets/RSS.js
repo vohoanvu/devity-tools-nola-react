@@ -153,7 +153,7 @@ export default function Rss(props)
                                                                 width: "100px",
                                                                 height: "100px"
                                                             }}/>
-                                                        <figcaption><span className="rss-text rss-min-font">{formatRssDate(item.publishDate)}</span></figcaption>
+                                                        <figcaption><span className="rss-min-font">{formatRssDate(item.publishDate)}</span></figcaption>
                                                     </figure>
                                                 )
                                             }
